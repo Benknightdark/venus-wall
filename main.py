@@ -85,5 +85,13 @@ async def get_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
         image_url = 'https://www.jkforum.net/'+w.a['href']
         logging.info(image_name)
         logging.info(image_url)
+        image_html = httpx.get(image_url).text
+        image_root = BeautifulSoup(image_html, "html.parser")
+        images = image_root.find_all('ignore_js_op')
+        for image in images:
+            try:
+                logging.info(f"  {image.img['file']}")
+            except:
+                pass
         logging.info('-------------------------')
     return html
