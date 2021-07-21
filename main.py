@@ -1,11 +1,8 @@
 from typing import List
-
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from sqlalchemy.orm import Session, joinedload, lazyload, selectinload
-
-
 from models import models,base
-
+import uuid
 models.base.Base.metadata.create_all(bind=base.engine)
 
 app = FastAPI()
@@ -34,4 +31,4 @@ def get_db(request: Request):
 #     return db.query(models.Product).options(joinedload(models.Product.Cart)).all()
 @app.post("/api/webpage")
 async def add_web_apge( db: Session = Depends(get_db)):
-    return db.query(models.Product).options(joinedload(models.Product.Cart)).all()
+    return str(uuid.uuid1())
