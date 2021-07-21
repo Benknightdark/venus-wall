@@ -8,3 +8,4 @@ jinja2
 pyhumps
 fastapi
 beautifulsoup4
+httpx
