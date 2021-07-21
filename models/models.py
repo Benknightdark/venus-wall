@@ -5,49 +5,51 @@ from . import base
 from sqlalchemy.dialects.mssql import BIGINT, BINARY, BIT, CHAR, DATE, DATETIME, DATETIME2,     DATETIMEOFFSET, DECIMAL, FLOAT, IMAGE, INTEGER, JSON, MONEY,     NCHAR, NTEXT, NUMERIC, NVARCHAR, REAL, SMALLDATETIME,     SMALLINT, SMALLMONEY, SQL_VARIANT, TEXT, TIME,     TIMESTAMP, TINYINT, UNIQUEIDENTIFIER, VARBINARY, VARCHAR
 
 
-class Product(base.Base):
-    __tablename__ = "Product"
+class WebPage(base.Base):
+    __tablename__ = "WebPage"
 
     ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
 
-    ProductName = Column(NVARCHAR(None))
+    Name = Column(NVARCHAR(50))
 
-    # key
+    Url = Column(NVARCHAR(None))
+
+    # ForeignKey
 
     # collections
-    Cart = relationship("Cart", back_populates="CartProductID_U")
+    Item = relationship("Item", back_populates="ItemWebPageID_U")
 
 
-class User(base.Base):
-    __tablename__ = "User"
+class Item(base.Base):
+    __tablename__ = "Item"
 
     ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
 
-    UserName = Column(NVARCHAR(50))
+    Title = Column(NVARCHAR(None))
 
-    DisplayName = Column(NVARCHAR(50))
+    Url = Column(NVARCHAR(None))
 
-    # key
+    Avator = Column(NVARCHAR(None))
+
+    WebPageID = Column(NVARCHAR(None), ForeignKey("WebPage.ID"))
+
+    # ForeignKey
+    ItemWebPageID_U = relationship("WebPage", back_populates="Item")
 
     # collections
-    Cart = relationship("Cart", back_populates="CartUserID_U")
+    Image = relationship("Image", back_populates="ImageItemID_U")
 
 
-class Cart(base.Base):
-    __tablename__ = "Cart"
+class Image(base.Base):
+    __tablename__ = "Image"
 
     ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
 
-    CreateTime = Column(DATETIME)
+    Url = Column(NVARCHAR(None))
 
-    ProductID = Column(NVARCHAR(None), ForeignKey("Product.ID"))
-    UserID = Column(NVARCHAR(None), ForeignKey("User.ID"))
+    ItemID = Column(NVARCHAR(None), ForeignKey("Item.ID"))
 
-    # key
-    CartProductID_U = relationship("Product", back_populates="Cart")
-    CartUserID_U = relationship("User", back_populates="Cart")
+    # ForeignKey
+    ImageItemID_U = relationship("Item", back_populates="Image")
 
     # collections
-
-
-
