@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from sqlalchemy.orm import Session, joinedload, lazyload, selectinload
-from models import models,base
+from models import models,base,view_models
 import uuid
 models.base.Base.metadata.create_all(bind=base.engine)
 
@@ -26,9 +26,14 @@ def get_db(request: Request):
 
 
 
-# @app.get("/")
-# async def read_users( db: Session = Depends(get_db)):
-#     return db.query(models.Product).options(joinedload(models.Product.Cart)).all()
+
 @app.post("/api/webpage")
-async def add_web_apge( db: Session = Depends(get_db)):
-    return str(uuid.uuid1())
+async def add_web_apge(data: List[view_models.WebPageCreate], db: Session = Depends(get_db)):
+    db_item_array=[]
+    for d in data:
+        db_item_array.append(models.WebPage(**d.dict(),ID=str(uuid.uuid4())))
+    db.add_all(db_item_array)
+    db.commit()
+    for d in db_item_array:
+        db.refresh(d)
+    return db_item_array
