@@ -27,7 +27,7 @@ def get_db(request: Request):
         db.close()
 
 
-@app.post("/api/webpage")
+@app.post("/api/webpage",description="新增網頁類別")
 async def add_web_apge(data: List[view_models.WebPageCreate], db: Session = Depends(get_db)):
     db_item_array = []
     for d in data:
@@ -39,12 +39,12 @@ async def add_web_apge(data: List[view_models.WebPageCreate], db: Session = Depe
     return db_item_array
 
 
-@app.get("/api/webpage")
+@app.get("/api/webpage",description="取得要抓的所有網頁類別")
 async def get_web_page(db: Session = Depends(get_db)):
     data = db.query(models.WebPage).all()
     return data
 
-@app.get("/api/webpage/{id}")
+@app.get("/api/webpage/{id}",description="透過id，取得要抓的網頁類別")
 async def get_web_page_by_id(id:str,db: Session = Depends(get_db)):
     data = db.query(models.WebPage).filter(models.WebPage.ID==id).first()
     return data
