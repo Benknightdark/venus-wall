@@ -29,6 +29,9 @@ def get_db(request: Request):
 
 
 
-@app.get("/")
-async def read_users( db: Session = Depends(get_db)):
+# @app.get("/")
+# async def read_users( db: Session = Depends(get_db)):
+#     return db.query(models.Product).options(joinedload(models.Product.Cart)).all()
+@app.post("/api/webpage")
+async def add_web_apge( db: Session = Depends(get_db)):
     return db.query(models.Product).options(joinedload(models.Product.Cart)).all()
