@@ -48,3 +48,14 @@ async def get_web_page(db: Session = Depends(get_db)):
 async def get_web_page_by_id(id:str,db: Session = Depends(get_db)):
     data = db.query(models.WebPage).filter(models.WebPage.ID==id).first()
     return data
+@app.delete("/api/webpage/{id}",description="透過id，刪除網頁類別")
+async def get_web_page_by_id(id:str,db: Session = Depends(get_db)):
+    data = db.query(models.WebPage).filter(models.WebPage.ID==id).delete()
+    db.commit()
+    return data    
+@app.put("/api/webpage/{id}",description="透過id，修改網頁類別")
+async def get_web_page_by_id(id:str,data: view_models.WebPageCreate,db: Session = Depends(get_db)):
+    data = db.query(models.WebPage).filter(models.WebPage.ID==id).update(data.dict())
+    # db.commit()
+    # db.refresh(data)
+    return data  

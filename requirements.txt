@@ -7,3 +7,4 @@ pyinstaller
 jinja2
 pyhumps
 fastapi
+beautifulsoup4

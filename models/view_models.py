@@ -1,8 +1,15 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
-class WebPageCreate(BaseModel):
-    Name:str
-    Url:str
+class BaseConfigModel(BaseModel):
     class Config:
         orm_mode = True
+class WebPageCreate(BaseConfigModel):
+    Name: str
+    Url: str
+
+
+class ItemCreate(BaseConfigModel):
+    Title: str
+    Url: str
+    Avator: str
