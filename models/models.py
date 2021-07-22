@@ -20,26 +20,6 @@ class WebPage(base.Base):
     Item = relationship("Item", back_populates="ItemWebPageID_U")
 
 
-class Item(base.Base):
-    __tablename__ = "Item"
-
-    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
-
-    Title = Column(NVARCHAR(None))
-
-    Url = Column(NVARCHAR(None))
-
-    Avator = Column(NVARCHAR(None))
-
-    WebPageID = Column(NVARCHAR(None), ForeignKey("WebPage.ID"))
-
-    # ForeignKey
-    ItemWebPageID_U = relationship("WebPage", back_populates="Item")
-
-    # collections
-    Image = relationship("Image", back_populates="ImageItemID_U")
-
-
 class Image(base.Base):
     __tablename__ = "Image"
 
@@ -53,3 +33,34 @@ class Image(base.Base):
     ImageItemID_U = relationship("Item", back_populates="Image")
 
     # collections
+
+
+
+
+    # ForeignKey
+
+    # collections
+
+
+class Item(base.Base):
+    __tablename__ = "Item"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    Title = Column(NVARCHAR(None))
+
+    PageName = Column(NVARCHAR(None))
+
+    Url = Column(NVARCHAR(None))
+
+    Avator = Column(NVARCHAR(None))
+
+    ModifiedDateTime = Column(DATETIME())
+
+    WebPageID = Column(NVARCHAR(None), ForeignKey("WebPage.ID"))
+
+    # ForeignKey
+    ItemWebPageID_U = relationship("WebPage", back_populates="Item")
+
+    # collections
+    Image = relationship("Image", back_populates="ImageItemID_U")
