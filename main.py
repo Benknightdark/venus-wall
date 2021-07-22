@@ -93,14 +93,16 @@ def get_items(id: str, db: Session):
         water_fall = water_fall_root.find_all(
             'div', attrs={'class': 'c cl'})
         logging.info(f'{len(water_fall)}')
-
+        
         for w in water_fall:
+            avator=""
             image_name = re.sub('[^\w\-_\. ]', '_', w.a['title'])
             image_url = 'https://www.jkforum.net/'+w.a['href']
             if w.a.img==None:
                 avator= w.a['style'].split("url('")[1][:-3].split("');")[0]
-            else:
-                 avator=w.a.img['src']   
+            elif hasattr(w.a.img,'src'):
+                 avator=w.a.img['src']
+
             logging.info(f"{image_name} === {i}")
             logging.info(image_url)
             logging.info( avator)
