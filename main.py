@@ -139,4 +139,4 @@ def get_items(id: str, db: Session):
 async def get_item_by_web_page_id(id: str, background_tasks: BackgroundTasks,
                                   db: Session = Depends(get_db)):
     background_tasks.add_task(get_items, id, db)
-    return {"message": "Notification sent in the background"}
+    return {"message": "開始抓資料"}
