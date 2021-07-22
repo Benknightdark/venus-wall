@@ -97,8 +97,10 @@ def get_items(id: str, db: Session):
         for w in water_fall:
             image_name = re.sub('[^\w\-_\. ]', '_', w.a['title'])
             image_url = 'https://www.jkforum.net/'+w.a['href']
+            avator= w.a['style'].split("url('")[1][:-3].split("');")[0]
             logging.info(f"{image_name} === {i}")
             logging.info(image_url)
+            logging.info( avator)
             selected_item = db.query(models.Item).filter(
                 models.Item.PageName == w.a['href'])
             item_id=uuid.uuid4()    
@@ -111,13 +113,13 @@ def get_items(id: str, db: Session):
                         "Title":image_name,
                         "PageName":w.a['href'],
                         "Url":image_url,
-                        "Avator":"",
+                        "Avator":avator,
                         "ModifiedDateTime":datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     })              
             else:
                 logging.info('insert')
                 db.add(models.Item(ID=item_id, Title=image_name,
-                       PageName=w.a['href'], Url=image_url,Avator="",WebPageID=id,
+                       PageName=w.a['href'], Url=image_url,WebPageID=id,Avator=avator,
                        ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
             image_html = httpx.get(image_url).text
             image_root = BeautifulSoup(image_html, "html.parser")
