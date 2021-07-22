@@ -4,17 +4,33 @@ import re
 from typing import List
 from fastapi import Depends, FastAPI, HTTPException, Request, Response, BackgroundTasks
 from sqlalchemy.orm import Session, joinedload, lazyload, selectinload
+from sqlalchemy.sql.expression import desc
 from sqlalchemy.sql.functions import mode
 from models import models, base, view_models
 import uuid
 from bs4 import BeautifulSoup
 import httpx
+from fastapi.middleware.cors import CORSMiddleware
 
 logging.basicConfig(level=logging.INFO)
 
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+     "http://localhost:3000",
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
@@ -145,8 +161,13 @@ def get_items(id: str, db: Session):
         i = i+1
 
 
-@app.get("/api/item/{id}", description="透過id，取得要抓的網頁類別的子網頁")
-async def get_item_by_web_page_id(id: str, background_tasks: BackgroundTasks,
+@app.post("/api/item/{id}", description="透過網頁類別id，新增或修改此類別底下的item資料")
+async def post_item_by_web_page_id(id: str, background_tasks: BackgroundTasks,
                                   db: Session = Depends(get_db)):
     background_tasks.add_task(get_items, id, db)
     return {"message": "開始抓資料"}
+@app.get("/api/item/{id}", description="透過網頁類別id，取得要抓的item資料")
+async def post_item_by_web_page_id(id: str,
+                                  db: Session = Depends(get_db)):
+    data=db.query(models.Item).filter(models.Item.WebPageID==id).order_by(desc(models.Item.ModifiedDateTime)).all()
+    return data
