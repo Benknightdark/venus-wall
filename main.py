@@ -77,12 +77,12 @@ def get_items(id: str, db: Session):
     web_page = db.query(models.WebPage).filter(
         models.WebPage.ID == id).first()
     res = httpx.get(web_page.Url)  
-    get_all_page = BeautifulSoup(res.text, "html.parser").find_next('custompage')  
+    get_all_page = BeautifulSoup(res.text, "html.parser").find('input',attrs={'name':'custompage'}).next_element['title'].replace('共','').replace('頁','').replace(' ','')
+    logging.info(get_all_page) 
     web_page_url = web_page.Url.replace('-1.html', '')
     root_page_url = web_page_url
     i: int = 1
-    run = True
-    while run:
+    while i<=18:
         logging.info(f'{i}')
         url = f"{root_page_url}-{i}.html"
         res = httpx.get(url)
@@ -90,9 +90,6 @@ def get_items(id: str, db: Session):
         root = BeautifulSoup(html, "html.parser")
         water_fall_root = root.find('ul', id='waterfall')
         logging.info(web_page_url)
-        if len(water_fall_root) == 0:
-            run = False
-            break
         water_fall = water_fall_root.find_all(
             'div', attrs={'class': 'c cl'})
         logging.info(f'{len(water_fall)}')
