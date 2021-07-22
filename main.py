@@ -82,7 +82,7 @@ def get_items(id: str, db: Session):
     web_page_url = web_page.Url.replace('-1.html', '')
     root_page_url = web_page_url
     i: int = 1
-    while i<=18:
+    while i<=int(get_all_page):
         logging.info(f'{i}')
         url = f"{root_page_url}-{i}.html"
         res = httpx.get(url)
@@ -97,7 +97,10 @@ def get_items(id: str, db: Session):
         for w in water_fall:
             image_name = re.sub('[^\w\-_\. ]', '_', w.a['title'])
             image_url = 'https://www.jkforum.net/'+w.a['href']
-            avator= w.a['style'].split("url('")[1][:-3].split("');")[0]
+            if w.a.img==None:
+                avator= w.a['style'].split("url('")[1][:-3].split("');")[0]
+            else:
+                 avator=w.a.img['src']   
             logging.info(f"{image_name} === {i}")
             logging.info(image_url)
             logging.info( avator)
