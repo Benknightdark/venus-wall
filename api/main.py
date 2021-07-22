@@ -169,5 +169,5 @@ async def post_item_by_web_page_id(id: str, background_tasks: BackgroundTasks,
 @app.get("/api/item/{id}", description="透過網頁類別id，取得要抓的item資料")
 async def post_item_by_web_page_id(id: str,
                                   db: Session = Depends(get_db)):
-    data=db.query(models.Item).filter(models.Item.WebPageID==id).order_by(desc(models.Item.ModifiedDateTime)).all()
+    data=db.query(models.Item).filter(models.Item.WebPageID==id).order_by((models.Item.ModifiedDateTime)).all()
     return data
