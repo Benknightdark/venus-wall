@@ -14,6 +14,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { TransitionProps } from '@material-ui/core/transitions/transition';
+import Slide from '@material-ui/core/Slide';
+import Dialog from '@material-ui/core/Dialog';
+import CloseIcon from '@material-ui/icons/Close';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+
 const fetcher = (url: RequestInfo) => fetch(url).then(r => r.json())
 const useAppBarStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,10 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper,
     },
     imageList: {
-      // width: 500,
       height: "auto",
-      // Promote the list into its own layer in Chrome. This cost memory, but helps keep FPS high.
-      // transform: 'translateZ(0)',
     },
     titleBar: {
       background:
@@ -53,28 +59,54 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+const useDialogStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    appBar: {
+      position: 'relative',
+    },
+    title: {
+      marginLeft: theme.spacing(2),
+      flex: 1,
+    },
+  }),
+);
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+const apiUrl = 'http://localhost:8000'
 export default function Home(props) {
   const classes = useStyles();
   const appBarClasses = useAppBarStyles()
+  const dialogClasses = useDialogStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
-  console.log(matches)
   const [showLoading, setShowLoading] = useState(false);
+  const [dialogData, setDialogData] = useState({});
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.length) return null;
-    const url = `http://localhost:8000/api/item/EDB7DCF0-FF4E-433B-8AD2-57454859B9F9?offset=${pageIndex}&limit=50`;
+    const url = `${apiUrl}/api/item/EDB7DCF0-FF4E-433B-8AD2-57454859B9F9?offset=${pageIndex}&limit=50`;
     return url;
   };
   const { data, size, setSize } = useSWRInfinite(getKey, fetcher);
   useEffect(() => {
     window.onscroll = async () => {
       if (showLoading) return;
-      console.log(window.innerHeight + window.scrollY - document.body.offsetHeight)
       if (
         window.innerHeight + window.scrollY - document.body.offsetHeight == 0
       ) {
         setShowLoading(true);
-        await setSize(size +1)
+        await setSize(size + 1)
         setShowLoading(false);
       }
     };
@@ -104,7 +136,15 @@ export default function Home(props) {
             <ImageList gap={1} className={classes.imageList} rowHeight='auto' cols={matches ? 4 : 1}>
               {data.map((lists, index) => {
                 return lists.map(item => {
-                  return (<ImageListItem key={item.Avator}>
+                  return (<ImageListItem style={{ cursor: 'pointer' }} key={item.Avator} onClick={async () => {
+                    const req = await fetch(`${apiUrl}/api/image/${item.ID}`)
+                    const res = await req.json()
+                    console.log(res)
+                    const tempDialogData = item
+                    item['images'] = res
+                    setDialogData(tempDialogData)
+                    handleClickOpen()
+                  }}>
                     <img src={item.Avator} alt={item.Title} />
                     <ImageListItemBar
                       title={item.Title}
@@ -119,14 +159,34 @@ export default function Home(props) {
                     />
                   </ImageListItem>)
                 })
-
-
               }
               )}
             </ImageList>
           </div>
         </div>
       </Container>
+      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+        <AppBar className={dialogClasses.appBar}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" className={dialogClasses.title}>
+              {dialogData['Title']}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+          {
+            <ImageList gap={1} className={classes.imageList} rowHeight={480} cols={matches ? 4 : 1}>
+              {dialogData['images']&&dialogData['images'].map((item,index) => {
+                return <ImageListItem style={{ cursor: 'pointer' }} key={index}>
+                  <img src={item.Url} alt={index} />
+                </ImageListItem>
+              }
+              )}
+            </ImageList>
+          }
+      </Dialog>
     </React.Fragment>
 
   )
