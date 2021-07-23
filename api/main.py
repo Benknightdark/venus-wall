@@ -156,10 +156,11 @@ def update_items(id: str, db: Session):
             for image in images:
                 try:
                     image_url = ''
-                    if hasattr(image.img, 'file') != None:
-                        image_url = image.img['file']
+                    if hasattr(image.find('img'), 'file') != None:
+                        image_url = image.find('img')['file']
                     else:
-                        image_url = image.img['src']
+                        logging.info(image.find('zoom'))
+                        image_url = image.find('zoom')['src']
 
                     db_images_array.append(models.Image(
                         ID=uuid.uuid4(), Url=image_url, ItemID=item_id))
