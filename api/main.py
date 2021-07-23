@@ -109,7 +109,7 @@ def update_items(id: str, db: Session):
         water_fall_root = root.find('ul', id='waterfall')
         logging.info(web_page_url)
         water_fall = water_fall_root.find_all(
-            'div', attrs={'class': 'c cl'})
+            'div', attrs={'class': 'c cl'})    
         logging.info(f'{len(water_fall)}')
 
         for w in water_fall:
