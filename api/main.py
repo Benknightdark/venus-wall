@@ -109,7 +109,7 @@ def update_items(id: str, db: Session):
         water_fall_root = root.find('ul', id='waterfall')
         logging.info(web_page_url)
         water_fall = water_fall_root.find_all(
-            'div', attrs={'class': 'c cl'})    
+            'div', attrs={'class': 'c cl'})
         logging.info(f'{len(water_fall)}')
 
         for w in water_fall:
@@ -155,10 +155,16 @@ def update_items(id: str, db: Session):
             db_images_array = []
             for image in images:
                 try:
+                    image_url = ''
+                    if hasattr(image.img, 'file') != None:
+                        image_url = image.img['file']
+                    else:
+                        image_url = image.img['src']
+
                     db_images_array.append(models.Image(
-                        ID=uuid.uuid4(), Url=image.img['file'], ItemID=item_id))
+                        ID=uuid.uuid4(), Url=image_url, ItemID=item_id))
                     db.add_all(db_images_array)
-                    logging.info(f"  {image.img['file']}")
+                    logging.info(f"  {image_url}")
                 except:
                     pass
             db.commit()
@@ -174,7 +180,7 @@ async def post_item_by_web_page_id(id: str, background_tasks: BackgroundTasks,
 
 
 @app.get("/api/item/{id}", description="透過WebPage id，取得要抓的item資料")
-async def get_item_by_web_page_id(id: str, offset:int,limit:int,
+async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
     data = db.query(models.Item).filter(models.Item.WebPageID ==
                                         id).order_by((models.Item.ModifiedDateTime)).offset(offset*limit).limit(limit).all()
