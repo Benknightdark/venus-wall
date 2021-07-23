@@ -88,7 +88,7 @@ async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
 async def get_web_page_by_id(id: str, data: view_models.WebPageCreate, db: Session = Depends(get_db)):
     data = db.query(models.WebPage).filter(
         models.WebPage.ID == id).update(data.dict())
-    return data
+    return data 
 
 
 def update_items(id: str,start:int, db: Session):
