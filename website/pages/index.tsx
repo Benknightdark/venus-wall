@@ -115,9 +115,8 @@ export default function Home({ selectDataFromApi }) {
   if (!data) return <div></div>;
 
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar position="static">
+    <div>
+            <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={appBarClasses.title}>
             女神牆
@@ -143,6 +142,10 @@ export default function Home({ selectDataFromApi }) {
           </FormControl>
         </Toolbar>
       </AppBar>
+   
+    <React.Fragment>
+      <CssBaseline />
+
       <Container maxWidth="xl">
         <div>
           <Head>
@@ -213,7 +216,7 @@ export default function Home({ selectDataFromApi }) {
         }
       </Dialog>
     </React.Fragment>
-
+    </div>
   )
 }
 Home.getInitialProps = async (ctx) => {
