@@ -18,10 +18,6 @@ import { TransitionProps } from '@material-ui/core/transitions/transition';
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
 
 const fetcher = (url: RequestInfo) => fetch(url).then(r => r.json())
 const useAppBarStyles = makeStyles((theme: Theme) =>
@@ -95,7 +91,7 @@ export default function Home(props) {
   };
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.length) return null;
-    const url = `${apiUrl}/api/item/EDB7DCF0-FF4E-433B-8AD2-57454859B9F9?offset=${pageIndex}&limit=50`;
+    const url = `${apiUrl}/api/item/B040F8A0-6959-4C30-97C2-A35BF23ADBFD?offset=${pageIndex}&limit=50`;
     return url;
   };
   const { data, size, setSize } = useSWRInfinite(getKey, fetcher);
