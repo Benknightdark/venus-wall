@@ -179,7 +179,10 @@ export default function Home(props) {
           {
             <ImageList gap={1} className={classes.imageList} rowHeight={480} cols={matches ? 4 : 1}>
               {dialogData['images']&&dialogData['images'].map((item,index) => {
-                return <ImageListItem style={{ cursor: 'pointer' }} key={index}>
+                return <ImageListItem style={{ cursor: 'pointer' }} key={index} onClick={()=>{
+                  window.open(item.Url);
+
+                }}>
                   <img src={item.Url} alt={index} />
                 </ImageListItem>
               }
