@@ -75,11 +75,10 @@ export default function Home(props) {
       ) {
         setShowLoading(true);
         await setSize(size +1)
-        console.log("page size ",size)
         setShowLoading(false);
       }
     };
-  }, [setSize, size]);
+  });
   if (!data) return <div></div>;
 
   return (
