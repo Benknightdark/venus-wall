@@ -145,7 +145,6 @@ export default function Home({ selectDataFromApi }) {
    
     <React.Fragment>
       <CssBaseline />
-
       <Container maxWidth="xl">
         <div>
           <Head>
