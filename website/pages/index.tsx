@@ -13,14 +13,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 const fetcher = (url: RequestInfo) => fetch(url).then(r => r.json())
@@ -124,10 +122,10 @@ export default function Home({ selectDataFromApi }) {
           <Typography variant="h6" className={appBarClasses.title}>
             女神牆
           </Typography>
-
           <FormControl style={{ minWidth: '30%', background: 'white' }}>
             <InputLabel>看版</InputLabel>
             <Select
+              value={selectData==""?selectDataFromApi[0]['ID']:selectData}
               onChange={async (event) => {
                 const value = event.target.value as string;
                 setSelectData(value)
@@ -143,7 +141,6 @@ export default function Home({ selectDataFromApi }) {
               }
             </Select>
           </FormControl>
-
         </Toolbar>
       </AppBar>
       <Container maxWidth="xl">
