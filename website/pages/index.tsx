@@ -6,7 +6,7 @@ import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder'
+import OpenInNew from '@material-ui/icons/OpenInNew'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -125,7 +125,7 @@ export default function Home({ selectDataFromApi }) {
           <FormControl style={{ minWidth: '30%', background: 'white' }}>
             <InputLabel>看版</InputLabel>
             <Select
-              value={selectData==""?selectDataFromApi[0]['ID']:selectData}
+              value={selectData == "" ? selectDataFromApi[0]['ID'] : selectData}
               onChange={async (event) => {
                 const value = event.target.value as string;
                 setSelectData(value)
@@ -155,22 +155,25 @@ export default function Home({ selectDataFromApi }) {
             <ImageList gap={1} className={classes.imageList} rowHeight='auto' cols={matches ? 4 : 1}>
               {data.map((lists, index) => {
                 return lists.map(item => {
-                  return (<ImageListItem style={{ cursor: 'pointer' }} key={item.Avator} onClick={async () => {
-                    const req = await fetch(`${apiUrl}/api/image/${item.ID}`)
-                    const res = await req.json()
-                    console.log(res)
-                    const tempDialogData = item
-                    item['images'] = res
-                    setDialogData(tempDialogData)
-                    handleClickOpen()
-                  }}>
-                    <img src={item.Avator} alt={item.Title} />
+                  return (<ImageListItem style={{ cursor: 'pointer' }} key={item.Avator} >
+                    <img src={item.Avator} alt={item.Title} onClick={async () => {
+                      const req = await fetch(`${apiUrl}/api/image/${item.ID}`)
+                      const res = await req.json()
+                      const tempDialogData = item
+                      item['images'] = res
+                      setDialogData(tempDialogData)
+                      handleClickOpen()
+                    }} />
                     <ImageListItemBar
                       title={item.Title}
                       position="top"
                       actionIcon={
-                        <IconButton aria-label={`star ${item.Title}`} className={classes.icon}>
-                          <StarBorderIcon />
+                        <IconButton aria-label={`star ${item.Title}`} className={classes.icon}
+                          onClick={() => {
+                            window.open(item.Url)
+                          }}
+                        >
+                          <OpenInNew />
                         </IconButton>
                       }
                       actionPosition="left"
