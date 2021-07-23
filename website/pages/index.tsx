@@ -18,7 +18,11 @@ import { TransitionProps } from '@material-ui/core/transitions/transition';
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
-
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 const fetcher = (url: RequestInfo) => fetch(url).then(r => r.json())
 const useAppBarStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,7 +77,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const apiUrl = 'http://localhost:8000'
-export default function Home(props) {
+export default function Home({ selectDataFromApi }) {
   const classes = useStyles();
   const appBarClasses = useAppBarStyles()
   const dialogClasses = useDialogStyles();
@@ -81,6 +85,7 @@ export default function Home(props) {
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const [showLoading, setShowLoading] = useState(false);
   const [dialogData, setDialogData] = useState({});
+  const [selectData, setSelectData] = useState("");
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -91,10 +96,12 @@ export default function Home(props) {
   };
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.length) return null;
-    const url = `${apiUrl}/api/item/B040F8A0-6959-4C30-97C2-A35BF23ADBFD?offset=${pageIndex}&limit=50`;
+
+    const url = `${apiUrl}/api/item/${selectData == "" ? selectDataFromApi[0]['ID'] : selectData}?offset=${pageIndex}&limit=50`;
     return url;
   };
-  const { data, size, setSize } = useSWRInfinite(getKey, fetcher);
+  const { data, size, setSize, mutate } = useSWRInfinite(getKey, fetcher);
+  // window.scrollTo({ top: 0, behavior: 'smooth' });
   useEffect(() => {
     window.onscroll = async () => {
       if (showLoading) return;
@@ -117,7 +124,26 @@ export default function Home(props) {
           <Typography variant="h6" className={appBarClasses.title}>
             女神牆
           </Typography>
-          <Button color="inherit">Login</Button>
+
+          <FormControl style={{ minWidth: '30%', background: 'white' }}>
+            <InputLabel>看版</InputLabel>
+            <Select
+              onChange={async (event) => {
+                const value = event.target.value as string;
+                setSelectData(value)
+                await setSize(1)
+                await mutate();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              {
+                selectDataFromApi && selectDataFromApi.map(a => {
+                  return <MenuItem value={a.ID}>{a.Name}</MenuItem>
+                })
+              }
+            </Select>
+          </FormControl>
+
         </Toolbar>
       </AppBar>
       <Container maxWidth="xl">
@@ -172,21 +198,26 @@ export default function Home(props) {
             </Typography>
           </Toolbar>
         </AppBar>
-          {
-            <ImageList gap={1} className={classes.imageList} rowHeight={480} cols={matches ? 4 : 1}>
-              {dialogData['images']&&dialogData['images'].map((item,index) => {
-                return <ImageListItem style={{ cursor: 'pointer' }} key={index} onClick={()=>{
-                  window.open(item.Url);
+        {
+          <ImageList gap={1} className={classes.imageList} rowHeight={480} cols={matches ? 4 : 1}>
+            {dialogData['images'] && dialogData['images'].map((item, index) => {
+              return <ImageListItem style={{ cursor: 'pointer' }} key={index} onClick={() => {
+                window.open(item.Url);
 
-                }}>
-                  <img src={item.Url} alt={index} />
-                </ImageListItem>
-              }
-              )}
-            </ImageList>
-          }
+              }}>
+                <img src={item.Url} alt={index} />
+              </ImageListItem>
+            }
+            )}
+          </ImageList>
+        }
       </Dialog>
     </React.Fragment>
 
   )
+}
+Home.getInitialProps = async (ctx) => {
+  const res = await fetch(`${apiUrl}/api/webpage`)
+  const json = await res.json()
+  return { selectDataFromApi: json }
 }

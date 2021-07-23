@@ -1,11 +1,12 @@
 from datetime import datetime
 import logging
 import re
-from typing import List
+from typing import List, Optional
 from fastapi import Depends, FastAPI, HTTPException, Request, Response, BackgroundTasks
 from sqlalchemy.orm import Session, joinedload, lazyload, selectinload
 from sqlalchemy.sql.expression import desc
 from sqlalchemy.sql.functions import mode
+from sqlalchemy.sql.sqltypes import Integer
 from models import models, base, view_models
 import uuid
 from bs4 import BeautifulSoup
@@ -90,7 +91,7 @@ async def get_web_page_by_id(id: str, data: view_models.WebPageCreate, db: Sessi
     return data
 
 
-def update_items(id: str, db: Session):
+def update_items(id: str,start:int, db: Session):
     web_page = db.query(models.WebPage).filter(
         models.WebPage.ID == id).first()
     res = httpx.get(web_page.Url)
@@ -99,7 +100,7 @@ def update_items(id: str, db: Session):
     logging.info(get_all_page)
     web_page_url = web_page.Url.replace('-1.html', '')
     root_page_url = web_page_url
-    i: int = 1
+    i: int = start
     while i <= int(get_all_page):
         logging.info(f'{i}')
         url = f"{root_page_url}-{i}.html"
@@ -156,11 +157,11 @@ def update_items(id: str, db: Session):
             for image in images:
                 try:
                     image_url = ''
-                    if hasattr(image.find('img'), 'file') != None:
+                    if hasattr(image.find('img', attrs={'class': 'zoom'}), 'file') == None:
                         image_url = image.find('img')['file']
                     else:
-                        logging.info(image.find('zoom'))
-                        image_url = image.find('zoom')['src']
+                        image_url = image.find(
+                            'img', attrs={'class': 'zoom'})['file']
 
                     db_images_array.append(models.Image(
                         ID=uuid.uuid4(), Url=image_url, ItemID=item_id))
@@ -174,9 +175,9 @@ def update_items(id: str, db: Session):
 
 
 @app.post("/api/item/{id}", description="透過WebPage id，新增或修改此類別底下的item資料")
-async def post_item_by_web_page_id(id: str, background_tasks: BackgroundTasks,
+async def post_item_by_web_page_id(id: str,start:int, background_tasks: BackgroundTasks,
                                    db: Session = Depends(get_db)):
-    background_tasks.add_task(update_items, id, db)
+    background_tasks.add_task(update_items, id,start, db)
     return {"message": "開始抓資料"}
 
 
