@@ -4,7 +4,7 @@ import re
 from typing import List, Optional
 from fastapi import Depends, FastAPI, HTTPException, Request, Response, BackgroundTasks
 from sqlalchemy.orm import Session, joinedload, lazyload, selectinload
-from sqlalchemy.sql.expression import desc
+from sqlalchemy.sql.expression import desc, select
 from sqlalchemy.sql.functions import mode
 from sqlalchemy.sql.sqltypes import Integer
 from models import models, base, view_models
@@ -92,16 +92,20 @@ async def get_web_page_by_id(id: str, data: view_models.WebPageCreate, db: Sessi
     return data 
 
 
-def update_items(id: str,start:int, db: Session):
+def update_items(id: str,start:Optional[str],end:Optional[str], db: Session):
     web_page = db.query(models.WebPage).filter(
         models.WebPage.ID == id).first()
     res = httpx.get(web_page.Url)
-    get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
+    get_all_page=end
+    if get_all_page==None:
+        get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
         'name': 'custompage'}).next_element['title'].replace('共', '').replace('頁', '').replace(' ', '')
     logging.info(get_all_page)
     web_page_url = web_page.Url.replace('-1.html', '')
     root_page_url = web_page_url
-    i: int = start
+    i=start
+    if i==None:
+        i: int = 1
     while i <= int(get_all_page):
         logging.info(f'{i}')
         url = f"{root_page_url}-{i}.html"
@@ -142,6 +146,7 @@ def update_items(id: str,start:int, db: Session):
                     {
                         "Title": image_name,
                         "PageName": w.a['href'],
+                        "Page":i,
                         "Url": image_url,
                         "Avator": avator,
                         "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -149,7 +154,7 @@ def update_items(id: str,start:int, db: Session):
             else:
                 logging.info('insert')
                 db.add(models.Item(ID=item_id, Title=image_name,
-                       PageName=w.a['href'], Url=image_url, WebPageID=id, Avator=avator,
+                       PageName=w.a['href'], Url=image_url, WebPageID=id,Page=i, Avator=avator,
                        ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
             image_html = httpx.get(image_url).text
             image_root = BeautifulSoup(image_html, "html.parser")
@@ -176,9 +181,8 @@ def update_items(id: str,start:int, db: Session):
 
 
 @app.post("/api/item/{id}", description="透過WebPage id，新增或修改此類別底下的item資料")
-async def post_item_by_web_page_id(id: str,start:int, background_tasks: BackgroundTasks,
-                                   db: Session = Depends(get_db)):
-    background_tasks.add_task(update_items, id,start, db)
+async def post_item_by_web_page_id(background_tasks: BackgroundTasks,id: str,start:Optional[int]=None,end:Optional[int]=None,db: Session = Depends(get_db)):
+    background_tasks.add_task(update_items, id,start, end,db)
     return {"message": "開始抓資料"}
 
 
@@ -198,7 +202,10 @@ async def get_image_by_item_id(id: str,
 
 @app.get("/api/user")
 async def get_image_by_item_id(db: Session = Depends(get_db)):
-    a1=models.Users
-    a2=models.Users
-    data = db.query(a2.UserName,a1).join(a2)
-    return data
+    a=models.Users
+    data=db.query(models.Users)
+    return (data.first())    
+    # table_1=models.Item
+    # table_2=models.Image
+    # data=db.query(table_1.Title,table_2.Url).join(table_2, table_1.ID==table_2.ItemID,isouter=True).first()
+    # return data
