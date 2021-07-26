@@ -12,8 +12,7 @@ SessionLocal = sessionmaker(
     autocommit=False, autoflush=False, future=True, bind=engine)
 Base = declarative_base()
 
-
-def get_table_relationships(schema_name, table_name):
+def get_table_relationships():
     with engine.connect() as con:
         sql_string = text(f'''
             SELECT
@@ -40,8 +39,7 @@ def get_table_relationships(schema_name, table_name):
             INNER JOIN 
                 sys.columns cp ON fkc.parent_column_id = cp.column_id AND fkc.parent_object_id = cp.object_id
             INNER JOIN 
-                sys.columns cr ON fkc.referenced_column_id = cr.column_id AND fkc.referenced_object_id = cr.object_id
-            WHERE tsc.name=N'{schema_name}' AND tp.name=N'{table_name}'   
+                sys.columns cr ON fkc.referenced_column_id = cr.column_id AND fkc.referenced_object_id = cr.object_id            
         ''')
         rs = con.execute(sql_string)
         data = [dict(r) for r in rs]
@@ -71,30 +69,31 @@ def get_all_tables():
 
 
 all_tables = get_all_tables()
+all_relation_ship = get_table_relationships()
 for table in all_tables:
     print(f"{table['TABLE_SCHEMA']}.{table['TABLE_NAME']}")
     columns = get_table_columns(table['TABLE_SCHEMA'], table['TABLE_NAME'])
     table['columns'] = columns
-    # for column in columns:
-    #     print(column['COLUMN_NAME'])
-    # print('-------------RelationShips:---------')
-    relationships = get_table_relationships(
-        table['TABLE_SCHEMA'], table['TABLE_NAME'])
-    table['relationships'] = relationships
-    # table['collections']=[]
-    for rel in relationships:
-        # foriegn key model
-        check = list(
-            filter(lambda v: v['COLUMN_NAME'] == rel['TargetColName'], table['columns']))[0]
-        if check != None:
-            table['columns'].remove(check)
-        check2 = list(filter(lambda v: v['TABLE_SCHEMA'] == rel['TargetSchemaName']
-                      and v['TABLE_NAME'] == rel['ForienTableName'], all_tables))
-        if len(check2) != 0:
-            if hasattr(check2[0], 'collections') == False:
-                check2[0]['collections'] = []
-            check2[0]['collections'].append(rel)
-    # print('===========================')
+    table['relationships'] = []
+    table['collections'] = []
+    # relationships
+    relation = list(filter(lambda v: v['TargetTableName'] == table['TABLE_NAME']
+                    and v['TargetSchemaName'] == table['TABLE_SCHEMA'], all_relation_ship))
+    if len(relation) > 0:
+        for rel in relation:
+            check_column = list(
+                filter(lambda v: v['COLUMN_NAME'] == rel['TargetColName'], table['columns']))[0]
+            table['columns'].remove(check_column)
+            rel['DATA_TYPE'] = check_column['DATA_TYPE']
+            table['relationships'].append(rel)
+    # collections
+    collection = list(filter(lambda v: v['ForienTableName'] == table['TABLE_NAME']
+                      and v['ForienSchemaName'] == table['TABLE_SCHEMA'], all_relation_ship))
+    if len(collection) > 0:
+        for col in collection:
+            check_column = list(
+                filter(lambda v: v['COLUMN_NAME'] == col['ForienColName'], table['columns']))[0]
+            table['collections'].append(col)
 template_string = '''
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
@@ -127,7 +126,7 @@ class {{idata['TABLE_NAME']}}(base.Base):
     {% endfor %}
 
     {% for  col in idata['relationships'] -%}
-    {{col['TargetColName']}} = Column(NVARCHAR(None), ForeignKey("{{col['ForienTableName']}}.{{col['ForienColName']}}"))
+    {{col['TargetColName']}} = Column({{col['DATA_TYPE'].upper()}}, ForeignKey("{{col['ForienTableName']}}.{{col['ForienColName']}}"))
     {% endfor %}
 
     # ForeignKey 
@@ -139,7 +138,6 @@ class {{idata['TABLE_NAME']}}(base.Base):
     {% for  col in idata['collections'] -%}
     {{col['TargetTableName']}} = relationship("{{col['TargetTableName']}}", back_populates="{{col['TargetTableName']}}{{col['TargetColName']}}_U")
     {% endfor %}   
-    
 {% endfor %}
 '''
 base_model_template_string = f'''

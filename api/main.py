@@ -14,7 +14,8 @@ import httpx
 from fastapi.middleware.cors import CORSMiddleware
 
 logging.basicConfig(level=logging.INFO)
-
+import sys
+sys.setrecursionlimit(9000000) #這裡設定大一些
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
 origins = [
@@ -193,4 +194,10 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
 async def get_image_by_item_id(id: str,
                                db: Session = Depends(get_db)):
     data = db.query(models.Image).filter(models.Image.ItemID == id).all()
+    return data
+
+@app.get("/api/user")
+async def get_image_by_item_id(
+                               db: Session = Depends(get_db)):
+    data = db.query(models.Users).first().WebPage
     return data
