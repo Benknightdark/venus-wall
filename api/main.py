@@ -198,5 +198,7 @@ async def get_image_by_item_id(id: str,
 
 @app.get("/api/user")
 async def get_image_by_item_id(db: Session = Depends(get_db)):
-    data = db.query(models.Users).first().UsersModifiedUserID_U
+    a1=models.Users
+    a2=models.Users
+    data = db.query(a2.UserName,a1).join(a2)
     return data
