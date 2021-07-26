@@ -76,11 +76,13 @@ class Users(base.Base):
 
     UserName = Column(NVARCHAR(50))
 
-    ModifiedUserID = Column(UNIQUEIDENTIFIER)
+    ModifiedUserID = Column(UNIQUEIDENTIFIER, ForeignKey("Users.ID"))
 
     # ForeignKey
+    UsersModifiedUserID_U = relationship("Users", backref ="Users",remote_side=[ID])#back_populates="Users",
 
     # collections
     Image = relationship("Image", back_populates="ImageModifiedUserID_U")
     Item = relationship("Item", back_populates="ItemModifiedUserID_U")
     WebPage = relationship("WebPage", back_populates="WebPageModifiedUserID_U")
+    # Users = relationship("Users", back_populates="UsersModifiedUserID_U")
