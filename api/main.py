@@ -14,8 +14,6 @@ import httpx
 from fastapi.middleware.cors import CORSMiddleware
 
 logging.basicConfig(level=logging.INFO)
-import sys
-sys.setrecursionlimit(9000000) #這裡設定大一些
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
 origins = [

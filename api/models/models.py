@@ -5,21 +5,6 @@ from . import base
 from sqlalchemy.dialects.mssql import BIGINT, BINARY, BIT, CHAR, DATE, DATETIME, DATETIME2,     DATETIMEOFFSET, DECIMAL, FLOAT, IMAGE, INTEGER, JSON, MONEY,     NCHAR, NTEXT, NUMERIC, NVARCHAR, REAL, SMALLDATETIME,     SMALLINT, SMALLMONEY, SQL_VARIANT, TEXT, TIME,     TIMESTAMP, TINYINT, UNIQUEIDENTIFIER, VARBINARY, VARCHAR
 
 
-class WebPage(base.Base):
-    __tablename__ = "WebPage"
-
-    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
-
-    Name = Column(NVARCHAR(50))
-
-    Url = Column(NVARCHAR(None))
-
-    # ForeignKey
-
-    # collections
-    Item = relationship("Item", back_populates="ItemWebPageID_U")
-
-
 class Image(base.Base):
     __tablename__ = "Image"
 
@@ -31,24 +16,6 @@ class Image(base.Base):
 
     # ForeignKey
     ImageItemID_U = relationship("Item", back_populates="Image")
-
-    # collections
-
-
-
-  
-
-
-class Users(base.Base):
-    __tablename__ = "Users"
-
-    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
-
-    UserName = Column(NVARCHAR(50))
-
-    ModifiedUserID = Column(UNIQUEIDENTIFIER)
-
-    # ForeignKey
 
     # collections
 
@@ -66,8 +33,6 @@ class Item(base.Base):
 
     Avator = Column(NVARCHAR(None))
 
-    Page = Column(TINYINT)
-
     ModifiedDateTime = Column(DATETIME)
 
     WebPageID = Column(UNIQUEIDENTIFIER, ForeignKey("WebPage.ID"))
@@ -77,3 +42,32 @@ class Item(base.Base):
 
     # collections
     Image = relationship("Image", back_populates="ImageItemID_U")
+
+
+class WebPage(base.Base):
+    __tablename__ = "WebPage"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    Name = Column(NVARCHAR(50))
+
+    Url = Column(NVARCHAR(None))
+
+    # ForeignKey
+
+    # collections
+    Item = relationship("Item", back_populates="ItemWebPageID_U")
+
+
+class Users(base.Base):
+    __tablename__ = "Users"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    UserName = Column(NVARCHAR(50))
+
+    ModifiedUserID = Column(UNIQUEIDENTIFIER)
+
+    # ForeignKey
+
+    # collections
