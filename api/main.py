@@ -65,7 +65,6 @@ async def get_web_page(db: Session = Depends(get_db)):
     data=db.query(models.Forum).\
          options(subqueryload(models.Forum.WebPage)).all()
 
-
     return data
 
 @app.get("/api/webpage/{id}", description="透過id，取得要抓的WebPage ")

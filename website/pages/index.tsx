@@ -21,6 +21,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import ListSubheader from '@material-ui/core/ListSubheader';
 const fetcher = (url: RequestInfo) => fetch(url).then(r => r.json())
 const useAppBarStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -116,7 +117,7 @@ export default function Home({ selectDataFromApi }) {
 
   return (
     <div>
-            <AppBar position="static">
+      <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={appBarClasses.title}>
             女神牆
@@ -124,7 +125,8 @@ export default function Home({ selectDataFromApi }) {
           <FormControl style={{ minWidth: '30%', background: 'white' }}>
             <InputLabel>看版</InputLabel>
             <Select
-              value={selectData == "" ? selectDataFromApi[0]['ID'] : selectData}
+              // value={selectData == "" ? selectDataFromApi[0]['ID'] : selectData}
+              value={selectData}
               onChange={async (event) => {
                 const value = event.target.value as string;
                 setSelectData(value)
@@ -134,92 +136,104 @@ export default function Home({ selectDataFromApi }) {
               }}
             >
               {
+
                 selectDataFromApi && selectDataFromApi.map(a => {
-                  return <MenuItem value={a.ID}>{a.Name}</MenuItem>
+                  console.log(a)
+                  return (<div>
+                    <ListSubheader>{a.Name}</ListSubheader>
+                    {
+                                   
+
+                     a.WebPage&&a.WebPage.map(w => {
+                        return <MenuItem value={w.ID}>{w.Name}</MenuItem>
+                      })
+                    }
+                  </div>)
                 })
               }
             </Select>
           </FormControl>
         </Toolbar>
       </AppBar>
-   
-    <React.Fragment>
-      <CssBaseline />
-      <Container maxWidth="xl">
-        <div>
-          <Head>
-            <title>女神牆</title>
-            <link rel="icon" href="/favicon.ico" />
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-          </Head>
-          <div className={classes.root}>
-            <ImageList gap={1} className={classes.imageList} rowHeight='auto' cols={matches ? 4 : 1}>
-              {data.map((lists, index) => {
-                return lists.map(item => {
-                  return (<ImageListItem style={{ cursor: 'pointer' }} key={item.Avator} >
-                    <img src={item.Avator} alt={item.Title} onClick={async () => {
-                      const req = await fetch(`${apiUrl}/api/image/${item.ID}`)
-                      const res = await req.json()
-                      const tempDialogData = item
-                      item['images'] = res
-                      setDialogData(tempDialogData)
-                      handleClickOpen()
-                    }} />
-                    <ImageListItemBar
-                      title={item.Title}
-                      position="top"
-                      actionIcon={
-                        <IconButton aria-label={`star ${item.Title}`} className={classes.icon}
-                          onClick={() => {
-                            window.open(item.Url)
-                          }}
-                        >
-                          <OpenInNew />
-                        </IconButton>
-                      }
-                      actionPosition="left"
-                      className={classes.titleBar}
-                    />
-                  </ImageListItem>)
-                })
+
+      <React.Fragment>
+        <CssBaseline />
+        <Container maxWidth="xl">
+          <div>
+            <Head>
+              <title>女神牆</title>
+              <link rel="icon" href="/favicon.ico" />
+              <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+              <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+            </Head>
+            <div className={classes.root}>
+              <ImageList gap={1} className={classes.imageList} rowHeight='auto' cols={matches ? 4 : 1}>
+                {data.map((lists, index) => {
+                  return lists.map(item => {
+                    return (<ImageListItem style={{ cursor: 'pointer' }} key={item.Avator} >
+                      <img src={item.Avator} alt={item.Title} onClick={async () => {
+                        const req = await fetch(`${apiUrl}/api/image/${item.ID}`)
+                        const res = await req.json()
+                        const tempDialogData = item
+                        item['images'] = res
+                        setDialogData(tempDialogData)
+                        handleClickOpen()
+                      }} />
+                      <ImageListItemBar
+                        title={item.Title}
+                        position="top"
+                        actionIcon={
+                          <IconButton aria-label={`star ${item.Title}`} className={classes.icon}
+                            onClick={() => {
+                              window.open(item.Url)
+                            }}
+                          >
+                            <OpenInNew />
+                          </IconButton>
+                        }
+                        actionPosition="left"
+                        className={classes.titleBar}
+                      />
+                    </ImageListItem>)
+                  })
+                }
+                )}
+              </ImageList>
+            </div>
+          </div>
+        </Container>
+        <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+          <AppBar className={dialogClasses.appBar}>
+            <Toolbar>
+              <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className={dialogClasses.title}>
+                {dialogData['Title']}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          {
+            <ImageList gap={1} className={classes.imageList} rowHeight={480} cols={matches ? 4 : 1}>
+              {dialogData['images'] && dialogData['images'].map((item, index) => {
+                return <ImageListItem style={{ cursor: 'pointer' }} key={index} onClick={() => {
+                  window.open(item.Url);
+
+                }}>
+                  <img src={item.Url} alt={index} />
+                </ImageListItem>
               }
               )}
             </ImageList>
-          </div>
-        </div>
-      </Container>
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-        <AppBar className={dialogClasses.appBar}>
-          <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-              <CloseIcon />
-            </IconButton>
-            <Typography variant="h6" className={dialogClasses.title}>
-              {dialogData['Title']}
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        {
-          <ImageList gap={1} className={classes.imageList} rowHeight={480} cols={matches ? 4 : 1}>
-            {dialogData['images'] && dialogData['images'].map((item, index) => {
-              return <ImageListItem style={{ cursor: 'pointer' }} key={index} onClick={() => {
-                window.open(item.Url);
-
-              }}>
-                <img src={item.Url} alt={index} />
-              </ImageListItem>
-            }
-            )}
-          </ImageList>
-        }
-      </Dialog>
-    </React.Fragment>
+          }
+        </Dialog>
+      </React.Fragment>
     </div>
   )
 }
 Home.getInitialProps = async (ctx) => {
   const res = await fetch(`${apiUrl}/api/webpage`)
   const json = await res.json()
+
   return { selectDataFromApi: json }
 }
