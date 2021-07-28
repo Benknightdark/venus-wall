@@ -85,20 +85,16 @@ async def get_web_page_by_id(id: str, data: view_models.WebPageCreate, db: Sessi
     return data
 
 
-def update_items(id: str, start: Optional[str]= None, end: Optional[str]= None, db: Session = Depends(get_db)):
-    print(id)
+def update_items(id: str, start: Optional[str], end: Optional[str], db:Session):
     print(start)
-    print(end)
     h = ItemHandler(start, end)
     f = WebPageFilter(id)
     helper = ItemHelper(db, f, h)
     helper.process()
-    return
-
 
 @app.post("/api/item/{id}", description="透過WebPage id，新增或修改此類別底下的item資料")
-async def post_item_by_web_page_id(background_tasks: BackgroundTasks, update_items_task=Depends(update_items)):
-    background_tasks.add_task(update_items_task)
+async def post_item_by_web_page_id(background_tasks: BackgroundTasks, id: str, start: Optional[str]= None, end: Optional[str]= None, db: Session = Depends(get_db)):
+    background_tasks.add_task(update_items,id,start,end,db)
     return {"message": "開始抓資料"}
 
 
