@@ -1,17 +1,11 @@
-from helpers.item_helpers import WebPageFilter
-from datetime import datetime
 import logging
-import re
 from typing import List, Optional
-from fastapi import Depends, FastAPI, HTTPException, Request, Response, BackgroundTasks
+from fastapi import Depends, FastAPI, Request, Response, BackgroundTasks
 from sqlalchemy.orm import Session, joinedload, lazyload, selectinload
 from sqlalchemy.sql.expression import desc, select
-from sqlalchemy.sql.functions import mode
-from sqlalchemy.sql.sqltypes import Integer
+from helpers.item_helpers import ItemHandler, WebPageFilter, ItemHelper
 from models import models, base, view_models
 import uuid
-from bs4 import BeautifulSoup
-import httpx
 from fastapi.middleware.cors import CORSMiddleware
 
 logging.basicConfig(level=logging.INFO)
@@ -88,101 +82,19 @@ async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
 async def get_web_page_by_id(id: str, data: view_models.WebPageCreate, db: Session = Depends(get_db)):
     data = db.query(models.WebPage).filter(
         models.WebPage.ID == id).update(data.dict())
-    return data 
+    return data
 
 
-def update_items(id: str,start:Optional[str],end:Optional[str], db: Session):
-    web_page =WebPageFilter(id).get_id(db)
-    #  db.query(models.WebPage).filter(
-    #     models.WebPage.ID == id).first()
-    res = httpx.get(web_page.Url)
-    get_all_page=end
-    if get_all_page==None:
-        get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
-        'name': 'custompage'}).next_element['title'].replace('共', '').replace('頁', '').replace(' ', '')
-    logging.info(get_all_page)
-    web_page_url = web_page.Url.replace('-1.html', '')
-    root_page_url = web_page_url
-    i=start
-    if i==None:
-        i: int = 1
-    while i <= int(get_all_page):
-        logging.info(f'{i}')
-        url = f"{root_page_url}-{i}.html"
-        res = httpx.get(url)
-        html = res.text
-        root = BeautifulSoup(html, "html.parser")
-        water_fall_root = root.find('ul', id='waterfall')
-        logging.info(web_page_url)
-        water_fall = water_fall_root.find_all(
-            'div', attrs={'class': 'c cl'})
-        logging.info(f'{len(water_fall)}')
-
-        for w in water_fall:
-            avator = ""
-            image_name = re.sub('[^\w\-_\. ]', '_', w.a['title'])
-            image_url = 'https://www.jkforum.net/'+w.a['href']
-            try:
-                if w.a.img == None:
-                    avator = w.a['style'].split(
-                        "url('")[1][:-3].split("');")[0]
-                elif hasattr(w.a.img, 'src'):
-                    avator = w.a.img['src']
-            except:
-                pass
-
-            logging.info(f"{image_name} === {i}")
-            logging.info(image_url)
-            logging.info(avator)
-            selected_item = db.query(models.Item).filter(
-                models.Item.PageName == w.a['href'])
-            item_id = uuid.uuid4()
-            if selected_item.count() == 1:
-                logging.info('update')
-                item_id = selected_item.first().ID
-                db.query(models.Image).filter(models.Image.ItemID ==
-                                              selected_item.first().ID).delete()
-                selected_item.update(
-                    {
-                        "Title": image_name,
-                        "PageName": w.a['href'],
-                        "Page":i,
-                        "Url": image_url,
-                        "Avator": avator,
-                        "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    })
-            else:
-                logging.info('insert')
-                db.add(models.Item(ID=item_id, Title=image_name,
-                       PageName=w.a['href'], Url=image_url, WebPageID=id,Page=i, Avator=avator,
-                       ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-            image_html = httpx.get(image_url).text
-            image_root = BeautifulSoup(image_html, "html.parser")
-            images = image_root.find_all('ignore_js_op')
-            db_images_array = []
-            for image in images:
-                try:
-                    image_url = ''
-                    if hasattr(image.find('img', attrs={'class': 'zoom'}), 'file') == None:
-                        image_url = image.find('img')['file']
-                    else:
-                        image_url = image.find(
-                            'img', attrs={'class': 'zoom'})['file']
-
-                    db_images_array.append(models.Image(
-                        ID=uuid.uuid4(), Url=image_url, ItemID=item_id))
-                    db.add_all(db_images_array)
-                    logging.info(f"  {image_url}")
-                except:
-                    pass
-            db.commit()
-            logging.info('-------------------------')
-        i = i+1
+def update_items(id: str, start: Optional[str], end: Optional[str], db: Session):
+    h = ItemHandler(start, end)
+    f = WebPageFilter(id)
+    helper = ItemHelper(db, f, h)
+    helper.process()
 
 
 @app.post("/api/item/{id}", description="透過WebPage id，新增或修改此類別底下的item資料")
-async def post_item_by_web_page_id(background_tasks: BackgroundTasks,id: str,start:Optional[int]=None,end:Optional[int]=None,db: Session = Depends(get_db)):
-    background_tasks.add_task(update_items, id,start, end,db)
+async def post_item_by_web_page_id(background_tasks: BackgroundTasks, id: str, start: Optional[int] = None, end: Optional[int] = None, db: Session = Depends(get_db)):
+    background_tasks.add_task(update_items, id, start, end, db)
     return {"message": "開始抓資料"}
 
 
@@ -200,11 +112,12 @@ async def get_image_by_item_id(id: str,
     data = db.query(models.Image).filter(models.Image.ItemID == id).all()
     return data
 
+
 @app.get("/api/user")
 async def get_image_by_item_id(db: Session = Depends(get_db)):
-    a=models.Users
-    data=db.query(models.Users)
-    return (data.first())    
+    a = models.Users
+    data = db.query(models.Users)
+    return (data.first())
     # table_1=models.Item
     # table_2=models.Image
     # data=db.query(table_1.Title,table_2.Url).join(table_2, table_1.ID==table_2.ItemID,isouter=True).first()
