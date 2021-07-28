@@ -1,7 +1,7 @@
 import logging
 from typing import List, Optional
 from fastapi import Depends, FastAPI, Request, Response, BackgroundTasks
-from sqlalchemy.orm import Session, joinedload, lazyload, selectinload
+from sqlalchemy.orm import Session, joinedload, lazyload, selectinload, subqueryload
 from sqlalchemy.sql.expression import desc, select
 from helpers.item_helpers import ItemHandler, WebPageFilter, ItemHelper
 from models import models, base, view_models
@@ -61,14 +61,18 @@ async def add_web_apge(data: List[view_models.WebPageCreate], db: Session = Depe
 
 @app.get("/api/webpage", description="取得要抓的所有WebPage ")
 async def get_web_page(db: Session = Depends(get_db)):
-    data = db.query(models.WebPage).order_by(models.WebPage.Seq).all()
-    return data
+    # data = db.query(models.WebPage).order_by(models.WebPage.Seq).all()
+    data=db.query(models.Forum).\
+         options(subqueryload(models.Forum.WebPage)).all()
 
+
+    return data
 
 @app.get("/api/webpage/{id}", description="透過id，取得要抓的WebPage ")
 async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
-    data = db.query(models.WebPage).filter(models.WebPage.ID == id).first()
-    return data
+    data = db.query(models.WebPage).filter(models.WebPage.ID == id).all()  
+    return     data 
+
 
 
 @app.delete("/api/webpage/{id}", description="透過id，刪除WebPage ")
