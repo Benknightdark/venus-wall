@@ -8,31 +8,35 @@ from models.models import WebPage
 from typing import Optional
 from sqlalchemy.orm.session import Session
 from models import models
-     
+
+
 class ItemHandler:
     '''
     執行更新或修改Item Data
     '''
-    def __init__(self,start:Optional[str],end:Optional[str]):
+
+    def __init__(self, start: Optional[str], end: Optional[str]):
         self.start = start
-        self.end=end
-    def update_item(self,web_page:WebPage,db:Session):
-        if web_page.WebPageForumID_U.Name=='JKF':
+        self.end = end
+
+    def update_item(self, web_page: WebPage, db: Session):
+        if web_page.WebPageForumID_U.Name == 'JKF':
+            id = web_page.ID
             res = httpx.get(web_page.Url)
-            get_all_page=self.end
-            if get_all_page==None:
+            get_all_page = self.end
+            if get_all_page == None:
                 get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
-                'name': 'custompage'}).next_element['title'].replace('共', '').replace('頁', '').replace(' ', '')
+                    'name': 'custompage'}).next_element['title'].replace('共', '').replace('頁', '').replace(' ', '')
             else:
-                 get_all_page=int(self.end)   
+                get_all_page = int(self.end)
             logging.info(get_all_page)
             web_page_url = web_page.Url.replace('-1.html', '')
             root_page_url = web_page_url
-            i=self.start
-            if i==None:
+            i = self.start
+            if i == None:
                 i: int = 1
             else:
-                i=int(self.start)    
+                i = int(self.start)
             while i <= int(get_all_page):
                 logging.info(f'{i}')
                 url = f"{root_page_url}-{i}.html"
@@ -68,21 +72,22 @@ class ItemHandler:
                         logging.info('update')
                         item_id = selected_item.first().ID
                         db.query(models.Image).filter(models.Image.ItemID ==
-                                                    selected_item.first().ID).delete()
+                                                      selected_item.first().ID).delete()
                         selected_item.update(
                             {
                                 "Title": image_name,
                                 "PageName": w.a['href'],
-                                "Page":i,
+                                "Page": i,
                                 "Url": image_url,
                                 "Avator": avator,
                                 "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                             })
                     else:
                         logging.info('insert')
-                        db.add(models.Item(ID=item_id, Title=image_name,
-                            PageName=w.a['href'], Url=image_url, WebPageID=id,Page=i, Avator=avator,
-                            ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+                        add_data = models.Item(ID=item_id, Title=image_name, Page=i,
+                                               PageName=w.a['href'], Url=image_url, WebPageID=id, Avator=avator,
+                                               ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                        db.add(add_data)
                     image_html = httpx.get(image_url).text
                     image_root = BeautifulSoup(image_html, "html.parser")
                     images = image_root.find_all('ignore_js_op')
@@ -104,25 +109,32 @@ class ItemHandler:
                             pass
                     db.commit()
                     logging.info('-------------------------')
-                i = i+1            
+                i = i+1
+
+
 class WebPageFilter:
     '''
     取得WebPage Data
     '''
+
     def __init__(self, id):
         self.id = id
 
-    def get_by_id(self,db: Session):
+    def get_by_id(self, db: Session):
         return db.query(models.WebPage).filter(
             models.WebPage.ID == self.id).first()
+
+
 class ItemHelper:
     '''
     執行Item Table的資料處理
     '''
-    def __init__(self,db:Session,f:WebPageFilter,h:ItemHandler):
+
+    def __init__(self, db: Session, f: WebPageFilter, h: ItemHandler):
         self.db = db
-        self.f=f
-        self.h=h 
-    def process(self) :
-        data=self.f.get_by_id(self.db)
-        self.h.update_item(data,self.db)
+        self.f = f
+        self.h = h
+
+    def process(self):
+        data = self.f.get_by_id(self.db)
+        self.h.update_item(data, self.db)
