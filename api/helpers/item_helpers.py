@@ -23,12 +23,16 @@ class ItemHandler:
             if get_all_page==None:
                 get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
                 'name': 'custompage'}).next_element['title'].replace('共', '').replace('頁', '').replace(' ', '')
+            else:
+                 get_all_page=int(self.end)   
             logging.info(get_all_page)
             web_page_url = web_page.Url.replace('-1.html', '')
             root_page_url = web_page_url
             i=self.start
             if i==None:
                 i: int = 1
+            else:
+                i=int(self.start)    
             while i <= int(get_all_page):
                 logging.info(f'{i}')
                 url = f"{root_page_url}-{i}.html"
