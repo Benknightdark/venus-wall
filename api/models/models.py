@@ -84,6 +84,8 @@ class WebPage(base.Base):
 
     Url = Column(NVARCHAR(None))
 
+    Seq = Column(TINYINT)
+
     ForumID = Column(UNIQUEIDENTIFIER, ForeignKey("Forum.ID"))
 
     # ForeignKey

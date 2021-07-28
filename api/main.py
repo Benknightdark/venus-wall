@@ -61,7 +61,7 @@ async def add_web_apge(data: List[view_models.WebPageCreate], db: Session = Depe
 
 @app.get("/api/webpage", description="取得要抓的所有WebPage ")
 async def get_web_page(db: Session = Depends(get_db)):
-    data = db.query(models.WebPage).all()
+    data = db.query(models.WebPage).order_by(models.WebPage.Seq).all()
     return data
 
 
