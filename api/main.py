@@ -1,3 +1,4 @@
+from helpers.item_helpers import WebPageFilter
 from datetime import datetime
 import logging
 import re
@@ -91,8 +92,9 @@ async def get_web_page_by_id(id: str, data: view_models.WebPageCreate, db: Sessi
 
 
 def update_items(id: str,start:Optional[str],end:Optional[str], db: Session):
-    web_page = db.query(models.WebPage).filter(
-        models.WebPage.ID == id).first()
+    web_page =WebPageFilter(id).get_id(db)
+    #  db.query(models.WebPage).filter(
+    #     models.WebPage.ID == id).first()
     res = httpx.get(web_page.Url)
     get_all_page=end
     if get_all_page==None:

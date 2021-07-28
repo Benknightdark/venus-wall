@@ -11,6 +11,7 @@ class BaseConfigModel(BaseModel):
 class WebPageCreate(BaseConfigModel):
     Name: str
     Url: str
+    ForumID: str
 
 
 class ItemCreate(BaseConfigModel):

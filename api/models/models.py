@@ -35,6 +35,8 @@ class Item(base.Base):
 
     ModifiedDateTime = Column(DATETIME)
 
+    Page = Column(TINYINT)
+
     WebPageID = Column(UNIQUEIDENTIFIER, ForeignKey("WebPage.ID"))
 
     # ForeignKey
@@ -42,21 +44,6 @@ class Item(base.Base):
 
     # collections
     Image = relationship("Image", back_populates="ImageItemID_U")
-
-
-class WebPage(base.Base):
-    __tablename__ = "WebPage"
-
-    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
-
-    Name = Column(NVARCHAR(50))
-
-    Url = Column(NVARCHAR(None))
-
-    # ForeignKey
-
-    # collections
-    Item = relationship("Item", back_populates="ItemWebPageID_U")
 
 
 class Users(base.Base):
@@ -71,3 +58,36 @@ class Users(base.Base):
     # ForeignKey
 
     # collections
+
+
+class Forum(base.Base):
+    __tablename__ = "Forum"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    Name = Column(NVARCHAR(50))
+
+    CreatedTime = Column(DATETIME)
+
+    # ForeignKey
+
+    # collections
+    WebPage = relationship("WebPage", back_populates="WebPageForumID_U")
+
+
+class WebPage(base.Base):
+    __tablename__ = "WebPage"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    Name = Column(NVARCHAR(50))
+
+    Url = Column(NVARCHAR(None))
+
+    ForumID = Column(UNIQUEIDENTIFIER, ForeignKey("Forum.ID"))
+
+    # ForeignKey
+    WebPageForumID_U = relationship("Forum", back_populates="WebPage")
+
+    # collections
+    Item = relationship("Item", back_populates="ItemWebPageID_U")
