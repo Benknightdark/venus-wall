@@ -10,8 +10,11 @@ from sqlalchemy.orm.session import Session
 from models import models
      
 class ItemHandler:
+    '''
+    執行更新或修改Item Data
+    '''
     def __init__(self,start:Optional[str],end:Optional[str]):
-        self.start = start    
+        self.start = start
         self.end=end
     def update_item(self,web_page:WebPage,db:Session):
         if web_page.WebPageForumID_U.Name=='JKF':
@@ -99,6 +102,9 @@ class ItemHandler:
                     logging.info('-------------------------')
                 i = i+1            
 class WebPageFilter:
+    '''
+    取得WebPage Data
+    '''
     def __init__(self, id):
         self.id = id
 
@@ -106,6 +112,9 @@ class WebPageFilter:
         return db.query(models.WebPage).filter(
             models.WebPage.ID == self.id).first()
 class ItemHelper:
+    '''
+    執行Item Table的資料處理
+    '''
     def __init__(self,db:Session,f:WebPageFilter,h:ItemHandler):
         self.db = db
         self.f=f

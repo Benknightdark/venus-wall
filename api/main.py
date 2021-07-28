@@ -118,7 +118,3 @@ async def get_image_by_item_id(db: Session = Depends(get_db)):
     a = models.Users
     data = db.query(models.Users)
     return (data.first())
-    # table_1=models.Item
-    # table_2=models.Image
-    # data=db.query(table_1.Title,table_2.Url).join(table_2, table_1.ID==table_2.ItemID,isouter=True).first()
-    # return data
