@@ -125,8 +125,7 @@ export default function Home({ selectDataFromApi }) {
           <FormControl style={{ minWidth: '30%', background: 'white' }}>
             <InputLabel>看版</InputLabel>
             <Select
-              // value={selectData == "" ? selectDataFromApi[0]['ID'] : selectData}
-              value={selectData}
+              value={selectData == "" ? selectDataFromApi[0]['ID'] : selectData}
               onChange={async (event) => {
                 const value = event.target.value as string;
                 setSelectData(value)
@@ -136,19 +135,8 @@ export default function Home({ selectDataFromApi }) {
               }}
             >
               {
-
                 selectDataFromApi && selectDataFromApi.map(a => {
-                  console.log(a)
-                  return (<div>
-                    <ListSubheader>{a.Name}</ListSubheader>
-                    {
-                                   
-
-                     a.WebPage&&a.WebPage.map(w => {
-                        return <MenuItem value={w.ID}>{w.Name}</MenuItem>
-                      })
-                    }
-                  </div>)
+                  return <MenuItem value={a.ID}>{a.Name}</MenuItem>
                 })
               }
             </Select>

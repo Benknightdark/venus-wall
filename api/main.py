@@ -12,8 +12,6 @@ logging.basicConfig(level=logging.INFO)
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
 origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:8080",
     "http://localhost:3000",
@@ -21,7 +19,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -61,9 +59,9 @@ async def add_web_apge(data: List[view_models.WebPageCreate], db: Session = Depe
 
 @app.get("/api/webpage", description="取得要抓的所有WebPage ")
 async def get_web_page(db: Session = Depends(get_db)):
-    # data = db.query(models.WebPage).order_by(models.WebPage.Seq).all()
-    data=db.query(models.Forum).\
-         options(subqueryload(models.Forum.WebPage)).all()
+    data = db.query(models.WebPage).order_by(models.WebPage.Seq).all()
+    # data=db.query(models.Forum).\
+    #      options(subqueryload(models.Forum.WebPage)).all()
 
     return data
 
