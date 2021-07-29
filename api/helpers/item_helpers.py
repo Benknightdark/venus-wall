@@ -115,10 +115,8 @@ class ItemHandler:
     def update_mdk_item(self, web_page: WebPage, db: Session):
         id = web_page.ID
         url = f'{web_page.Url}'
-        print(url)
         res = httpx.get(url)
         root = BeautifulSoup(res.text, "html.parser")
-
         get_all_page = self.end
         if get_all_page == None:
             get_all_page =int( root.find('a', attrs={'class': 'last'}).text.replace(
@@ -127,7 +125,6 @@ class ItemHandler:
             get_all_page = int(self.end)
         logging.info(get_all_page)
         i = self.start
-        print(i)
         if i == None:
             i: int = 1
         else:
