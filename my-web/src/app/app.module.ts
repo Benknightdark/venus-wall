@@ -8,7 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ToolbarModule} from 'primeng/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MenuModule} from 'primeng/menu';
-import {MenuItem} from 'primeng/api';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -17,10 +18,11 @@ import {MenuItem} from 'primeng/api';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    FlexLayoutModule,
     SidebarModule,
     ButtonModule,
     ToolbarModule,
-    FlexLayoutModule,
     MenuModule
   ],
   providers: [],

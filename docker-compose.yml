@@ -1,7 +1,7 @@
   
 version: '3.4'
 services:
-    demo-db:
+    beauty-db:
         image: mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-16.04
         restart: always
         user: root
@@ -9,8 +9,8 @@ services:
             SA_PASSWORD: "YourStrong!Passw0rd"
             ACCEPT_EULA: "Y"
         volumes:
-            - demo-db-data:/var/opt/mssql      
+            - beauty-db-data:/var/opt/mssql      
         ports:
             - 9487:1433
 volumes:
-    demo-db-data:
+    beauty-db-data:
