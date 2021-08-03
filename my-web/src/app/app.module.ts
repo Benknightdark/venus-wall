@@ -6,7 +6,6 @@ import {SidebarModule} from 'primeng/sidebar';
 import {ButtonModule} from 'primeng/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ToolbarModule} from 'primeng/toolbar';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import {MenuModule} from 'primeng/menu';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -19,7 +18,6 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FlexLayoutModule,
     SidebarModule,
     ButtonModule,
     ToolbarModule,

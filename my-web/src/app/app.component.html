@@ -1,26 +1,12 @@
-<!--  -->
-<!-- <div fxLayout="column" fxLayoutAlign="space-between">
-  <p-toolbar>
-    <span>女神牆</span>
-  </p-toolbar>
-  <div fxLayout="row" fxFlexFill>
-    <p-menu [model]="items"  fxShow fxHide.xs="true" fxHide.md="true" fxHide.lg="false"></p-menu>
-    <div style="width:100%;height: 100vh;padding:'10px 10px 10px 10px'">
-      <button pButton type="button" icon="pi pi-check" iconPos="left"></button>
-      <p-button label="Click" icon="pi pi-check" iconPos="left"></p-button>
-    </div>
-  </div>
-</div> -->
 <div class="flex flex-column flex-wrap overflow-hidden">
   <p-toolbar>
     <span>女神牆</span>
   </p-toolbar>
   <div class="flex flex-row">
-      <p-menu [model]="items"></p-menu>
+    <p-menu [model]="items" class="hidden  lg:flex"></p-menu>
     <div style="width:100%;height: 100vh;padding:'10px 10px 10px 10px';background:yellow">
       <button pButton type="button" icon="pi pi-check" iconPos="left"></button>
       <p-button label="Click" icon="pi pi-check" iconPos="left"></p-button>
     </div>
   </div>
 </div>
-
