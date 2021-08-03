@@ -7,6 +7,9 @@
     <div style="width:100%;height: 100vh;padding:'10px 10px 10px 10px';background:yellow">
       <button pButton type="button" icon="pi pi-check" iconPos="left"></button>
       <p-button label="Click" icon="pi pi-check" iconPos="left"></p-button>
+      <!-- <input [ngModel]="myProperty$ | async" (ngModelChange)="myProperty$.next($event)"> -->
+      <p-dropdown [options]="myProperty$ | async"  optionLabel="Name"></p-dropdown>
+
     </div>
   </div>
 </div>

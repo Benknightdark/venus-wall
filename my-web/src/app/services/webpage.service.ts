@@ -9,6 +9,6 @@ export class WebpageService {
 
   constructor(private http: HttpClient) { }
   getPageList(){
-  return this.http.get(`${environment.apiUrl}/api/webpage`)
+  return this.http.get<[]>(`${environment.apiUrl}/api/webpage`)
   }
 }
