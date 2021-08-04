@@ -1,4 +1,4 @@
-<div class="flex flex-column flex-wrap overflow-hidden">
+<div class="flex flex-column flex-wrap overflow-hidden" (window:scroll)="onWindowScroll($event)">
   <p-toolbar>
     <span>女神牆</span>
   </p-toolbar>
@@ -10,7 +10,7 @@
         <p-divider></p-divider>
 
       <!-- <div>{{itemList$|async|json}}</div> -->
-      <div *ngFor="let item of itemList$ | async; index as i">
+      <div *ngFor="let item of itemList$ | async; index as i" >
         <p-card>
           <ng-template pTemplate="header">
             {{item.Title}}

@@ -24,7 +24,7 @@ export class ItemService {
     this._itemSubjectList$.next(this.itemList);
   }
   /**
-   * 取得資料
+   * 取得Item資料
    *
    * @param {(string | undefined)} id
    * @param {number} offset

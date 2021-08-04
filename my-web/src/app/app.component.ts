@@ -19,17 +19,19 @@ export class AppComponent {
   webPageList$: Observable<WebPage[]> = of();
   selectWebPage: WebPage = {};
   itemList$: Observable<Item[]> = of();
-  // itemSubjectList$: BehaviorSubject<Observable<Item[]>> = new BehaviorSubject<Observable<Item[]>>(of());
-
+  offset:number=0;
+  limit:number=10;
   constructor(private webPageService: WebpageService, private itemService: ItemService) { }
   ngOnInit() {
-    this.itemList$=this.itemService.itemSubjectList$;
+    this.itemList$ = this.itemService.itemSubjectList$;
 
     this.webPageList$ = this.webPageService.getPageList().pipe(
       tap(d => {
         this.selectWebPage = d[0];
         this.itemService.resetItems();
-        this.itemService.getItems(this.selectWebPage.ID, 0, 10);
+        this.offset=0;
+        this.limit=10;
+        this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
       }));
     this.items = [
       { label: '首頁', icon: 'pi pi-fw pi-home' },
@@ -37,7 +39,26 @@ export class AppComponent {
     ];
   }
   onChangeWebPage() {
+    this.offset=0;
+    this.limit=10;
     this.itemService.resetItems();
-    this.itemService.getItems(this.selectWebPage.ID, 0, 10);
+    this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
+  }
+  onWindowScroll(event: any) {
+    console.log(event)
+    let scrollHeight = event.target.documentElement.scrollHeight
+    let scrollTop = event.target.documentElement.scrollTop
+    let offsetHeight=event.target.documentElement.offsetHeight
+    console.log(scrollHeight)
+    console.log(scrollTop*2)
+    console.log(offsetHeight)
+
+    console.log('------------------------------')
+    if(scrollTop*2>offsetHeight){
+      console.log("bottom")
+      this.offset=this.offset+this.limit;
+      this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
+
+    }
   }
 }
