@@ -31,7 +31,7 @@ export class AppComponent {
       distinctUntilChanged(),
       tap(d => {
         this.selectWebPage = d[0];
-        this.itemSubjectList$.next(this.itemService.getItems(this.selectWebPage.ID, 0, 10).pipe(map(a => { return a })));
+        this.itemSubjectList$.next(this.itemService.getItems(this.selectWebPage.ID, 0, 10));
       }));
     this.items = [
       { label: '首頁', icon: 'pi pi-fw pi-home' },
@@ -39,6 +39,6 @@ export class AppComponent {
     ];
   }
   onChangeWebPage() {
-    this.itemSubjectList$.next(this.itemService.getItems(this.selectWebPage.ID, 0, 10).pipe(map(a => { return a })));
+    this.itemSubjectList$.next(this.itemService.getItems(this.selectWebPage.ID, 0, 10));
   }
 }
