@@ -4,9 +4,25 @@
   </p-toolbar>
   <div class="flex flex-row">
     <p-menu [model]="items" class="hidden  lg:flex"></p-menu>
-    <div style="width:100%;height: 100vh;padding:'10px 10px 10px 10px';background:yellow">
-      <p-dropdown [options]="(webPageList$ | async)||[]"  optionLabel="Name" [(ngModel)]="selectWebPage" (onChange)="onChangeWebPage()"></p-dropdown>
-<div>{{itemList$|async|json}}</div>
+    <div style="width:100%;padding:'10px 10px 10px 10px';background:yellow">
+      <p-dropdown [options]="(webPageList$ | async)||[]" optionLabel="Name" [(ngModel)]="selectWebPage"
+        (onChange)="onChangeWebPage()"></p-dropdown>
+        <p-divider></p-divider>
+
+      <!-- <div>{{itemList$|async|json}}</div> -->
+      <div *ngFor="let item of itemList$ | async; index as i">
+        <p-card>
+          <ng-template pTemplate="header">
+            {{item.Title}}
+          </ng-template>
+          Body Content
+          <ng-template pTemplate="footer">
+            Footer content here
+          </ng-template>
+        </p-card>
+        <p-divider></p-divider>
+      </div>
+
 
     </div>
   </div>

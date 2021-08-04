@@ -26,8 +26,6 @@ export class AppComponent {
     this.itemList$=this.itemService.itemSubjectList$;
 
     this.webPageList$ = this.webPageService.getPageList().pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
       tap(d => {
         this.selectWebPage = d[0];
         this.itemService.resetItems();

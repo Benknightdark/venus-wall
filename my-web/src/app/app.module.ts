@@ -10,6 +10,8 @@ import {MenuModule} from 'primeng/menu';
 import { HttpClientModule } from '@angular/common/http';
 import {DropdownModule} from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
+import {CardModule} from 'primeng/card';
+import {DividerModule} from 'primeng/divider';
 
 @NgModule({
   declarations: [
@@ -20,12 +22,15 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
     SidebarModule,
     ButtonModule,
     ToolbarModule,
     MenuModule,
     DropdownModule,
-    FormsModule
+    CardModule,
+    DividerModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
