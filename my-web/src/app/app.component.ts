@@ -46,19 +46,13 @@ export class AppComponent {
   }
   onWindowScroll(event: any) {
     console.log(event)
-    let scrollHeight = event.target.documentElement.scrollHeight
     let scrollTop = event.target.documentElement.scrollTop
     let offsetHeight=event.target.documentElement.offsetHeight
-    console.log(scrollHeight)
-    console.log(scrollTop*2)
-    console.log(offsetHeight)
-
     console.log('------------------------------')
     if(scrollTop*2>offsetHeight){
       console.log("bottom")
       this.offset=this.offset+this.limit;
       this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
-
     }
   }
 }

@@ -9,21 +9,17 @@
         (onChange)="onChangeWebPage()"></p-dropdown>
         <p-divider></p-divider>
 
-      <!-- <div>{{itemList$|async|json}}</div> -->
-      <div *ngFor="let item of itemList$ | async; index as i" >
+      <div *ngFor="let item of itemList$ | async; index as i">
         <p-card>
           <ng-template pTemplate="header">
-            {{item.Title}}
+            <img alt="Card" [src]="item.Avator">
           </ng-template>
-          Body Content
           <ng-template pTemplate="footer">
-            Footer content here
+            {{item.Title}}
           </ng-template>
         </p-card>
         <p-divider></p-divider>
       </div>
-
-
     </div>
   </div>
 </div>
