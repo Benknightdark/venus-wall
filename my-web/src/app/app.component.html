@@ -7,18 +7,18 @@
     <div style="width:100%;padding:'10px 10px 10px 10px';background:yellow">
       <p-dropdown [options]="(webPageList$ | async)||[]" optionLabel="Name" [(ngModel)]="selectWebPage"
         (onChange)="onChangeWebPage()"></p-dropdown>
-        <p-divider></p-divider>
-
-      <div *ngFor="let item of itemList$ | async; index as i">
-        <p-card>
-          <ng-template pTemplate="header">
-            <img alt="Card" [src]="item.Avator">
-          </ng-template>
-          <ng-template pTemplate="footer">
-            {{item.Title}}
-          </ng-template>
-        </p-card>
-        <p-divider></p-divider>
+      <p-divider></p-divider>
+      <div class="flex flex-column md:flex-row md:flex-wrap flex justify-content-center">
+        <div *ngFor="let item of itemList$ | async; index as i">
+          <p-card class="flex  m-2  align-items-center justify-content-center">
+            <ng-template pTemplate="header">
+              <img alt="Card" [src]="item.Avator">
+            </ng-template>
+            <ng-template pTemplate="footer">
+              {{item.Title}}
+            </ng-template>
+          </p-card>
+        </div>
       </div>
     </div>
   </div>
