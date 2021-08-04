@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Item } from '../models/data.model';
 
@@ -7,9 +8,19 @@ import { Item } from '../models/data.model';
   providedIn: 'root'
 })
 export class ItemService {
+  private itemList: Item[] = [];
+  private _itemSubjectList$: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
+  readonly itemSubjectList$ = this._itemSubjectList$.asObservable();
 
   constructor(private http: HttpClient) { }
-  getItems(id: string|undefined, offset: number, limit: number) {
-    return this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}`)
+  resetItems(){
+    this.itemList=[];
+    this._itemSubjectList$.next(this.itemList);
+  }
+  getItems(id: string | undefined, offset: number, limit: number) {
+    this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}`).subscribe(data => {
+      this.itemList=[...this.itemList, ...data]
+      this._itemSubjectList$.next(this.itemList);
+    }, error => console.log(error));
   }
 }
