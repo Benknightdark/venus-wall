@@ -19,8 +19,8 @@ export class AppComponent {
   webPageList$: Observable<WebPage[]> = of();
   selectWebPage: WebPage = {};
   itemList$: Observable<Item[]> = of();
-  offset:number=0;
-  limit:number=10;
+  offset: number = 0;
+  limit: number = 10;
   constructor(private webPageService: WebpageService, private itemService: ItemService) { }
   ngOnInit() {
     this.itemList$ = this.itemService.itemSubjectList$;
@@ -29,8 +29,8 @@ export class AppComponent {
       tap(d => {
         this.selectWebPage = d[0];
         this.itemService.resetItems();
-        this.offset=0;
-        this.limit=10;
+        this.offset = 0;
+        this.limit = 10;
         this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
       }));
     this.items = [
@@ -39,19 +39,15 @@ export class AppComponent {
     ];
   }
   onChangeWebPage() {
-    this.offset=0;
-    this.limit=10;
+    this.offset = 0;
+    this.limit = 10;
     this.itemService.resetItems();
     this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
   }
   onWindowScroll(event: any) {
-    console.log(event)
-    let scrollTop = event.target.documentElement.scrollTop
-    let offsetHeight=event.target.documentElement.offsetHeight
-    console.log('------------------------------')
-    if(scrollTop*2>offsetHeight){
-      console.log("bottom")
-      this.offset=this.offset+this.limit;
+    if (event.target.documentElement.scrollHeight - event.target.documentElement.scrollTop === event.target.documentElement.clientHeight) {
+      console.log('scrolled');
+      this.offset = this.offset + this.limit;
       this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
     }
   }
