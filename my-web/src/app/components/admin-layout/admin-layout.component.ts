@@ -13,7 +13,7 @@ export class AdminLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.items = [
-      { label: '首頁', icon: 'pi pi-fw pi-home' },
+      { label: '首頁', icon: 'pi pi-fw pi-home',routerLink:["/dashboard"] },
       { label: '管理', icon: 'pi pi-fw pi-cog' },
     ];
   }
