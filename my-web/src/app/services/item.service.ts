@@ -14,6 +14,7 @@ export class ItemService {
   readonly itemSubjectList$ = this._itemSubjectList$.asObservable();
 
   constructor(private http: HttpClient) { }
+
   /**
    * 重設Item資料
    *
@@ -23,15 +24,16 @@ export class ItemService {
     this.itemList = [];
     this._itemSubjectList$.next(this.itemList);
   }
+
   /**
    * 取得Item資料
    *
    * @param {(string | undefined)} id
-   * @param {number} offset
-   * @param {number} limit
+   * @param {number} [offset=0]
+   * @param {number} [limit=10]
    * @memberof ItemService
    */
-  getItems(id: string | undefined, offset: number, limit: number) {
+  getItems(id: string | undefined, offset: number = 0, limit: number = 10) {
     this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}`)
       .pipe(
         debounceTime(300),

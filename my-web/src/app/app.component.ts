@@ -16,8 +16,6 @@ export class AppComponent {
   display: boolean = true;
   webPageList$: Observable<WebPage[]> = of();
   selectWebPage: WebPage = {};
-  offset: number = 0;
-  limit: number = 10;
   constructor(private webPageService: WebpageService, private itemService: ItemService
     ) { }
   ngOnInit() {
@@ -25,18 +23,12 @@ export class AppComponent {
       tap(d => {
         this.selectWebPage = d[0];
         this.webPageService.setSelectPage(this.selectWebPage.ID)
-        this.itemService.resetItems();
-        this.offset = 0;
-        this.limit = 10;
-        this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
       }));
   }
   onChangeWebPage() {
-    this.offset = 0;
-    this.limit = 10;
     this.itemService.resetItems();
     this.webPageService.setSelectPage(this.selectWebPage.ID);
-    this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
+    this.itemService.getItems(this.selectWebPage.ID);
   }
 
 }
