@@ -8,13 +8,27 @@ import { WebPage } from '../models/data.model';
   providedIn: 'root'
 })
 export class WebpageService {
-  private _webPageIDSubject$: BehaviorSubject<string| undefined> = new BehaviorSubject<string| undefined>("");
+  private _webPageIDSubject$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>("");
   readonly webPageIDSubject$ = this._webPageIDSubject$.asObservable();
   constructor(private http: HttpClient) { }
-  getPageList(){
-  return this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`)
+
+  /**
+   * 取得WebPage資料
+   *
+   * @return {*}
+   * @memberof WebpageService
+   */
+  getPageList() {
+    return this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`)
   }
-  setSelectPage(newData:string | undefined){
+
+/**
+ * 取得被選取的WebPage
+ *
+ * @param {(string | undefined)} newData
+ * @memberof WebpageService
+ */
+setSelectPage(newData: string | undefined) {
     this._webPageIDSubject$.next(newData);
   }
 }
