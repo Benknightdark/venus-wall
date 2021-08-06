@@ -4,7 +4,10 @@
     <p-dropdown class="flex" [options]="(webPageList$ | async)||[]" optionLabel="Name" [(ngModel)]="selectWebPage"
       (onChange)="onChangeWebPage()"></p-dropdown>
   </p-toolbar>
-  <div class="flex flex-column 	  xl:flex-row x1:align-items-center x1:justify-content-between	">
+  <div class="flex flex-column
+  xl:flex-row
+  x1:align-items-center
+  x1:justify-content-between	">
     <p-menu [model]="items" class="hidden  xl:flex"></p-menu>
     <div class="
     flex
