@@ -17,6 +17,7 @@ import { AdminLayoutComponent } from './components/admin-layout/admin-layout.com
 import { WebPageComponent } from './components/web-page/web-page.component';
 import { ItemComponent } from './components/item/item.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MenuModule,
     DropdownModule,
     CardModule,
-    DividerModule
+    DividerModule,
+    TableModule
 
   ],
   providers: [],
