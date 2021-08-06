@@ -19,7 +19,7 @@
     overflow-auto" style="height:1200px" (scroll)="onWindowScroll($event)">
       <div *ngFor="let item of itemList$ | async; index as i"
         class="scalein animation-duration-500 animation-iteration-1">
-        <p-card class="flex     flex-1
+        <p-card class="flex     flex-1 md:align-self-auto align-self-center
         m-2  align-items-center justify-content-center cursor-pointer max-w-full">
           <ng-template pTemplate="header">
             <img alt="Card" [src]="item.Avator">
