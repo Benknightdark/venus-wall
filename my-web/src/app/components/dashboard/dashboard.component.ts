@@ -14,38 +14,30 @@ export class DashboardComponent implements OnInit {
   title = '女神牆';
   display: boolean = true;
   webPageList$: Observable<WebPage[]> = of();
-  selectWebPage: WebPage = {};
+  selectWebPageId: string | undefined = "";
   itemList$: Observable<Item[]> = of();
   offset: number = 0;
   limit: number = 10;
   constructor(private webPageService: WebpageService, private itemService: ItemService
-    ) { }
+  ) { }
   ngOnInit() {
     this.itemList$ = this.itemService.itemSubjectList$;
-
-    this.webPageList$ = this.webPageService.getPageList().pipe(
-      tap(d => {
-        this.selectWebPage = d[0];
-        this.itemService.resetItems();
-        this.offset = 0;
-        this.limit = 10;
-        this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
-      }));
-
+    this.webPageService.webPageIDSubject$.subscribe(id => {
+      this.selectWebPageId = id;
+      this.itemService.resetItems();
+      this.offset = 0;
+      this.limit = 10;
+      this.itemService.getItems(this.selectWebPageId, this.offset, this.limit);
+    })
   }
-  onChangeWebPage() {
-    this.offset = 0;
-    this.limit = 10;
-    this.itemService.resetItems();
-    this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
-  }
-  onOpenWebSite(url:string){
+
+  onOpenWebSite(url: string) {
     window.open(url);
   }
   onWindowScroll(event: any) {
     if (event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight) {
       this.offset = this.offset + this.limit;
-      this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
+      this.itemService.getItems(this.selectWebPageId, this.offset, this.limit);
     }
   }
 
