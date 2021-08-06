@@ -42,7 +42,6 @@ import {TableModule} from 'primeng/table';
     CardModule,
     DividerModule,
     TableModule
-
   ],
   providers: [],
   bootstrap: [AppComponent]

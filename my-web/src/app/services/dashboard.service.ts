@@ -1,18 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { Item } from '../models/data.model';
+import { environment } from 'src/environments/environment';
+import { Item, WebPage } from '../models/data.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemService {
+export class DashboardService {
   private itemList: Item[] = [];
   private _itemSubjectList$: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
   readonly itemSubjectList$ = this._itemSubjectList$.asObservable();
-
+  private _webPageIDSubject$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>("");
+  readonly webPageIDSubject$ = this._webPageIDSubject$.asObservable();
   constructor(private http: HttpClient) { }
 
   /**
@@ -42,5 +43,24 @@ export class ItemService {
         this.itemList = [...this.itemList, ...data]
         this._itemSubjectList$.next(this.itemList);
       }, error => console.log(error));
+  }
+  /**
+* 取得WebPage資料
+*
+* @return {*}
+* @memberof WebpageService
+*/
+  getPageList() {
+    return this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`)
+  }
+
+  /**
+   * 設定被選取的WebPage
+   *
+   * @param {(string | undefined)} newData
+   * @memberof WebpageService
+   */
+  setSelectPage(newData: string | undefined) {
+    this._webPageIDSubject$.next(newData);
   }
 }

@@ -1,10 +1,9 @@
-import { Component, HostListener } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { combineAll, debounceTime, distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
-import { Item, WebPage } from './models/data.model';
-import { WebpageService } from './services/webpage.service';
-import { ItemService } from './services/item.service';
+import { Component } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { WebPage } from './models/data.model';
+import { DashboardService } from './services/dashboard.service';
+
 
 @Component({
   selector: 'app-root',
@@ -16,19 +15,19 @@ export class AppComponent {
   display: boolean = true;
   webPageList$: Observable<WebPage[]> = of();
   selectWebPage: WebPage = {};
-  constructor(private webPageService: WebpageService, private itemService: ItemService
-    ) { }
+  constructor(private dashBoardService: DashboardService
+  ) { }
   ngOnInit() {
-    this.webPageList$ = this.webPageService.getPageList().pipe(
+    this.webPageList$ = this.dashBoardService.getPageList().pipe(
       tap(d => {
         this.selectWebPage = d[0];
-        this.webPageService.setSelectPage(this.selectWebPage.ID)
+        this.dashBoardService.setSelectPage(this.selectWebPage.ID)
       }));
   }
   onChangeWebPage() {
-    this.itemService.resetItems();
-    this.webPageService.setSelectPage(this.selectWebPage.ID);
-    this.itemService.getItems(this.selectWebPage.ID);
+    this.dashBoardService.resetItems();
+    this.dashBoardService.setSelectPage(this.selectWebPage.ID);
+    this.dashBoardService.getItems(this.selectWebPage.ID);
   }
 
 }
