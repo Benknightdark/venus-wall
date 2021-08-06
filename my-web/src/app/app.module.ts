@@ -12,6 +12,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import {CardModule} from 'primeng/card';
 import {DividerModule} from 'primeng/divider';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {DividerModule} from 'primeng/divider';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    ScrollingModule,
     SidebarModule,
     ButtonModule,
     ToolbarModule,
