@@ -49,9 +49,7 @@ export class AppComponent {
     this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
   }
   onWindowScroll(event: any) {
-    console.log(event)
-    if (event.target.documentElement.scrollHeight - event.target.documentElement.scrollTop === event.target.documentElement.clientHeight) {
-      console.log('scrolled');
+    if (event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight) {
       this.offset = this.offset + this.limit;
       this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
     }

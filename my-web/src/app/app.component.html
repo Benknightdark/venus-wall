@@ -6,22 +6,26 @@
   </p-toolbar>
   <div class="flex flex-row">
     <p-menu [model]="items" class="hidden  lg:flex"></p-menu>
-    <div style="width:100%;padding:'10px 10px 10px 10px';z-index:1">
-      <div class="flex flex-column md:flex-row md:flex-wrap flex justify-content-center"
-        style="overflow-y: scroll!important; height:1200px"  (scroll)="onWindowScroll($event)" >
-          <div *ngFor="let item of itemList$ | async; index as i"
-            class="scalein animation-duration-500 animation-iteration-1">
-            <p-card class="flex  m-2  align-items-center justify-content-center cursor-pointer">
-              <ng-template pTemplate="header">
-                <img alt="Card" [src]="item.Avator">
-              </ng-template>
-              {{item.Title}}
-              <ng-template pTemplate="footer">
-              </ng-template>
-            </p-card>
-          </div>
+    <div class="
+    flex
+    flex-column
+    lg:flex-row
+    lg:flex-wrap
+    lg:justify-content-start
+    lg:align-items-center
+    overflow-auto mt-7 p-3"
+      style="height:1200px" (scroll)="onWindowScroll($event)">
+      <div *ngFor="let item of itemList$ | async; index as i"
+        class="scalein animation-duration-500 animation-iteration-1">
+        <p-card class="flex  m-1  align-items-center justify-content-center cursor-pointer max-w-full">
+          <ng-template pTemplate="header">
+            <img alt="Card" [src]="item.Avator">
+          </ng-template>
+          {{item.Title}}
+          <ng-template pTemplate="footer">
+          </ng-template>
+        </p-card>
       </div>
     </div>
   </div>
 </div>
-<!--  (window:scroll)="onWindowScroll($event)" -->
