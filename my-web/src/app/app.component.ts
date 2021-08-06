@@ -1,12 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { combineAll, concat, debounceTime, distinctUntilChanged, flatMap, map, merge, mergeMap, tap } from 'rxjs/operators';
-
+import { combineAll, debounceTime, distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
 import { Item, WebPage } from './models/data.model';
 import { WebpageService } from './services/webpage.service';
 import { ItemService } from './services/item.service';
-import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +12,7 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'my-web';
+  title = '女神牆';
   display: boolean = true;
   items: MenuItem[] = [];
   webPageList$: Observable<WebPage[]> = of();
@@ -22,11 +20,9 @@ export class AppComponent {
   itemList$: Observable<Item[]> = of();
   offset: number = 0;
   limit: number = 10;
-  constructor(private webPageService: WebpageService, private itemService: ItemService,
-    private scrollDispatcher: ScrollDispatcher
+  constructor(private webPageService: WebpageService, private itemService: ItemService
     ) { }
   ngOnInit() {
-    this.scrollDispatcher.scrolled().subscribe(x => console.log('I am scrolling'));
     this.itemList$ = this.itemService.itemSubjectList$;
 
     this.webPageList$ = this.webPageService.getPageList().pipe(
