@@ -25,9 +25,7 @@ export class DashboardComponent implements OnInit {
     this.webPageService.webPageIDSubject$.subscribe(id => {
       this.selectWebPageId = id;
       this.itemService.resetItems();
-      this.offset = 0;
-      this.limit = 10;
-      this.itemService.getItems(this.selectWebPageId, this.offset, this.limit);
+      this.itemService.getItems(this.selectWebPageId);
     })
   }
 

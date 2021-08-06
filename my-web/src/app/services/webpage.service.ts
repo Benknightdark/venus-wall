@@ -23,7 +23,7 @@ export class WebpageService {
   }
 
 /**
- * 取得被選取的WebPage
+ * 設定被選取的WebPage
  *
  * @param {(string | undefined)} newData
  * @memberof WebpageService
