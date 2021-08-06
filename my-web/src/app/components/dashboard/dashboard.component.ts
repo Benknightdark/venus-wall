@@ -1,17 +1,16 @@
-import { Component, HostListener } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { combineAll, debounceTime, distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
-import { Item, WebPage } from './models/data.model';
-import { WebpageService } from './services/webpage.service';
-import { ItemService } from './services/item.service';
+import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { WebPage, Item } from '../../models/data.model';
+import { ItemService } from '../../services/item.service';
+import { WebpageService } from '../../services/webpage.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class AppComponent {
+export class DashboardComponent implements OnInit {
   title = '女神牆';
   display: boolean = true;
   webPageList$: Observable<WebPage[]> = of();
@@ -49,4 +48,5 @@ export class AppComponent {
       this.itemService.getItems(this.selectWebPage.ID, this.offset, this.limit);
     }
   }
+
 }

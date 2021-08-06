@@ -1,34 +1,12 @@
+
 <div class="flex flex-column flex-wrap overflow-hidden">
   <p-toolbar>
     <span>女神牆</span>
-    <p-dropdown class="flex" [options]="(webPageList$ | async)||[]" optionLabel="Name" [(ngModel)]="selectWebPage"
-      (onChange)="onChangeWebPage()"></p-dropdown>
-  </p-toolbar>
-  <div class="flex flex-column
-  xl:flex-row
-  x1:align-items-center
-  x1:justify-content-between	">
-    <p-menu [model]="items" class="hidden  xl:flex"></p-menu>
-    <div class="
-    flex
-    flex-column
-    lg:flex-row
-    lg:flex-wrap
-    lg:justify-content-center
-    lg:align-items-center
-    overflow-auto" style="height:1200px" (scroll)="onWindowScroll($event)">
-      <div *ngFor="let item of itemList$ | async; index as i"
-        class="scalein animation-duration-500 animation-iteration-1">
-        <p-card class="flex     flex-1 md:align-self-auto align-self-center
-        m-2  align-items-center justify-content-center cursor-pointer max-w-full">
-          <ng-template pTemplate="header">
-            <img alt="Card" [src]="item.Avator">
-          </ng-template>
-          {{item.Title}}
-          <ng-template pTemplate="footer">
-          </ng-template>
-        </p-card>
-      </div>
-    </div>
+    <div class="p-toolbar-group-right">
+      <a [routerLink]="['/admin']" routerLinkActive="router-link-active"  pButton icon="pi pi-cog"></a>
+      <p-dropdown class="flex" [options]="(webPageList$ | async)||[]" optionLabel="Name" [(ngModel)]="selectWebPage"
+        (onChange)="onChangeWebPage()"></p-dropdown>
   </div>
+  </p-toolbar>
+  <router-outlet></router-outlet>
 </div>

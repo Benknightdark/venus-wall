@@ -13,10 +13,18 @@ import { FormsModule } from '@angular/forms';
 import {CardModule} from 'primeng/card';
 import {DividerModule} from 'primeng/divider';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
+import { WebPageComponent } from './components/web-page/web-page.component';
+import { ItemComponent } from './components/item/item.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AdminLayoutComponent,
+    WebPageComponent,
+    ItemComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
