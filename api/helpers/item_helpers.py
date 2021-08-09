@@ -8,7 +8,7 @@ from models.models import WebPage
 from typing import Optional
 from sqlalchemy.orm.session import Session
 from models import models
-
+logging.basicConfig(level=logging.INFO)
 
 class ItemHandler:
     '''
