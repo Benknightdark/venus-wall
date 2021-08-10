@@ -11,7 +11,7 @@ import { WebPageService } from '../../services/web-page.service';
 })
 export class ForumComponent implements OnInit {
   itemList$: Observable<Forum[]> = of();
-  webPageList$: Observable<WebPage[]> = of();
+  webPageList$: Observable<{ [name: string]: WebPage[] } > = of();
   expanded: Boolean = false;
   constructor(private forumService: ForumService,private webPageService:WebPageService) { }
 

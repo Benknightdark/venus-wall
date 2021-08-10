@@ -1,25 +1,44 @@
-<p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines">
+<p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="600px">
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 3rem"></th>
-      <th>Name</th>
-      <th>CreatedTime</th>
+      <th>論壇</th>
+      <th>建立時間</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-item>
     <tr>
-      <td>
+      <td style="width: 3rem">
         <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain"
-          [icon]="item.Expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-          (click)="onGetDetail(item)"></button>
+          [icon]="item.Expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" (click)="onGetDetail(item)"></button>
       </td>
       <td>{{item.Name}}</td>
       <td>{{item.CreatedTime| date:'YYYY/MM/dd HH:mm:ss'}}</td>
     </tr>
-
-    <div *ngIf="item.Expanded" class="p-p-3">
-     {{webPageList$|async|json}}
-    </div>
+    <tr *ngIf="item.Expanded">
+      <td colspan="3">
+        <div class="p-p-3">
+          <p-table [value]="(webPageList$|async)![item!.ID!.toUpperCase()]||[]" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3rem"></th>
+      <th>看板</th>
+      <th>看板連結</th>
+    </tr>
   </ng-template>
+  <ng-template pTemplate="body" let-webPage>
+    <tr>
+      <td>
+      </td>
+      <td>{{webPage.Name}}</td>
+      <td><a [href]="webPage.Url" pButton pRipple class="p-button-help" target='_blank'>開啟連結</a></td>
+    </tr>
+  </ng-template>
+</p-table>
+</div>
+</td>
+</tr>
+</ng-template>
+
 
 </p-table>

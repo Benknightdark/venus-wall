@@ -1,11 +1,9 @@
-
 <div class="flex flex-column
 xl:flex-row
 x1:align-items-center
 x1:justify-content-between	">
   <p-menu [model]="items" class="hidden  xl:flex "></p-menu>
-  <div class='flex align-items-start justify-content-center font-bold text-blue-500 m-2  overflow-auto' style="height:800px">
-    <router-outlet></router-outlet>
+  <div class='m-2'>
+    <router-outlet class='flex align-items-start justify-content-center   overflow-y-auto max-h-screen'></router-outlet>
   </div>
 </div>
-
