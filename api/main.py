@@ -1,4 +1,4 @@
-from routers import webpage, item, user, image
+from routers import forum, webpage, item, user, image
 from fastapi import FastAPI, Request, Response
 from models import models, base
 from fastapi.middleware.cors import CORSMiddleware
@@ -34,5 +34,5 @@ async def db_session_middleware(request: Request, call_next):
 app.include_router(webpage.router, prefix="/api")
 app.include_router(item.router, prefix="/api")
 app.include_router(image.router, prefix="/api")
-
 app.include_router(user.router, prefix="/api")
+app.include_router(forum.router, prefix="/api")

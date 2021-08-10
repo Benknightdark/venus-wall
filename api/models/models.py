@@ -72,7 +72,7 @@ class Forum(base.Base):
     # ForeignKey
 
     # collections
-    WebPage = relationship("WebPage", back_populates="WebPageForumID_U")
+    WebPage = relationship("WebPage", back_populates="WebPageForumID_U")#,order_by="WebPage.Seq"
 
 
 class WebPage(base.Base):

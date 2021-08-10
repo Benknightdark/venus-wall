@@ -18,6 +18,7 @@ import { WebPageComponent } from './components/web-page/web-page.component';
 import { ItemComponent } from './components/item/item.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {TableModule} from 'primeng/table';
+import { ForumComponent } from './components/forum/forum.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {TableModule} from 'primeng/table';
     AdminLayoutComponent,
     WebPageComponent,
     ItemComponent,
-    DashboardComponent
+    DashboardComponent,
+    ForumComponent
   ],
   imports: [
     BrowserModule,
