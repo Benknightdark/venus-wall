@@ -10,6 +10,7 @@ export class WebPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

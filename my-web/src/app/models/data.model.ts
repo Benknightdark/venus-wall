@@ -27,3 +27,10 @@ export interface Item {
 
   WebPageID?: string
 }
+
+export interface Forum {
+  CreatedTime?: string;
+  Name?: string;
+  ID?: string;
+  Expanded?:Boolean;
+}

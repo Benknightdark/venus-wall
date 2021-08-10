@@ -1,3 +1,4 @@
+from sqlalchemy.sql.expression import select
 from starlette.background import BackgroundTasks
 from dependencies import get_db
 from fastapi.params import Depends
@@ -10,8 +11,5 @@ router = APIRouter()
 
 @router.get("/forum", description="取得論壇資料")
 async def get_item_by_web_page_id(db: Session = Depends(get_db)):
-
-
-    data = db.query(models.WebPage).order_by(models.WebPage.Seq).as_scalar()
-    #db.query(models.Forum).options(selectinload(models.Forum.WebPage)).all()
+    data = db.query(models.Forum).all()
     return  data

@@ -3,7 +3,9 @@
 xl:flex-row
 x1:align-items-center
 x1:justify-content-between	">
-  <p-menu [model]="items" class="hidden  xl:flex"></p-menu>
-  <router-outlet></router-outlet>
+  <p-menu [model]="items" class="hidden  xl:flex "></p-menu>
+  <div class='flex align-items-start justify-content-center font-bold text-blue-500 m-2  overflow-auto' style="height:800px">
+    <router-outlet></router-outlet>
+  </div>
 </div>
 
