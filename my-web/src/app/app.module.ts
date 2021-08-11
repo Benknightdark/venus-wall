@@ -18,7 +18,10 @@ import { ItemComponent } from './components/item/item.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {TableModule} from 'primeng/table';
 import { ForumComponent } from './components/forum/forum.component';
-import { ImageComponent } from './components/image/image.component';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
+import {DialogModule} from 'primeng/dialog';
+import {PaginatorModule} from 'primeng/paginator';
 
 @NgModule({
   declarations: [
@@ -26,8 +29,7 @@ import { ImageComponent } from './components/image/image.component';
     AdminLayoutComponent,
     ItemComponent,
     DashboardComponent,
-    ForumComponent,
-    ImageComponent
+    ForumComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,11 @@ import { ImageComponent } from './components/image/image.component';
     DropdownModule,
     CardModule,
     DividerModule,
-    TableModule
+    TableModule,
+    SplitButtonModule,
+    ScrollPanelModule,
+    DialogModule,
+    PaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

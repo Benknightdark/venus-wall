@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForumComponent } from './components/forum/forum.component';
-import { ImageComponent } from './components/image/image.component';
 import { ItemComponent } from './components/item/item.component';
 
 const routes: Routes = [
@@ -14,7 +13,6 @@ const routes: Routes = [
   {
     path: 'admin', component: AdminLayoutComponent, children: [
       { path: 'item/:id', component: ItemComponent },
-      { path: 'image/:id', component: ImageComponent },
       { path: 'forum', component: ForumComponent },
       {
         path: '',
