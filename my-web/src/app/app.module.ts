@@ -14,20 +14,20 @@ import {CardModule} from 'primeng/card';
 import {DividerModule} from 'primeng/divider';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
-import { WebPageComponent } from './components/web-page/web-page.component';
 import { ItemComponent } from './components/item/item.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {TableModule} from 'primeng/table';
 import { ForumComponent } from './components/forum/forum.component';
+import { ImageComponent } from './components/image/image.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    WebPageComponent,
     ItemComponent,
     DashboardComponent,
-    ForumComponent
+    ForumComponent,
+    ImageComponent
   ],
   imports: [
     BrowserModule,
