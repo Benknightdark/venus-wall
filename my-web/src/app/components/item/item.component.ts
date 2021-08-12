@@ -4,7 +4,6 @@ import { ItemService } from '../../services/item.service';
 import { Observable, of } from 'rxjs';
 import { Item } from '../../models/data.model';
 import { MenuItem } from 'primeng/api';
-import { Dialog } from 'primeng/dialog';
 
 @Component({
   selector: 'app-item',
@@ -45,4 +44,5 @@ export class ItemComponent implements OnInit {
   paginate(event:any){
   this.itemService.getItems( this.route.snapshot.params.id,event.page,this.limit);
   }
+
 }

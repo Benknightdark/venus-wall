@@ -21,7 +21,7 @@
           <p-table [value]="(webPageList$|async)![item!.ID!.toUpperCase()]||[]" styleClass="p-datatable-gridlines">
             <ng-template pTemplate="header">
     <tr>
-      <th style="width: 5rem">
+      <th style="width: 8rem">
       </th>
       <th>看板</th>
       <th>看板連結</th>
@@ -33,8 +33,8 @@
         <span class="p-buttonset">
           <a [routerLink]="['/admin/item',webPage.ID]" pButton pRipple class="p-button-rounded p-button-plain"
             icon="pi pi-search"></a>
-          <button pButton type="button" class="p-button-success" icon="pi pi-cloud-download"
-            (click)="onExecuteDownload(webPage)"></button>
+          <button pButton type="button" class="p-button-rounded p-button-success" icon="pi pi-cloud-download"
+            (click)="onOpenExecuteCrawlerModal(webPage)"></button>
         </span>
 
       </td>
@@ -52,24 +52,41 @@
 </p-table>
 
 
-<p-dialog header="執行爬蟲" [(visible)]="display" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}"
-  [draggable]="false" [resizable]="false" [maximizable]='true' #imageDialog>
-  <div class="p-grid p-fluid">
+<p-dialog [header]="selectedWebPage.Name!" [(visible)]="display" [breakpoints]="{'960px': '75vw'}"
+  [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [maximizable]='true'>
+  <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
 
-  <div class="p-grid p-fluid">
-    <div class="p-field p-col-12 p-md-3">
-      <label for="integeronly">開始頁數</label>
-      <p-inputNumber inputId="integeronly">
-      </p-inputNumber>
+    <div class="p-grid p-fluid">
+      <div class="p-grid p-fluid">
+        <div class="p-field p-col-12 p-md-3">
+          <label for="startPage">開始頁數</label>
+          <p-inputNumber #startPage [showButtons]="true" buttonLayout="horizontal" inputId="startPage" name="startPage"
+            [(ngModel)]="startPageNumber" spinnerMode="horizontal" [step]="1"
+            [inputStyleClass]="startPage.value<0?'ng-invalid ng-dirty':''" [required]='true'
+            decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+            incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" minlength="0">
+          </p-inputNumber>
+          <div *ngIf="startPageNumber<0" class="alert alert-danger">
+            數值需大於等於0
+          </div>
+        </div>
+        <div class="p-field p-col-12 p-md-3">
+          <label for="endPage">結束頁數</label>
+          <p-inputNumber [(ngModel)]="endPageNumber" #endPage [showButtons]="true" buttonLayout="horizontal"
+            inputId="endPage" spinnerMode="horizontal" name="endPage"
+            [inputStyleClass]="endPage.value<0?'ng-invalid ng-dirty':''" [required]='true' [step]="1"
+            decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+            incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" minlength="0">
+          </p-inputNumber>
+          <div *ngIf="endPageNumber<0" class="alert alert-danger">
+            數值需大於等於0
+          </div>
+        </div>
+        <div class="p-field p-col-12 p-md-3">
+          <p-button [disabled]="!heroForm.form.valid" type="submit" label="執行爬蟲工作" styleClass="p-button-text">
+          </p-button>
+        </div>
+      </div>
     </div>
-    <div class="p-field p-col-12 p-md-3">
-      <label for="integeronly">結束頁數</label>
-      <p-inputNumber inputId="integeronly">
-      </p-inputNumber>
-    </div>
-  </div>
-</div>
-  <ng-template pTemplate="footer">
-    <p-button (click)="display=false" label="開始執行" styleClass="p-button-text"></p-button>
-  </ng-template>
+  </form>
 </p-dialog>
