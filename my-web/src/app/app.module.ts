@@ -24,6 +24,7 @@ import {DialogModule} from 'primeng/dialog';
 import {PaginatorModule} from 'primeng/paginator';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {ToastModule} from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {ToastModule} from 'primeng/toast';
     InputNumberModule,
     ToastModule
   ],
-  providers: [],
+  providers: [  MessageService
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

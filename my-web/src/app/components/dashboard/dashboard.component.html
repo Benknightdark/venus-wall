@@ -1,3 +1,21 @@
+<div class="grid overflow-auto" style="height:100vh" (scroll)="onWindowScroll($event)">
+  <div *ngFor="let item of itemList$ | async; index as i" class="scalein animation-duration-500 animation-iteration-1"
+    class="col-12 md:col-6 lg:col-3">
+    <p-card [header]="item.Title||''" class="flex flex-1 md:align-self-auto align-self-center
+  m-2  align-items-center justify-content-center cursor-pointer max-w-full" (click)="onOpenWebSite(item.Url||'')">
+      <ng-template pTemplate="header">
+        <img alt="Card" [src]="item.Avator">
+      </ng-template>
+      <ng-template pTemplate="footer">
+      </ng-template>
+    </p-card>
+  </div>
+</div>
+
+
+
+
+<!--
   <div class="
   flex
   flex-column
@@ -19,5 +37,4 @@
         </ng-template>
       </p-card>
     </div>
-  </div>
-
+  </div> -->

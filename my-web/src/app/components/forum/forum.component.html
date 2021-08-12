@@ -1,4 +1,6 @@
-<p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="600px">
+<p-toast></p-toast>
+
+<p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="600px"  style="height:100vh">
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 5rem"></th>
