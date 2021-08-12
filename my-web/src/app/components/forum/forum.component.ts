@@ -13,6 +13,7 @@ export class ForumComponent implements OnInit {
   itemList$: Observable<Forum[]> = of();
   webPageList$: Observable<{ [name: string]: WebPage[] } > = of();
   expanded: Boolean = false;
+  display:Boolean=false;
   constructor(private forumService: ForumService,private webPageService:WebPageService) { }
 
   ngOnInit(): void {
@@ -24,5 +25,8 @@ export class ForumComponent implements OnInit {
     if(item.Expanded){
       this.webPageService.getItemByForumID(item.ID);
     }
+  }
+  onExecuteDownload(webPageData:WebPage){
+    this.display=true;
   }
 }

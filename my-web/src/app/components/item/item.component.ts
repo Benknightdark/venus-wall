@@ -14,7 +14,7 @@ import { Dialog } from 'primeng/dialog';
 export class ItemComponent implements OnInit {
   offset?: number=0;
   limit?: number=10;
-  itemList$:Observable<Item[]> = of();
+  itemList$:Observable<{totalDataCount?:number,data?:Item[]}> = of();
   buttonItems: MenuItem[]=[];
   selectedItem:Item={};
   display: boolean = false;
@@ -43,8 +43,6 @@ export class ItemComponent implements OnInit {
     this.selectedItem=itemData;
   }
   paginate(event:any){
-  console.log(event)
   this.itemService.getItems( this.route.snapshot.params.id,event.page,this.limit);
-
   }
 }

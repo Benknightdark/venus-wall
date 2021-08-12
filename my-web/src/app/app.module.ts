@@ -22,6 +22,7 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {DialogModule} from 'primeng/dialog';
 import {PaginatorModule} from 'primeng/paginator';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {PaginatorModule} from 'primeng/paginator';
     SplitButtonModule,
     ScrollPanelModule,
     DialogModule,
-    PaginatorModule
+    PaginatorModule,
+    InputNumberModule
   ],
   providers: [],
   bootstrap: [AppComponent]

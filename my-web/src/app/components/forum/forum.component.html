@@ -30,10 +30,13 @@
   <ng-template pTemplate="body" let-webPage>
     <tr>
       <td>
-        <a [routerLink]="['/admin/item',webPage.ID]" pButton pRipple
-        class="p-button-rounded p-button-plain"
-        icon="pi pi-search"
-        ></a>
+        <span class="p-buttonset">
+          <a [routerLink]="['/admin/item',webPage.ID]" pButton pRipple class="p-button-rounded p-button-plain"
+            icon="pi pi-search"></a>
+          <button pButton type="button" class="p-button-success" icon="pi pi-cloud-download"
+            (click)="onExecuteDownload(webPage)"></button>
+        </span>
+
       </td>
       <td>{{webPage.Name}}</td>
       <td><a [href]="webPage.Url" pButton pRipple class="p-button-help" target='_blank'>開啟連結</a></td>
@@ -47,3 +50,26 @@
 
 
 </p-table>
+
+
+<p-dialog header="執行爬蟲" [(visible)]="display" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}"
+  [draggable]="false" [resizable]="false" [maximizable]='true' #imageDialog>
+  <div class="p-grid p-fluid">
+
+  <div class="p-grid p-fluid">
+    <div class="p-field p-col-12 p-md-3">
+      <label for="integeronly">開始頁數</label>
+      <p-inputNumber inputId="integeronly">
+      </p-inputNumber>
+    </div>
+    <div class="p-field p-col-12 p-md-3">
+      <label for="integeronly">結束頁數</label>
+      <p-inputNumber inputId="integeronly">
+      </p-inputNumber>
+    </div>
+  </div>
+</div>
+  <ng-template pTemplate="footer">
+    <p-button (click)="display=false" label="開始執行" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

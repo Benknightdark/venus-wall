@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
   }
   onWindowScroll(event: any) {
     if (event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight) {
-      this.offset = this.offset + this.limit;
+      this.offset = this.offset + 1;
       this.dashBoardService.getItems(this.selectWebPageId, this.offset, this.limit);
     }
   }
