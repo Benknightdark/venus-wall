@@ -27,15 +27,15 @@ export class ItemComponent implements OnInit {
     this.itemService.getItems( this.route.snapshot.params.id);
     this.itemList$=this.itemService.itemSubjectList$;
     this.buttonItems = [
-      {label: '看美照', icon: 'pi pi-cog', command:()=>{
+      {label: '看美照', icon: 'pi pi-search', command:()=>{
         this.display = true;
         this.imageDialog.maximize()
       }},
-      {label: '外部連結', icon: 'pi pi-info',command: () => {
+      {label: '外部連結', icon: 'pi pi-external-link',command: () => {
         window.open(this.selectedItem.Url);
       }},
       {separator:true},
-      {label: '刪除', icon: 'pi pi-times',badgeStyleClass:"{backgroundColor:'var(--blue-500)'}", command: () => {
+      {label: '刪除', icon: 'pi pi-trash',badgeStyleClass:"{backgroundColor:'var(--blue-500)'}", command: () => {
       }},
   ];
   }

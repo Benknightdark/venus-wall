@@ -1,43 +1,37 @@
-<p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true"
-scrollHeight="600px"
-  >
-    <!-- <ng-template pTemplate="caption">
-      <div class="p-d-flex p-ai-center p-jc-between">
-          Products
-          <p-button icon="pi pi-refresh"></p-button>
-      </div>
-  </ng-template> scrollHeight="600px" -->
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width:11rem"></th>
-
-        <th style="width:10rem">縮圖</th>
-
-        <th>標題</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-item>
-      <tr>
-        <td style="width:11rem">
-          <p-splitButton label="功能" icon="pi pi-cog" [model]="buttonItems" styleClass="p-button-success"
-            (onDropdownClick)="onSelectRow(item)"></p-splitButton>
-        </td>
-        <td style="width:10rem"><img [src]="item.Avator" width="100" class="p-shadow-4" /></td>
-        <td>{{item.Title}}</td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="footer">
-      <p-paginator [rows]="10" [totalRecords]="100" (onPageChange)="paginate($event)"></p-paginator>
-
-     </ng-template>
-  </p-table>
-<p-dialog header="Header" [(visible)]="display" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [maximizable]='true' #imageDialog>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-     <ng-template pTemplate="footer">
-      <p-button (click)="display=false" label="No" styleClass="p-button-text"></p-button>
-      <p-button (click)="display=false" label="Yes" styleClass="p-button-text"></p-button>
-     </ng-template>
+<p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="500px">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:8rem"></th>
+      <th style="width:10rem">縮圖</th>
+      <th>標題</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td style="width:8rem">
+        <button type="button" pButton icon="pi pi-bars" label="功能"
+          (click)="onSelectRow(item); menu.toggle($event)"></button>
+      </td>
+      <td style="width:10rem"><img [src]="item.Avator" width="100" class="p-shadow-4" /></td>
+      <td>{{item.Title}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p-paginator [rows]="10" [totalRecords]="100" (onPageChange)="paginate($event)"></p-paginator>
+  </ng-template>
+</p-table>
+<p-dialog header="Header" [(visible)]="display" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}"
+  [draggable]="false" [resizable]="false" [maximizable]='true' #imageDialog>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <ng-template pTemplate="footer">
+    <p-button (click)="display=false" label="No" styleClass="p-button-text"></p-button>
+    <p-button (click)="display=false" label="Yes" styleClass="p-button-text"></p-button>
+  </ng-template>
 </p-dialog>
+
+<p-menu #menu [popup]="true" [model]="buttonItems"></p-menu>
