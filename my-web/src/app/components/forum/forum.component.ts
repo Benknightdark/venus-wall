@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Forum, WebPage } from '../../models/data.model';
 import { WebPageService } from '../../services/web-page.service';
 import { ItemService } from '../../services/item.service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-forum',
@@ -19,7 +20,7 @@ export class ForumComponent implements OnInit {
   startPageNumber:number=0;
   endPageNumber:number=0;
   constructor(private forumService: ForumService,private webPageService:WebPageService
-    ,private itemService:ItemService
+    ,private itemService:ItemService,private messageService: MessageService
     ) { }
 
   ngOnInit(): void {
@@ -38,7 +39,6 @@ export class ForumComponent implements OnInit {
   }
   onSubmit(){
     if(this.startPageNumber<=-1||this.endPageNumber<=-1){
-      console.log('aa')
       return;
     }
     // if(this.startPageNumber>this.endPageNumber){
@@ -47,5 +47,6 @@ export class ForumComponent implements OnInit {
     // }
     this.itemService.updateItems(this.selectedWebPage.ID,this.startPageNumber,this.endPageNumber).subscribe();
     this.display=false;
+    this.messageService.add({severity:'success', summary:'執行爬蟲工作', detail:`抓取 => ${this.selectedWebPage.Name} 看版資料`});
   }
 }

@@ -23,6 +23,7 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {DialogModule} from 'primeng/dialog';
 import {PaginatorModule} from 'primeng/paginator';
 import {InputNumberModule} from 'primeng/inputnumber';
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {InputNumberModule} from 'primeng/inputnumber';
     ScrollPanelModule,
     DialogModule,
     PaginatorModule,
-    InputNumberModule
+    InputNumberModule,
+    ToastModule
   ],
   providers: [],
   bootstrap: [AppComponent]
