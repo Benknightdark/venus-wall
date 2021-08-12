@@ -29,5 +29,8 @@ export class AppComponent {
     this.dashBoardService.setSelectPage(this.selectWebPage.ID);
     this.dashBoardService.getItems(this.selectWebPage.ID);
   }
+  onScrollToTop(){
+
+  }
 
 }
