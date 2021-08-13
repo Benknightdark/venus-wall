@@ -10,6 +10,7 @@ from sqlalchemy.orm.session import Session
 from models import models
 logging.basicConfig(level=logging.INFO)
 
+
 class ItemHandler:
     '''
     執行更新或修改Item Data
@@ -20,7 +21,7 @@ class ItemHandler:
         self.end = end
 
     def update_jkf_item(self, web_page: WebPage, db: Session):
-        image_seq=1
+        page_seq = 1
         id = web_page.ID
         res = httpx.get(web_page.Url)
         get_all_page = self.end
@@ -76,14 +77,16 @@ class ItemHandler:
                         {
                             "Title": image_name,
                             "PageName": w.a['href'],
-                            "Page": image_seq,
+                            "Page": i,
+                            "Seq": page_seq,
                             "Url": image_url,
                             "Avator": avator,
                             "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         })
                 else:
                     logging.info('insert')
-                    add_data = models.Item(ID=item_id, Title=image_name, Page=image_seq,
+                    add_data = models.Item(ID=item_id, Title=image_name, Page=i,
+                                           Seq=page_seq,
                                            PageName=w.a['href'], Url=image_url, WebPageID=id, Avator=avator,
                                            ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
                     db.add(add_data)
@@ -91,7 +94,7 @@ class ItemHandler:
                 image_root = BeautifulSoup(image_html, "html.parser")
                 images = image_root.find_all('ignore_js_op')
                 db_images_array = []
-                image_seq=image_seq+1
+                page_seq = page_seq+1
                 for image in images:
                     try:
                         image_url = ''
@@ -120,8 +123,8 @@ class ItemHandler:
         root = BeautifulSoup(res.text, "html.parser")
         get_all_page = self.end
         if get_all_page == None:
-            get_all_page =int( root.find('a', attrs={'class': 'last'}).text.replace(
-            '.', '').replace(' ', ''))
+            get_all_page = int(root.find('a', attrs={'class': 'last'}).text.replace(
+                '.', '').replace(' ', ''))
         else:
             get_all_page = int(self.end)
         logging.info(get_all_page)
@@ -132,18 +135,18 @@ class ItemHandler:
             i = int(self.start)
         while i <= int(get_all_page):
             logging.info(f'{i}')
-            url = f"{web_page.Url}&filter=&orderby=lastpost&page={i}"  
+            url = f"{web_page.Url}&filter=&orderby=lastpost&page={i}"
             res = httpx.get(url)
-            root = BeautifulSoup(res.text, "html.parser")      
+            root = BeautifulSoup(res.text, "html.parser")
             lists = root.find_all('div', attrs={'class': 'nex_waterfallbox'})
             for l in lists:
                 href = l.find('a')
                 title = href['title']
                 page_name = href['href']
                 link = f"https://www.mdkforum.com/{href['href']}"
-                avator=''
+                avator = ''
                 logging.info(href.img)
-                if href.img!=None:
+                if href.img != None:
                     avator = f"https://www.mdkforum.com/{href.img['src']}"
 
                 modfied_date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -155,7 +158,7 @@ class ItemHandler:
                 if selected_item.count() == 1:
                     item_id = selected_item.first().ID
                     db.query(models.Image).filter(models.Image.ItemID ==
-                                                selected_item.first().ID).delete()
+                                                  selected_item.first().ID).delete()
                     selected_item.update(
                         {
                             "Title": title,
@@ -168,10 +171,11 @@ class ItemHandler:
                 else:
                     logging.info('insert')
                     add_data = models.Item(ID=item_id, Title=title, Page=i,
-                                        PageName=page_name, Url=link, WebPageID=id, Avator=avator,
-                                        ModifiedDateTime=modfied_date_time)
+                                           PageName=page_name, Url=link, WebPageID=id, Avator=avator,
+                                           ModifiedDateTime=modfied_date_time)
                     db.add(add_data)
-                content_res = httpx.get(f"https://www.mdkforum.com/{href['href']}")
+                content_res = httpx.get(
+                    f"https://www.mdkforum.com/{href['href']}")
                 root_content = BeautifulSoup(content_res.text, "html.parser")
                 content_image = root_content.find_all('ignore_js_op')
                 db_images_array = []
@@ -179,7 +183,8 @@ class ItemHandler:
                     try:
                         logging.info(
                             c.find('img', attrs={'class': 'zoom'})['file'])
-                        image_url = c.find('img', attrs={'class': 'zoom'})['file']
+                        image_url = c.find(
+                            'img', attrs={'class': 'zoom'})['file']
                         db_images_array.append(models.Image(
                             ID=uuid.uuid4(), Url=f"https://www.mdkforum.com/{image_url}", ItemID=item_id))
                     except:
@@ -188,7 +193,7 @@ class ItemHandler:
                     db.add_all(db_images_array)
                 db.commit()
                 logging.info('-------------------------')
-            i=i+1
+            i = i+1
         return
 
     def update_item(self, web_page: WebPage, db: Session):
