@@ -53,6 +53,7 @@ class ItemHandler:
                 avator = ""
                 image_name = re.sub('[^\w\-_\. ]', '_', w.a['title'])
                 image_url = 'https://www.jkforum.net/'+w.a['href']
+                page_seq=w.a['href'].split('-')[1]
                 try:
                     if w.a.img == None:
                         avator = w.a['style'].split(
@@ -94,7 +95,6 @@ class ItemHandler:
                 image_root = BeautifulSoup(image_html, "html.parser")
                 images = image_root.find_all('ignore_js_op')
                 db_images_array = []
-                page_seq = page_seq+1
                 for image in images:
                     try:
                         image_url = ''
