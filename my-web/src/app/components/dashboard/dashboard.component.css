@@ -1,0 +1,18 @@
+:host ::ng-deep .p-scrolltop {
+  position: fixed;
+
+  display: flex;
+  align-items:flex-end;
+  justify-content: flex-end;
+}
+:host ::ng-deep .p-scrolltop-icon {
+margin-right: 12px;
+margin-bottom: 12px;
+}
+
+/*
+
+
+:host ::ng-deep .p-scrolltop-sticky.p-link {
+  margin-left: auto;
+} */
