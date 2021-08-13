@@ -4,6 +4,8 @@ import { ItemService } from '../../services/item.service';
 import { Observable, of } from 'rxjs';
 import { Item } from '../../models/data.model';
 import { MenuItem } from 'primeng/api';
+import { Image } from '../../models/data.model';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-item',
@@ -14,12 +16,27 @@ export class ItemComponent implements OnInit {
   offset?: number=0;
   limit?: number=10;
   itemList$:Observable<{totalDataCount?:number,data?:Item[]}> = of();
+  imageList$:Observable<Image[]> = of();
+
   buttonItems: MenuItem[]=[];
   selectedItem:Item={};
   display: boolean = false;
   @ViewChild('imageDialog') imageDialog:any;
-
-  constructor(private itemService:ItemService,private route: ActivatedRoute) { }
+  responsiveOptions:any[] = [
+    {
+        breakpoint: '1024px',
+        numVisible: 5
+    },
+    {
+        breakpoint: '768px',
+        numVisible: 3
+    },
+    {
+        breakpoint: '560px',
+        numVisible: 1
+    }
+];
+  constructor(private itemService:ItemService,private route: ActivatedRoute,private imageService:ImageService) { }
 
   ngOnInit(): void {
    console.log( this.route.snapshot.params.id)
@@ -28,6 +45,7 @@ export class ItemComponent implements OnInit {
     this.buttonItems = [
       {label: '看美照', icon: 'pi pi-search', command:()=>{
         this.display = true;
+        this.imageList$=this.imageService.getImageData(this.selectedItem.ID)
         this.imageDialog.maximize()
       }},
       {label: '外部連結', icon: 'pi pi-external-link',command: () => {
@@ -40,6 +58,7 @@ export class ItemComponent implements OnInit {
   }
   onSelectRow(itemData:Item){
     this.selectedItem=itemData;
+    console.log(this.selectedItem)
   }
   paginate(event:any){
   this.itemService.getItems( this.route.snapshot.params.id,event.page,this.limit);

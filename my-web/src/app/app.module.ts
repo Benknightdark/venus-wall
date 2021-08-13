@@ -26,6 +26,7 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import {ScrollTopModule} from 'primeng/scrolltop';
+import {GalleriaModule} from 'primeng/galleria';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import {ScrollTopModule} from 'primeng/scrolltop';
     PaginatorModule,
     InputNumberModule,
     ToastModule,
-    ScrollTopModule
+    ScrollTopModule,
+    GalleriaModule
   ],
   providers: [  MessageService
 ],

@@ -34,3 +34,9 @@ export interface Forum {
   ID?: string;
   Expanded?:Boolean;
 }
+
+export interface Image {
+  ID: string;
+  ItemID: string;
+  Url: string;
+}

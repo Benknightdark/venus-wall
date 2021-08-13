@@ -15,7 +15,13 @@ export class WebPageService {
   private webPageData: { [name: string]: WebPage[] } = {};
 
   constructor(private http: HttpClient) { }
-
+  /**
+   * 透過論壇id取得其論壇的所有看版資料
+   *
+   * @param {(string | undefined)} id
+   * @return {*}
+   * @memberof WebPageService
+   */
   getItemByForumID(id: string | undefined) {
     return this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage/byForum/${id}`)
       .pipe(share())
@@ -25,3 +31,4 @@ export class WebPageService {
       })
   }
 }
+
