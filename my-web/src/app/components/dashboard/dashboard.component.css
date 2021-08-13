@@ -1,18 +1,28 @@
 :host ::ng-deep .p-scrolltop {
   position: fixed;
-
   display: flex;
-  align-items:flex-end;
+  align-items: flex-end;
   justify-content: flex-end;
 }
+
 :host ::ng-deep .p-scrolltop-icon {
-margin-right: 12px;
-margin-bottom: 12px;
+  margin-right: 12px;
+  margin-bottom: 12px;
 }
 
-/*
+.animate-border-card {
+  /* Full width border and a clip-path visually cutting it down to the starting size */
+  border: solid 10px #FC5185;
+  clip-path: polygon(
+    calc(0% + 5px) calc(0% + 5px), /* top left */
+    calc(100% - 5px) calc(0% + 5px), /* top right */
+    calc(100% - 5px) calc(100% - 5px), /* bottom right */
+    calc(0% + 5px) calc(100% - 5px) /* bottom left */
+  );
+  transition: clip-path 0.6s linear;
+}
 
-
-:host ::ng-deep .p-scrolltop-sticky.p-link {
-  margin-left: auto;
-} */
+.animate-border-card:hover {
+  /* Clip-path spanning the entire box so it's no longer hiding the full-width border. */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}

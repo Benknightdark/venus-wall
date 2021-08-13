@@ -27,8 +27,9 @@ async def post_item_by_web_page_id(background_tasks: BackgroundTasks, id: str, s
 @router.get("/item/{id}", description="透過WebPage id，取得要抓的item資料")
 async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
+    offset_count=offset*limit
     data = db.query(models.Item).filter(models.Item.WebPageID ==
-                                        id).order_by((models.Item.Page)).offset(offset*limit).limit(limit).all()
+                                        id).order_by((models.Item.Page)).offset(offset_count).limit(limit).all()
     return data
 
 

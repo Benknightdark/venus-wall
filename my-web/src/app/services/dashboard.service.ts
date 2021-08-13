@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Item, WebPage } from '../models/data.model';
@@ -10,9 +10,9 @@ import { Item, WebPage } from '../models/data.model';
 })
 export class DashboardService {
   private itemList: Item[] = [];
-  private _itemSubjectList$: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
+  private _itemSubjectList$: Subject<Item[]> = new Subject<Item[]>();
   readonly itemSubjectList$ = this._itemSubjectList$.asObservable();
-  private _webPageIDSubject$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>("");
+  private _webPageIDSubject$: Subject<string | undefined> = new Subject<string | undefined>();
   readonly webPageIDSubject$ = this._webPageIDSubject$.asObservable();
   constructor(private http: HttpClient) { }
 

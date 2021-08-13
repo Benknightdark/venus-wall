@@ -20,6 +20,7 @@ class ItemHandler:
         self.end = end
 
     def update_jkf_item(self, web_page: WebPage, db: Session):
+        image_seq=1
         id = web_page.ID
         res = httpx.get(web_page.Url)
         get_all_page = self.end
@@ -37,7 +38,6 @@ class ItemHandler:
         else:
             i = int(self.start)
         while i <= int(get_all_page):
-            logging.info(f'{i}')
             url = f"{root_page_url}-{i}.html"
             res = httpx.get(url)
             html = res.text
@@ -76,14 +76,14 @@ class ItemHandler:
                         {
                             "Title": image_name,
                             "PageName": w.a['href'],
-                            "Page": i,
+                            "Page": image_seq,
                             "Url": image_url,
                             "Avator": avator,
                             "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         })
                 else:
                     logging.info('insert')
-                    add_data = models.Item(ID=item_id, Title=image_name, Page=i,
+                    add_data = models.Item(ID=item_id, Title=image_name, Page=image_seq,
                                            PageName=w.a['href'], Url=image_url, WebPageID=id, Avator=avator,
                                            ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
                     db.add(add_data)
@@ -91,6 +91,7 @@ class ItemHandler:
                 image_root = BeautifulSoup(image_html, "html.parser")
                 images = image_root.find_all('ignore_js_op')
                 db_images_array = []
+                image_seq=image_seq+1
                 for image in images:
                     try:
                         image_url = ''
