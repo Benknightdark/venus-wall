@@ -6,6 +6,7 @@ import { WebPageService } from '../../services/web-page.service';
 import { ItemService } from '../../services/item.service';
 import { MessageService } from 'primeng/api';
 import { v4 as uuidv4 } from 'uuid';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-forum',
@@ -52,6 +53,9 @@ export class ForumComponent implements OnInit {
     this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe();
     this.display = false;
     this.messageService.add({ severity: 'success', summary: '執行爬蟲工作', detail: `抓取 => ${this.selectedWebPage.Name} 看版資料` });
+  }
+  onOpenEditModal(item:Forum){
+    console.log(item)
   }
   //#region create functions
   onOpenCreateModal() {

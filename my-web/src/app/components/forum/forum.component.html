@@ -18,7 +18,9 @@
           <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain"
             [icon]="item.Expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" (click)="onGetDetail(item)"></button>
         </td>
-        <td>{{item.Name}}</td>
+        <td>{{item.Name}}<button pButton pRipple type="button" icon="pi pi-pencil"
+            class="p-button-rounded p-button-help p-button-text" (click)="onOpenEditModal(item)"></button>
+        </td>
         <td>{{item.CreatedTime| date:'YYYY/MM/dd HH:mm:ss'}}</td>
       </tr>
       <tr *ngIf="item.Expanded">
@@ -102,11 +104,10 @@
     <div class="p-fluid p-grid">
       <div class="p-field p-col-12 p-md-4 pt-2">
         <span class="p-float-label">
-          <input name="forumName" type="text" id="forumName" pInputText [(ngModel)]="forumWebPageData.forum!.Name" required #forumName="ngModel"/>
+          <input name="forumName" type="text" id="forumName" pInputText [(ngModel)]="forumWebPageData.forum!.Name"
+            required #forumName="ngModel" />
           <label for="forumName">論壇</label>
-          <p-message
-          *ngIf="!(forumName.valid || forumName.pristine)"
-          severity="error" text="此欄位不能為空值"></p-message>
+          <p-message *ngIf="!(forumName.valid || forumName.pristine)" severity="error" text="此欄位不能為空值"></p-message>
         </span>
       </div>
       <div class="p-1"></div>
@@ -133,10 +134,9 @@
                   (click)="onDeleteRow(index)"></button>
               </td>
               <td *ngFor="let col of columns" style="width:200px">
-                <input type="text" pInputText [(ngModel)]="rowData[col.field]" [name]="col.field+index" required/>
-                <p-message
-                *ngIf="(createForm.form.dirty)&&rowData[col.field]==''"
-                severity="error" text="此欄位不能為空值"></p-message>
+                <input type="text" pInputText [(ngModel)]="rowData[col.field]" [name]="col.field+index" required />
+                <p-message *ngIf="(createForm.form.dirty)&&rowData[col.field]==''" severity="error" text="此欄位不能為空值">
+                </p-message>
               </td>
             </tr>
           </ng-template>
