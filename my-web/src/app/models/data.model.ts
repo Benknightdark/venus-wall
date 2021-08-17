@@ -40,3 +40,7 @@ export interface Image {
   ItemID: string;
   Url: string;
 }
+export interface ForumWebPage{
+  forum?:Forum;
+  webPageList?:WebPage[];
+}

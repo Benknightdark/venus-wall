@@ -8,7 +8,7 @@ import { DashboardService } from '../../services/dashboard.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit,OnDestroy{
+export class DashboardComponent implements OnInit{
   title = '女神牆';
   display: boolean = true;
   webPageList$: Observable<WebPage[]> = of();
@@ -23,15 +23,9 @@ export class DashboardComponent implements OnInit,OnDestroy{
     this.dashBoardService.webPageIDSubject$.subscribe(id => {
       this.selectWebPageId = id;
       this.dashBoardService.resetItems();
-      console.log(this.selectWebPageId)
       this.dashBoardService.getItems(this.selectWebPageId);
-      console.log('ok')
     })
   }
-ngOnDestroy(): void {
-  //Called once, before the instance is destroyed.
-  //Add 'implements OnDestroy' to the class.
-}
   onOpenWebSite(url: string) {
     window.open(url);
   }
