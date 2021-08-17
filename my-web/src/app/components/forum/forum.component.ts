@@ -16,6 +16,7 @@ export class ForumComponent implements OnInit {
   webPageList$: Observable<{ [name: string]: WebPage[] } > = of();
   expanded: Boolean = false;
   display:Boolean=false;
+  displayCreate:Boolean=false;
   selectedWebPage:WebPage={}
   startPageNumber:number=0;
   endPageNumber:number=0;
@@ -41,10 +42,6 @@ export class ForumComponent implements OnInit {
     if(this.startPageNumber<=-1||this.endPageNumber<=-1){
       return;
     }
-    // if(this.startPageNumber>this.endPageNumber){
-    //   console.log('bb')
-    //   return;
-    // }
     this.itemService.updateItems(this.selectedWebPage.ID,this.startPageNumber,this.endPageNumber).subscribe();
     this.display=false;
     this.messageService.add({severity:'success', summary:'執行爬蟲工作', detail:`抓取 => ${this.selectedWebPage.Name} 看版資料`});

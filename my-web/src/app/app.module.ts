@@ -28,6 +28,7 @@ import { MessageService } from 'primeng/api';
 import {ScrollTopModule} from 'primeng/scrolltop';
 import {GalleriaModule} from 'primeng/galleria';
 import {TooltipModule} from 'primeng/tooltip';
+import {InputTextModule} from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {TooltipModule} from 'primeng/tooltip';
     ToastModule,
     ScrollTopModule,
     GalleriaModule,
-    TooltipModule
+    TooltipModule,
+    InputTextModule
   ],
   providers: [  MessageService
 ],
