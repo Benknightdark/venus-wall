@@ -75,6 +75,9 @@ export class ForumComponent implements OnInit {
       i++;
     }
     console.log(this.forumWebPageData)
+    this.forumService.createForumData(this.forumWebPageData).subscribe(a=>{
+      console.log(a)
+    })
   }
 
   //#endregion
