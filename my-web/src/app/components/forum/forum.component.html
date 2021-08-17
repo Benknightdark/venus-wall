@@ -102,44 +102,50 @@
     <div class="p-fluid p-grid">
       <div class="p-field p-col-12 p-md-4 pt-2">
         <span class="p-float-label">
-          <input name="forumName" type="text" id="forumName" pInputText [(ngModel)]="forumWebPageData.forum!.Name" />
+          <input name="forumName" type="text" id="forumName" pInputText [(ngModel)]="forumWebPageData.forum!.Name" required #forumName="ngModel"/>
           <label for="forumName">論壇</label>
+          <p-message
+          *ngIf="!(forumName.valid || forumName.pristine)"
+          severity="error" text="此欄位不能為空值"></p-message>
         </span>
       </div>
-      <div  class="card">
-      <p-table [value]="forumWebPageData.webPageList!" [columns]="cols" [reorderableColumns]="true"  [scrollable]="true" scrollHeight="flex"
-        >
-        <ng-template pTemplate="header" let-columns>
-          <tr>
-            <th style="width:100px">
-              <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-success"
-                (click)="onAddNewRow()"></button>
-            </th>
-            <th *ngFor="let col of columns" style="width:200px">
-              {{col.header}}
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
-          <tr [pReorderableRow]="index">
-            <td  style="width:100px">
-              <button pButton pRipple type="button" icon="pi pi-bars"
-              class="p-button-rounded p-button-info" [pReorderableRowHandle]="index"></button>
-              <button pButton pRipple type="button" icon="pi pi-times"
-              class="p-button-rounded p-button-danger" (click)="onDeleteRow(index)"></button>
-            </td>
-            <td *ngFor="let col of columns" style="width:200px">
-              <input  type="text" pInputText [(ngModel)]="rowData[col.field]"
-                [name]="col.field+index" />
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-      <div class="p-field p-col-12 p-md-3">
-        <p-button [disabled]="!createForm.form.valid" type="submit" label="新增" styleClass="p-button-text">
-        </p-button>
+      <div class="p-1"></div>
+      <div class="card">
+        <p-table [value]="forumWebPageData.webPageList!" [columns]="cols" [reorderableColumns]="true"
+          [scrollable]="true" scrollHeight="flex">
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width:100px">
+                <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-success"
+                  (click)="onAddNewRow()"></button>
+              </th>
+              <th *ngFor="let col of columns" style="width:200px">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+            <tr [pReorderableRow]="index">
+              <td style="width:100px">
+                <button pButton pRipple type="button" icon="pi pi-bars" class="p-button-rounded p-button-info"
+                  [pReorderableRowHandle]="index"></button>
+                <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"
+                  (click)="onDeleteRow(index)"></button>
+              </td>
+              <td *ngFor="let col of columns" style="width:200px">
+                <input type="text" pInputText [(ngModel)]="rowData[col.field]" [name]="col.field+index" required/>
+                <p-message
+                *ngIf="(createForm.form.dirty)&&rowData[col.field]==''"
+                severity="error" text="此欄位不能為空值"></p-message>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <div class="p-field p-col-12 p-md-3">
+          <p-button [disabled]="!createForm.form.valid" type="submit" label="新增" styleClass="p-button-text">
+          </p-button>
+        </div>
       </div>
-    </div>
     </div>
   </form>
 </p-dialog>

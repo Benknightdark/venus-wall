@@ -79,6 +79,5 @@ export class ForumComponent implements OnInit {
       console.log(a)
     })
   }
-
   //#endregion
 }
