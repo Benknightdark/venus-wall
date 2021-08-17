@@ -10,9 +10,9 @@ import { Item, WebPage } from '../models/data.model';
 })
 export class DashboardService {
   private itemList: Item[] = [];
-  private _itemSubjectList$: Subject<Item[]> = new Subject<Item[]>();
+  private _itemSubjectList$: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
   readonly itemSubjectList$ = this._itemSubjectList$.asObservable();
-  private _webPageIDSubject$: Subject<string | undefined> = new Subject<string | undefined>();
+  private _webPageIDSubject$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>("");
   readonly webPageIDSubject$ = this._webPageIDSubject$.asObservable();
   constructor(private http: HttpClient) { }
 
