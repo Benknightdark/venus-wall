@@ -27,7 +27,6 @@ export class AppComponent {
   onChangeWebPage() {
     this.dashBoardService.resetItems();
     this.dashBoardService.setSelectPage(this.selectWebPage.ID);
-    this.dashBoardService.getItems(this.selectWebPage.ID);
   }
   onScrollToTop(){
 

@@ -1,3 +1,4 @@
+from sqlalchemy.sql.expression import desc
 from sqlalchemy.sql.functions import func
 from starlette.background import BackgroundTasks
 from dependencies import get_db
@@ -29,7 +30,7 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
     offset_count=offset*limit
     data = db.query(models.Item).filter(models.Item.WebPageID ==
-                                        id).order_by((models.Item.Seq)).offset(offset_count).limit(limit).all()
+                                        id).order_by(desc(models.Item.Seq)).offset(offset_count).limit(limit).all()
     return data
 
 
@@ -39,5 +40,5 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
     item_data = db.query(models.Item).filter(models.Item.WebPageID == id) 
     item_data_count = item_data.count()
     offset_count=offset*limit
-    data = item_data.order_by((models.Item.Seq)).offset(offset_count).limit(limit).all()
+    data = item_data.order_by(desc(models.Item.Seq)).offset(offset_count).limit(limit).all()
     return {'totalDataCount': item_data_count,'data': data}

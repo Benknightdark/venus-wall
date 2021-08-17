@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, share } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Item, WebPage } from '../models/data.model';
 
@@ -37,6 +37,7 @@ export class DashboardService {
   getItems(id: string | undefined, offset: number = 0, limit: number = 10) {
     this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}`)
       .pipe(
+        share(),
         debounceTime(300),
         distinctUntilChanged())
       .subscribe(data => {

@@ -27,7 +27,6 @@ export class DashboardComponent implements OnInit,OnDestroy{
       this.dashBoardService.getItems(this.selectWebPageId);
       console.log('ok')
     })
-
   }
 ngOnDestroy(): void {
   //Called once, before the instance is destroyed.
