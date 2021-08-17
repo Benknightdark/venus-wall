@@ -45,6 +45,15 @@ export class ForumComponent implements OnInit {
     this.display = true;
     this.selectedWebPage = webPageData;
   }
+  onSubmit() {
+    if (this.startPageNumber <= -1 || this.endPageNumber <= -1) {
+      return;
+    }
+    this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe();
+    this.display = false;
+    this.messageService.add({ severity: 'success', summary: '執行爬蟲工作', detail: `抓取 => ${this.selectedWebPage.Name} 看版資料` });
+  }
+  //#region create functions
   onOpenCreateModal() {
     this.forumWebPageData.webPageList = [];
     this.forumWebPageData.webPageList.push({ ID: uuidv4(), Name: "", Url: "" })
@@ -54,7 +63,6 @@ export class ForumComponent implements OnInit {
     this.forumWebPageData.webPageList?.push({ ID: uuidv4(), Name: "", Url: "" })
   }
   onDeleteRow(index:number){
-    console.log(index)
     this.forumWebPageData.webPageList?.splice(index, 1);
   }
   onCreateSubmit() {
@@ -68,12 +76,6 @@ export class ForumComponent implements OnInit {
     }
     console.log(this.forumWebPageData)
   }
-  onSubmit() {
-    if (this.startPageNumber <= -1 || this.endPageNumber <= -1) {
-      return;
-    }
-    this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe();
-    this.display = false;
-    this.messageService.add({ severity: 'success', summary: '執行爬蟲工作', detail: `抓取 => ${this.selectedWebPage.Name} 看版資料` });
-  }
+
+  //#endregion
 }

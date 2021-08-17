@@ -1,3 +1,4 @@
+from api.models.models import Forum, WebPage
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import date, datetime, time, timedelta
@@ -20,3 +21,7 @@ class ItemCreate(BaseConfigModel):
     Avator: str
     PageName: str
     ModifiedDateTime:str 
+
+class ForumCreate(BaseModel):
+    forum:Forum
+    forumWebPageData:Optional[List[WebPage]]
