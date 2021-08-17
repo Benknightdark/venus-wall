@@ -126,7 +126,7 @@
               <button pButton pRipple type="button" icon="pi pi-bars"
               class="p-button-rounded p-button-info" [pReorderableRowHandle]="index"></button>
               <button pButton pRipple type="button" icon="pi pi-times"
-              class="p-button-rounded p-button-danger"></button>
+              class="p-button-rounded p-button-danger" (click)="onDeleteRow(index)"></button>
             </td>
             <td *ngFor="let col of columns" style="width:200px">
               <input  type="text" pInputText [(ngModel)]="rowData[col.field]"
