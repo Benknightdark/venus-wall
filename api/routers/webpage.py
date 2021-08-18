@@ -24,7 +24,8 @@ async def add_web_apge(data: List[view_models.WebPageCreate], db: Session = Depe
 
 @router.get("/webpage", description="取得要抓的所有WebPage ")
 async def get_web_page(db: Session = Depends(get_db)):
-    data = db.query(models.WebPage).order_by(models.WebPage.Seq).all()
+    data = db.query(models.WebPage).filter(
+        models.WebPage.Enable == True).order_by(models.WebPage.Seq).all()
     return data
 
 
@@ -47,8 +48,9 @@ async def get_web_page_by_id(id: str, data: view_models.WebPageCreate, db: Sessi
         models.WebPage.ID == id).update(data.dict())
     return data
 
+
 @router.get("/webpage/byForum/{id}", description="透過ForumID，取得相關的WebPage資料 ")
 async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
     data = db.query(models.WebPage).filter(
-         and_(models.WebPage.ForumID == id,models.WebPage.Enable==True)).order_by(models.WebPage.Seq).all()
+        and_(models.WebPage.ForumID == id, models.WebPage.Enable == True)).order_by(models.WebPage.Seq).all()
     return data
