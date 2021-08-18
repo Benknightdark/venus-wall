@@ -2,7 +2,7 @@
   <div *ngFor="let item of itemList$ | async; index as i" class="scalein animation-duration-500 animation-iteration-1"
     class="col-12 md:col-6 lg:col-3">
     <p-card [header]="item.Title||''" class="flex flex-1 md:align-self-auto align-self-center
-  m-2  align-items-center justify-content-center cursor-pointer max-w-full">
+  m-2  align-items-center justify-content-center cursor-pointer max-w-full animate-border-card gradient-border">
       <ng-template pTemplate="header">
         <img alt="Card" [src]="item.Avator">
       </ng-template>
