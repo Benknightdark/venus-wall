@@ -41,6 +41,7 @@ export class ForumComponent implements OnInit {
     if (item.Expanded) {
       this.webPageService.getItemByForumID(item.ID);
     }
+
   }
   onOpenExecuteCrawlerModal(webPageData: WebPage) {
     this.display = true;
@@ -55,7 +56,15 @@ export class ForumComponent implements OnInit {
     this.messageService.add({ severity: 'success', summary: '執行爬蟲工作', detail: `抓取 => ${this.selectedWebPage.Name} 看版資料` });
   }
   onOpenEditModal(item:Forum){
-    console.log(item)
+    // console.log(item)
+    this.forumService.getForumDetailData(item.ID).subscribe((a)=>{
+      this.forumWebPageData.forum=a[0]as Forum;
+      this.forumWebPageData.webPageList=a[1]as WebPage[];
+      console.log(a[0] as WebPage);
+      console.log(a[1]);
+      console.log('===============');
+      this.displayCreate = true;
+    })
   }
   //#region create functions
   onOpenCreateModal() {
