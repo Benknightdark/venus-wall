@@ -58,7 +58,6 @@ export class ItemComponent implements OnInit {
   }
   onSelectRow(itemData:Item){
     this.selectedItem=itemData;
-    console.log(this.selectedItem)
   }
   paginate(event:any){
   this.itemService.getItems( this.route.snapshot.params.id,event.page,this.limit);

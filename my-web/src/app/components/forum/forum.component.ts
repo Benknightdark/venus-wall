@@ -93,10 +93,10 @@ export class ForumComponent implements OnInit {
           iterator.ForumID = this.forumWebPageData.forum!.ID;
           i++;
         }
-        this.forumService.createForumData(this.forumWebPageData).subscribe(a => {
+        this.forumService.createForumData(this.forumWebPageData).subscribe((a:any) => {
           console.log(a)
           this.displayFormModal=false;
-
+          this.messageService.add({ severity: 'success', summary: '新增資料', detail: `${a["message"]}` });
         })
         this.itemList$ = this.forumService.getForumData();
         break;
@@ -107,9 +107,10 @@ export class ForumComponent implements OnInit {
           iterator.Enable=true;
           i++;
         }
-        this.forumService.updateForumData(this.forumWebPageData).subscribe(a => {
+        this.forumService.updateForumData(this.forumWebPageData).subscribe((a:any) => {
           console.log(a)
           this.displayFormModal=false;
+          this.messageService.add({ severity: 'success', summary: '修改資料', detail: `${a["message"]}` });
         })
         this.itemList$ = this.forumService.getForumData();
         break;
