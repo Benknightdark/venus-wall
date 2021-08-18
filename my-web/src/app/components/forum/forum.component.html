@@ -97,9 +97,9 @@
   </form>
 </p-dialog>
 <!-- 新增資料 -->
-<p-dialog header="新增資料" [(visible)]="displayCreate" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}"
+<p-dialog [header]="formModalTitle" [(visible)]="displayFormModal" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}"
   [draggable]="false" [resizable]="false" [maximizable]='true'>
-  <form (ngSubmit)="onCreateSubmit()" #createForm="ngForm">
+  <form (ngSubmit)="onFormSubmit()" #forumForm="ngForm">
     <p-divider></p-divider>
     <div class="p-fluid p-grid">
       <div class="p-field p-col-12 p-md-4 pt-2">
@@ -135,14 +135,14 @@
               </td>
               <td *ngFor="let col of columns" style="width:200px">
                 <input type="text" pInputText [(ngModel)]="rowData[col.field]" [name]="col.field+index" required />
-                <p-message *ngIf="(createForm.form.dirty)&&rowData[col.field]==''" severity="error" text="此欄位不能為空值">
+                <p-message *ngIf="(forumForm.form.dirty)&&rowData[col.field]==''" severity="error" text="此欄位不能為空值">
                 </p-message>
               </td>
             </tr>
           </ng-template>
         </p-table>
         <div class="p-field p-col-12 p-md-3">
-          <p-button [disabled]="!createForm.form.valid" type="submit" label="新增" styleClass="p-button-text">
+          <p-button [disabled]="!forumForm.form.valid" type="submit" [label]="formModalTitle" styleClass="p-button-text">
           </p-button>
         </div>
       </div>

@@ -60,6 +60,8 @@ class WebPage(base.Base):
 
     Seq = Column(TINYINT)
 
+    Enable = Column(BIT)
+
     ForumID = Column(UNIQUEIDENTIFIER, ForeignKey("Forum.ID"))
 
     # ForeignKey

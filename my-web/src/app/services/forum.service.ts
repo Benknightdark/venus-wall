@@ -24,8 +24,11 @@ export class ForumService {
         p.webPageList=a[1]as WebPage[];
         this._forumDetailSubject$.next(p);
       })
-  }//
+  }
   createForumData(data:ForumWebPage){
     return this.http.post(`${environment.apiUrl}/api/forum`,data);
+  }
+  updateForumData(data:ForumWebPage){
+    return this.http.put(`${environment.apiUrl}/api/forum`,data);
   }
 }
