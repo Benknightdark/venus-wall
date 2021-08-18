@@ -1,4 +1,4 @@
-from sqlalchemy.sql.expression import desc, false
+from sqlalchemy.sql.expression import and_, desc, false
 from dependencies import get_db
 from fastapi.params import Depends
 from fastapi import APIRouter, Request
@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get("/forum", description="取得所有論壇資料")
 async def get_item_by_web_page_id(db: Session = Depends(get_db)):
-    data = db.query(models.Forum).order_by(desc(models.Forum.CreatedTime)).all()
+    data = db.query(models.Forum).filter(models.Forum.Enable==True).order_by(desc(models.Forum.CreatedTime)).all()
     return data
 
 

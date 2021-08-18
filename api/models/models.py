@@ -14,6 +14,8 @@ class Forum(base.Base):
 
     CreatedTime = Column(DATETIME)
 
+    Enable = Column(BIT)
+
     # ForeignKey
 
     # collections
