@@ -59,21 +59,22 @@ export class ForumComponent implements OnInit {
     this.display = false;
     this.messageService.add({ severity: 'success', summary: '執行爬蟲工作', detail: `抓取 => ${this.selectedWebPage.Name} 看版資料` });
   }
+
+  //#region form functions
+  onOpenCreateModal() {
+    this.forumWebPageData.webPageList = [];
+    this.forumWebPageData.webPageList.push({ ID: uuidv4(), Name: "", Url: "" ,Enable:true});
+    this.formModalTitle = "新增資料"
+    this.formModalType = FormType.Create;
+    this.displayFormModal = true;
+
+  }
   onOpenEditModal(item: Forum) {
     this.forumService.getForumDetailData(item.ID);
 
     this.formModalTitle = "編輯資料"
     this.formModalType = FormType.Edit;
     this.displayFormModal = true;
-  }
-  //#region create functions
-  onOpenCreateModal() {
-    this.forumWebPageData.webPageList = [];
-    this.forumWebPageData.webPageList.push({ ID: uuidv4(), Name: "", Url: "" });
-    this.formModalTitle = "新增資料"
-    this.formModalType = FormType.Create;
-    this.displayFormModal = true;
-
   }
   onAddNewRow() {
     this.forumWebPageData.webPageList?.push({ ID: uuidv4(), Name: "", Url: "" })
@@ -100,7 +101,6 @@ export class ForumComponent implements OnInit {
         this.itemList$ = this.forumService.getForumData();
         break;
       case FormType.Edit:
-
         for (const iterator of this.forumWebPageData.webPageList!) {
           iterator.Seq = i;
           iterator.ForumID = this.forumWebPageData.forum!.ID;
