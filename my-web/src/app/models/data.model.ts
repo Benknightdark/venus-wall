@@ -1,13 +1,10 @@
 export interface WebPage {
   ID?: string
-
   Name?: string
-
   Url?: string
-
   Seq?: number
-
   ForumID?: string
+  Enable?: Boolean
 }
 
 export interface Item {
@@ -32,7 +29,7 @@ export interface Forum {
   CreatedTime?: string;
   Name?: string;
   ID?: string;
-  Expanded?:Boolean;
+  Expanded?: Boolean;
 }
 
 export interface Image {
@@ -40,7 +37,7 @@ export interface Image {
   ItemID: string;
   Url: string;
 }
-export interface ForumWebPage{
-  forum?:Forum;
-  webPageList?:WebPage[];
+export interface ForumWebPage {
+  forum?: Forum;
+  webPageList?: WebPage[];
 }

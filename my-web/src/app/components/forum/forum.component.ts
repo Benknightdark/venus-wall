@@ -104,6 +104,7 @@ export class ForumComponent implements OnInit {
         for (const iterator of this.forumWebPageData.webPageList!) {
           iterator.Seq = i;
           iterator.ForumID = this.forumWebPageData.forum!.ID;
+          iterator.Enable=true;
           i++;
         }
         this.forumService.updateForumData(this.forumWebPageData).subscribe(a => {

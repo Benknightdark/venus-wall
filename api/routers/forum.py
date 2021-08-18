@@ -56,10 +56,10 @@ async def put_item_by_web_page_id(requests: Request, db: Session = Depends(get_d
                 selected_web_page_data.update(n)
             else:
                 # 新增
-                db.add_all(models.WebPage(n))
+                db.add(models.WebPage(**n))
         # 刪除
         for n in web_page_data.all():
-            exsist_web_page_data = list(filter(lambda x: str(x["ID"]).upper() == n.ID, new_web_page_data))
+            exsist_web_page_data = list(filter(lambda x: str(x["ID"]).upper() ==str(n.ID).upper() , new_web_page_data))
             if len(exsist_web_page_data) == 0:
                 db.query(models.WebPage).filter(
                     models.WebPage.ID == n.ID).update({"Enable": False})
