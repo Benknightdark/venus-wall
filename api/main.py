@@ -1,7 +1,16 @@
 from routers import forum, webpage, item, user, image
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response, status
 from models import models, base
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exception_handlers import (
+    http_exception_handler,
+    request_validation_exception_handler,
+)
+from fastapi.exceptions import RequestValidationError
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
 origins = [
@@ -20,6 +29,26 @@ app.add_middleware(
 )
 
 
+@app.exception_handler(StarletteHTTPException)
+async def custom_http_exception_handler(request, exc):
+    print(f"OMG! An HTTP error!: {repr(exc)}")
+    return await http_exception_handler(request, exc)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    print(f"OMG! The client sent invalid data!: {exc}")
+    return await request_validation_exception_handler(request, exc)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content=jsonable_encoder({"detail": exc.errors(), "body": exc.body}),
+    )
+
+
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
     response = Response("Internal server error", status_code=500)
@@ -31,8 +60,8 @@ async def db_session_middleware(request: Request, call_next):
     return response
 
 
-app.include_router(webpage.router, prefix="/api")
-app.include_router(item.router, prefix="/api")
-app.include_router(image.router, prefix="/api")
-app.include_router(user.router, prefix="/api")
-app.include_router(forum.router, prefix="/api")
+app.include_router(webpage.router, prefix="/api", tags=['看版'])
+app.include_router(item.router, prefix="/api", tags=['看版項目'])
+app.include_router(image.router, prefix="/api", tags=['項目圖片'])
+app.include_router(user.router, prefix="/api", tags=['使用者'])
+app.include_router(forum.router, prefix="/api", tags=['論壇'])

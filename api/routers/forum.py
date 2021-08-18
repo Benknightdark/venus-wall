@@ -9,19 +9,19 @@ from datetime import datetime
 router = APIRouter()
 
 
-@router.get("/forum", description="取得所有論壇資料")
+@router.get("/forum", summary="取得所有論壇資料")
 async def get_item_by_web_page_id(db: Session = Depends(get_db)):
     data = db.query(models.Forum).filter(models.Forum.Enable==True).order_by(desc(models.Forum.CreatedTime)).all()
     return data
 
 
-@router.get("/forum/{id}", description="透過id，取得要抓的論壇資料")
+@router.get("/forum/{id}", summary="透過id，取得要抓的論壇資料")
 async def get_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
     data = db.query(models.Forum).filter(models.Forum.ID == id).all()
     return data
 
 
-@router.post("/forum", description="新增壇論和看版資料")
+@router.post("/forum", summary="新增壇論和看版資料")
 async def post_item_by_web_page_id(requests: Request, db: Session = Depends(get_db)):
     data = await requests.json()
     data['forum']['CreatedTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -35,7 +35,7 @@ async def post_item_by_web_page_id(requests: Request, db: Session = Depends(get_
     return {"message": "新增成功"}
 
 
-@router.put("/forum", description="修改壇論和看版資料")
+@router.put("/forum", summary="修改壇論和看版資料")
 async def put_item_by_web_page_id(requests: Request, db: Session = Depends(get_db)):
     data = await requests.json()
     data['forum']['CreatedTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

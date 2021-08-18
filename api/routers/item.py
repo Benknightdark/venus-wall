@@ -19,13 +19,13 @@ def update_items(id: str, start: Optional[str], end: Optional[str], db: Session)
     helper.process()
 
 
-@router.post("/item/{id}", description="透過WebPage id，新增或修改此類別底下的item資料")
+@router.post("/item/{id}", summary="透過WebPage id，新增或修改此類別底下的item資料")
 async def post_item_by_web_page_id(background_tasks: BackgroundTasks, id: str, start: Optional[str] = None, end: Optional[str] = None, db: Session = Depends(get_db)):
     background_tasks.add_task(update_items, id, start, end, db)
     return {"message": "開始抓資料"}
 
 
-@router.get("/item/{id}", description="透過WebPage id，取得要抓的item資料")
+@router.get("/item/{id}", summary="透過WebPage id，取得要抓的item資料")
 async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
     offset_count=offset*limit
@@ -34,7 +34,7 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
     return data
 
 
-@router.get("/item/table/{id}", description="透過WebPage id，取得要抓的item資料 (For Table)")
+@router.get("/item/table/{id}", summary="透過WebPage id，取得要抓的item資料 (For Table)")
 async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
     item_data = db.query(models.Item).filter(models.Item.WebPageID == id) 
