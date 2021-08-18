@@ -94,12 +94,15 @@ export class ForumComponent implements OnInit {
         }
         this.forumService.createForumData(this.forumWebPageData).subscribe(a => {
           console.log(a)
+          this.displayFormModal=false;
+
         })
         this.itemList$ = this.forumService.getForumData();
         break;
       case FormType.Edit:
         this.forumService.updateForumData(this.forumWebPageData).subscribe(a => {
           console.log(a)
+          this.displayFormModal=false;
         })
         this.itemList$ = this.forumService.getForumData();
         break;

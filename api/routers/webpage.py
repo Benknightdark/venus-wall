@@ -1,3 +1,4 @@
+from sqlalchemy.sql.expression import and_
 from dependencies import get_db
 from fastapi.params import Depends
 from typing import List
@@ -49,5 +50,5 @@ async def get_web_page_by_id(id: str, data: view_models.WebPageCreate, db: Sessi
 @router.get("/webpage/byForum/{id}", description="透過ForumID，取得相關的WebPage資料 ")
 async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
     data = db.query(models.WebPage).filter(
-        models.WebPage.ForumID == id).order_by(models.WebPage.Seq).all()
+         and_(models.WebPage.ForumID == id,models.WebPage.Enable==True)).order_by(models.WebPage.Seq).all()
     return data
