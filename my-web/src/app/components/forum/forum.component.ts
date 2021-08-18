@@ -82,11 +82,11 @@ export class ForumComponent implements OnInit {
     this.forumWebPageData.webPageList?.splice(index, 1);
   }
   onFormSubmit() {
+    let i = 1;
     switch (this.formModalType) {
       case FormType.Create:
         this.forumWebPageData.forum!.ID = uuidv4();
         this.forumWebPageData.forum!.CreatedTime = Date.now().toLocaleString();
-        let i = 1;
         for (const iterator of this.forumWebPageData.webPageList!) {
           iterator.Seq = i;
           iterator.ForumID = this.forumWebPageData.forum!.ID;
@@ -100,6 +100,12 @@ export class ForumComponent implements OnInit {
         this.itemList$ = this.forumService.getForumData();
         break;
       case FormType.Edit:
+
+        for (const iterator of this.forumWebPageData.webPageList!) {
+          iterator.Seq = i;
+          iterator.ForumID = this.forumWebPageData.forum!.ID;
+          i++;
+        }
         this.forumService.updateForumData(this.forumWebPageData).subscribe(a => {
           console.log(a)
           this.displayFormModal=false;

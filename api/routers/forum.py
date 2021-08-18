@@ -42,16 +42,26 @@ async def put_item_by_web_page_id(requests: Request, db: Session = Depends(get_d
     db.query(models.Forum).filter(
         models.Forum.ID == str(data['forum']['ID']).upper()).update(data['forum'])
     new_web_page_data = data['webPageList']
-    if len (new_web_page_data)==0:
+    if len(new_web_page_data) == 0:
         db.query(models.WebPage).filter(models.WebPage.ForumID == str(data['forum']['ID']).upper()).update({
             "Enable": False
         })
-    else:           
-        web_page_data=db.query(models.WebPage).filter(models.WebPage.ForumID == str(data['forum']['ID'])).all()
-        # 判斷新增
-        # 判斷修改
-        # 判斷刪除
-
-
+    else:
+        web_page_data = db.query(models.WebPage).filter(
+            models.WebPage.ForumID == str(data['forum']['ID']))
+        for n in new_web_page_data:
+            selected_web_page_data = web_page_data.filter(models.WebPage.ID == str(n["ID"]).upper())
+            if len(selected_web_page_data.all()) > 0:
+                # 更新
+                selected_web_page_data.update(n)
+            else:
+                # 新增
+                db.add_all(models.WebPage(n))
+        # 刪除
+        for n in web_page_data.all():
+            exsist_web_page_data = list(filter(lambda x: str(x["ID"]).upper() == n.ID, new_web_page_data))
+            if len(exsist_web_page_data) == 0:
+                db.query(models.WebPage).filter(
+                    models.WebPage.ID == n.ID).update({"Enable": False})
     db.commit()
     return {"message": "修改成功"}
