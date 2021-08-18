@@ -14,6 +14,11 @@ export class DashboardService {
   readonly itemSubjectList$ = this._itemSubjectList$.asObservable();
   private _webPageIDSubject$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>("");
   readonly webPageIDSubject$ = this._webPageIDSubject$.asObservable();
+
+
+  private _webPageSubjectList$: Subject<WebPage[]> = new Subject();
+  readonly webPageSubjectList$ = this._webPageSubjectList$.asObservable();
+
   constructor(private http: HttpClient) { }
 
   /**
@@ -45,16 +50,21 @@ export class DashboardService {
         this._itemSubjectList$.next(this.itemList);
       }, error => console.log(error));
   }
-  /**
-* 取得WebPage資料
-*
-* @return {*}
-* @memberof WebpageService
-*/
-  getPageList() {
-    return this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`)
-  }
 
+  // getPageList() {
+  //   return this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`)
+  // }
+
+  /**
+   * 取得WebPage資料
+   *
+   * @memberof DashboardService
+   */
+  getPageListSubject() {
+     this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`).subscribe(r=>{
+       this._webPageSubjectList$.next(r)
+     })
+  }
   /**
    * 設定被選取的WebPage
    *

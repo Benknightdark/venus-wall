@@ -7,6 +7,7 @@ import { ItemService } from '../../services/item.service';
 import { MessageService } from 'primeng/api';
 import { v4 as uuidv4 } from 'uuid';
 import { FormType } from '../../models/data.enum'
+import { DashboardService } from '../../services/dashboard.service';
 @Component({
   selector: 'app-forum',
   templateUrl: './forum.component.html',
@@ -26,7 +27,7 @@ export class ForumComponent implements OnInit {
   cols: any[] = [];
   forumWebPageData: ForumWebPage = { forum: {}, webPageList: [] };
   constructor(private forumService: ForumService, private webPageService: WebPageService
-    , private itemService: ItemService, private messageService: MessageService
+    , private itemService: ItemService, private messageService: MessageService,private dashBoardService:DashboardService
   ) { }
 
   ngOnInit(): void {
@@ -99,6 +100,7 @@ export class ForumComponent implements OnInit {
           this.messageService.add({ severity: 'success', summary: '新增資料', detail: `${a["message"]}` });
         })
         this.itemList$ = this.forumService.getForumData();
+        this.dashBoardService.getPageListSubject()
         break;
       case FormType.Edit:
         for (const iterator of this.forumWebPageData.webPageList!) {
@@ -113,6 +115,7 @@ export class ForumComponent implements OnInit {
           this.messageService.add({ severity: 'success', summary: '修改資料', detail: `${a["message"]}` });
         })
         this.itemList$ = this.forumService.getForumData();
+        this.dashBoardService.getPageListSubject();
         break;
       default:
         break;
