@@ -7,6 +7,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Image } from '../../models/data.model';
 import { ImageService } from '../../services/image.service';
 import { GalleryComponent } from '../../utils/gallery/gallery.component';
+import { Paginator } from 'primeng/paginator';
 
 @Component({
   selector: 'app-item',
@@ -23,11 +24,12 @@ export class ItemComponent implements OnInit {
   display: boolean = false;
   keyWord: string = "";
   @ViewChild('appGallery') appGallery!: GalleryComponent;
+  @ViewChild('p', {static: false}) paginator!: Paginator;
+
   constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params.id)
     this.itemService.getItems(this.route.snapshot.params.id);
     this.itemList$ = this.itemService.itemSubjectList$;
     this.buttonItems = [
@@ -65,12 +67,12 @@ export class ItemComponent implements OnInit {
     this.selectedItem = itemData;
   }
   onPaginate(event: any) {
-    console.log(event.page)
     this.offset = event.page;
     this.itemService.getItems(this.route.snapshot.params.id, this.offset, this.limit, this.keyWord);
   }
 
   onSearch() {
-    console.log(this.keyWord)
+    this.offset = 0;
+    this.paginator.changePage(0);
   }
 }

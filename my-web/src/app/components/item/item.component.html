@@ -28,12 +28,12 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="footer">
-    <p-paginator [rows]="10" [totalRecords]="(itemList$|async)?.totalDataCount||0" (onPageChange)="onPaginate($event)">
+    <p-paginator  #p [rows]="10" [totalRecords]="(itemList$|async)?.totalDataCount||0" (onPageChange)="onPaginate($event)">
     </p-paginator>
   </ng-template>
 </p-table>
 
-<app-gallery [(displayGallery)]="display" [imageData]="imageList$" #appGallery></app-gallery>
+<app-gallery  [(displayGallery)]="display" [imageData]="imageList$" #appGallery></app-gallery>
 <p-menu #menu [popup]="true" [model]="buttonItems"></p-menu>
 <p-toast></p-toast>
 <p-confirmDialog header="是否要刪除此資料" icon="pi pi-exclamation-triangle"></p-confirmDialog>

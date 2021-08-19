@@ -21,7 +21,15 @@ export class ItemService {
    * @memberof ItemService
    */
   getItems(id: string | undefined, offset: number = 0, limit: number = 10,keyWord:string| undefined=undefined) {
-    this.http.get<{ totalDataCount?: number, data?: Item[] }>(`${environment.apiUrl}/api/item/table/${id?.toString().toUpperCase()}?offset=${offset}&limit=${limit}`)
+    let keywordQueryParam=""
+    if (keyWord!=undefined){
+      keywordQueryParam=keyWord.replace(/\s/g,'');
+      console.log(keywordQueryParam)
+      if(keywordQueryParam!==""){
+        keywordQueryParam=`&keyword=${keywordQueryParam}`
+      }
+    }
+    this.http.get<{ totalDataCount?: number, data?: Item[] }>(`${environment.apiUrl}/api/item/table/${id?.toString().toUpperCase()}?offset=${offset}&limit=${limit}${keywordQueryParam}`)
       .pipe(
         share(),
         debounceTime(300),
