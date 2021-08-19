@@ -32,13 +32,15 @@ import {InputTextModule} from 'primeng/inputtext';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { GalleryComponent } from './utils/gallery/gallery.component';
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     ItemComponent,
     DashboardComponent,
-    ForumComponent
+    ForumComponent,
+    GalleryComponent
   ],
   imports: [
     BrowserModule,

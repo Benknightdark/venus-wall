@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { WebPage, Item } from '../../models/data.model';
 import { DashboardService } from '../../services/dashboard.service';
-
+import {Image} from '../../models/data.model'
+import { ImageService } from '../../services/image.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,13 +11,16 @@ import { DashboardService } from '../../services/dashboard.service';
 })
 export class DashboardComponent implements OnInit{
   title = '女神牆';
-  display: boolean = true;
+  display: boolean = false;
   webPageList$: Observable<WebPage[]> = of();
   selectWebPageId: string | undefined = "";
   itemList$: Observable<Item[]> = of();
   offset: number = 0;
   limit: number = 10;
-  constructor(private dashBoardService: DashboardService
+  @ViewChild('appGallery') appGallery:any;
+  imageList$:Observable<Image[]> = of();
+
+  constructor(private dashBoardService: DashboardService,private imageService:ImageService
   ) { }
   ngOnInit() {
     this.itemList$ = this.dashBoardService.itemSubjectList$;
@@ -35,5 +39,10 @@ export class DashboardComponent implements OnInit{
       this.dashBoardService.getItems(this.selectWebPageId, this.offset, this.limit);
     }
   }
-
+  showGallery(item:Item){
+    console.log(item)
+    this.imageList$=this.imageService.getImageData(item.ID);
+    this.display=true;
+    this.appGallery.displayGallery=this.display;
+  }
 }

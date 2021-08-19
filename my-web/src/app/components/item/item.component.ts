@@ -17,25 +17,10 @@ export class ItemComponent implements OnInit {
   limit?: number=10;
   itemList$:Observable<{totalDataCount?:number,data?:Item[]}> = of();
   imageList$:Observable<Image[]> = of();
-
   buttonItems: MenuItem[]=[];
   selectedItem:Item={};
   display: boolean = false;
-  // @ViewChild('imageDialog') imageDialog:any;
-  responsiveOptions:any[] = [
-    {
-        breakpoint: '1024px',
-        numVisible: 5
-    },
-    {
-        breakpoint: '768px',
-        numVisible: 3
-    },
-    {
-        breakpoint: '560px',
-        numVisible: 1
-    }
-];
+  @ViewChild('appGallery') appGallery:any;
   constructor(private itemService:ItemService,private route: ActivatedRoute,private imageService:ImageService) { }
 
   ngOnInit(): void {
@@ -45,6 +30,7 @@ export class ItemComponent implements OnInit {
     this.buttonItems = [
       {label: '看美照', icon: 'pi pi-search', command:()=>{
         this.display = true;
+        this.appGallery.displayGallery=this.display;
         this.imageList$=this.imageService.getImageData(this.selectedItem.ID)
         // this.imageDialog.maximize()
       }},
@@ -62,5 +48,6 @@ export class ItemComponent implements OnInit {
   paginate(event:any){
   this.itemService.getItems( this.route.snapshot.params.id,event.page,this.limit);
   }
+
 
 }

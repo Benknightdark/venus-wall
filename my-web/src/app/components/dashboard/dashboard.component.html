@@ -10,6 +10,7 @@
         <div class='flex align-content-center	justify-content-center	align-items-start	'>
           <p-button icon="pi pi-search" styleClass="p-button-info p-button-lg p-button-raised "
           pTooltip="看美照" tooltipPosition="top"
+          (click)="showGallery(item)"
           ></p-button>
           <p-button icon="pi pi-external-link" styleClass="p-button-secondary p-button-lg p-button-raised " [style]="{'margin-left': '.5em'}" (click)="onOpenWebSite(item.Url||'')"
           pTooltip="前往外部網站" tooltipPosition="top"
@@ -22,3 +23,5 @@
   </div>
   <p-scrollTop target="parent" [threshold]="100"></p-scrollTop>
 </div>
+<app-gallery [(displayGallery)]="display" [imageData]="imageList$" #appGallery></app-gallery>
+
