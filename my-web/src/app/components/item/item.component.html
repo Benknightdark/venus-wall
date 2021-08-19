@@ -2,11 +2,10 @@
   scrollHeight="500px" #dt>
   <ng-template pTemplate="caption">
     <div class="flex justify-content-end">
-
       <span class="p-input-icon-left p-ml-auto">
         <i class="pi pi-search"></i>
         <input pInputText type="text" placeholder="關鍵字搜尋" [(ngModel)]="keyWord" (ngModelChange)="onSearch()" />
-        <button type="button" pButton pRipple icon="pi pi-times" class="p-button-danger"></button>
+        <button type="button" pButton pRipple icon="pi pi-times" class="p-button-danger" (click)="keyWord='';onSearch()"></button>
       </span>
     </div>
   </ng-template>
