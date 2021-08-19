@@ -20,7 +20,7 @@ export class ItemService {
    * @param {number} [limit=10]
    * @memberof ItemService
    */
-  getItems(id: string | undefined, offset: number = 0, limit: number = 10) {
+  getItems(id: string | undefined, offset: number = 0, limit: number = 10,keyWord:string| undefined=undefined) {
     this.http.get<{ totalDataCount?: number, data?: Item[] }>(`${environment.apiUrl}/api/item/table/${id?.toString().toUpperCase()}?offset=${offset}&limit=${limit}`)
       .pipe(
         share(),
