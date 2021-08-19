@@ -39,6 +39,10 @@ export class ItemComponent implements OnInit {
       }},
       {separator:true},
       {label: '刪除', icon: 'pi pi-trash',badgeStyleClass:"{backgroundColor:'var(--blue-500)'}", command: () => {
+        console.log(this.selectedItem.Url)
+        this.itemService.deleteItems(this.selectedItem.ID).subscribe(r=>{
+          this.itemService.getItems( this.route.snapshot.params.id,this.offset,this.limit);
+        })
       }},
   ];
   }
@@ -46,7 +50,9 @@ export class ItemComponent implements OnInit {
     this.selectedItem=itemData;
   }
   paginate(event:any){
-  this.itemService.getItems( this.route.snapshot.params.id,event.page,this.limit);
+    console.log(event.page)
+    this.offset=event.page;
+  this.itemService.getItems( this.route.snapshot.params.id,this.offset,this.limit);
   }
 
 
