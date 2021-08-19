@@ -1,4 +1,4 @@
-from sqlalchemy.sql.expression import and_, desc
+from sqlalchemy.sql.expression import and_, asc, desc
 from sqlalchemy.sql.functions import func
 from starlette.background import BackgroundTasks
 from dependencies import get_db
@@ -45,14 +45,25 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
 async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   keyword: Optional[str] = None,
                                   sort: Optional[str] = None,
+                                  mode: Optional[str] = None,
                                   db: Session = Depends(get_db)):
     item_data = db.query(models.Item).filter(
         and_(models.Item.WebPageID == id, models.Item.Enable == True))
     if keyword != None:
         item_data = item_data.filter(models.Item.Title.contains(keyword))
-
     item_data_count = item_data.count()
     offset_count = offset*limit
-    data = item_data.order_by(desc(models.Item.Seq)).offset(
-        offset_count).limit(limit).all()
+    if sort==None:
+        data = item_data.order_by(desc(models.Item.Seq))
+    else:
+        if sort=='title':
+            order_column=models.Item.Seq
+        if mode=='desc':
+            order_column=desc(models.Item.Seq)
+        else:
+            order_column=asc(models.Item.Seq)
+        data=  item_data.order_by(order_column)  
+    data=data.offset(offset_count).limit(limit).all()
+
+
     return {'totalDataCount': item_data_count, 'data': data}
