@@ -60,7 +60,9 @@ export class ForumComponent implements OnInit {
     this.display = false;
     this.messageService.add({ severity: 'success', summary: '執行爬蟲工作', detail: `抓取 => ${this.selectedWebPage.Name} 看版資料` });
   }
-
+  onDeleteForum(item:Forum){
+    console.log(item)
+  }
   //#region form functions
   onOpenCreateModal() {
     this.forumWebPageData.webPageList = [];

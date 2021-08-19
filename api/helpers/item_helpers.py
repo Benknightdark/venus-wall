@@ -201,8 +201,6 @@ class ItemHandler:
             self.update_jkf_item(web_page, db)
         if web_page.WebPageForumID_U.Name == 'MDK':
             self.update_mdk_item(web_page, db)
-
-
 class WebPageFilter:
     '''
     取得WebPage Data
@@ -214,8 +212,6 @@ class WebPageFilter:
     def get_by_id(self, db: Session):
         return db.query(models.WebPage).filter(
             models.WebPage.ID == self.id).first()
-
-
 class ItemHelper:
     '''
     執行Item Table的資料處理

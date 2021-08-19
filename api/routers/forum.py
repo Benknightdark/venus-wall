@@ -20,6 +20,12 @@ async def get_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
     data = db.query(models.Forum).filter(models.Forum.ID == id).all()
     return data
 
+@router.delete("/forum/{id}", summary="透過id，刪除特定的論壇資料")
+async def get_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
+    db.query(models.Forum).filter(models.Forum.ID == id).update({"Enable":0})
+    db.commit()
+    return {"message":"刪除成功"}
+
 
 @router.post("/forum", summary="新增壇論和看版資料")
 async def post_item_by_web_page_id(requests: Request, db: Session = Depends(get_db)):
