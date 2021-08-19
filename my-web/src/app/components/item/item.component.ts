@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 import { Observable, of } from 'rxjs';
 import { Item } from '../../models/data.model';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Image } from '../../models/data.model';
 import { ImageService } from '../../services/image.service';
 
@@ -21,7 +21,8 @@ export class ItemComponent implements OnInit {
   selectedItem:Item={};
   display: boolean = false;
   @ViewChild('appGallery') appGallery:any;
-  constructor(private itemService:ItemService,private route: ActivatedRoute,private imageService:ImageService) { }
+  constructor(private itemService:ItemService,private route: ActivatedRoute,private imageService:ImageService,    private messageService: MessageService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
    console.log( this.route.snapshot.params.id)
@@ -39,10 +40,16 @@ export class ItemComponent implements OnInit {
       }},
       {separator:true},
       {label: '刪除', icon: 'pi pi-trash',badgeStyleClass:"{backgroundColor:'var(--blue-500)'}", command: () => {
-        console.log(this.selectedItem.Url)
-        this.itemService.deleteItems(this.selectedItem.ID).subscribe(r=>{
-          this.itemService.getItems( this.route.snapshot.params.id,this.offset,this.limit);
-        })
+
+        this.confirmationService.confirm({
+          message: `你確定要刪除 ${this.selectedItem.Title}`,
+          accept: () => {
+            this.itemService.deleteItems(this.selectedItem.ID).subscribe((r:any)=>{
+              this.messageService.add({ severity: 'success', summary: `${r["message"]}`, detail: `已刪除 => ${this.selectedItem.Title}` });
+              this.itemService.getItems( this.route.snapshot.params.id,this.offset,this.limit);
+            })
+          }
+        });
       }},
   ];
   }

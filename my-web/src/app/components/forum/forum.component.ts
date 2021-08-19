@@ -30,8 +30,8 @@ export class ForumComponent implements OnInit {
     private forumService: ForumService,
     private webPageService: WebPageService,
     private itemService: ItemService,
-    private messageService: MessageService,
     private dashBoardService: DashboardService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) { }
 
