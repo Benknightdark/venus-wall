@@ -1,8 +1,7 @@
-<p-toast></p-toast>
-<p-confirmDialog header="是否要刪除此資料" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
 
 <div class="overflow-auto" style="height:100vh">
-  <p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="800px">
+  <p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="600px">
     <ng-template pTemplate="caption">
       <p-button label="新增" (click)="onOpenCreateModal()"></p-button>
     </ng-template>
@@ -13,7 +12,7 @@
         <th>建立時間</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-item>
+    <ng-template plate pTemplate="body" let-item>
       <tr>
         <td style="width: 5rem">
           <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain"
@@ -57,10 +56,11 @@
   </p-table>
 </div>
 </td>
-</tr>
-</ng-template>
+      </tr>
+    </ng-template>
 </p-table>
 </div>
+
 <!-- 執行排蟲工作 -->
 <p-dialog [header]="selectedWebPage.Name!" [(visible)]="display" [breakpoints]="{'960px': '75vw'}"
   [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [maximizable]='true'>
@@ -152,4 +152,5 @@
     </div>
   </form>
 </p-dialog>
-
+<p-toast></p-toast>
+<p-confirmDialog header="是否要刪除此資料" icon="pi pi-exclamation-triangle"></p-confirmDialog>

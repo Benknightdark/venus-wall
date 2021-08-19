@@ -25,6 +25,7 @@ class ItemHandler:
         id = web_page.ID
         res = httpx.get(web_page.Url)
         get_all_page = self.end
+        # 設定停止頁數
         if get_all_page == None:
             get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
                 'name': 'custompage'}).next_element['title'].replace('共', '').replace('頁', '').replace(' ', '')
@@ -33,11 +34,13 @@ class ItemHandler:
         logging.info(get_all_page)
         web_page_url = web_page.Url.replace('-1.html', '')
         root_page_url = web_page_url
+        # 設定開始頁數
         i = self.start
         if i == None:
             i: int = 1
         else:
             i = int(self.start)
+        # 執行爬蟲    
         while i <= int(get_all_page):
             url = f"{root_page_url}-{i}.html"
             res = httpx.get(url)
@@ -52,8 +55,14 @@ class ItemHandler:
             for w in water_fall:
                 avator = ""
                 image_name = re.sub('[^\w\-_\. ]', '_', w.a['title'])
-                image_url = 'https://www.jkforum.net/'+w.a['href']
-                page_seq=w.a['href'].split('-')[1]
+                image_url = 'https://www.jkforum.net/'+w.a['href']   
+                # 取出seq資料             
+                try:
+                    page_seq=w.a['href'].split('-')[1] 
+                except:
+                    page_seq=w.a['href'].split('&')[1].replace('tid=','')
+                    pass
+                # 取出avator資料
                 try:
                     if w.a.img == None:
                         avator = w.a['style'].split(
@@ -62,7 +71,6 @@ class ItemHandler:
                         avator = w.a.img['src']
                 except:
                     pass
-
                 logging.info(f"{image_name} === {i}")
                 logging.info(image_url)
                 logging.info(avator)
