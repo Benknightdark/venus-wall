@@ -22,13 +22,5 @@
     </p-paginator>
   </ng-template>
 </p-table>
-
-<!-- <p-galleria [value]="(imageList$|async)||[]" [(visible)]="display"
-[containerStyle]="{'max-width': '850px'}"
-  [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [baseZIndex]="100000">
-  <ng-template pTemplate="item" let-item>
-    <img [src]="item.Url" style="width: 100%; display: block;" />
-  </ng-template>
-</p-galleria> -->
 <app-gallery [(displayGallery)]="display" [imageData]="imageList$" #appGallery></app-gallery>
 <p-menu #menu [popup]="true" [model]="buttonItems"></p-menu>

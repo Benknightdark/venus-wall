@@ -31,6 +31,11 @@ export class ItemService {
         console.log(data);
       }, error => console.log(error));
   }
+
+  deleteItems(id: string | undefined) {
+    return this.http.delete(`${environment.apiUrl}/api/item/${id?.toString().toUpperCase()}`);
+  }
+
   /**
    * 啟動爬蟲更新資料
    *

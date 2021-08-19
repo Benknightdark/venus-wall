@@ -1,4 +1,4 @@
-from sqlalchemy.sql.expression import desc
+from sqlalchemy.sql.expression import and_, desc
 from sqlalchemy.sql.functions import func
 from starlette.background import BackgroundTasks
 from dependencies import get_db
@@ -24,21 +24,27 @@ async def post_item_by_web_page_id(background_tasks: BackgroundTasks, id: str, s
     background_tasks.add_task(update_items, id, start, end, db)
     return {"message": "開始抓資料"}
 
+@router.delete("/item/{id}", summary="透過item id刪除特定item資料")
+async def post_item_by_web_page_id( id: str, db: Session = Depends(get_db)):
+    db.query(models.Item).filter(models.Item.ID==id).update({"Enable":0})
+    db.commit()
+    return {"message": "開始抓資料"}
 
 @router.get("/item/{id}", summary="透過WebPage id，取得要抓的item資料")
 async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
-    offset_count=offset*limit
-    data = db.query(models.Item).filter(models.Item.WebPageID ==
-                                        id).order_by(desc(models.Item.Seq)).offset(offset_count).limit(limit).all()
+    offset_count = offset*limit
+    data = db.query(models.Item).filter(and_(models.Item.WebPageID == id,models.Item.Enable==True)).order_by(
+        desc(models.Item.Seq)).offset(offset_count).limit(limit).all()
     return data
 
 
 @router.get("/item/table/{id}", summary="透過WebPage id，取得要抓的item資料 (For Table)")
 async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
-    item_data = db.query(models.Item).filter(models.Item.WebPageID == id) 
+    item_data = db.query(models.Item).filter(and_(models.Item.WebPageID == id,models.Item.Enable==True))
     item_data_count = item_data.count()
-    offset_count=offset*limit
-    data = item_data.order_by(desc(models.Item.Seq)).offset(offset_count).limit(limit).all()
-    return {'totalDataCount': item_data_count,'data': data}
+    offset_count = offset*limit
+    data = item_data.order_by(desc(models.Item.Seq)).offset(
+        offset_count).limit(limit).all()
+    return {'totalDataCount': item_data_count, 'data': data}

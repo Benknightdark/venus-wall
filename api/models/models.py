@@ -92,6 +92,8 @@ class Item(base.Base):
 
     Seq = Column(TINYINT)
 
+    Enable = Column(BIT)
+
     WebPageID = Column(UNIQUEIDENTIFIER, ForeignKey("WebPage.ID"))
 
     # ForeignKey

@@ -82,11 +82,13 @@ class ItemHandler:
                             "Seq": page_seq,
                             "Url": image_url,
                             "Avator": avator,
+                            "Enable":True,
                             "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         })
                 else:
                     logging.info('insert')
                     add_data = models.Item(ID=item_id, Title=image_name, Page=i,
+                                           Enable=True,
                                            Seq=page_seq,
                                            PageName=w.a['href'], Url=image_url, WebPageID=id, Avator=avator,
                                            ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
@@ -166,11 +168,12 @@ class ItemHandler:
                             "Page": i,
                             "Url": link,
                             "Avator": avator,
+                            "Enable":True,
                             "ModifiedDateTime": modfied_date_time
                         })
                 else:
                     logging.info('insert')
-                    add_data = models.Item(ID=item_id, Title=title, Page=i,
+                    add_data = models.Item(ID=item_id, Title=title, Page=i, Enable=True,
                                            PageName=page_name, Url=link, WebPageID=id, Avator=avator,
                                            ModifiedDateTime=modfied_date_time)
                     db.add(add_data)
