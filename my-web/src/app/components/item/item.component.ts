@@ -21,7 +21,7 @@ export class ItemComponent implements OnInit {
   buttonItems: MenuItem[]=[];
   selectedItem:Item={};
   display: boolean = false;
-  @ViewChild('imageDialog') imageDialog:any;
+  // @ViewChild('imageDialog') imageDialog:any;
   responsiveOptions:any[] = [
     {
         breakpoint: '1024px',
@@ -46,7 +46,7 @@ export class ItemComponent implements OnInit {
       {label: '看美照', icon: 'pi pi-search', command:()=>{
         this.display = true;
         this.imageList$=this.imageService.getImageData(this.selectedItem.ID)
-        this.imageDialog.maximize()
+        // this.imageDialog.maximize()
       }},
       {label: '外部連結', icon: 'pi pi-external-link',command: () => {
         window.open(this.selectedItem.Url);

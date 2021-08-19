@@ -23,7 +23,8 @@
   </ng-template>
 </p-table>
 
-<p-galleria [value]="(imageList$|async)||[]" [(visible)]="display" [containerStyle]="{'max-width': '850px'}" [responsiveOptions]="responsiveOptions"
+<p-galleria [value]="(imageList$|async)||[]" [(visible)]="display"
+[containerStyle]="{'max-width': '850px'}"
   [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [baseZIndex]="100000">
   <ng-template pTemplate="item" let-item>
     <img [src]="item.Url" style="width: 100%; display: block;" />

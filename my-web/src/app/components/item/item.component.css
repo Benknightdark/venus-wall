@@ -1,0 +1,15 @@
+
+
+:host ::ng-deep .p-galleria-close {
+  z-index: 1000000;
+  background-color: crimson;
+  opacity: 0.5;
+
+}
+
+:host ::ng-deep .p-galleria-close:hover {
+  z-index: 1000000;
+  background-color: crimson;
+  opacity: 1;
+
+}
