@@ -5,14 +5,11 @@
     <span>女神牆</span>
     <div class="p-toolbar-group-right">
       <a [routerLink]="['/admin']" routerLinkActive="router-link-active"  pButton icon="pi pi-cog"></a>
+      <div class='m-1'></div>
       <p-dropdown class="flex" [options]="(webPageList$ | async)||[]" optionLabel="Name" [(ngModel)]="selectWebPage"
         (onChange)="onChangeWebPage()"></p-dropdown>
   </div>
   </p-toolbar>
   <router-outlet>
-
   </router-outlet>
-  <!-- <div class="scroll-btn" (click)="onScrollToTop()">
-    <i class="pi  pi-angle-up" style="font-size: 2rem"></i>
-  </div> -->
 </div>

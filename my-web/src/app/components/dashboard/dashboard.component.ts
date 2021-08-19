@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { WebPage, Item } from '../../models/data.model';
 import { DashboardService } from '../../services/dashboard.service';
 import {Image} from '../../models/data.model'
 import { ImageService } from '../../services/image.service';
+import { GalleryComponent } from '../../utils/gallery/gallery.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -17,7 +18,7 @@ export class DashboardComponent implements OnInit{
   itemList$: Observable<Item[]> = of();
   offset: number = 0;
   limit: number = 10;
-  @ViewChild('appGallery') appGallery:any;
+  @ViewChild('appGallery') appGallery!: GalleryComponent;
   imageList$:Observable<Image[]> = of();
 
   constructor(private dashBoardService: DashboardService,private imageService:ImageService

@@ -6,6 +6,7 @@ import { Item } from '../../models/data.model';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Image } from '../../models/data.model';
 import { ImageService } from '../../services/image.service';
+import { GalleryComponent } from '../../utils/gallery/gallery.component';
 
 @Component({
   selector: 'app-item',
@@ -20,7 +21,8 @@ export class ItemComponent implements OnInit {
   buttonItems: MenuItem[]=[];
   selectedItem:Item={};
   display: boolean = false;
-  @ViewChild('appGallery') appGallery:any;
+  keyWord:string="";
+  @ViewChild('appGallery') appGallery!: GalleryComponent;
   constructor(private itemService:ItemService,private route: ActivatedRoute,private imageService:ImageService,    private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
 
@@ -56,11 +58,13 @@ export class ItemComponent implements OnInit {
   onSelectRow(itemData:Item){
     this.selectedItem=itemData;
   }
-  paginate(event:any){
+  onPaginate(event:any){
     console.log(event.page)
     this.offset=event.page;
   this.itemService.getItems( this.route.snapshot.params.id,this.offset,this.limit);
   }
 
-
+  onSearch(){
+    console.log(this.keyWord)
+  }
 }

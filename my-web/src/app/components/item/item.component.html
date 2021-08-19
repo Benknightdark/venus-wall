@@ -1,5 +1,15 @@
 <p-table [value]="(itemList$|async)?.data||[]" styleClass="p-datatable-gridlines" [scrollable]="true"
   scrollHeight="500px">
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-end">
+
+      <span class="p-input-icon-left p-ml-auto">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" placeholder="關鍵字搜尋" [(ngModel)]="keyWord" (ngModelChange)="onSearch()" />
+        <button type="button" pButton pRipple icon="pi pi-times" class="p-button-danger"></button>
+      </span>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th style="width:8rem"></th>
@@ -18,10 +28,11 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="footer">
-    <p-paginator [rows]="10" [totalRecords]="(itemList$|async)?.totalDataCount||0" (onPageChange)="paginate($event)">
+    <p-paginator [rows]="10" [totalRecords]="(itemList$|async)?.totalDataCount||0" (onPageChange)="onPaginate($event)">
     </p-paginator>
   </ng-template>
 </p-table>
+
 <app-gallery [(displayGallery)]="display" [imageData]="imageList$" #appGallery></app-gallery>
 <p-menu #menu [popup]="true" [model]="buttonItems"></p-menu>
 <p-toast></p-toast>
