@@ -8,6 +8,7 @@ import { Image } from '../../models/data.model';
 import { ImageService } from '../../services/image.service';
 import { GalleryComponent } from '../../utils/gallery/gallery.component';
 import { Paginator } from 'primeng/paginator';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-item',
@@ -24,7 +25,8 @@ export class ItemComponent implements OnInit {
   display: boolean = false;
   keyWord: string = "";
   @ViewChild('appGallery') appGallery!: GalleryComponent;
-  @ViewChild('p', {static: false}) paginator!: Paginator;
+  @ViewChild('p', { static: false }) paginator!: Paginator;
+  @ViewChild('dt', { static: false }) dt!: Table;
 
   constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
@@ -67,6 +69,7 @@ export class ItemComponent implements OnInit {
     this.selectedItem = itemData;
   }
   onPaginate(event: any) {
+    this.dt.resetScrollTop()
     this.offset = event.page;
     this.itemService.getItems(this.route.snapshot.params.id, this.offset, this.limit, this.keyWord);
   }

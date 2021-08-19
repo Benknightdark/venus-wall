@@ -42,10 +42,12 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
 
 
 @router.get("/item/table/{id}", summary="透過WebPage id，取得要抓的item資料 (For Table)")
-async def get_item_by_web_page_id(id: str, offset: int, limit: int, keyword: Optional[str] = None,
+async def get_item_by_web_page_id(id: str, offset: int, limit: int,
+                                  keyword: Optional[str] = None,
+                                  sort: Optional[str] = None,
                                   db: Session = Depends(get_db)):
     item_data = db.query(models.Item).filter(
-        and_(models.Item.WebPageID == id, models.Item.Enable == True))    
+        and_(models.Item.WebPageID == id, models.Item.Enable == True))
     if keyword != None:
         item_data = item_data.filter(models.Item.Title.contains(keyword))
 
