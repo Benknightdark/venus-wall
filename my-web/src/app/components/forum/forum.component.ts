@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Forum, ForumWebPage, WebPage } from '../../models/data.model';
 import { WebPageService } from '../../services/web-page.service';
 import { ItemService } from '../../services/item.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { v4 as uuidv4 } from 'uuid';
 import { FormType } from '../../models/data.enum'
 import { DashboardService } from '../../services/dashboard.service';
@@ -26,8 +26,13 @@ export class ForumComponent implements OnInit {
   endPageNumber: number = 0;
   cols: any[] = [];
   forumWebPageData: ForumWebPage = { forum: {}, webPageList: [] };
-  constructor(private forumService: ForumService, private webPageService: WebPageService
-    , private itemService: ItemService, private messageService: MessageService,private dashBoardService:DashboardService
+  constructor(
+    private forumService: ForumService,
+    private webPageService: WebPageService,
+    private itemService: ItemService,
+    private messageService: MessageService,
+    private dashBoardService: DashboardService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -60,21 +65,28 @@ export class ForumComponent implements OnInit {
     this.display = false;
     this.messageService.add({ severity: 'success', summary: '執行爬蟲工作', detail: `抓取 => ${this.selectedWebPage.Name} 看版資料` });
   }
-  onDeleteForum(item:Forum){
-    console.log(item)
+  onDeleteForum(item: Forum) {
+    this.confirmationService.confirm({
+      message: `你確定要刪除 ${item.Name}`,
+      accept: () => {
+        this.forumService.deleteForum(item.ID).subscribe((r: any) => {
+          this.messageService.add({ severity: 'success', summary: `${r["message"]}`, detail: `已刪除 => ${item.Name}` });
+          this.itemList$ = this.forumService.getForumData();
+        });
+      }
+    });
+
   }
   //#region form functions
   onOpenCreateModal() {
     this.forumWebPageData.webPageList = [];
-    this.forumWebPageData.webPageList.push({ ID: uuidv4(), Name: "", Url: "" ,Enable:true});
+    this.forumWebPageData.webPageList.push({ ID: uuidv4(), Name: "", Url: "", Enable: true });
     this.formModalTitle = "新增資料"
     this.formModalType = FormType.Create;
     this.displayFormModal = true;
-
   }
   onOpenEditModal(item: Forum) {
     this.forumService.getForumDetailData(item.ID);
-
     this.formModalTitle = "編輯資料"
     this.formModalType = FormType.Edit;
     this.displayFormModal = true;
@@ -96,9 +108,9 @@ export class ForumComponent implements OnInit {
           iterator.ForumID = this.forumWebPageData.forum!.ID;
           i++;
         }
-        this.forumService.createForumData(this.forumWebPageData).subscribe((a:any) => {
+        this.forumService.createForumData(this.forumWebPageData).subscribe((a: any) => {
           console.log(a)
-          this.displayFormModal=false;
+          this.displayFormModal = false;
           this.messageService.add({ severity: 'success', summary: '新增資料', detail: `${a["message"]}` });
         })
         this.itemList$ = this.forumService.getForumData();
@@ -108,12 +120,11 @@ export class ForumComponent implements OnInit {
         for (const iterator of this.forumWebPageData.webPageList!) {
           iterator.Seq = i;
           iterator.ForumID = this.forumWebPageData.forum!.ID;
-          iterator.Enable=true;
+          iterator.Enable = true;
           i++;
         }
-        this.forumService.updateForumData(this.forumWebPageData).subscribe((a:any) => {
-          console.log(a)
-          this.displayFormModal=false;
+        this.forumService.updateForumData(this.forumWebPageData).subscribe((a: any) => {
+          this.displayFormModal = false;
           this.messageService.add({ severity: 'success', summary: '修改資料', detail: `${a["message"]}` });
         })
         this.itemList$ = this.forumService.getForumData();

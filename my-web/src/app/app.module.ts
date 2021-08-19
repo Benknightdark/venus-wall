@@ -24,13 +24,14 @@ import {DialogModule} from 'primeng/dialog';
 import {PaginatorModule} from 'primeng/paginator';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {ToastModule} from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import {ScrollTopModule} from 'primeng/scrolltop';
 import {GalleriaModule} from 'primeng/galleria';
 import {TooltipModule} from 'primeng/tooltip';
 import {InputTextModule} from 'primeng/inputtext';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,10 +66,10 @@ import {MessageModule} from 'primeng/message';
     TooltipModule,
     InputTextModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    ConfirmDialogModule
   ],
-  providers: [  MessageService
-],
+  providers: [  MessageService,ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

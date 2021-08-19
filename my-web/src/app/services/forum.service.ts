@@ -38,7 +38,16 @@ export class ForumService {
       this._forumDetailSubject$.next(p);
     })
   }
-
+  /**
+   * 刪除特定id的論壇資料
+   *
+   * @param {(string | undefined)} id
+   * @return {*}
+   * @memberof ForumService
+   */
+  deleteForum(id: string | undefined) {
+    return this.http.delete(`${environment.apiUrl}/api/forum/${id}`);
+  }
   /**
    * 新增論壇和看版資料
    *

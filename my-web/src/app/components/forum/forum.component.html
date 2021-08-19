@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+<p-confirmDialog header="是否要刪除此資料" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
 <div class="overflow-auto" style="height:100vh">
   <p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="800px">
@@ -151,3 +152,4 @@
     </div>
   </form>
 </p-dialog>
+
