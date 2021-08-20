@@ -10,7 +10,7 @@ export class AdminLayoutComponent implements OnInit {
 
   constructor() { }
   items: MenuItem[] = [];
-
+  display:boolean=false;
   ngOnInit(): void {
     this.items = [
       { label: '首頁', icon: 'pi pi-fw pi-home',routerLink:["/dashboard"] },
