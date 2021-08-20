@@ -6,3 +6,5 @@ ORDER BY B.Page DESC
 )C(MaxPage)
 ORDER BY MaxPage DESC
 ```
+# css text animate 
+- https://codepen.io/caseycallow/pen/yMNqPY
