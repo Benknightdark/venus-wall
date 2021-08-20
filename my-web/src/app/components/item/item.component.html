@@ -1,5 +1,9 @@
-<p-table [value]="(itemList$|async)?.data||[]" styleClass="p-datatable-gridlines" [scrollable]="true"
-  scrollHeight="500px" (onSort)="onSort($event)" [customSort]="true" [lazy]="true" #dt>
+<div  class='card'>
+<p-table
+[value]="(itemList$|async)?.data||[]" styleClass="p-datatable-gridlines" [scrollable]="true"
+  scrollHeight="500px" (onSort)="onSort($event)" [customSort]="true" [lazy]="true" #dt
+  style="width:1000px"
+  >
   <ng-template pTemplate="caption">
     <div class="flex justify-content-end">
       <span class="p-input-icon-left p-ml-auto">
@@ -14,6 +18,9 @@
     <tr>
       <th style="width:8rem"></th>
       <th style="width:10rem">縮圖</th>
+      <th style="width:5rem">頁數</th>
+      <th style="width:8rem">序號</th>
+
       <th pSortableColumn="title">標題<p-sortIcon field="title"></p-sortIcon>
       </th>
     </tr>
@@ -21,10 +28,11 @@
   <ng-template pTemplate="body" let-item>
     <tr>
       <td style="width:8rem">
-        <button type="button" pButton icon="pi pi-bars" label="功能"
-          (click)="onSelectRow(item); menu.toggle($event)"></button>
+        <button type="button" pButton icon="pi pi-bars" label="功能" (click)="onSelectRow(item); menu.toggle($event)"></button>
       </td>
       <td style="width:10rem"><img [src]="item.Avator" width="100" class="p-shadow-4" /></td>
+      <td style="width:5rem">{{item.Page}}</td>
+      <td style="width:8rem">{{item.Seq}}</td>
       <td>{{item.Title}}</td>
     </tr>
   </ng-template>
@@ -34,7 +42,7 @@
     </p-paginator>
   </ng-template>
 </p-table>
-
+</div>
 <app-gallery [(displayGallery)]="display" [imageData]="imageList$" #appGallery></app-gallery>
 <p-menu #menu [popup]="true" [model]="buttonItems"></p-menu>
 <p-toast></p-toast>

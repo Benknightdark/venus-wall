@@ -24,8 +24,8 @@ export class ItemComponent implements OnInit {
   selectedItem: Item = {};
   display: boolean = false;
   keyWord: string = "";
-  sort:string="";
-  mode:string="";
+  sort: string = "";
+  mode: string = "";
   @ViewChild('appGallery') appGallery!: GalleryComponent;
   @ViewChild('p', { static: false }) paginator!: Paginator;
   @ViewChild('dt', { static: false }) dt!: Table;
@@ -71,21 +71,17 @@ export class ItemComponent implements OnInit {
   onPaginate(event: any) {
     this.dt.resetScrollTop()
     this.offset = event.page;
-    this.itemService.getItems(this.route.snapshot.params.id, this.offset, this.limit, this.keyWord,this.sort,this.mode);
+    this.itemService.getItems(this.route.snapshot.params.id, this.offset, this.limit, this.keyWord, this.sort, this.mode);
   }
   onSearch() {
     this.offset = 0;
     this.paginator.changePage(0);
   }
-  onSort(event: SortEvent){
-    this.sort=event.field!;
-    this.mode=event.order==-1?"desc":"asc";
+  onSort(event: SortEvent) {
+    this.sort = event.field!;
+    this.mode = event.order == -1 ? "desc" : "asc";
     console.log(this.sort)
     console.log(this.mode)
-    setTimeout(() => {
-      this.onSearch();
-    }, 500);
-    // this.offset = 0;
-    // this.paginator.changePage(0);
+    this.onSearch();
   }
 }
