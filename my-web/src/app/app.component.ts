@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { WebPage } from './models/data.model';
@@ -13,28 +14,33 @@ import { DashboardService } from './services/dashboard.service';
 export class AppComponent {
   title = '女神牆';
   display: boolean = true;
+  showSideMenu = false;
   webPageList$: Observable<WebPage[]> = of();
   selectWebPage: WebPage = {};
-  constructor(private dashBoardService: DashboardService
+  constructor(private dashBoardService: DashboardService, private router: Router
   ) { }
   ngOnInit() {
-    // this.webPageList$ = this.dashBoardService.getPageList().pipe(
-    //   tap(d => {
-    //     this.selectWebPage = d[0];
-    //     this.dashBoardService.setSelectPage(this.selectWebPage.ID)
-    //   }));
-      this.dashBoardService.getPageListSubject();
-      this.webPageList$ =this.dashBoardService.webPageSubjectList$.pipe(
-        tap(d => {
-          this.selectWebPage = d[0];
-          this.dashBoardService.setSelectPage(this.selectWebPage.ID)
-        }))
+    this.dashBoardService.getPageListSubject();
+    this.router.events.subscribe(event => {
+      if (event.constructor.name === "NavigationStart") {
+        let routerEvent = event as RouterEvent;
+        if (routerEvent.url.indexOf('admin') != -1) {
+          this.showSideMenu = true;
+        }
+      }
+    });
+
+    this.webPageList$ = this.dashBoardService.webPageSubjectList$.pipe(
+      tap(d => {
+        this.selectWebPage = d[0];
+        this.dashBoardService.setSelectPage(this.selectWebPage.ID)
+      }))
   }
   onChangeWebPage() {
     this.dashBoardService.resetItems();
     this.dashBoardService.setSelectPage(this.selectWebPage.ID);
   }
-  onScrollToTop(){
+  onScrollToTop() {
 
   }
 
