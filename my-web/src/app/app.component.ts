@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { WebPage } from './models/data.model';
 import { DashboardService } from './services/dashboard.service';
+import { SideMenuService } from './services/side-menu.service';
 
 
 @Component({
@@ -17,15 +18,19 @@ export class AppComponent {
   showSideMenu = false;
   webPageList$: Observable<WebPage[]> = of();
   selectWebPage: WebPage = {};
-  constructor(private dashBoardService: DashboardService, private router: Router
+  constructor(private dashBoardService: DashboardService, private router: Router, private sideMenuService:SideMenuService
   ) { }
   ngOnInit() {
     this.dashBoardService.getPageListSubject();
     this.router.events.subscribe(event => {
       if (event.constructor.name === "NavigationStart") {
         let routerEvent = event as RouterEvent;
+        console.log(routerEvent.url)
+        console.log(routerEvent.url.indexOf('admin'))
         if (routerEvent.url.indexOf('admin') != -1) {
           this.showSideMenu = true;
+        }else{
+          this.showSideMenu=false;
         }
       }
     });
@@ -35,6 +40,9 @@ export class AppComponent {
         this.selectWebPage = d[0];
         this.dashBoardService.setSelectPage(this.selectWebPage.ID)
       }))
+  }
+  onOpenSideMenu(){
+      this.sideMenuService.openSideMenu();
   }
   onChangeWebPage() {
     this.dashBoardService.resetItems();
