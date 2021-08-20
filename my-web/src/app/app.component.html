@@ -3,10 +3,17 @@
     <div class="p-toolbar-group-left">
 
       <div class="flex xl:hidden " *ngIf="showSideMenu">
-        <button pButton type="button" icon='pi pi-align-justify' class="p-button-outlined" (click)="onOpenSideMenu()"></button>
+        <button pButton type="button" icon='pi pi-align-justify' class="p-button-outlined"
+          (click)="onOpenSideMenu()"></button>
       </div>
       <div class="m-2"></div>
-      <span>女神牆</span>
+      <!-- <span>女神牆</span> -->
+      <div class="text-effect">
+        <!-- Select the text in the preview and type in your own -->
+        <h1 class="neon" data-text="女神牆" contenteditable>女神牆</h1>
+        <div class="gradient"></div>
+        <div class="spotlight"></div>
+      </div>
     </div>
     <div class="p-toolbar-group-right">
       <a [routerLink]="['/admin']" routerLinkActive="router-link-active" pButton icon="pi pi-cog"></a>
