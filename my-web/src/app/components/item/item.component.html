@@ -1,11 +1,12 @@
 <p-table [value]="(itemList$|async)?.data||[]" styleClass="p-datatable-gridlines" [scrollable]="true"
-  scrollHeight="500px"  (sortFunction)="onSort($event)" [customSort]="true"  #dt>
+  scrollHeight="500px" (onSort)="onSort($event)" [customSort]="true" [lazy]="true" #dt>
   <ng-template pTemplate="caption">
     <div class="flex justify-content-end">
       <span class="p-input-icon-left p-ml-auto">
         <i class="pi pi-search"></i>
         <input pInputText type="text" placeholder="關鍵字搜尋" [(ngModel)]="keyWord" (ngModelChange)="onSearch()" />
-        <button type="button" pButton pRipple icon="pi pi-times" class="p-button-danger" (click)="keyWord='';onSearch()"></button>
+        <button type="button" pButton pRipple icon="pi pi-times" class="p-button-danger"
+          (click)="keyWord='';onSearch()"></button>
       </span>
     </div>
   </ng-template>
@@ -13,7 +14,8 @@
     <tr>
       <th style="width:8rem"></th>
       <th style="width:10rem">縮圖</th>
-      <th pSortableColumn="title">標題<p-sortIcon field="title"></p-sortIcon></th>
+      <th pSortableColumn="title">標題<p-sortIcon field="title"></p-sortIcon>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-item>
@@ -27,12 +29,13 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="footer">
-    <p-paginator  #p [rows]="10" [totalRecords]="(itemList$|async)?.totalDataCount||0" (onPageChange)="onPaginate($event)">
+    <p-paginator #p [rows]="10" [totalRecords]="(itemList$|async)?.totalDataCount||0"
+      (onPageChange)="onPaginate($event)">
     </p-paginator>
   </ng-template>
 </p-table>
 
-<app-gallery  [(displayGallery)]="display" [imageData]="imageList$" #appGallery></app-gallery>
+<app-gallery [(displayGallery)]="display" [imageData]="imageList$" #appGallery></app-gallery>
 <p-menu #menu [popup]="true" [model]="buttonItems"></p-menu>
 <p-toast></p-toast>
 <p-confirmDialog header="是否要刪除此資料" icon="pi pi-exclamation-triangle"></p-confirmDialog>

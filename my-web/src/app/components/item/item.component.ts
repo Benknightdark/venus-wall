@@ -80,8 +80,12 @@ export class ItemComponent implements OnInit {
   onSort(event: SortEvent){
     this.sort=event.field!;
     this.mode=event.order==-1?"desc":"asc";
-    console.log(event)
-    this.offset = 0;
-    this.paginator.changePage(0);
+    console.log(this.sort)
+    console.log(this.mode)
+    setTimeout(() => {
+      this.onSearch();
+    }, 500);
+    // this.offset = 0;
+    // this.paginator.changePage(0);
   }
 }
