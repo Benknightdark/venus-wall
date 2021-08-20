@@ -2,6 +2,10 @@
     scrollHeight="500px" (onSort)="onSort($event)" [customSort]="true" [lazy]="true"  #dt
     [responsive]="true" responsiveLayout="scroll">
     <ng-template pTemplate="caption">
+      <div class="flex justify-content-between flex-wrap">
+      <div class="flex justify-content-start">
+        <span>{{(webPageData$|async)?.Name}}</span>
+      </div>
       <div class="flex justify-content-end">
         <span class="p-input-icon-left p-ml-auto">
           <i class="pi pi-search"></i>
@@ -10,6 +14,7 @@
             (click)="keyWord='';onSearch()"></button>
         </span>
       </div>
+    </div>
     </ng-template>
     <ng-template pTemplate="header"  let-columns>
       <tr>

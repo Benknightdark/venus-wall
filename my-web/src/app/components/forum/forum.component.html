@@ -42,7 +42,7 @@
       <tr>
         <td>
           <span class="p-buttonset">
-            <a [routerLink]="['/admin/item',webPage.ID]" pButton pRipple class="p-button-rounded p-button-plain"
+            <a [routerLink]="['/admin/item',webPage.ID]" [state]="webPage" pButton pRipple class="p-button-rounded p-button-plain"
               icon="pi pi-search"></a>
             <button pButton type="button" class="p-button-rounded p-button-success" icon="pi pi-cloud-download"
               (click)="onOpenExecuteCrawlerModal(webPage)"></button>

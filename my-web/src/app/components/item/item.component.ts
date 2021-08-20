@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 import { Observable, of } from 'rxjs';
-import { Item } from '../../models/data.model';
+import { Item, WebPage } from '../../models/data.model';
 import { ConfirmationService, MenuItem, MessageService, SortEvent } from 'primeng/api';
 import { Image } from '../../models/data.model';
 import { ImageService } from '../../services/image.service';
 import { GalleryComponent } from '../../utils/gallery/gallery.component';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
+import { filter, map, tap } from 'rxjs/operators';
+import { WebPageService } from '../../services/web-page.service';
 
 @Component({
   selector: 'app-item',
@@ -26,14 +28,16 @@ export class ItemComponent implements OnInit {
   keyWord: string = "";
   sort: string = "";
   mode: string = "";
+  webPageData$!: Observable<WebPage>;
   @ViewChild('appGallery') appGallery!: GalleryComponent;
   @ViewChild('p', { static: false }) paginator!: Paginator;
   @ViewChild('dt', { static: false }) dt!: Table;
 
-  constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private messageService: MessageService,
+  constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private messageService: MessageService, private webPageService:WebPageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.webPageData$=this.webPageService.getWebPageByID(this.route.snapshot.params.id)
     this.itemService.getItems(this.route.snapshot.params.id);
     this.itemList$ = this.itemService.itemSubjectList$;
     this.buttonItems = [

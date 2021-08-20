@@ -49,7 +49,7 @@ export class ForumComponent implements OnInit {
   onGetDetail(item: Forum) {
     item.Expanded = !item.Expanded;
     if (item.Expanded) {
-      this.webPageService.getItemByForumID(item.ID);
+      this.webPageService.getWebPageByForumID(item.ID);
     }
 
   }

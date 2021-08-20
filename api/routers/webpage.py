@@ -31,7 +31,7 @@ async def get_web_page(db: Session = Depends(get_db)):
 
 @router.get("/webpage/{id}", summary="透過id，取得要抓的WebPage ")
 async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
-    data = db.query(models.WebPage).filter(models.WebPage.ID == id).all()
+    data = db.query(models.WebPage).filter(models.WebPage.ID == id).first()
     return data
 
 

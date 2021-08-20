@@ -22,13 +22,18 @@ export class WebPageService {
    * @return {*}
    * @memberof WebPageService
    */
-  getItemByForumID(id: string | undefined) {
+  getWebPageByForumID(id: string | undefined) {
     return this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage/byForum/${id}`)
       .pipe(share())
       .subscribe(r => {
         this.webPageData[String(id).toUpperCase()] = r;
         this._webPageSubjectList$.next(this.webPageData);
       })
+  }
+  getWebPageByID(id: string | undefined) {
+    return this.http.get<WebPage>(`${environment.apiUrl}/api/webpage/${id}`)
+      .pipe(share())
+
   }
 }
 

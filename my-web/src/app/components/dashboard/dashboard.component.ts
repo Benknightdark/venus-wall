@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { Observable, of } from 'rxjs';
 import { WebPage, Item } from '../../models/data.model';
 import { DashboardService } from '../../services/dashboard.service';
-import {Image} from '../../models/data.model'
+import { Image } from '../../models/data.model'
 import { ImageService } from '../../services/image.service';
 import { GalleryComponent } from '../../utils/gallery/gallery.component';
 @Component({
@@ -10,7 +10,7 @@ import { GalleryComponent } from '../../utils/gallery/gallery.component';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
   title = '女神牆';
   display: boolean = false;
   webPageList$: Observable<WebPage[]> = of();
@@ -19,9 +19,9 @@ export class DashboardComponent implements OnInit{
   offset: number = 0;
   limit: number = 10;
   @ViewChild('appGallery') appGallery!: GalleryComponent;
-  imageList$:Observable<Image[]> = of();
+  imageList$: Observable<Image[]> = of();
 
-  constructor(private dashBoardService: DashboardService,private imageService:ImageService
+  constructor(private dashBoardService: DashboardService, private imageService: ImageService
   ) { }
   ngOnInit() {
     this.itemList$ = this.dashBoardService.itemSubjectList$;
@@ -40,10 +40,10 @@ export class DashboardComponent implements OnInit{
       this.dashBoardService.getItems(this.selectWebPageId, this.offset, this.limit);
     }
   }
-  showGallery(item:Item){
+  showGallery(item: Item) {
     console.log(item)
-    this.imageList$=this.imageService.getImageData(item.ID);
-    this.display=true;
-    this.appGallery.displayGallery=this.display;
+    this.imageList$ = this.imageService.getImageData(item.ID);
+    this.display = true;
+    this.appGallery.displayGallery = this.display;
   }
 }
