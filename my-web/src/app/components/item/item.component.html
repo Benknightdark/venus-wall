@@ -1,7 +1,6 @@
-<div class='card flex justify-content-center'>
-  <p-table [value]="(itemList$|async)?.data||[]" styleClass="p-datatable-gridlines flex-column align-items-center justify-content-center" [scrollable]="true"
+  <p-table [value]="(itemList$|async)?.data||[]" styleClass="p-datatable-gridlines p-datatable-responsive-dem" [scrollable]="true"
     scrollHeight="500px" (onSort)="onSort($event)" [customSort]="true" [lazy]="true"  #dt
-    class="max-w-screen"
+    responsiveLayout="scroll"
     >
     <ng-template pTemplate="caption">
       <div class="flex justify-content-end">
@@ -40,7 +39,6 @@
       </p-paginator>
     </ng-template>
   </p-table>
-</div>
 <app-gallery [(displayGallery)]="display" [imageData]="imageList$" #appGallery></app-gallery>
 <p-menu #menu [popup]="true" [model]="buttonItems"></p-menu>
 <p-toast></p-toast>
