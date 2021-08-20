@@ -32,6 +32,7 @@ export class AppComponent {
         }else{
           this.showSideMenu=false;
         }
+        this.sideMenuService.hideSideMenu();
       }
     });
 
