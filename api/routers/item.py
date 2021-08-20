@@ -58,6 +58,10 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
     else:
         if sort=='title':
             order_column=models.Item.Seq
+        if sort=='seq':
+            order_column=models.Item.Seq
+        if sort=='page':
+            order_column=models.Item.Page                        
         if mode=='desc':
             order_column=desc(models.Item.Seq)
         else:

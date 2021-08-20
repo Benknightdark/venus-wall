@@ -1,7 +1,6 @@
-  <p-table [value]="(itemList$|async)?.data||[]" styleClass="p-datatable-gridlines p-datatable-responsive-dem" [scrollable]="true"
+  <p-table [value]="(itemList$|async)?.data||[]" styleClass="p-datatable-gridlines p-datatable-responsive-demo" [scrollable]="true"
     scrollHeight="500px" (onSort)="onSort($event)" [customSort]="true" [lazy]="true"  #dt
-    responsiveLayout="scroll"
-    >
+    [responsive]="true">
     <ng-template pTemplate="caption">
       <div class="flex justify-content-end">
         <span class="p-input-icon-left p-ml-auto">
@@ -12,25 +11,27 @@
         </span>
       </div>
     </ng-template>
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header"  let-columns>
       <tr>
-        <th style="width:7rem"></th>
+        <th style="width:10rem"></th>
         <th style="width:10rem">縮圖</th>
-        <th style="width:5rem">頁數</th>
-        <th style="width:8rem">序號</th>
-        <th pSortableColumn="title" style="width:20rem">標題<p-sortIcon field="title"></p-sortIcon></th>
+        <th style="width:10rem" pSortableColumn="page">頁數<p-sortIcon field="title"></p-sortIcon></th>
+        <th style="width:10rem" pSortableColumn="seq">序號<p-sortIcon field="title"></p-sortIcon></th>
+        <th pSortableColumn="title">標題<p-sortIcon field="title"></p-sortIcon></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-item>
+    <ng-template pTemplate="body" let-item let-columns="columns">
       <tr>
-        <td style="width:7rem">
+        <td style="width:10rem">
           <button type="button" pButton icon="pi pi-bars" label="功能"
             (click)="onSelectRow(item); menu.toggle($event)"></button>
         </td>
-        <td style="width:10rem"><img [src]="item.Avator" width="100" class="p-shadow-4" /></td>
-        <td style="width:5rem">{{item.Page}}</td>
-        <td style="width:8rem">{{item.Seq}}</td>
-        <td  style="width:20rem">{{item.Title}}</td>
+        <td style="width:10rem">
+          <img [src]="item.Avator" width="100" class="p-shadow-4" />
+        </td>
+        <td style="width:10rem"><span class="p-column-title">頁數</span>{{item.Page}}</td>
+        <td style="width:10rem"><span class="p-column-title">序號</span>{{item.Seq}}</td>
+        <td><span class="p-column-title">標題</span>{{item.Title}}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="footer">
