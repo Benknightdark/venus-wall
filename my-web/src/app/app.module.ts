@@ -33,6 +33,8 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { GalleryComponent } from './utils/gallery/gallery.component';
+import { LayoutModule } from '@angular/cdk/layout';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,7 +71,8 @@ import { GalleryComponent } from './utils/gallery/gallery.component';
     InputTextModule,
     MessagesModule,
     MessageModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    LayoutModule
   ],
   providers: [  MessageService,ConfirmationService],
   bootstrap: [AppComponent]
