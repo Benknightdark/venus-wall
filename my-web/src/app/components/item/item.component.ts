@@ -39,7 +39,6 @@ export class ItemComponent implements OnInit {
   ngOnInit(): void {
 
     this.breakpointObserver.observe([Breakpoints.WebLandscape]).subscribe(result => {
-      console.log(`Handset: ${result.matches}`);
       this.isStackLayout=!result.matches?true:false;
     });
     this.webPageData$=this.webPageService.getWebPageByID(this.route.snapshot.params.id)
