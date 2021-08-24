@@ -22,7 +22,6 @@ export class GalleryComponent implements  OnChanges {
   @Output() displayGalleryChange: EventEmitter<boolean> = new EventEmitter();
 
   ngOnChanges(): void {
-    console.log(this.displayGallery)
   }
 
 }

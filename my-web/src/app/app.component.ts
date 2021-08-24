@@ -25,8 +25,6 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if (event.constructor.name === "NavigationStart") {
         let routerEvent = event as RouterEvent;
-        console.log(routerEvent.url)
-        console.log(routerEvent.url.indexOf('admin'))
         if (routerEvent.url.indexOf('admin') != -1) {
           this.showSideMenu = true;
         }else{

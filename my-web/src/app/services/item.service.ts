@@ -52,7 +52,6 @@ export class ItemService {
         distinctUntilChanged())
       .subscribe(data => {
         this._itemSubjectList$.next(data);
-        console.log(data);
       }, error => console.log(error));
   }
 

@@ -1,8 +1,12 @@
  <div [ngClass]="{'overflow-auto': isStackLayout,'stack-scroll-height':isStackLayout}" >
-   <p-table [value]="(itemList$|async)?.data||[]" styleClass="p-datatable-responsive-demo" (onSort)="onSort($event)"
-     [customSort]="true" [lazy]="true" #dt responsiveLayout="stack"
-      [scrollable]="!isStackLayout?true:false"
-     [scrollHeight]="!isStackLayout?'500px':''">
+   <p-table [value]="(itemList$|async)?.data||[]"
+   styleClass="p-datatable-responsive-demo"
+    (onSort)="onSort($event)"
+     [customSort]="true" [lazy]="true" #dt
+     responsiveLayout="stack"
+     [scrollable]="!isStackLayout?true:false"
+     [scrollHeight]="!isStackLayout?'500px':'0px'"
+ >
      <ng-template pTemplate="caption">
        <div class="flex justify-content-between flex-wrap">
          <div class="flex justify-content-start">
@@ -58,5 +62,5 @@
  <p-confirmDialog header="是否要刪除此資料" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
 
- <!-- [scrollable]="true" scrollHeight="500px"
+ <!--
     "  -->
