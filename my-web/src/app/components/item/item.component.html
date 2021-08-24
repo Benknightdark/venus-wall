@@ -1,6 +1,6 @@
   <p-table [value]="(itemList$|async)?.data||[]" styleClass="p-datatable-gridlines p-datatable-responsive-demo" [scrollable]="true"
     scrollHeight="500px" (onSort)="onSort($event)" [customSort]="true" [lazy]="true"  #dt
-    [responsive]="true" responsiveLayout="scroll">
+    [responsive]="true" responsiveLayout="stack">
     <ng-template pTemplate="caption">
       <div class="flex justify-content-between flex-wrap">
       <div class="flex justify-content-start">

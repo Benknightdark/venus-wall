@@ -1,18 +1,18 @@
-<div class="overflow-auto" style="height:100vh">
-  <p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="600px">
+<div class="card overflow-auto" style="height:100vh">
+  <p-table [value]="(itemList$|async)||[]"  [scrollable]="true" scrollHeight="600px" responsiveLayout="scroll" [responsive]="true">
     <ng-template pTemplate="caption">
       <p-button label="新增" (click)="onOpenCreateModal()"></p-button>
     </ng-template>
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" let-columns>
       <tr>
-        <th style="width: 5rem"></th>
+        <th style="width: 3rem"></th>
         <th>論壇</th>
         <th>建立時間</th>
       </tr>
     </ng-template>
-    <ng-template plate pTemplate="body" let-item>
+    <ng-template  pTemplate="body" let-item let-columns="columns">
       <tr>
-        <td style="width: 5rem">
+        <td style="width: 3rem">
           <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain"
             [icon]="item.Expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" (click)="onGetDetail(item)"></button>
         </td>
@@ -26,8 +26,8 @@
       </tr>
       <tr *ngIf="item.Expanded">
             <td colspan="3">
-              <div class="p-p-3">
-                <p-table [value]="(webPageList$|async)![item!.ID!.toUpperCase()]||[]" styleClass="p-datatable-gridlines">
+              <div class="card p-p-3 w-full">
+                <p-table [value]="(webPageList$|async)![item!.ID!.toUpperCase()]||[]" styleClass="p-datatable-gridlines" [responsive]="false">
               <ng-template pTemplate="header">
                 <tr>
                   <th style="width: 8rem">
