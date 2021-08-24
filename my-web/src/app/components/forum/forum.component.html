@@ -1,5 +1,3 @@
-
-
 <div class="overflow-auto" style="height:100vh">
   <p-table [value]="(itemList$|async)||[]" styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="600px">
     <ng-template pTemplate="caption">
@@ -19,45 +17,44 @@
             [icon]="item.Expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" (click)="onGetDetail(item)"></button>
         </td>
         <td>{{item.Name}}
-          <button pButton pRipple type="button" icon="pi pi-pencil"
-            class="p-button-rounded p-button-help p-button-text" (click)="onOpenEditModal(item)"></button>
-            <button pButton pRipple type="button" icon="pi pi-trash"
+          <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-help p-button-text"
+            (click)="onOpenEditModal(item)"></button>
+          <button pButton pRipple type="button" icon="pi pi-trash"
             class="p-button-rounded p-button-danger p-button-text" (click)="onDeleteForum(item)"></button>
         </td>
         <td>{{item.CreatedTime| date:'YYYY/MM/dd HH:mm:ss'}}</td>
       </tr>
       <tr *ngIf="item.Expanded">
-        <td colspan="3">
-          <div class="p-p-3">
-            <p-table [value]="(webPageList$|async)![item!.ID!.toUpperCase()]||[]" styleClass="p-datatable-gridlines">
+            <td colspan="3">
+              <div class="p-p-3">
+                <p-table [value]="(webPageList$|async)![item!.ID!.toUpperCase()]||[]" styleClass="p-datatable-gridlines">
               <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 8rem">
-        </th>
-        <th>看板</th>
-        <th>看板連結</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-webPage>
-      <tr>
-        <td>
-          <span class="p-buttonset">
-            <a [routerLink]="['/admin/item',webPage.ID]" [state]="webPage" pButton pRipple class="p-button-rounded p-button-plain"
-              icon="pi pi-search"></a>
-            <button pButton type="button" class="p-button-rounded p-button-success" icon="pi pi-cloud-download"
-              (click)="onOpenExecuteCrawlerModal(webPage)"></button>
-          </span>
-
-        </td>
-        <td>{{webPage.Name}}</td>
-        <td><a [href]="webPage.Url" pButton pRipple class="p-button-help" target='_blank'>開啟連結</a></td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
-</td>
-      </tr>
-    </ng-template>
+                <tr>
+                  <th style="width: 8rem">
+                  </th>
+                  <th>看板</th>
+                  <th>看板連結</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-webPage>
+                  <tr>
+                    <td>
+                      <span class="p-buttonset">
+                        <a [routerLink]="['/admin/item',webPage.ID]" [state]="webPage" pButton pRipple
+                          class="p-button-rounded p-button-plain" icon="pi pi-search"></a>
+                        <button pButton type="button" class="p-button-rounded p-button-success" icon="pi pi-cloud-download"
+                          (click)="onOpenExecuteCrawlerModal(webPage)"></button>
+                      </span>
+                    </td>
+                    <td>{{webPage.Name}}</td>
+                    <td><a [href]="webPage.Url" pButton pRipple class="p-button-help" target='_blank'>開啟連結</a></td>
+                  </tr>
+              </ng-template>
+              </p-table>
+            </div>
+          </td>
+    </tr>
+</ng-template>
 </p-table>
 </div>
 
@@ -101,8 +98,8 @@
   </form>
 </p-dialog>
 <!-- 表單 -->
-<p-dialog [header]="formModalTitle" [(visible)]="displayFormModal" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}"
-  [draggable]="false" [resizable]="false" [maximizable]='true'>
+<p-dialog [header]="formModalTitle" [(visible)]="displayFormModal" [breakpoints]="{'960px': '75vw'}"
+  [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [maximizable]='true'>
   <form (ngSubmit)="onFormSubmit()" #forumForm="ngForm">
     <p-divider></p-divider>
     <div class="p-fluid p-grid">
@@ -145,7 +142,8 @@
           </ng-template>
         </p-table>
         <div class="p-field p-col-12 p-md-3">
-          <p-button [disabled]="!forumForm.form.valid" type="submit" [label]="formModalTitle" styleClass="p-button-text">
+          <p-button [disabled]="!forumForm.form.valid" type="submit" [label]="formModalTitle"
+            styleClass="p-button-text">
           </p-button>
         </div>
       </div>

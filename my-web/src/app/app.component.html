@@ -1,25 +1,17 @@
 <div class="flex flex-column flex-wrap overflow-hidden">
   <p-toolbar>
     <div class="p-toolbar-group-left">
-
       <div class="flex xl:hidden " *ngIf="showSideMenu">
         <button pButton type="button" icon='pi pi-align-justify' class="p-button-outlined"
           (click)="onOpenSideMenu()"></button>
       </div>
       <div class="m-2"></div>
-      <!-- <span>女神牆</span> -->
-      <div class="text-effect">
-        <!-- Select the text in the preview and type in your own -->
-        <h1 class="neon" data-text="女神牆" contenteditable>女神牆</h1>
-        <div class="gradient"></div>
-        <div class="spotlight"></div>
-      </div>
+      <span>女神牆</span>
     </div>
     <div class="p-toolbar-group-right">
       <a [routerLink]="['/admin']" routerLinkActive="router-link-active" pButton icon="pi pi-cog"></a>
       <div class='m-1'></div>
-      <p-dropdown class="flex" [options]="(webPageList$ | async)||[]" optionLabel="Name" [(ngModel)]="selectWebPage"
-        (onChange)="onChangeWebPage()"></p-dropdown>
+      <p-dropdown class="flex" [options]="(webPageList$ | async)||[]" optionLabel="Name" [(ngModel)]="selectWebPage" (onChange)="onChangeWebPage()"></p-dropdown>
     </div>
   </p-toolbar>
   <router-outlet>
