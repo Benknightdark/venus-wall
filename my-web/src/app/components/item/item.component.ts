@@ -34,13 +34,16 @@ export class ItemComponent implements OnInit {
   @ViewChild('dt', { static: false }) dt!: Table;
   isStackLayout:boolean=false;
   constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private messageService: MessageService, private webPageService:WebPageService,
-    private confirmationService: ConfirmationService,private breakpointObserver: BreakpointObserver) { }
+    private confirmationService: ConfirmationService,private breakpointObserver: BreakpointObserver) {
+
+      this.breakpointObserver.observe([Breakpoints.WebLandscape]).subscribe(result => {
+        console.log(`results matched => ${result.matches}`)
+        this.isStackLayout=!result.matches?true:false;
+        console.log(`breakpointObserver => ${this.isStackLayout}`)
+      });
+    }
 
   ngOnInit(): void {
-
-    this.breakpointObserver.observe([Breakpoints.WebLandscape]).subscribe(result => {
-      this.isStackLayout=!result.matches?true:false;
-    });
     this.webPageData$=this.webPageService.getWebPageByID(this.route.snapshot.params.id)
     this.itemService.getItems(this.route.snapshot.params.id);
     this.itemList$ = this.itemService.itemSubjectList$;
