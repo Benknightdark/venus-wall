@@ -9,8 +9,8 @@ import { ImageService } from '../../services/image.service';
 import { GalleryComponent } from '../../utils/gallery/gallery.component';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
-import { filter, map, tap } from 'rxjs/operators';
 import { WebPageService } from '../../services/web-page.service';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-item',
@@ -32,11 +32,16 @@ export class ItemComponent implements OnInit {
   @ViewChild('appGallery') appGallery!: GalleryComponent;
   @ViewChild('p', { static: false }) paginator!: Paginator;
   @ViewChild('dt', { static: false }) dt!: Table;
-
+  isStackLayout:boolean=false;
   constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private messageService: MessageService, private webPageService:WebPageService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit(): void {
+
+    this.breakpointObserver.observe([Breakpoints.WebLandscape]).subscribe(result => {
+      console.log(`Handset: ${result.matches}`);
+      this.isStackLayout=!result.matches?true:false;
+    });
     this.webPageData$=this.webPageService.getWebPageByID(this.route.snapshot.params.id)
     this.itemService.getItems(this.route.snapshot.params.id);
     this.itemList$ = this.itemService.itemSubjectList$;
