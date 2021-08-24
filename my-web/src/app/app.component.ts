@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
+import { Router, RouterEvent } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { WebPage } from './models/data.model';
@@ -41,6 +41,10 @@ export class AppComponent {
         this.selectWebPage = d[0];
         this.dashBoardService.setSelectPage(this.selectWebPage.ID)
       }))
+
+
+
+
   }
   onOpenSideMenu(){
       this.sideMenuService.openSideMenu();
