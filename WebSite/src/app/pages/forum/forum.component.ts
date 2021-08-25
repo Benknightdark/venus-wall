@@ -8,6 +8,8 @@ import { WebPageService } from '../../services/web-page.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormType } from '../../models/data.enum';
 import { v4 as uuidv4 } from 'uuid';
+import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
+
 @Component({
   selector: 'app-forum',
   templateUrl: './forum.component.html',
@@ -127,8 +129,12 @@ export class ForumComponent implements OnInit {
     });
 
   }
-  getUUid() {
-    return uuidv4();
+  drop(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.forumWebPageData.webPageList!, event.previousIndex, event.currentIndex);
+    const temp=this.forumWebPageData.webPageList! ;
+    this.forumWebPageData.webPageList=[];
+    this.forumWebPageData.webPageList=[...this.forumWebPageData.webPageList,...temp]
   }
+
 
 }

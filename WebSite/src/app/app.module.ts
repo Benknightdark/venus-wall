@@ -1,3 +1,4 @@
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -48,7 +49,12 @@ registerLocaleData(zh);
     NzDropDownModule,
     NzModalModule,
     NzFormModule,
-    NzInputNumberModule ,NzMessageModule ,NzInputModule,NzSpaceModule],
+    NzInputNumberModule ,
+    NzMessageModule ,
+    NzInputModule,
+    NzSpaceModule,
+    DragDropModule
+  ],
   providers: [{ provide: NZ_I18N, useValue: zh_TW },NzMessageService],
   bootstrap: [AppComponent]
 })

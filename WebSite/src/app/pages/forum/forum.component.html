@@ -111,8 +111,8 @@
             <th *ngFor="let item of cols">{{item.header}}</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let data of basicTable.data;let i=index;">
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+          <tr *ngFor="let data of basicTable.data;let i=index;" cdkDrag>
             <td>
               <button nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="drag"></i></button>
               <button nz-button nzDanger nzShape="circle"
