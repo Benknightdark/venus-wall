@@ -16,5 +16,9 @@ export class ForumComponent implements OnInit {
     this.itemList$ = this.forumService.getForumData();
 
   }
+  showChange(data:Forum,event:any){
+    console.log(event)
+    data.Expanded=event as boolean;
+  }
 
 }

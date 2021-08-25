@@ -1,20 +1,27 @@
 <nz-table #tableData [nzData]="(itemList$|async)||[]" [nzPageSize]="50" [nzScroll]="{ y: '500px' }">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>CreatedTime</th>
+      <th nzWidth="60px"></th>
+      <th>論壇名稱</th>
+      <th>建立時間</th>
       <th>Action</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of tableData.data">
-      <td>{{data.Name}}</td>
-      <td>{{data.CreatedTime}}</td>
-      <td>
-        <a>Action 一 {{data.Name}}</a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a>Delete</a>
-      </td>
-    </tr>
+    <ng-template ngFor let-data [ngForOf]="tableData.data">
+      <tr>
+        <td [nzExpand]="data.Expanded==null?false:data.Expanded" (nzExpandChange)="showChange(data,$event)"></td>
+        <td>{{data.Name}}{{data.Expanded}}</td>
+        <td>{{data.CreatedTime}}</td>
+        <td>
+          <a>Action 一 {{data.Name}}</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>Delete</a>
+        </td>
+      </tr>
+      <tr [nzExpand]="data.Expanded!">
+        <h2>hi1</h2>
+      </tr>
+    </ng-template>
   </tbody>
 </nz-table>

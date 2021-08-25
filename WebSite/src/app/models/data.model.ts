@@ -29,7 +29,7 @@ export interface Forum {
   CreatedTime?: string;
   Name?: string;
   ID?: string;
-  Expanded?: Boolean;
+  Expanded?: boolean;
 }
 
 export interface Image {
