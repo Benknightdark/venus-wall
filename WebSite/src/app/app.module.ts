@@ -16,6 +16,14 @@ import { ForumComponent } from './pages/forum/forum.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 registerLocaleData(zh);
 
@@ -35,9 +43,13 @@ registerLocaleData(zh);
     NzMenuModule,
     NzTableModule,
     NzDividerModule,
-    NzButtonModule
-  ],
-  providers: [{ provide: NZ_I18N, useValue: zh_TW }],
+    NzButtonModule,
+    NzToolTipModule,
+    NzDropDownModule,
+    NzModalModule,
+    NzFormModule,
+    NzInputNumberModule ,NzMessageModule ,NzInputModule,NzSpaceModule],
+  providers: [{ provide: NZ_I18N, useValue: zh_TW },NzMessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
