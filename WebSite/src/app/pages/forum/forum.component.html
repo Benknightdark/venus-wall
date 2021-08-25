@@ -1,0 +1,20 @@
+<nz-table #tableData [nzData]="(itemList$|async)||[]" [nzPageSize]="50" [nzScroll]="{ y: '500px' }">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>CreatedTime</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of tableData.data">
+      <td>{{data.Name}}</td>
+      <td>{{data.CreatedTime}}</td>
+      <td>
+        <a>Action 一 {{data.Name}}</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
