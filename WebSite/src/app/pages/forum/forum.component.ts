@@ -129,7 +129,6 @@ export class ForumComponent implements OnInit {
   onDeleteForum(item: Forum) {
     this.modalService.confirm({
       nzTitle: `你確定要刪除 ${item.Name} 嗎？`,
-      // nzContent: 'When clicked the OK button, this dialog will be closed after 1 second',
       nzOnOk: () =>
        {
         this.forumService.deleteForum(item.ID).subscribe((r: any) => {

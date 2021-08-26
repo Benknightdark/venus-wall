@@ -22,9 +22,11 @@
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
               <li nz-menu-item (click)="onOpenGallery(item)">看美照</li>
-              <li nz-menu-item>外部連結</li>
-              <li nz-menu-item>刪除</li>
+              <li nz-menu-item>
 
+                <a [href]='item.Url' target="_blank">外部連結</a>
+              </li>
+              <li nz-menu-item (click)="onDeleteItem(item)">刪除</li>
             </ul>
           </nz-dropdown-menu>
       </td>

@@ -9,6 +9,8 @@ import { Image } from '../../models/data.model';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { map, switchMap } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-item',
@@ -24,7 +26,10 @@ export class ItemComponent implements OnInit {
   loading = true;
   keyWord: string = "";
   sortColumnName: string = ''
-  constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private webPageService: WebPageService, private nzImageService: NzImageService) { }
+  sortFiled:string|undefined='';
+  sortOrder:string|undefined=''
+  constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private webPageService: WebPageService, private nzImageService: NzImageService,    private messageService: NzMessageService,
+    private modalService: NzModalService) { }
 
   ngOnInit(): void {
     this.webPageData$ = this.webPageService.getWebPageByID(this.route.snapshot.params.id)
@@ -38,7 +43,9 @@ export class ItemComponent implements OnInit {
     const sortField = (currentSort && currentSort.key) || undefined;
     const sortOrder = (currentSort && currentSort.value) || undefined;
     this.offset = pageIndex;
-    this.itemService.getItems(this.route.snapshot.params.id, pageIndex - 1, pageSize, this.keyWord, sortField, sortOrder);
+    this.sortFiled=sortField;
+    this.sortOrder=sortOrder;
+    this.itemService.getItems(this.route.snapshot.params.id,  this.offset! - 1, pageSize, this.keyWord, this.sortFiled, this.sortOrder);
   }
   onSearch() {
     this.loading = true;
@@ -52,6 +59,18 @@ export class ItemComponent implements OnInit {
       ).subscribe(r => {
       this.nzImageService.preview(r, { nzZoom: 1, nzRotate: 0 });
     })
+  }
+  onDeleteItem(item: Item){
+    this.modalService.confirm({
+      nzTitle: `你確定要刪除 ${item.Title} 嗎？`,
+      nzOnOk: () =>
+       {
+        this.itemService.deleteItems(item.ID).subscribe((r: any) => {
+          this.messageService.warning(`已刪除 => ${item.Title}`);
+          this.itemService.getItems(this.route.snapshot.params.id, this.offset!-1, this.limit, this.keyWord, this.sortFiled, this.sortOrder);
+        });
+       }
+    });
   }
 
 }
