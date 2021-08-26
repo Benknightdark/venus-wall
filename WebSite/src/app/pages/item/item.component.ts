@@ -35,6 +35,7 @@ export class ItemComponent implements OnInit {
     const currentSort = sort.find(item => item.value !== null);
     const sortField = (currentSort && currentSort.key) || undefined;
     const sortOrder = (currentSort && currentSort.value) || undefined;
+    this.offset=pageIndex;
     this.itemService.getItems(this.route.snapshot.params.id, pageIndex - 1, pageSize, this.keyWord, sortField, sortOrder);
   }
   onSearch(){
