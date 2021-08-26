@@ -30,6 +30,7 @@ export interface Forum {
   Name?: string;
   ID?: string;
   Expanded?: boolean;
+  Enable?:boolean
 }
 
 export interface Image {

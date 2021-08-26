@@ -91,11 +91,13 @@ export class ForumComponent implements OnInit {
       case FormType.Create:
         this.forumWebPageData.forum!.ID = uuidv4();
         this.forumWebPageData.forum!.CreatedTime = Date.now().toLocaleString();
+        this.forumWebPageData.forum!.Enable = true;
         for (const iterator of this.forumWebPageData.webPageList!) {
           iterator.Seq = i;
           iterator.ForumID = this.forumWebPageData.forum!.ID;
           i++;
         }
+        console.log(this.forumWebPageData)
         this.forumService.createForumData(this.forumWebPageData).subscribe((a: any) => {
           this.displayFormModal = false;
           this.messageService.success(`新增資料 => ${a["message"]}`);

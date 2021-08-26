@@ -17,7 +17,7 @@
           <button nz-tooltip nzTooltipTitle="編輯" nz-button nzType="default" nzShape="circle"
             (click)="onOpenEditModal(data)"><i nz-icon nzType="edit" nzTheme="outline" [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#a4adf5'"></i></button>
-          <button nz-tooltip nzTooltipTitle="刪除" nz-button nzType="default" nzShape="circle"><i nz-icon nzType="delete"
+          <button nz-tooltip nzTooltipTitle="刪除" nz-button nzType="default" nzShape="circle"><i nz-icon nzType="delete" (click)="onDeleteForum(data)"
               nzTheme="outline" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"></i></button>
         </td>
         <td>{{data.CreatedTime| date:'YYYY/MM/dd HH:mm:ss'}}</td>
