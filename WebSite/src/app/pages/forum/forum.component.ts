@@ -9,6 +9,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormType } from '../../models/data.enum';
 import { v4 as uuidv4 } from 'uuid';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-forum',
@@ -32,7 +33,8 @@ export class ForumComponent implements OnInit {
     private webPageService: WebPageService,
     private itemService: ItemService,
     private dashBoardService: DashboardService,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
+    private modalService: NzModalService
   ) { }
 
   ngOnInit(): void {
@@ -125,10 +127,18 @@ export class ForumComponent implements OnInit {
   }
 
   onDeleteForum(item: Forum) {
-    this.forumService.deleteForum(item.ID).subscribe((r: any) => {
-      this.messageService.warning(`已刪除 => ${item.Name}`);
-      this.itemList$ = this.forumService.getForumData();
+    this.modalService.confirm({
+      nzTitle: `你確定要刪除 ${item.Name} 嗎？`,
+      // nzContent: 'When clicked the OK button, this dialog will be closed after 1 second',
+      nzOnOk: () =>
+       {
+        this.forumService.deleteForum(item.ID).subscribe((r: any) => {
+          this.messageService.warning(`已刪除 => ${item.Name}`);
+          this.itemList$ = this.forumService.getForumData();
+        });
+       }
     });
+
 
   }
   drop(event: CdkDragDrop<string[]>): void {
