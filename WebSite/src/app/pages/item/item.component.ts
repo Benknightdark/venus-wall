@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { Item, WebPage } from '../../models/data.model';
 import { Image } from '../../models/data.model';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { NzImageService } from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'app-item',
@@ -22,7 +23,7 @@ export class ItemComponent implements OnInit {
   loading = true;
   keyWord: string = "";
   sortColumnName:string=''
-  constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private webPageService: WebPageService,) { }
+  constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private webPageService: WebPageService,private nzImageService: NzImageService) { }
 
   ngOnInit(): void {
     this.webPageData$ = this.webPageService.getWebPageByID(this.route.snapshot.params.id)
@@ -43,6 +44,13 @@ export class ItemComponent implements OnInit {
     this.offset=1;
     this.itemService.getItems(this.route.snapshot.params.id,this.offset-1,this.limit,this.keyWord);
     this.loading = false;
+  }
+  onOpenGallery(item:WebPage){
+    this.imageService.getImageData(item.ID).subscribe(r=>{
+        console.log(r)
+        const images=r.map(a=>{return {src:a.Url}})
+        this.nzImageService.preview(images, { nzZoom: 1, nzRotate: 0 });
+    })
   }
 
 }

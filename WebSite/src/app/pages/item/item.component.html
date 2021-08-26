@@ -16,7 +16,18 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of (itemList$|async)?.data||[] ;index as i">
-      <td></td>
+      <td>
+        <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+            style=" background: orange;">功能</button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="onOpenGallery(item)">看美照</li>
+              <li nz-menu-item>外部連結</li>
+              <li nz-menu-item>刪除</li>
+
+            </ul>
+          </nz-dropdown-menu>
+      </td>
       <td>
         <img
         nz-image
