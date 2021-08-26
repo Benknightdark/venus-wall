@@ -43,7 +43,6 @@ export class ItemComponent implements OnInit {
     this.offset=1;
     this.itemService.getItems(this.route.snapshot.params.id,this.offset-1,this.limit,this.keyWord);
     this.loading = false;
-
   }
 
 }

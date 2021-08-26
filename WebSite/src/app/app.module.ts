@@ -28,6 +28,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { ItemComponent } from './pages/item/item.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { NzImageModule } from 'ng-zorro-antd/image';
 
 registerLocaleData(zh);
 
@@ -59,7 +60,8 @@ registerLocaleData(zh);
     NzInputModule,
     NzSpaceModule,
     DragDropModule,
-    NzPageHeaderModule
+    NzPageHeaderModule,
+    NzImageModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_TW },NzMessageService,NzModalService],
   bootstrap: [AppComponent]
