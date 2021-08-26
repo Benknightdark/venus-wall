@@ -29,6 +29,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { ItemComponent } from './pages/item/item.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
+import { AdminLayoutComponent } from './pages/admin-layout/admin-layout.component';
 
 registerLocaleData(zh);
 
@@ -37,7 +38,8 @@ registerLocaleData(zh);
     AppComponent,
     ForumComponent,
     ItemComponent,
-    DashboardComponent
+    DashboardComponent,
+    AdminLayoutComponent
   ],
   imports: [
     BrowserModule,
