@@ -20,8 +20,9 @@
           <button nz-tooltip nzTooltipTitle="編輯" nz-button nzType="default" nzShape="circle"
             (click)="onOpenEditModal(data)"><i nz-icon nzType="edit" nzTheme="outline" [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#a4adf5'"></i></button>
-          <button nz-tooltip nzTooltipTitle="刪除" nz-button nzType="default" nzShape="circle"><i nz-icon nzType="delete" (click)="onDeleteForum(data)"
-              nzTheme="outline" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"></i></button>
+          <button nz-tooltip nzTooltipTitle="刪除" nz-button nzType="default" nzShape="circle"><i nz-icon nzType="delete"
+              (click)="onDeleteForum(data)" nzTheme="outline" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#eb2f96'"></i></button>
         </td>
         <td>{{data.CreatedTime| date:'YYYY/MM/dd HH:mm:ss'}}</td>
       </tr>
@@ -43,7 +44,9 @@
             style=" background: orange;">功能</button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item>明細</li>
+              <li nz-menu-item>
+                <a [routerLink]="['/admin/item',data.ID]" [state]="data">明細</a>
+              </li>
               <li nz-menu-item (click)="selectedWebPage=data;hideCrawlerForm=false;">執行爬蟲作業</li>
             </ul>
           </nz-dropdown-menu>
@@ -102,7 +105,8 @@
           <input nz-input [(ngModel)]="forumWebPageData.forum!.Name" name='forumName' type='text' required />
         </nz-form-control>
       </nz-form-item>
-      <nz-table #basicTable [nzData]="forumWebPageData.webPageList!" nzSize="middle" [nzShowPagination]="false" [nzScroll]="{ y: '500px' }">
+      <nz-table #basicTable [nzData]="forumWebPageData.webPageList!" nzSize="middle" [nzShowPagination]="false"
+        [nzScroll]="{ y: '500px' }">
         <thead>
           <tr>
             <th nzWidth="100px">
@@ -118,8 +122,8 @@
           <tr *ngFor="let data of basicTable.data;let i=index;" cdkDrag>
             <td>
               <button nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="drag"></i></button>
-              <button nz-button nzDanger nzShape="circle"
-              (click)="onDeleteRow(data)"><i nz-icon nzType="close-circle" nzTheme="outline"></i></button>
+              <button nz-button nzDanger nzShape="circle" (click)="onDeleteRow(data)"><i nz-icon nzType="close-circle"
+                  nzTheme="outline"></i></button>
             </td>
             <td>
               <nz-form-control nzHasFeedback [nzSpan]="12" nzErrorTip="不能為空值">
@@ -134,7 +138,8 @@
           </tr>
         </tbody>
       </nz-table>
-      <button style="margin-top:20px;" nz-button [nzType]="'primary'" type='submit' [disabled]="!dataForm.valid">送出</button>
+      <button style="margin-top:20px;" nz-button [nzType]="'primary'" type='submit'
+        [disabled]="!dataForm.valid">送出</button>
     </form>
   </ng-container>
   <ng-template [nzModalFooter]>

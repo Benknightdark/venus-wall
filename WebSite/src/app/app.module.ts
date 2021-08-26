@@ -27,6 +27,7 @@ import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { ItemComponent } from './pages/item/item.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 registerLocaleData(zh);
 
@@ -34,7 +35,8 @@ registerLocaleData(zh);
   declarations: [
     AppComponent,
     ForumComponent,
-    ItemComponent
+    ItemComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

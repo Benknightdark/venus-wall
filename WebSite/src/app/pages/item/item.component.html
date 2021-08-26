@@ -1,1 +1,22 @@
-<p>item works!</p>
+<nz-table nzShowSizeChanger [nzData]="(itemList$|async)?.data||[]" [nzFrontPagination]="false" [nzLoading]="loading" [nzPageSize]="10" [nzScroll]="{ y: '500px' }"
+  [nzTotal]="(itemList$|async)?.totalDataCount||0" [nzPageSize]="limit!" [nzPageIndex]="offset!"
+  (nzQueryParams)="onQueryParamsChange($event)">
+  <thead>
+    <tr>
+      <th nzWidth='80px'></th>
+      <th nzWidth='150px'>縮圖</th>
+      <th  nzWidth='80px'>頁數</th>
+      <th  nzWidth='150px'>序號</th>
+      <th>標題</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of (itemList$|async)?.data||[] ;index as i">
+      <td></td>
+      <td> <img [src]="item.Avator" width="100" /></td>
+      <td>{{item.Page}}</td>
+      <td>{{item.Seq}}</td>
+      <td>{{item.Title}}</td>
+    </tr>
+  </tbody>
+</nz-table>

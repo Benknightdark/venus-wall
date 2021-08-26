@@ -22,7 +22,9 @@ export interface Item {
 
   Page?: number
 
-  WebPageID?: string
+  WebPageID?: string,
+  Seq?: number
+
 }
 
 export interface Forum {
