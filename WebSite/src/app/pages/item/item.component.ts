@@ -20,24 +20,28 @@ export class ItemComponent implements OnInit {
   imageList$: Observable<Image[]> = of();
   webPageData$!: Observable<WebPage>;
   loading = true;
-
-  constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private webPageService:WebPageService,) { }
+  keyWord: string = "";
+  sortColumnName:string=''
+  constructor(private itemService: ItemService, private route: ActivatedRoute, private imageService: ImageService, private webPageService: WebPageService,) { }
 
   ngOnInit(): void {
-    this.webPageData$=this.webPageService.getWebPageByID(this.route.snapshot.params.id)
+    this.webPageData$ = this.webPageService.getWebPageByID(this.route.snapshot.params.id)
     this.itemService.getItems(this.route.snapshot.params.id);
     this.itemList$ = this.itemService.itemSubjectList$;
-    this.loading=false;
+    this.loading = false;
   }
   onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log(params);
-    this.loading=true;
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find(item => item.value !== null);
-    const sortField = (currentSort && currentSort.key) || null;
-    const sortOrder = (currentSort && currentSort.value) || null;
-    this.itemService.getItems(this.route.snapshot.params.id,pageIndex-1,pageSize);
-    this.loading=false;
+    const sortField = (currentSort && currentSort.key) || undefined;
+    const sortOrder = (currentSort && currentSort.value) || undefined;
+    this.itemService.getItems(this.route.snapshot.params.id, pageIndex - 1, pageSize, this.keyWord, sortField, sortOrder);
+  }
+  onSearch(){
+    this.loading = true;
+    this.offset=1;
+    this.itemService.getItems(this.route.snapshot.params.id,this.offset-1,this.limit,this.keyWord);
+    this.loading = false;
 
   }
 

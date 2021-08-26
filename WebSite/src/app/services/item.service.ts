@@ -24,7 +24,6 @@ export class ItemService {
     let keywordQueryParam = ""
     if (keyWord != undefined) {
       keywordQueryParam = keyWord.replace(/\s/g, '');
-      console.log(keywordQueryParam)
       if (keywordQueryParam !== "") {
         keywordQueryParam = `&keyword=${keywordQueryParam}`
       }
@@ -32,7 +31,6 @@ export class ItemService {
     let sortQueryParam = ""
     if (sort != undefined) {
       sortQueryParam = sort.replace(/\s/g, '');
-      console.log(sortQueryParam)
       if (sortQueryParam !== "") {
         sortQueryParam = `&sort=${sortQueryParam}`
       }
@@ -40,7 +38,6 @@ export class ItemService {
     let modeQueryParam = ""
     if (mode != undefined) {
       modeQueryParam = mode.replace(/\s/g, '');
-      console.log(modeQueryParam)
       if (modeQueryParam !== "") {
         modeQueryParam = `&mode=${modeQueryParam}`
       }
