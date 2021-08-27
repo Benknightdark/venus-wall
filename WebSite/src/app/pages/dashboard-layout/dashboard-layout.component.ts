@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardService } from '../../services/dashboard.service';
 import { Observable, of } from 'rxjs';
@@ -14,21 +14,19 @@ export class DashboardLayoutComponent implements OnInit {
   constructor(private dashBoardService: DashboardService, private router: Router ) { }
   currentYear!:number;
   webPageList$: Observable<WebPage[]> = of();
-  selectWebPage: WebPage = {};
+  selectWebPageID: string |undefined= "";
   ngOnInit(): void {
     this.currentYear= new Date().getFullYear();
     this.dashBoardService.getPageListSubject();
     this.webPageList$ = this.dashBoardService.webPageSubjectList$.pipe(
       tap(d => {
-        this.selectWebPage = d[0];
-        console.log(this.selectWebPage)
-        this.dashBoardService.setSelectPage(this.selectWebPage.ID)
+        this.selectWebPageID = d[0].ID;
+        this.dashBoardService.setSelectPage(this.selectWebPageID)
       }))
   }
-  onChangeWebPage(data:any) {
-    console.log(data)
+  onChangeWebPage(id:any) {
+    this.selectWebPageID = id;
     this.dashBoardService.resetItems();
-    this.dashBoardService.setSelectPage(data);
+    this.dashBoardService.setSelectPage(this.selectWebPageID);
   }
-
 }

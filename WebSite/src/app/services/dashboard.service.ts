@@ -10,9 +10,9 @@ import { Item, WebPage } from '../models/data.model';
 })
 export class DashboardService {
   private itemList: Item[] = [];
-  private _itemSubjectList$: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
+  private _itemSubjectList$: Subject<Item[]> = new Subject<Item[]>();
   readonly itemSubjectList$ = this._itemSubjectList$.asObservable();
-  private _webPageIDSubject$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>("");
+  private _webPageIDSubject$: Subject<string | undefined> = new Subject<string | undefined>();
   readonly webPageIDSubject$ = this._webPageIDSubject$.asObservable();
 
 
@@ -40,7 +40,7 @@ export class DashboardService {
    * @memberof ItemService
    */
   getItems(id: string | undefined, offset: number = 0, limit: number = 30) {
-    if (id !== '' && id!==undefined) {
+    if (id !== '' && id !== undefined) {
       this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}`)
         .pipe(
           share(),
@@ -63,7 +63,10 @@ export class DashboardService {
    * @memberof DashboardService
    */
   getPageListSubject() {
-    this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`).subscribe(r => {
+    this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`).pipe( share(),
+    debounceTime(300),
+    distinctUntilChanged()
+    ).subscribe(r => {
       this._webPageSubjectList$.next(r)
     })
   }

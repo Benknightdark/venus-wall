@@ -7,17 +7,15 @@
     justify-content: flex-end;
     margin:10px
     '>
-
-      <a  [routerLink]="['/admin']"   nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="setting"></i></a>
+      <a [routerLink]="['/admin']" nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="setting"></i></a>
       <div style="padding-right:10px;">
       </div>
-      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="看版選單" [(ngModel)]="selectWebPage.ID!" nzSize="large"
-        style="width:120px" (ngModelChange)="onChangeWebPage($event)">
+      <nz-select nzPlaceHolder="看版選單" [(ngModel)]="selectWebPageID!" nzSize="large" style="width:120px"
+        (ngModelChange)="onChangeWebPage($event)">
         <nz-option *ngFor="let option of webPageList$ |async" [nzLabel]="option.Name!" [nzValue]="option.ID!">
         </nz-option>
       </nz-select>
     </div>
-
   </nz-header>
   <nz-content>
     <div style="padding-top: 20px;"></div>
