@@ -40,3 +40,6 @@
     background-position: 100% 50%;
   }
 }
+:host ::ng-deep  .ant-card-body{
+  background: beige;
+}

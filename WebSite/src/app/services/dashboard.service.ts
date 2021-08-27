@@ -39,7 +39,7 @@ export class DashboardService {
    * @param {number} [limit=10]
    * @memberof ItemService
    */
-  getItems(id: string | undefined, offset: number = 0, limit: number = 10) {
+  getItems(id: string | undefined, offset: number = 0, limit: number = 30) {
     if (id !== '' && id!==undefined) {
       this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}`)
         .pipe(

@@ -2,7 +2,8 @@
 style="  max-height: 750px;
 height:100vh;
 overflow-y: scroll;"
-(scroll)="onWindowScroll($event)">
+#divTarget
+(scroll)="onWindowScroll($event)" >
   <div nz-col class="gutter-row" [nzSpan]="6" nzXs="20" nzSm="16" nzMd="12" nzLg="8" nzXl="4"
   *ngFor="let item of itemList$ | async; index as i"
   >
@@ -24,11 +25,13 @@ overflow-y: scroll;"
         ></i>
       </ng-template>
       <ng-template #actionOpenExternalSite>
-        <i nz-icon nzType="global" nzTheme="outline"
+        <a [href]="item.Url!" target='_blank'>
+          <i nz-icon nzType="global" nzTheme="outline"
         nzTooltipTitle="開啟外部網站" nzTooltipPlacement="topLeft" nz-tooltip
         ></i>
+        </a>
       </ng-template>
-
     </div>
   </div>
 </div>
+<nz-back-top [nzTarget]="divTarget"></nz-back-top>

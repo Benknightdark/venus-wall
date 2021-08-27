@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
       console.log(id)
       this.selectWebPageId = id;
       this.dashBoardService.resetItems();
-      this.dashBoardService.getItems(this.selectWebPageId,this.offset,this.limit);
+      this.dashBoardService.getItems(this.selectWebPageId);
     })
   }
   onWindowScroll(event:any){

@@ -1,12 +1,23 @@
 <nz-layout class="layout">
-  <nz-header style='
-  display: flex;
-  justify-content: space-between'>
-    <div class="logo"></div>
-    <nz-select [(ngModel)]="selectWebPage.ID!" nzSize="large" style="width:120px"
-    (ngModelChange)="onChangeWebPage($event)">
-      <nz-option  *ngFor="let option of webPageList$ |async" [nzLabel]="option.Name!" [nzValue]="option.ID!"></nz-option>
-    </nz-select>
+  <nz-header>
+    <img class="logo" src='assets/logo.png' style=" display:flex; justify-content: flex-start;
+    " />
+    <div style='
+    display: flex;
+    justify-content: flex-end;
+    margin:10px
+    '>
+
+      <a  [routerLink]="['/admin']"   nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="setting"></i></a>
+      <div style="padding-right:10px;">
+      </div>
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="看版選單" [(ngModel)]="selectWebPage.ID!" nzSize="large"
+        style="width:120px" (ngModelChange)="onChangeWebPage($event)">
+        <nz-option *ngFor="let option of webPageList$ |async" [nzLabel]="option.Name!" [nzValue]="option.ID!">
+        </nz-option>
+      </nz-select>
+    </div>
+
   </nz-header>
   <nz-content>
     <div style="padding-top: 20px;"></div>
