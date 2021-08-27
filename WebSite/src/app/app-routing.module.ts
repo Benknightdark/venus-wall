@@ -4,6 +4,7 @@ import { ForumComponent } from './pages/forum/forum.component';
 import { ItemComponent } from './pages/item/item.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AdminLayoutComponent } from './pages/admin-layout/admin-layout.component';
+import { DashboardLayoutComponent } from './pages/dashboard-layout/dashboard-layout.component';
 
 const routes: Routes = [
   {
@@ -11,7 +12,11 @@ const routes: Routes = [
     redirectTo: 'dashboard',
     pathMatch: 'full'
   },
-  { path: "dashboard", component: DashboardComponent },
+  {
+    path: '', component: DashboardLayoutComponent, children: [
+      { path: "dashboard", component: DashboardComponent },
+    ]
+  },
   {
     path: 'admin', component: AdminLayoutComponent, children: [
       { path: 'item/:id', component: ItemComponent },
@@ -30,8 +35,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: '**', component: DashboardComponent }
-  // { path: "admin/forum", component: ForumComponent },
-  // { path: "admin/item/:id", component: ItemComponent },
 
   // { path: 'welcome', loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) }
 ];
