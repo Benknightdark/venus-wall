@@ -1,0 +1,17 @@
+<div nz-row nzJustify="space-around" nzAlign="middle" [nzGutter]="[16, 24]"
+style="  max-height: 750px;
+overflow-y: scroll;"
+(scroll)="onWindowScroll($event)">
+  <div nz-col class="gutter-row" [nzSpan]="6" nzXs="20" nzSm="16" nzMd="12" nzLg="8" nzXl="4"
+  *ngFor="let item of itemList$ | async; index as i"
+  >
+    <div class="inner-box">
+      <nz-card nzHoverable [nzCover]="coverTemplate" style="width:100%">
+        <nz-card-meta [nzTitle]="item.Title!" [nzDescription]="item.Title!"></nz-card-meta>
+      </nz-card>
+      <ng-template #coverTemplate>
+        <img alt="example" [src]="item.Avator!" />
+      </ng-template>
+    </div>
+  </div>
+</div>

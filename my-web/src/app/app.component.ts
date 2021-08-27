@@ -37,6 +37,7 @@ export class AppComponent {
     this.webPageList$ = this.dashBoardService.webPageSubjectList$.pipe(
       tap(d => {
         this.selectWebPage = d[0];
+        console.log(this.selectWebPage)
         this.dashBoardService.setSelectPage(this.selectWebPage.ID)
       }))
 

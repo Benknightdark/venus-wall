@@ -40,15 +40,17 @@ export class DashboardService {
    * @memberof ItemService
    */
   getItems(id: string | undefined, offset: number = 0, limit: number = 10) {
-    this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}`)
-      .pipe(
-        share(),
-        debounceTime(300),
-        distinctUntilChanged())
-      .subscribe(data => {
-        this.itemList = [...this.itemList, ...data]
-        this._itemSubjectList$.next(this.itemList);
-      }, error => console.log(error));
+    if (id !== '' && id!==undefined) {
+      this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}`)
+        .pipe(
+          share(),
+          debounceTime(300),
+          distinctUntilChanged())
+        .subscribe(data => {
+          this.itemList = [...this.itemList, ...data]
+          this._itemSubjectList$.next(this.itemList);
+        }, error => console.log(error));
+    }
   }
 
   // getPageList() {
@@ -61,9 +63,9 @@ export class DashboardService {
    * @memberof DashboardService
    */
   getPageListSubject() {
-     this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`).subscribe(r=>{
-       this._webPageSubjectList$.next(r)
-     })
+    this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`).subscribe(r => {
+      this._webPageSubjectList$.next(r)
+    })
   }
   /**
    * 設定被選取的WebPage

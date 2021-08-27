@@ -20,7 +20,7 @@ nz-header {
 }
 
 nz-content {
-  padding: 0 50px;
+  padding: 0 30px;
   margin-top: 64px;
 }
 
@@ -31,9 +31,13 @@ nz-breadcrumb {
 .inner-content {
   background: #fff;
   padding: 24px;
+  /*  */
   min-height: 380px;
+
 }
 
 nz-footer {
+  /* position: fixed; */
+
   text-align: center;
 }

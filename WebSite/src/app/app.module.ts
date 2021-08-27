@@ -31,6 +31,9 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { AdminLayoutComponent } from './pages/admin-layout/admin-layout.component';
 import { DashboardLayoutComponent } from './pages/dashboard-layout/dashboard-layout.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 registerLocaleData(zh);
 
@@ -65,7 +68,10 @@ registerLocaleData(zh);
     NzSpaceModule,
     DragDropModule,
     NzPageHeaderModule,
-    NzImageModule
+    NzImageModule,
+    NzGridModule,
+    NzCardModule,
+    NzSelectModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_TW },NzMessageService,NzModalService,NzImageService ],
   bootstrap: [AppComponent]
