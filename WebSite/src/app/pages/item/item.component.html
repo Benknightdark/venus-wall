@@ -1,0 +1,46 @@
+<input nz-input placeholder="關鍵字" [(ngModel)]="keyWord" nzSize="large" (ngModelChange)="onSearch()" style="float: 'right';width:auto!important"/>
+
+<nz-table nzShowSizeChanger [nzData]="(itemList$|async)?.data||[]" [nzFrontPagination]="false" [nzLoading]="loading"  [nzScroll]="{ y: '500px' }"
+  [nzTotal]="(itemList$|async)?.totalDataCount||0" [nzShowSizeChanger]='false'
+  [(nzPageSize)]="limit!"
+   [(nzPageIndex)]="offset!"
+  (nzQueryParams)="onQueryParamsChange($event)">
+  <thead>
+    <tr>
+      <th nzWidth='80px'></th>
+      <th nzWidth='150px'>縮圖</th>
+      <th nzWidth='80px' nzColumnKey="page" [nzSortFn]="true">頁數</th>
+      <th nzWidth='150px' nzColumnKey="seq" [nzSortFn]="true">序號</th>
+      <th nzColumnKey="title" [nzSortFn]="true">標題</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of (itemList$|async)?.data||[] ;index as i">
+      <td>
+        <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+            style=" background: orange;">功能</button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="onOpenGallery(item)">看美照</li>
+              <li nz-menu-item>
+
+                <a [href]='item.Url' target="_blank">外部連結</a>
+              </li>
+              <li nz-menu-item (click)="onDeleteItem(item)">刪除</li>
+            </ul>
+          </nz-dropdown-menu>
+      </td>
+      <td>
+        <img
+        nz-image
+        width="100px"
+        [nzSrc]="item.Avator!"
+        alt=""
+      />
+      </td>
+      <td>{{item.Page}}</td>
+      <td>{{item.Seq}}</td>
+      <td>{{item.Title}}</td>
+    </tr>
+  </tbody>
+</nz-table>
