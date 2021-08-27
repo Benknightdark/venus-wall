@@ -25,6 +25,7 @@ class ItemHandler:
         id = web_page.ID
         res = httpx.get(web_page.Url)
         get_all_page = self.end
+
         # 設定停止頁數
         if get_all_page == None:
             get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
@@ -36,7 +37,7 @@ class ItemHandler:
         root_page_url = web_page_url
         # 設定開始頁數
         i = self.start
-        if i == None:
+        if i == "0":
             i: int = 1
         else:
             i = int(self.start)
@@ -47,7 +48,7 @@ class ItemHandler:
             html = res.text
             root = BeautifulSoup(html, "html.parser")
             water_fall_root = root.find('ul', id='waterfall')
-            logging.info(web_page_url)
+            logging.info(url)
             water_fall = water_fall_root.find_all(
                 'div', attrs={'class': 'c cl'})
             logging.info(f'{len(water_fall)}')
