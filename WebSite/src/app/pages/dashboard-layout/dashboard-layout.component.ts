@@ -25,9 +25,10 @@ export class DashboardLayoutComponent implements OnInit {
         this.dashBoardService.setSelectPage(this.selectWebPage.ID)
       }))
   }
-  onChangeWebPage() {
+  onChangeWebPage(data:any) {
+    console.log(data)
     this.dashBoardService.resetItems();
-    this.dashBoardService.setSelectPage(this.selectWebPage.ID);
+    this.dashBoardService.setSelectPage(data);
   }
 
 }
