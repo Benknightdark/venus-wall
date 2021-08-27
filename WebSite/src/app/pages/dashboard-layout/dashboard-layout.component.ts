@@ -21,6 +21,7 @@ export class DashboardLayoutComponent implements OnInit {
     this.webPageList$ = this.dashBoardService.webPageSubjectList$.pipe(
       tap(d => {
         this.selectWebPageID = d[0].ID;
+        this.dashBoardService.resetItems();
         this.dashBoardService.setSelectPage(this.selectWebPageID)
       }))
   }
