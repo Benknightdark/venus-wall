@@ -9,3 +9,4 @@ pyhumps
 fastapi
 beautifulsoup4
 httpx
+uvicorn
