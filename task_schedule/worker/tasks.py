@@ -11,7 +11,7 @@ os.environ.setdefault('CELERY_CONFIG_MODULE', 'celery_config')
 app = Celery('tasks', broker=os.environ.get('CELERY_BROKER_URL', 'redis://YORPAS99RDDaabvxvc3@localhost:6398/0'),
              backend=os.environ.get('CELERY_RESULT_BACKEND', 'redis://YORPAS99RDDaabvxvc3@localhost:6398/1'))
 app.config_from_envvar('CELERY_CONFIG_MODULE')
-app.conf.CELERY_WORKER_SEND_TASK_EVENTS = True
+# app.conf.CELERY_WORKER_SEND_TASK_EVENTS = True
 
 
 @app.task
