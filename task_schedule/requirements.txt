@@ -1,0 +1,6 @@
+SQLAlchemy
+pymssql
+beautifulsoup4
+httpx
+celery[redis,auth]
+flower

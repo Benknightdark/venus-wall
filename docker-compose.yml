@@ -1,16 +1,24 @@
-  
-version: '3.4'
+version: "3.4"
 services:
-    beauty-db:
-        image: mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-16.04
-        restart: always
-        user: root
-        environment:
-            SA_PASSWORD: "YourStrong!Passw0rd"
-            ACCEPT_EULA: "Y"
-        volumes:
-            - beauty-db-data:/var/opt/mssql      
-        ports:
-            - 9487:1433
+  ############################
+  # Redis state store
+  ############################
+  task-schedule-redis:
+    restart: always
+    build: ./task_schedule_redis
+    command: redis-server --requirepass YORPAS99RDDaabvxvc3
+    ports:
+      - "6398:6379"
+  beauty-db:
+    image: mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-16.04
+    restart: always
+    user: root
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - beauty-db-data:/var/opt/mssql
+    ports:
+      - 9487:1433
 volumes:
-    beauty-db-data:
+  beauty-db-data:
