@@ -10,7 +10,12 @@ services:
     ports:
       - 6398:6379
     networks:
-        - venus-wall-network       
+        - venus-wall-network 
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3              
   ############################
   # celery monitor
   ############################
@@ -23,8 +28,8 @@ services:
     ports:
       - 8888:8888
     depends_on:
-      - task-schedule-broker
-      - task-schedule-worker
+      task-schedule-broker:
+        condition: service_healthy
     networks:
         - venus-wall-network       
   ############################
@@ -34,12 +39,13 @@ services:
     build: ./task_schedule/worker
     entrypoint: celery
     command: -A tasks worker -l info -E
+    restart: always
     environment:
       - BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
       - RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
     depends_on:
-      - task-schedule-broker
-      - db
+      task-schedule-broker:
+        condition: service_healthy
     networks:
         - venus-wall-network       
   ############################
@@ -47,6 +53,7 @@ services:
   ############################
   api:
     build: ./api
+    restart: always
     environment:
       - "DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8"
     ports:

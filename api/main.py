@@ -11,6 +11,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+import httpx
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
 origins = [
@@ -65,3 +66,11 @@ app.include_router(item.router, prefix="/api", tags=['看版項目'])
 app.include_router(image.router, prefix="/api", tags=['項目圖片'])
 app.include_router(user.router, prefix="/api", tags=['使用者'])
 app.include_router(forum.router, prefix="/api", tags=['論壇'])
+
+
+@app.get("/test", summary="test ")
+async def add_web_apge():
+    # req=httpx.post('http://localhost:8888/api/task/async-apply/tasks.add',data='{"args":[1,2]}')
+    req=httpx.get('http://localhost:8888/api/task/async-apply/tasks.echo')
+
+    return req.json()
