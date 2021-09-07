@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   ############################
-  # Redis state store
+  # celery broker store
   ############################
   task-schedule-broker:
     restart: always
@@ -9,15 +9,35 @@ services:
     command: redis-server --requirepass YORPAS99RDDaabvxvc3
     ports:
       - "6398:6379"
+  ############################
+  # celery monitor
+  ############################
   task_schedule-monitor:
     image: mher/flower:latest
     environment:
-      - CELERY_BROKER_URL=redis://task-schedule-broker:6379/0
-      - FLOWER_PORT=8888
+      - CELERY_BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
+      - CELERY_RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+      - FLOWER_PORT=5555
     ports:
-      - 8888:8888
+      - 5555:5555
     depends_on:
       - task-schedule-broker
+      - task_schedule-worker
+  ############################
+  # celery worker
+  ############################
+  task_schedule-worker:
+    build: ./task_schedule/worker
+    entrypoint: celery
+    command: -A tasks worker -l info -E
+    environment:
+      - BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
+      - RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+    depends_on:
+      - task-schedule-broker
+  ############################
+  # db
+  ############################
   beauty-db:
     image: mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-16.04
     restart: always

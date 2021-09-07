@@ -1,27 +1,38 @@
-from celery import Celery
-from celery.utils.log import get_task_logger
 
-logger = get_task_logger(__name__)
-app = Celery('tasks', broker='redis://:YORPAS99RDDaabvxvc3@localhost:6398/0',backend='redis://:YORPAS99RDDaabvxvc3@localhost:6398/1')
-app.conf.update(
-     enable_utc=True,
-     timezone='Asia/Taipei',
-     task_serializer='json',
-)
+import os
+
+from celery import Celery
+import os
+import time
+from datetime import datetime
+
+os.environ.setdefault('CELERY_CONFIG_MODULE', 'celery_config')
+
+app = Celery('tasks', broker=os.environ.get('CELERY_BROKER_URL', 'redis://YORPAS99RDDaabvxvc3@localhost:6398/0'),
+             backend=os.environ.get('CELERY_RESULT_BACKEND', 'redis://YORPAS99RDDaabvxvc3@localhost:6398/1'))
+app.config_from_envvar('CELERY_CONFIG_MODULE')
 app.conf.CELERY_WORKER_SEND_TASK_EVENTS = True
 
-app.conf.result_backend_transport_options = {
-    'retry_policy': {
-       'timeout': 5.0
-    }
-}
+
 @app.task
 def add(x, y):
-    logger.info('Adding {0} + {1}'.format(x, y))
     return x + y
+
+
 @app.task
-def error_handler(request, exc, traceback):
-    logger.error('Task {0} raised exception: {1!r}\n{2!r}'.format(
-          request.id, exc, traceback))    
+def sleep(seconds):
+    time.sleep(seconds)
+
+
+@app.task
+def echo(msg, timestamp=False):
+    return "%s: %s" % (datetime.now(), msg) if timestamp else msg
+
+
+@app.task
+def error(msg):
+    raise Exception(msg)
+
+
 if __name__ == "__main__":
-    app.start()          
+    app.start()
