@@ -9,6 +9,8 @@ services:
     command: redis-server --requirepass YORPAS99RDDaabvxvc3
     ports:
       - 6398:6379
+    networks:
+        - venus-wall-network       
   ############################
   # celery monitor
   ############################
@@ -22,7 +24,9 @@ services:
       - 8888:8888
     depends_on:
       - task-schedule-broker
-      - task_schedule-worker
+      - task-schedule-worker
+    networks:
+        - venus-wall-network       
   ############################
   # celery worker
   ############################
@@ -35,12 +39,27 @@ services:
       - RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
     depends_on:
       - task-schedule-broker
-      - beauty-db
+      - db
+    networks:
+        - venus-wall-network       
+  ############################
+  # Api
+  ############################
+  api:
+    build: ./api
+    environment:
+      - "DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8"
+    ports:
+      - 8780:8780
+    depends_on:
+      - db
+    networks:
+        - venus-wall-network       
   ############################
   # db
   ############################
-  beauty-db:
-    image: mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-16.04
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-CU12-ubuntu-20.04
     restart: always
     user: root
     environment:
@@ -50,5 +69,9 @@ services:
       - beauty-db-data:/var/opt/mssql
     ports:
       - 9487:1433
+    networks:
+        - venus-wall-network      
+networks:
+    venus-wall-network:      
 volumes:
   beauty-db-data:
