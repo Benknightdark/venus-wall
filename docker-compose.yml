@@ -8,7 +8,7 @@ services:
     build: ./task_schedule/broker
     command: redis-server --requirepass YORPAS99RDDaabvxvc3
     ports:
-      - "6398:6379"
+      - 6398:6379
   ############################
   # celery monitor
   ############################
@@ -17,9 +17,9 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
       - CELERY_RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
-      - FLOWER_PORT=5555
+      - FLOWER_PORT=8888
     ports:
-      - 5555:5555
+      - 8888:8888
     depends_on:
       - task-schedule-broker
       - task_schedule-worker
@@ -35,6 +35,7 @@ services:
       - RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
     depends_on:
       - task-schedule-broker
+      - beauty-db
   ############################
   # db
   ############################
