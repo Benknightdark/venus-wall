@@ -3,12 +3,21 @@ services:
   ############################
   # Redis state store
   ############################
-  task-schedule-redis:
+  task-schedule-broker:
     restart: always
-    build: ./task_schedule_redis
+    build: ./task_schedule/broker
     command: redis-server --requirepass YORPAS99RDDaabvxvc3
     ports:
       - "6398:6379"
+  task_schedule-monitor:
+    image: mher/flower:latest
+    environment:
+      - CELERY_BROKER_URL=redis://task-schedule-broker:6379/0
+      - FLOWER_PORT=8888
+    ports:
+      - 8888:8888
+    depends_on:
+      - task-schedule-broker
   beauty-db:
     image: mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-16.04
     restart: always
