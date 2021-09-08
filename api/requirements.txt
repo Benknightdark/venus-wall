@@ -10,3 +10,4 @@ fastapi
 beautifulsoup4
 httpx
 uvicorn
+celery[redis,auth]

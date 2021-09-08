@@ -12,6 +12,9 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 import httpx
+from celery import Celery
+celeryapp = Celery('tasks', broker='redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0',
+                   backend='redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1')
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
 origins = [
@@ -70,7 +73,8 @@ app.include_router(forum.router, prefix="/api", tags=['論壇'])
 
 @app.get("/test", summary="test ")
 async def add_web_apge():
-    # req=httpx.post('http://localhost:8888/api/task/async-apply/tasks.add',data='{"args":[1,2]}')
-    req=httpx.get('http://localhost:8888/api/task/async-apply/tasks.echo')
-
-    return req.json()
+    r = celeryapp.send_task('tasks.add', args=(1, 2))
+    print(r)
+    r2 = celeryapp.send_task('tasks.echo')
+    print(r)
+    return [r, r2]
