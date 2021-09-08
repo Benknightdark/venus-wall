@@ -3,3 +3,4 @@ pymssql
 beautifulsoup4
 httpx
 celery[redis,auth]
+typing

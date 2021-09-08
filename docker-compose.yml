@@ -33,6 +33,7 @@ services:
     command: -A tasks worker -l info -E
     restart: always
     environment:
+      - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8
       - BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
       - RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
     networks:
