@@ -11,7 +11,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-import httpx
+
 from celery import Celery
 celeryapp = Celery('tasks', broker='redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0',
                    backend='redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1')
@@ -76,5 +76,5 @@ async def add_web_apge():
     r = celeryapp.send_task('tasks.add', args=(1, 2))
     print(r)
     r2 = celeryapp.send_task('tasks.echo')
-    print(r)
-    return [r, r2]
+    print(r2)
+    return {'data':[str(r),str(r2)]}

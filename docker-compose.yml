@@ -10,12 +10,7 @@ services:
     ports:
       - 6398:6379
     networks:
-        - venus-wall-network 
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 5s
-      retries: 3              
+        - venus-wall-network            
   ############################
   # celery monitor
   ############################
@@ -27,9 +22,6 @@ services:
       - FLOWER_PORT=8888
     ports:
       - 8888:8888
-    depends_on:
-      task-schedule-broker:
-        condition: service_healthy
     networks:
         - venus-wall-network       
   ############################
@@ -43,9 +35,6 @@ services:
     environment:
       - BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
       - RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
-    depends_on:
-      task-schedule-broker:
-        condition: service_healthy
     networks:
         - venus-wall-network       
   ############################
