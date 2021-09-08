@@ -1,3 +1,5 @@
+from dependencies import get_celery
+import celery
 from routers import forum, webpage, item, user, image
 from fastapi import FastAPI, Request, Response, status
 from models import models, base
@@ -11,10 +13,9 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.params import Depends
 
-from celery import Celery
-celeryapp = Celery('tasks', broker='redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0',
-                   backend='redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1')
+
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
 origins = [
@@ -72,9 +73,9 @@ app.include_router(forum.router, prefix="/api", tags=['論壇'])
 
 
 @app.get("/test", summary="test ")
-async def add_web_apge():
-    r = celeryapp.send_task('tasks.add', args=(1, 2))
+async def add_web_apge(celery_app: celery = Depends(get_celery) ):
+    r = celery_app.send_task('tasks.add', args=(1, 2))
     print(r)
-    r2 = celeryapp.send_task('tasks.echo')
+    r2 = celery_app.send_task('tasks.echo')
     print(r2)
     return {'data':[str(r),str(r2)]}
