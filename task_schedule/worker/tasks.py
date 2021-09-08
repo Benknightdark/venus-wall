@@ -16,6 +16,7 @@ app.config_from_envvar('CELERY_CONFIG_MODULE')
 def add(x, y):
     print(x+y)
     return x + y
+    
 @app.task
 def echo():
     return 'hi'
