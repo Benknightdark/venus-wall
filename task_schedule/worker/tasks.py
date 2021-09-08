@@ -30,10 +30,11 @@ def echo():
 
 @app.task
 def update_item(id, start, end):
-    h = ItemHandler(start, end)
-    f = WebPageFilter(id)
-    helper = ItemHelper(Session(), f, h)
-    helper.process()
+    with base.SessionLocal.configure() as session:
+        h = ItemHandler(start, end)
+        f = WebPageFilter(id)
+        helper = ItemHelper(session, f, h)
+        helper.process()
     return 'hi'
 
 
