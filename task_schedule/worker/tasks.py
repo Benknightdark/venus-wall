@@ -1,6 +1,9 @@
 
 import os
 
+from sqlalchemy.engine import create_engine
+from sqlalchemy.orm import session
+
 from celery import Celery
 import os
 import time
@@ -29,12 +32,12 @@ def echo():
 
 
 @app.task
-def update_item(id, start, end):
-    with base.SessionLocal.configure() as session:
-        h = ItemHandler(start, end)
-        f = WebPageFilter(id)
-        helper = ItemHelper(session, f, h)
-        helper.process()
+def update_item(id, start, end):    
+    h = ItemHandler(start, end)
+    f = WebPageFilter(id)
+    session=base.SessionLocal()
+    helper = ItemHelper(session, f, h)
+    helper.process()
     return 'hi'
 
 
