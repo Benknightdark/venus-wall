@@ -2,7 +2,7 @@ import httpx
 from sqlalchemy.sql.expression import and_, asc, desc
 from sqlalchemy.sql.functions import func
 from starlette.background import BackgroundTasks
-from dependencies import get_db,apply_async
+from dependencies import get_db, apply_async
 from fastapi.params import Depends
 from typing import Optional
 from fastapi import APIRouter
@@ -14,11 +14,10 @@ router = APIRouter()
 
 
 @router.post("/item/{id}", summary="透過WebPage id，新增或修改此類別底下的item資料")
-async def post_item_by_web_page_id(id: str, start: Optional[str] = None, end: Optional[str] = None
-, flower_apply_async: str = Depends(apply_async)
-):
-    if end=="" or end==None:
-        end="0"
+async def post_item_by_web_page_id(id: str, start: Optional[str] = None, end: Optional[str] = None, flower_apply_async: str = Depends(apply_async)
+                                   ):
+    if end == "" or end == None:
+        end = "0"
     data = json.dumps({
         "args": [
             str(id), str(start), str(end)

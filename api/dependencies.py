@@ -11,13 +11,13 @@ def get_db(request: Request):
         db.close()
 
 
-def apply_async(request: Request):
+def apply_async():
     yield f"{flower_api_url}/api/task/apply-async"
 
 
-def task_info(request: Request):
+def task_info():
     yield f"{flower_api_url}/api/task/info"
 
 
-def task_abort(request: Request):
+def task_abort():
     yield f"{flower_api_url}/api/task/abort"
