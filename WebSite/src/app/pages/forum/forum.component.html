@@ -57,7 +57,7 @@
           (click)="onRefreshCurrentTaskInfo(data.ID)"
           [style.cursor]="'pointer'"
           [style.color]="'white'"
-          [style.background-color]="(((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state===undefined?'#D53515':'#bcf4c3'">
+          [style.background-color]="(((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state==='FAILURE'?'#D53515':'#bcf4c3'">
             {{
             (((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state
           }}

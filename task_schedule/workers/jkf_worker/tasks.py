@@ -12,7 +12,6 @@ from sqlalchemy.orm.session import Session
 from helpers.item_helpers import ItemHandler, ItemHelper, WebPageFilter
 from models import base
 from models import models, base
-
 os.environ.setdefault('CELERY_CONFIG_MODULE', 'celery_config')
 models.base.Base.metadata.create_all(bind=base.engine)
 
@@ -31,7 +30,7 @@ def echo():
     return 'hi'
 
 
-@app.task
+@app.task(autoretry_for=(Exception,), retry_backoff=5)
 def update_item(id, start, end):    
     h = ItemHandler(start, end)
     f = WebPageFilter(id)

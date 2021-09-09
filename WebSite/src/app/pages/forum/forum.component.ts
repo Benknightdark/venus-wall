@@ -69,7 +69,6 @@ export class ForumComponent implements OnInit {
       return;
     }
     this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe((r: any) => {
-      console.log(r)
       this.taskService.getCurrentTaskStatus(this.selectedWebPage.ID!, r['task-id'])
     });
     this.hideCrawlerForm = true;
