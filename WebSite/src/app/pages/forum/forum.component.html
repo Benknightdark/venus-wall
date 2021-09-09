@@ -33,7 +33,7 @@
             <tr>
               <th nzWidth="60px"></th>
               <th>看板</th>
-              <th nzWidth="150px">爬蟲執行狀態</th>
+              <th nzWidth="150px">爬蟲執行歷史記錄</th>
               <th>看板連結</th>
             </tr>
           </thead>
@@ -52,18 +52,19 @@
             </ul>
           </nz-dropdown-menu>
         </td>
-        <td>{{data.Name}}</td>
-        <td>
+        <td>{{data.Name}}
           <span
-
           (click)="onRefreshCurrentTaskInfo(data.ID)"
           [style.cursor]="'pointer'"
           [style.color]="'white'"
-          [style.background-color]="(((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state===undefined?'red':'green'">
+          [style.background-color]="(((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state===undefined?'#D53515':'#bcf4c3'">
             {{
             (((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state
           }}
           </span>
+        </td>
+        <td>
+
         </td>
         <td>
           <a [href]="data.Url" target='_blank' nz-button nzType="primary">
