@@ -29,7 +29,7 @@ class ItemHandler:
             get_all_page = self.end
 
             # 設定停止頁數
-            if get_all_page == None:
+            if get_all_page == "0":
                 get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
                     'name': 'custompage'}).next_element['title'].replace('共', '').replace('頁', '').replace(' ', '')
             else:

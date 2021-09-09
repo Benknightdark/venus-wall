@@ -1,5 +1,3 @@
-from dependencies import get_celery
-import celery
 from routers import forum, webpage, item, user, image
 from fastapi import FastAPI, Request, Response, status
 from models import models, base
@@ -70,12 +68,3 @@ app.include_router(item.router, prefix="/api", tags=['看版項目'])
 app.include_router(image.router, prefix="/api", tags=['項目圖片'])
 app.include_router(user.router, prefix="/api", tags=['使用者'])
 app.include_router(forum.router, prefix="/api", tags=['論壇'])
-
-
-@app.get("/test", summary="test ")
-async def add_web_apge(celery_app: celery = Depends(get_celery) ):
-    r = celery_app.send_task('tasks.add', args=(1, 2))
-    print(r)
-    r2 = celery_app.send_task('tasks.echo')
-    print(r2)
-    return {'data':[str(r),str(r2)]}

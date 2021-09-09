@@ -2,12 +2,11 @@ SQLAlchemy
 pymssql
 async-exit-stack
 async-generator
-fire
-pyinstaller
+# fire
+# pyinstaller
 jinja2
 pyhumps
 fastapi
 beautifulsoup4
 httpx
 uvicorn
-celery[redis,auth]

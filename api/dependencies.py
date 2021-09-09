@@ -1,6 +1,6 @@
+import os
 from fastapi import Request
-from celery import Celery
-from os import environ
+flower_api_url = os.environ("FLOWER_API_URL", "http://localhost:8888")
 
 
 def get_db(request: Request):
@@ -11,12 +11,13 @@ def get_db(request: Request):
         db.close()
 
 
-def get_celery(request: Request):
-    try:
-        celeryapp = Celery('tasks', broker=environ.get(
-            'BROKER_URL', 'redis://:YORPAS99RDDaabvxvc3@localhost:6398/0'),
-            backend=environ.get(
-            'RESULT_BACKEND', 'redis://:YORPAS99RDDaabvxvc3@localhost:6398/1'))
-        yield celeryapp
-    finally:
-        celeryapp.close()
+def apply_async(request: Request):
+    yield f"{flower_api_url}/api/task/apply-async"
+
+
+def task_info(request: Request):
+    yield f"{flower_api_url}/api/task/info"
+
+
+def task_abort(request: Request):
+    yield f"{flower_api_url}/api/task/abort"
