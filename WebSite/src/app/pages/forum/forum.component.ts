@@ -60,11 +60,12 @@ export class ForumComponent implements OnInit {
     this.hideCrawlerForm = true;
   }
   onCrawlerFormSubmit(formData: any) {
-    console.log(formData)
     if (this.startPageNumber <= -1 || this.endPageNumber <= -1) {
       return;
     }
-    this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe();
+    this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe(r=>{
+      console.log(r)
+    });
     this.hideCrawlerForm = true;
     this.messageService.info(`抓取 => ${this.selectedWebPage.Name} 看版資料`);
   }

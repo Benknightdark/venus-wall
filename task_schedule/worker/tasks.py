@@ -37,8 +37,8 @@ def update_item(id, start, end):
     f = WebPageFilter(id)
     session=base.SessionLocal()
     helper = ItemHelper(session, f, h)
-    helper.process()
-    return 'hi'
+    process_status=helper.process()
+    return process_status
 
 
 if __name__ == "__main__":

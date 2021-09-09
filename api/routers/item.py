@@ -16,7 +16,9 @@ router = APIRouter()
 @router.post("/item/{id}", summary="透過WebPage id，新增或修改此類別底下的item資料")
 async def post_item_by_web_page_id( id: str, start: Optional[str] = None, end: Optional[str] = None,celery_app: celery = Depends(get_celery)):
     r = celery_app.send_task('tasks.update_item', args=(id, start,end))
-    return {"message": "開始抓資料"}
+    print(r)
+    return{"taskId": str(r)}
+
 
 
 
@@ -24,7 +26,7 @@ async def post_item_by_web_page_id( id: str, start: Optional[str] = None, end: O
 async def post_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
     db.query(models.Item).filter(models.Item.ID == id).update({"Enable": 0})
     db.commit()
-    return {"message": "開始抓資料"}
+    return {"message": "已刪除資料"}
 
 
 @router.get("/item/{id}", summary="透過WebPage id，取得要抓的item資料")

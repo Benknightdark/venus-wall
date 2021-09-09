@@ -33,6 +33,7 @@
             <tr>
               <th nzWidth="60px"></th>
               <th>看板</th>
+              <th nzWidth="150px">爬蟲工作執行狀態</th>
               <th>看板連結</th>
             </tr>
           </thead>
@@ -52,11 +53,13 @@
           </nz-dropdown-menu>
         </td>
         <td>{{data.Name}}</td>
+        <td></td>
         <td>
           <a [href]="data.Url" target='_blank' nz-button nzType="primary">
             <i nz-icon nzType="link" nzTheme="outline"></i>
             開啟連結
           </a>
+        </td>
       </tr>
     </ng-template>
   </tbody>
