@@ -14,8 +14,8 @@ export class TaskService {
   private curretnTaskStatusList: { [webPageId: string]: TaskInfo } = {};
 
   constructor(private http: HttpClient) { }
-
-  getCurrentTaskStatus(webPageId: string, taskId: string) {
+  getCurrentTaskStatus(webPageId: string, taskId?: string) {
+    taskId=(taskId===undefined||taskId===null)?this.curretnTaskStatusList[String(webPageId).toUpperCase()].uuid:taskId;
     this.http.get<TaskInfo>(`${environment.apiUrl}/api/task/${taskId}`).pipe(share())
       .subscribe(r => {
         this.curretnTaskStatusList[String(webPageId).toUpperCase()] = r;
