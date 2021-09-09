@@ -1,7 +1,8 @@
+import { TaskService } from './../../services/task.service';
 import { Component, OnInit } from '@angular/core';
 import { ForumService } from '../../services/forum.service';
 import { Observable, of } from 'rxjs';
-import { Forum, ForumWebPage, WebPage } from '../../models/data.model';
+import { Forum, ForumWebPage, TaskInfo, WebPage } from '../../models/data.model';
 import { DashboardService } from '../../services/dashboard.service';
 import { ItemService } from '../../services/item.service';
 import { WebPageService } from '../../services/web-page.service';
@@ -28,13 +29,16 @@ export class ForumComponent implements OnInit {
   formModalType: FormType = FormType.Create;
   forumWebPageData: ForumWebPage = { forum: {}, webPageList: [] };
   cols!: any[];
+  curretnTaskStatusList$: Observable<{ [webPageId: string]: TaskInfo }> = of();
+
   constructor(
     private forumService: ForumService,
     private webPageService: WebPageService,
     private itemService: ItemService,
     private dashBoardService: DashboardService,
     private messageService: NzMessageService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private taskService:TaskService
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +47,7 @@ export class ForumComponent implements OnInit {
     this.forumService.forumDetailSubject$.subscribe(a => {
       this.forumWebPageData = a;
     })
+    this.curretnTaskStatusList$=this.taskService.currentTaskStatusList$;
     this.cols = [
       { field: 'Name', header: '看版名稱' },
       { field: 'Url', header: '連結' },
@@ -63,8 +68,9 @@ export class ForumComponent implements OnInit {
     if (this.startPageNumber <= -1 || this.endPageNumber <= -1) {
       return;
     }
-    this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe(r=>{
+    this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe((r:any)=>{
       console.log(r)
+      this.taskService.getCurrentTaskStatus(this.selectedWebPage.ID!,r['task-id'])
     });
     this.hideCrawlerForm = true;
     this.messageService.info(`抓取 => ${this.selectedWebPage.Name} 看版資料`);

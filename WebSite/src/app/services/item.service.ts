@@ -67,6 +67,6 @@ export class ItemService {
    */
   updateItems(id: string | undefined, start: number | undefined, end: number | undefined) {
     let endString = end != 0 ? `&end=${end}` : ''
-    return this.http.post<{ totalDataCount?: number, data?: Item[] }>(`${environment.apiUrl}/api/item/${id?.toString().toUpperCase()}?start=${start}${endString}`, {});
+    return this.http.post(`${environment.apiUrl}/api/item/${id?.toString().toUpperCase()}?start=${start}${endString}`, {});
   }
 }

@@ -4,6 +4,9 @@
 <button nz-button (click)="onOpenCreateModal()" nzType="primary">新增</button>
 <br />
 <br />
+{{
+ ( (curretnTaskStatusList$|async)||{})|json
+}}
 <nz-table #tableData [nzData]="(itemList$|async)||[]" [nzPageSize]="50" [nzScroll]="{ y: '500px' }">
   <thead>
     <tr>
@@ -53,7 +56,13 @@
           </nz-dropdown-menu>
         </td>
         <td>{{data.Name}}</td>
-        <td></td>
+        <td>
+         {{
+             (
+               ((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()]
+             )?.state
+           }}
+          </td>
         <td>
           <a [href]="data.Url" target='_blank' nz-button nzType="primary">
             <i nz-icon nzType="link" nzTheme="outline"></i>
