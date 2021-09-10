@@ -15,7 +15,10 @@ router = APIRouter()
 @router.get("/task/{id}", summary="取得此task id的爬蟲最新工作狀態")
 async def get_item_by_web_page_id(id: str,
                                   flower_task_info: str = Depends(task_info)):
-    req = httpx.get(f'{flower_task_info}/{id}')
+    transport = httpx.HTTPTransport(retries=5)
+    client = httpx.Client(transport=transport)                              
+    req = client.get(f'{flower_task_info}/{id}')
+    print(req.status_code)
     print(req.text)
     res = req.json()
     return res                                  

@@ -30,14 +30,18 @@ def echo():
     return 'hi'
 
 
-@app.task(autoretry_for=(Exception,), retry_backoff=5)
-def update_item(id, start, end):    
-    h = ItemHandler(start, end)
-    f = WebPageFilter(id)
-    session=base.SessionLocal()
-    helper = ItemHelper(session, f, h)
-    process_status=helper.process()
-    return process_status
+@app.task(autoretry_for=(Exception,),     max_retries=20,
+          retry_backoff=True,
+          retry_backoff_max=700)
+def update_item(id, start, end):
+    with base.SessionLocal() as session:
+        session.begin()
+        session.execute('set transaction isolation level serializable')
+        h = ItemHandler(start, end)
+        f = WebPageFilter(id)
+        helper = ItemHelper(session, f, h)
+        process_status = helper.process()
+        return process_status
 
 
 if __name__ == "__main__":

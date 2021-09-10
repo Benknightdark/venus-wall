@@ -1,6 +1,8 @@
 from datetime import datetime
 import logging
 import re
+
+from sqlalchemy.orm import session
 from helpers.error_log_helper import format_error_msg
 import uuid
 from bs4 import BeautifulSoup
@@ -132,8 +134,12 @@ class ItemHandler:
         except Exception as e:
                 logging.error('----------------------------------------------')
                 error_msg=format_error_msg(e)  
-                return {"status":"fail","reason":error_msg}      
-
+                logging.error(error_msg)
+                raise(error_msg)
+                #return {"status":"fail","reason":error_msg}
+                #              
+        finally:
+            db.close()
     def update_mdk_item(self, web_page: WebPage, db: Session):
         try:
             id = web_page.ID
@@ -218,7 +224,8 @@ class ItemHandler:
         except Exception as e:
                 logging.error('----------------------------------------------')
                 error_msg=format_error_msg(e)  
-                return {"status":"fail","reason":error_msg}              
+                raise(error_msg)
+                #return {"status":"fail","reason":error_msg}              
 
     def update_item(self, web_page: WebPage, db: Session):
         if web_page.WebPageForumID_U.Name == 'JKF':

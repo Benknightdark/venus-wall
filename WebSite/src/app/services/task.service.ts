@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { retry, share } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { TaskInfo } from '../models/data.model';
 
@@ -16,7 +16,7 @@ export class TaskService {
   constructor(private http: HttpClient) { }
   getCurrentTaskStatus(webPageId: string, taskId?: string) {
     taskId=(taskId===undefined||taskId===null)?this.curretnTaskStatusList[String(webPageId).toUpperCase()].uuid:taskId;
-    this.http.get<TaskInfo>(`${environment.apiUrl}/api/task/${taskId}`).pipe(share())
+    this.http.get<TaskInfo>(`${environment.apiUrl}/api/task/${taskId}`).pipe(share(),retry(5))
       .subscribe(r => {
         this.curretnTaskStatusList[String(webPageId).toUpperCase()] = r;
         this._currentTaskStatusList$.next(this.curretnTaskStatusList);
