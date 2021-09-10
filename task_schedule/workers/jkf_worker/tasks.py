@@ -41,6 +41,7 @@ def update_item(id, start, end):
         f = WebPageFilter(id)
         helper = ItemHelper(session, f, h)
         process_status = helper.process()
+        session.close()
         return process_status
 
 

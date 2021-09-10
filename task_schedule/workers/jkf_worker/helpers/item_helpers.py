@@ -141,8 +141,6 @@ class ItemHandler:
             raise(error_msg)
             # return {"status":"fail","reason":error_msg}
             #
-        finally:
-            db.close()
 
     def update_mdk_item(self, web_page: WebPage, db: Session):
         try:
