@@ -18,6 +18,8 @@ def send_task(request: Request):
 def task_info(request: Request):
     yield f"{flower_api_url}/api/task/info"
 
+def all_task_info(request: Request):
+    yield f"{flower_api_url}/api/tasks"
 
 def task_abort(request: Request):
     yield f"{flower_api_url}/api/task/abort"

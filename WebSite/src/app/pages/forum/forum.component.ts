@@ -56,7 +56,9 @@ export class ForumComponent implements OnInit {
   showChange(data: Forum, event: any) {
     const isExpanded = event as boolean
     data.Expanded = isExpanded;
-    this.webPageService.getWebPageByForumID(data.ID)
+    this.webPageService.getWebPageByForumID(data.ID);
+    this.taskService.getCurrentTaskStatus();
+
   }
   handleCrawlerFormCancel() {
     this.hideCrawlerForm = true;
@@ -69,6 +71,7 @@ export class ForumComponent implements OnInit {
       return;
     }
     this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe((r: any) => {
+      this.webPageService.getWebPageByForumID(this.selectedWebPage.ForumID)
       this.taskService.getCurrentTaskStatus(this.selectedWebPage.ID!, r['task-id'])
     });
     this.hideCrawlerForm = true;
@@ -154,5 +157,9 @@ export class ForumComponent implements OnInit {
   onRefreshCurrentTaskInfo(webPageId: string | undefined) {
     this.taskService.getCurrentTaskStatus(webPageId!);
   }
-
+  onRefreshTaskCount(data: WebPage) {
+    console.log(data)
+    this.webPageService.getWebPageByForumID(data.ForumID)
+    this.taskService.getCurrentTaskStatus();
+  }
 }

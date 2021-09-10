@@ -64,7 +64,10 @@
           </span>
         </td>
         <td>
-
+          <button nz-button nzType="primary" *ngIf="data?.TaskCount!=null" (click)="onRefreshTaskCount(data)">
+            <i nz-icon nzType="bug" nzTheme="outline"></i>
+            {{data?.TaskCount}}
+          </button>
         </td>
         <td>
           <a [href]="data.Url" target='_blank' nz-button nzType="primary">

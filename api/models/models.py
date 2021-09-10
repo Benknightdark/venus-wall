@@ -37,6 +37,36 @@ class Image(base.Base):
     # collections
 
 
+class Item(base.Base):
+    __tablename__ = "Item"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    Title = Column(NVARCHAR(None))
+
+    PageName = Column(NVARCHAR(None))
+
+    Url = Column(NVARCHAR(None))
+
+    Avator = Column(NVARCHAR(None))
+
+    ModifiedDateTime = Column(DATETIME)
+
+    Page = Column(TINYINT)
+
+    Seq = Column(TINYINT)
+
+    Enable = Column(BIT)
+
+    WebPageID = Column(UNIQUEIDENTIFIER, ForeignKey("WebPage.ID"))
+
+    # ForeignKey
+    ItemWebPageID_U = relationship("WebPage", back_populates="Item")
+
+    # collections
+    Image = relationship("Image", back_populates="ImageItemID_U")
+
+
 class Users(base.Base):
     __tablename__ = "Users"
 
@@ -71,33 +101,22 @@ class WebPage(base.Base):
 
     # collections
     Item = relationship("Item", back_populates="ItemWebPageID_U")
+    WebPageTask = relationship(
+        "WebPageTask", back_populates="WebPageTaskWebPageID_U")
 
 
-class Item(base.Base):
-    __tablename__ = "Item"
+class WebPageTask(base.Base):
+    __tablename__ = "WebPageTask"
 
     ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
 
-    Title = Column(NVARCHAR(None))
-
-    PageName = Column(NVARCHAR(None))
-
-    Url = Column(NVARCHAR(None))
-
-    Avator = Column(NVARCHAR(None))
-
-    ModifiedDateTime = Column(DATETIME)
-
-    Page = Column(TINYINT)
-
-    Seq = Column(TINYINT)
-
-    Enable = Column(BIT)
+    TaskID = Column(UNIQUEIDENTIFIER)
 
     WebPageID = Column(UNIQUEIDENTIFIER, ForeignKey("WebPage.ID"))
 
     # ForeignKey
-    ItemWebPageID_U = relationship("WebPage", back_populates="Item")
+    WebPageTaskWebPageID_U = relationship(
+        "WebPage", back_populates="WebPageTask")
 
     # collections
-    Image = relationship("Image", back_populates="ImageItemID_U")
+

@@ -5,6 +5,7 @@ export interface WebPage {
   Seq?: number
   ForumID?: string
   Enable?: Boolean
+  TaskCount?:number|null
 }
 
 export interface Item {
