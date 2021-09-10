@@ -45,7 +45,7 @@ class ItemHandler:
                 i: int = 1
             else:
                 i = int(self.start)
-            # 執行爬蟲    
+            # 執行爬蟲
             while i <= int(get_all_page):
                 url = f"{root_page_url}-{i}.html"
                 res = httpx.get(url)
@@ -60,12 +60,13 @@ class ItemHandler:
                 for w in water_fall:
                     avator = ""
                     image_name = re.sub('[^\w\-_\. ]', '_', w.a['title'])
-                    image_url = 'https://www.jkforum.net/'+w.a['href']   
-                    # 取出seq資料             
+                    image_url = 'https://www.jkforum.net/'+w.a['href']
+                    # 取出seq資料
                     try:
-                        page_seq=w.a['href'].split('-')[1] 
+                        page_seq = w.a['href'].split('-')[1]
                     except:
-                        page_seq=w.a['href'].split('&')[1].replace('tid=','')
+                        page_seq = w.a['href'].split(
+                            '&')[1].replace('tid=', '')
                         pass
                     # 取出avator資料
                     try:
@@ -86,7 +87,7 @@ class ItemHandler:
                         logging.info('update')
                         item_id = selected_item.first().ID
                         db.query(models.Image).filter(models.Image.ItemID ==
-                                                    selected_item.first().ID).delete()
+                                                      selected_item.first().ID).delete()
                         selected_item.update(
                             {
                                 "Title": image_name,
@@ -95,16 +96,16 @@ class ItemHandler:
                                 "Seq": page_seq,
                                 "Url": image_url,
                                 "Avator": avator,
-                                "Enable":True,
+                                "Enable": True,
                                 "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                             })
                     else:
                         logging.info('insert')
                         add_data = models.Item(ID=item_id, Title=image_name, Page=i,
-                                            Enable=True,
-                                            Seq=page_seq,
-                                            PageName=w.a['href'], Url=image_url, WebPageID=id, Avator=avator,
-                                            ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                                               Enable=True,
+                                               Seq=page_seq,
+                                               PageName=w.a['href'], Url=image_url, WebPageID=id, Avator=avator,
+                                               ModifiedDateTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
                         db.add(add_data)
                     image_html = httpx.get(image_url).text
                     image_root = BeautifulSoup(image_html, "html.parser")
@@ -127,19 +128,22 @@ class ItemHandler:
                             pass
                     if len(db_images_array) > 1:
                         db.add_all(db_images_array)
-                    db.commit()
+                    # db.commit()
                     logging.info('-------------------------')
                 i = i+1
-            return {"status":"success"}    
+            db.commit()
+
+            return {"status": "success"}
         except Exception as e:
-                logging.error('----------------------------------------------')
-                error_msg=format_error_msg(e)  
-                logging.error(error_msg)
-                raise(error_msg)
-                #return {"status":"fail","reason":error_msg}
-                #              
+            logging.error('----------------------------------------------')
+            error_msg = format_error_msg(e)
+            logging.error(error_msg)
+            raise(error_msg)
+            # return {"status":"fail","reason":error_msg}
+            #
         finally:
             db.close()
+
     def update_mdk_item(self, web_page: WebPage, db: Session):
         try:
             id = web_page.ID
@@ -163,7 +167,8 @@ class ItemHandler:
                 url = f"{web_page.Url}&filter=&orderby=lastpost&page={i}"
                 res = httpx.get(url)
                 root = BeautifulSoup(res.text, "html.parser")
-                lists = root.find_all('div', attrs={'class': 'nex_waterfallbox'})
+                lists = root.find_all(
+                    'div', attrs={'class': 'nex_waterfallbox'})
                 for l in lists:
                     href = l.find('a')
                     title = href['title']
@@ -183,7 +188,7 @@ class ItemHandler:
                     if selected_item.count() == 1:
                         item_id = selected_item.first().ID
                         db.query(models.Image).filter(models.Image.ItemID ==
-                                                    selected_item.first().ID).delete()
+                                                      selected_item.first().ID).delete()
                         selected_item.update(
                             {
                                 "Title": title,
@@ -191,18 +196,19 @@ class ItemHandler:
                                 "Page": i,
                                 "Url": link,
                                 "Avator": avator,
-                                "Enable":True,
+                                "Enable": True,
                                 "ModifiedDateTime": modfied_date_time
                             })
                     else:
                         logging.info('insert')
                         add_data = models.Item(ID=item_id, Title=title, Page=i, Enable=True,
-                                            PageName=page_name, Url=link, WebPageID=id, Avator=avator,
-                                            ModifiedDateTime=modfied_date_time)
+                                               PageName=page_name, Url=link, WebPageID=id, Avator=avator,
+                                               ModifiedDateTime=modfied_date_time)
                         db.add(add_data)
                     content_res = httpx.get(
                         f"https://www.mdkforum.com/{href['href']}")
-                    root_content = BeautifulSoup(content_res.text, "html.parser")
+                    root_content = BeautifulSoup(
+                        content_res.text, "html.parser")
                     content_image = root_content.find_all('ignore_js_op')
                     db_images_array = []
                     for c in content_image:
@@ -220,19 +226,21 @@ class ItemHandler:
                     db.commit()
                     logging.info('-------------------------')
                 i = i+1
-            return {"status":"success"}    
+            return {"status": "success"}
         except Exception as e:
-                logging.error('----------------------------------------------')
-                error_msg=format_error_msg(e)  
-                raise(error_msg)
-                #return {"status":"fail","reason":error_msg}              
+            logging.error('----------------------------------------------')
+            error_msg = format_error_msg(e)
+            raise(error_msg)
+            # return {"status":"fail","reason":error_msg}
 
     def update_item(self, web_page: WebPage, db: Session):
         if web_page.WebPageForumID_U.Name == 'JKF':
             return self.update_jkf_item(web_page, db)
         if web_page.WebPageForumID_U.Name == 'MDK':
             return self.update_mdk_item(web_page, db)
-        return ""    
+        return ""
+
+
 class WebPageFilter:
     '''
     取得WebPage Data
@@ -244,6 +252,8 @@ class WebPageFilter:
     def get_by_id(self, db: Session):
         return db.query(models.WebPage).filter(
             models.WebPage.ID == self.id).first()
+
+
 class ItemHelper:
     '''
     執行Item Table的資料處理

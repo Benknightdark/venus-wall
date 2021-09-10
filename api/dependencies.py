@@ -13,7 +13,7 @@ def get_db(request: Request):
 
 def send_task(request: Request):
     yield f"{flower_api_url}/api/task/send-task"
-
+#send-task
 
 def task_info(request: Request):
     yield f"{flower_api_url}/api/task/info"
