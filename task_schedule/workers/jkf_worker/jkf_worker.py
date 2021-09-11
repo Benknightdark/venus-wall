@@ -1,14 +1,6 @@
 
 import os
-
-from sqlalchemy.engine import create_engine
-from sqlalchemy.orm import session
-
 from celery import Celery
-import os
-import time
-from datetime import datetime
-from sqlalchemy.orm.session import Session
 from helpers.item_helpers import ItemHandler, ItemHelper, WebPageFilter
 from models import base
 from models import models, base
@@ -17,17 +9,6 @@ models.base.Base.metadata.create_all(bind=base.engine)
 
 app = Celery('jkf_worker')
 app.config_from_envvar('CELERY_CONFIG_MODULE')
-
-
-@app.task
-def add(x, y):
-    print(x+y)
-    return x + y
-
-
-@app.task
-def echo():
-    return 'hi'
 
 
 @app.task(autoretry_for=(Exception,),     max_retries=20,
