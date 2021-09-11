@@ -1,16 +1,83 @@
-  
-version: '3.4'
+version: "3.9"
 services:
-    beauty-db:
-        image: mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-16.04
-        restart: always
-        user: root
-        environment:
-            SA_PASSWORD: "YourStrong!Passw0rd"
-            ACCEPT_EULA: "Y"
-        volumes:
-            - beauty-db-data:/var/opt/mssql      
-        ports:
-            - 9487:1433
+  ############################
+  # celery broker
+  ############################
+  task-schedule-broker:
+    restart: always
+    build: ./task_schedule/broker
+    command: redis-server --requirepass YORPAS99RDDaabvxvc3
+    ports:
+      - 6398:6379
+    volumes:
+        - redis_data:/data      
+    networks:
+        - venus-wall-network
+
+  ############################
+  # celery monitor
+  ############################
+  task-schedule-monitor:
+    image: mher/flower:latest
+    environment:
+      - CELERY_BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
+      - CELERY_RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+      - FLOWER_PORT=8888
+    ports:
+      - 8888:8888
+    networks:
+        - venus-wall-network       
+  ############################
+  # celery  jkf_worker
+  ############################
+  task-schedule-worker:
+    build: ./task_schedule/workers/jkf_worker
+    entrypoint: celery
+    command: -A tasks worker -l info -E  --concurrency=10 --pool=prefork --autoscale=AUTOSCALE --autoscale=10,3 -n jkf_worker
+    restart: always
+    environment:
+      - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8
+      - BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
+      - RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+    networks:
+        - venus-wall-network 
+    # deploy:
+    #   mode: replicated
+    #   replicas: 3             
+  ############################
+  # Api
+  ############################
+  api:
+    build: ./api
+    restart: always
+    environment:
+      - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8
+      - FLOWER_API_URL=http://task-schedule-monitor:8888
+    ports:
+      - 8780:8780
+    depends_on:
+      - db
+      - task-schedule-broker
+    networks:
+        - venus-wall-network       
+  ############################
+  # db
+  ############################
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-CU12-ubuntu-20.04
+    restart: always
+    user: root
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - beauty-db-data:/var/opt/mssql
+    ports:
+      - 9487:1433
+    networks:
+        - venus-wall-network      
+networks:
+    venus-wall-network:      
 volumes:
-    beauty-db-data:
+  beauty-db-data:
+  redis_data:

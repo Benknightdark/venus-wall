@@ -48,7 +48,7 @@ registerLocaleData(zh);
     DashboardLayoutComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,

@@ -33,6 +33,7 @@
             <tr>
               <th nzWidth="60px"></th>
               <th>看板</th>
+              <th nzWidth="150px">爬蟲執行歷史記錄</th>
               <th>看板連結</th>
             </tr>
           </thead>
@@ -51,12 +52,29 @@
             </ul>
           </nz-dropdown-menu>
         </td>
-        <td>{{data.Name}}</td>
+        <td>{{data.Name}}
+          <span
+          (click)="onRefreshCurrentTaskInfo(data.ID)"
+          [style.cursor]="'pointer'"
+          [style.color]="'white'"
+          [style.background-color]="(((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state==='FAILURE'?'#D53515':'#bcf4c3'">
+            {{
+            (((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state
+          }}
+          </span>
+        </td>
+        <td>
+          <button nz-button nzType="primary" *ngIf="data?.TaskCount!=null" (click)="onRefreshTaskCount(data)">
+            <i nz-icon nzType="bug" nzTheme="outline"></i>
+            {{data?.TaskCount}}
+          </button>
+        </td>
         <td>
           <a [href]="data.Url" target='_blank' nz-button nzType="primary">
             <i nz-icon nzType="link" nzTheme="outline"></i>
             開啟連結
           </a>
+        </td>
       </tr>
     </ng-template>
   </tbody>

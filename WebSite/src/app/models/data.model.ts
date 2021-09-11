@@ -5,6 +5,7 @@ export interface WebPage {
   Seq?: number
   ForumID?: string
   Enable?: Boolean
+  TaskCount?:number|null
 }
 
 export interface Item {
@@ -32,7 +33,7 @@ export interface Forum {
   Name?: string;
   ID?: string;
   Expanded?: boolean;
-  Enable?:boolean
+  Enable?: boolean
 }
 
 export interface Image {
@@ -43,4 +44,38 @@ export interface Image {
 export interface ForumWebPage {
   forum?: Forum;
   webPageList?: WebPage[];
+}
+
+export interface TaskInfo {
+  uuid?: string;
+  name?: string;
+  state?: string;
+  received?: number;
+  sent?: null;
+  started?: number;
+  rejected?: null;
+  succeeded?: number;
+  failed?: null;
+  retried?: null;
+  revoked?: null;
+  args?: string;
+  kwargs?: string;
+  eta?: null;
+  expires?: null;
+  retries?: number;
+  worker?: string;
+  result?: string;
+  exception?: null;
+  timestamp?: number;
+  runtime?: number;
+  traceback?: null;
+  exchange?: null;
+  routing_key?: null;
+  clock?: number;
+  client?: null;
+  root?: string;
+  root_id?: string;
+  parent?: null;
+  parent_id?: null;
+  children?: any[];
 }

@@ -1,7 +1,8 @@
+import { TaskService } from './../../services/task.service';
 import { Component, OnInit } from '@angular/core';
 import { ForumService } from '../../services/forum.service';
 import { Observable, of } from 'rxjs';
-import { Forum, ForumWebPage, WebPage } from '../../models/data.model';
+import { Forum, ForumWebPage, TaskInfo, WebPage } from '../../models/data.model';
 import { DashboardService } from '../../services/dashboard.service';
 import { ItemService } from '../../services/item.service';
 import { WebPageService } from '../../services/web-page.service';
@@ -28,13 +29,16 @@ export class ForumComponent implements OnInit {
   formModalType: FormType = FormType.Create;
   forumWebPageData: ForumWebPage = { forum: {}, webPageList: [] };
   cols!: any[];
+  curretnTaskStatusList$: Observable<{ [webPageId: string]: TaskInfo }> = of();
+
   constructor(
     private forumService: ForumService,
     private webPageService: WebPageService,
     private itemService: ItemService,
     private dashBoardService: DashboardService,
     private messageService: NzMessageService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private taskService: TaskService
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +47,7 @@ export class ForumComponent implements OnInit {
     this.forumService.forumDetailSubject$.subscribe(a => {
       this.forumWebPageData = a;
     })
+    this.curretnTaskStatusList$ = this.taskService.currentTaskStatusList$;
     this.cols = [
       { field: 'Name', header: '看版名稱' },
       { field: 'Url', header: '連結' },
@@ -51,7 +56,9 @@ export class ForumComponent implements OnInit {
   showChange(data: Forum, event: any) {
     const isExpanded = event as boolean
     data.Expanded = isExpanded;
-    this.webPageService.getWebPageByForumID(data.ID)
+    this.webPageService.getWebPageByForumID(data.ID);
+    this.taskService.getCurrentTaskStatus();
+
   }
   handleCrawlerFormCancel() {
     this.hideCrawlerForm = true;
@@ -60,11 +67,13 @@ export class ForumComponent implements OnInit {
     this.hideCrawlerForm = true;
   }
   onCrawlerFormSubmit(formData: any) {
-    console.log(formData)
     if (this.startPageNumber <= -1 || this.endPageNumber <= -1) {
       return;
     }
-    this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe();
+    this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe((r: any) => {
+      this.webPageService.getWebPageByForumID(this.selectedWebPage.ForumID)
+      this.taskService.getCurrentTaskStatus(this.selectedWebPage.ID!, r['task-id'])
+    });
     this.hideCrawlerForm = true;
     this.messageService.info(`抓取 => ${this.selectedWebPage.Name} 看版資料`);
   }
@@ -129,23 +138,28 @@ export class ForumComponent implements OnInit {
   onDeleteForum(item: Forum) {
     this.modalService.confirm({
       nzTitle: `你確定要刪除 ${item.Name} 嗎？`,
-      nzOnOk: () =>
-       {
+      nzOnOk: () => {
         this.forumService.deleteForum(item.ID).subscribe((r: any) => {
           this.messageService.warning(`已刪除 => ${item.Name}`);
           this.itemList$ = this.forumService.getForumData();
         });
-       }
+      }
     });
 
 
   }
   drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.forumWebPageData.webPageList!, event.previousIndex, event.currentIndex);
-    const temp=this.forumWebPageData.webPageList! ;
-    this.forumWebPageData.webPageList=[];
-    this.forumWebPageData.webPageList=[...this.forumWebPageData.webPageList,...temp]
+    const temp = this.forumWebPageData.webPageList!;
+    this.forumWebPageData.webPageList = [];
+    this.forumWebPageData.webPageList = [...this.forumWebPageData.webPageList, ...temp]
   }
-
-
+  onRefreshCurrentTaskInfo(webPageId: string | undefined) {
+    this.taskService.getCurrentTaskStatus(webPageId!);
+  }
+  onRefreshTaskCount(data: WebPage) {
+    console.log(data)
+    this.webPageService.getWebPageByForumID(data.ForumID)
+    this.taskService.getCurrentTaskStatus();
+  }
 }

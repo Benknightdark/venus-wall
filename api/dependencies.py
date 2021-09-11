@@ -1,4 +1,7 @@
-from fastapi import  Request
+import os
+from fastapi import Request
+flower_api_url = os.environ.get("FLOWER_API_URL", "http://localhost:8888")
+
 
 def get_db(request: Request):
     try:
@@ -6,3 +9,17 @@ def get_db(request: Request):
         yield db
     finally:
         db.close()
+
+
+def send_task(request: Request):
+    yield f"{flower_api_url}/api/task/send-task"
+#send-task
+
+def task_info(request: Request):
+    yield f"{flower_api_url}/api/task/info"
+
+def all_task_info(request: Request):
+    yield f"{flower_api_url}/api/tasks"
+
+def task_abort(request: Request):
+    yield f"{flower_api_url}/api/task/abort"
