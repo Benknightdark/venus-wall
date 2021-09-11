@@ -45,7 +45,7 @@ services:
   ############################
   redis-back-end:
     restart: always
-    build: ./task_schedule/broker
+    image: redis:alpine
     command: redis-server --requirepass YORPAS99RDDaabvxvc3
     ports:
       - 6398:6379
@@ -72,7 +72,7 @@ services:
   ############################
   # celery  jkf_worker
   ############################
-  task-schedule-worker:
+  jkf-worker:
     build: ./task_schedule/workers/jkf_worker
     entrypoint: celery
     command: -A tasks worker -l info -E  --concurrency=10 --pool=prefork --autoscale=AUTOSCALE --autoscale=10,3  -n jkf_worker

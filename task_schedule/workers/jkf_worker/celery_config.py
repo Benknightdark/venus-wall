@@ -10,11 +10,3 @@ timezone = 'Asia/Taipei'
 task_serializer = 'json'
 worker_send_task_events = True
 result_persistent = True
-
-# mongodb_backend_settings = {
-#     "options": {
-#         "authSource": "admin",
-#         'database': 'crawler',
-#         'taskmeta_collection': 'task',
-#     },
-# }
