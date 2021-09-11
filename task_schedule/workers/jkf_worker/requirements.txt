@@ -2,5 +2,5 @@ SQLAlchemy
 pymssql
 beautifulsoup4
 httpx
-celery[redis,auth]
+celery[redis,auth,librabbitmq]
 typing

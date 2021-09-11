@@ -1,5 +1,23 @@
 version: "3.9"
 services:
+  rabbitmq:
+      hostname: 'rabbitmq'
+      image: "rabbitmq:alpine"
+      environment:
+        RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+        RABBITMQ_DEFAULT_USER: "rabbitmq"
+        RABBITMQ_DEFAULT_PASS: "rabbitmq"
+        RABBITMQ_DEFAULT_VHOST: "/"
+      ports:
+        - "5672:5672"
+        - "15672:15672"
+      expose:
+      - 5672
+      - 15672  
+      volumes:
+        - 'rabbitmq_data:/data'
+      networks:
+        - venus-wall-network        
   ############################
   # celery broker
   ############################
@@ -20,9 +38,13 @@ services:
   task-schedule-monitor:
     image: mher/flower:latest
     environment:
-      - CELERY_BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
-      - CELERY_RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+      #- CELERY_BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
+      - CELERY_BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq:5672//
+      - CELERY_RESULT_BACKEND=rpc://
+      #redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
       - FLOWER_PORT=8888
+      - CELERY_RESULT_PERSISTENT=True
+      - FLOWER_PERSISTENT=True
     ports:
       - 8888:8888
     networks:
@@ -37,8 +59,10 @@ services:
     restart: always
     environment:
       - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8
-      - BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
-      - RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+      #- BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
+      - BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq:5672//
+      - RESULT_BACKEND=rpc://
+      #redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
     networks:
         - venus-wall-network 
     # deploy:
@@ -81,3 +105,4 @@ networks:
 volumes:
   beauty-db-data:
   redis_data:
+  rabbitmq_data:
