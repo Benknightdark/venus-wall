@@ -1,9 +1,9 @@
 version: "3.9"
 services:
   ############################
-  # MongoDB
+  # celery mongo backend
   ############################
-  mongo:
+  mongo-back-end:
     restart: always
     image: mongo
     restart: always
@@ -12,12 +12,15 @@ services:
     environment:
         MONGO_INITDB_ROOT_USERNAME: root
         MONGO_INITDB_ROOT_PASSWORD: example
+        MONGO_INITDB_DATABASE: admin
     volumes:
             - mongo-data:/data/db
     networks:
             - venus-wall-network      
- 
-  rabbitmq:
+  ############################
+  # celery rabbit broker
+  ############################ 
+  rabbitmq-broker:
       hostname: 'rabbitmq'
       image: "rabbitmq:alpine"
       environment:
@@ -36,9 +39,9 @@ services:
       networks:
         - venus-wall-network        
   ############################
-  # celery broker
+  # celery redis backend
   ############################
-  task-schedule-broker:
+  redis-back-end:
     restart: always
     build: ./task_schedule/broker
     command: redis-server --requirepass YORPAS99RDDaabvxvc3
@@ -55,14 +58,10 @@ services:
   task-schedule-monitor:
     image: mher/flower:latest
     environment:
-      #- CELERY_BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
-      - CELERY_BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq:5672//
-      - CELERY_RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
-      #rpc://
-      #redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+      - CELERY_BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq-broker:5672//
+      - CELERY_RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@redis-back-end:6379/1
       - FLOWER_PORT=8888
       - CELERY_RESULT_PERSISTENT=True
-      # - FLOWER_PERSISTENT=True
     ports:
       - 8888:8888
     networks:
@@ -77,12 +76,8 @@ services:
     restart: always
     environment:
       - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8
-      #- BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
-      - BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq:5672//
-      - RESULT_BACKEND=mongodb://root:example@mongo
-      #redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
-      #rpc://
-      #redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+      - BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq-broker:5672//
+      - RESULT_BACKEND=mongodb://root:example@mongo-back-end/?authSource=admin
     networks:
         - venus-wall-network 
     # deploy:
@@ -101,7 +96,7 @@ services:
       - 8780:8780
     depends_on:
       - db
-      - task-schedule-broker
+      - redis-back-end
     networks:
         - venus-wall-network       
   ############################
