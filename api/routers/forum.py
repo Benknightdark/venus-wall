@@ -58,9 +58,11 @@ async def put_item_by_web_page_id(requests: Request, db: Session = Depends(get_d
             models.WebPage.ForumID == str(data['forum']['ID']))
         for n in new_web_page_data:
             selected_web_page_data = web_page_data.filter(models.WebPage.ID == str(n["ID"]).upper())
+            
             if len(selected_web_page_data.all()) > 0:
-                # 更新
-                selected_web_page_data.update(n)
+                # 更新   
+                n.pop('TaskCount')            
+                selected_web_page_data.update(n)#n
             else:
                 # 新增
                 db.add(models.WebPage(**n))

@@ -5,23 +5,6 @@ from . import base
 from sqlalchemy.dialects.mssql import BIGINT, BINARY, BIT, CHAR, DATE, DATETIME, DATETIME2,     DATETIMEOFFSET, DECIMAL, FLOAT, IMAGE, INTEGER, JSON, MONEY,     NCHAR, NTEXT, NUMERIC, NVARCHAR, REAL, SMALLDATETIME,     SMALLINT, SMALLMONEY, SQL_VARIANT, TEXT, TIME,     TIMESTAMP, TINYINT, UNIQUEIDENTIFIER, VARBINARY, VARCHAR
 
 
-class Forum(base.Base):
-    __tablename__ = "Forum"
-
-    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
-
-    Name = Column(NVARCHAR(50))
-
-    CreatedTime = Column(DATETIME)
-
-    Enable = Column(BIT)
-
-    # ForeignKey
-
-    # collections
-    WebPage = relationship("WebPage", back_populates="WebPageForumID_U")
-
-
 class Image(base.Base):
     __tablename__ = "Image"
 
@@ -120,3 +103,21 @@ class WebPageTask(base.Base):
 
     # collections
 
+
+class Forum(base.Base):
+    __tablename__ = "Forum"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    Name = Column(NVARCHAR(50))
+
+    WorkerName = Column(NVARCHAR(100))
+
+    CreatedTime = Column(DATETIME)
+
+    Enable = Column(BIT)
+
+    # ForeignKey
+
+    # collections
+    WebPage = relationship("WebPage", back_populates="WebPageForumID_U")

@@ -28,7 +28,7 @@ async def post_item_by_web_page_id(id: str, start: Optional[str] = None, end: Op
     headers = {
         'Content-Type': 'application/json'
     }
-    req = httpx.post(f'{flower_apply_async}/tasks.update_item',
+    req = httpx.post(f'{flower_apply_async}/jkf_worker.update_item',
                      headers=headers,
                      data=data)
     res = req.json()
