@@ -68,30 +68,6 @@ async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
         and_(models.WebPage.ForumID == id,models.WebPage.Enable == True))\
         .outerjoin(stmt, stmt.c.WebPageID == models.WebPage.ID)\
         .order_by(models.WebPage.Seq).all()
-
-    # data = db.query(models.WebPage)\
-    #     .filter(
-    #     and_(models.WebPage.ForumID == id, models.WebPage.Enable == True))\
-    #     .order_by(models.WebPage.Seq).all()
     return data
 
 
-# @router.get("/webpage11/fff", summary="透過ForumID，取得相關的WebPage資料 ")
-# async def get_web_page_by_id22(db: Session = Depends(get_db)):
-#     stmt = db.query(
-#         models.WebPageTask.WebPageID,
-#         func.count('*').label('TaskCount')
-#     ).group_by(models.WebPageTask.WebPageID).subquery()
-#     data = db.query(
-#         models.WebPage.ID,
-#         models.WebPage.Seq,
-#         models.WebPage.Enable,
-#         models.WebPage.Name,
-#         models.WebPage.Url,
-#         models.WebPage.ForumID,
-#         stmt.c.TaskCount)\
-#         .filter(
-#         and_(models.WebPage.Enable == True))\
-#         .outerjoin(stmt, stmt.c.WebPageID == models.WebPage.ID)\
-#         .order_by(models.WebPage.Seq).all()
-#     return data

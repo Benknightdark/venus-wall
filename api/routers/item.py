@@ -28,7 +28,10 @@ async def post_item_by_web_page_id(id: str, start: Optional[str] = None, end: Op
     headers = {
         'Content-Type': 'application/json'
     }
-    req = httpx.post(f'{flower_apply_async}/jkf_worker.update_item',
+    web_page_data=db.query(models.WebPage).filter(models.WebPage.ID==id).first()
+    print(web_page_data.__dict__)
+    forum_worker_name=db.query(models.Forum).filter(models.Forum.ID==web_page_data.ForumID).first().WorkerName
+    req = httpx.post(f'{flower_apply_async}/{forum_worker_name}.update_item',
                      headers=headers,
                      data=data)
     res = req.json()
