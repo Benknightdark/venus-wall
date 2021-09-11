@@ -40,7 +40,8 @@ services:
     environment:
       #- CELERY_BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
       - CELERY_BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq:5672//
-      - CELERY_RESULT_BACKEND=rpc://
+      - CELERY_RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+      #rpc://
       #redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
       - FLOWER_PORT=8888
       - CELERY_RESULT_PERSISTENT=True
@@ -55,13 +56,14 @@ services:
   task-schedule-worker:
     build: ./task_schedule/workers/jkf_worker
     entrypoint: celery
-    command: -A tasks worker -l info -E  --concurrency=10 --pool=prefork --autoscale=AUTOSCALE --autoscale=10,3 -n jkf_worker
+    command: -A tasks worker -l info -E  --concurrency=10 --pool=prefork --autoscale=AUTOSCALE --autoscale=10,3  -n jkf_worker
     restart: always
     environment:
       - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8
       #- BROKER_URL=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/0
       - BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq:5672//
-      - RESULT_BACKEND=rpc://
+      - RESULT_BACKEND=redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
+      #rpc://
       #redis://:YORPAS99RDDaabvxvc3@task-schedule-broker:6379/1
     networks:
         - venus-wall-network 
