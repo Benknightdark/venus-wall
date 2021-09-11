@@ -32,6 +32,7 @@ export interface Forum {
   CreatedTime?: string;
   Name?: string;
   ID?: string;
+  WorkerName?: string;
   Expanded?: boolean;
   Enable?: boolean
 }

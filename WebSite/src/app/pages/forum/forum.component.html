@@ -123,6 +123,12 @@
           <input nz-input [(ngModel)]="forumWebPageData.forum!.Name" name='forumName' type='text' required />
         </nz-form-control>
       </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzFor="workName">爬蟲名稱</nz-form-label>
+        <nz-form-control nzHasFeedback nzErrorTip="不能為空值">
+          <input nz-input [(ngModel)]="forumWebPageData.forum!.WorkerName" name='workName' type='text' required />
+        </nz-form-control>
+      </nz-form-item>
       <nz-table #basicTable [nzData]="forumWebPageData.webPageList!" nzSize="middle" [nzShowPagination]="false"
         [nzScroll]="{ y: '500px' }">
         <thead>
