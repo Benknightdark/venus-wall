@@ -1,6 +1,8 @@
 SQLAlchemy
+pymongo
 pymssql
 beautifulsoup4
 httpx
 celery[redis,auth,librabbitmq]
 typing
+#mongodb://root:example@localhost:1769/
