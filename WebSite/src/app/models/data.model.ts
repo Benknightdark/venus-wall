@@ -80,3 +80,12 @@ export interface TaskInfo {
   parent_id?: null;
   children?: any[];
 }
+
+export interface TaskResult {
+  _id?:       string;
+  status?:    string;
+  result?:    string;
+  traceback?: string;
+  date_done?: Date;
+  parent_id?: string;
+}

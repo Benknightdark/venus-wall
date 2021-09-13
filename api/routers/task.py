@@ -42,8 +42,8 @@ async def get_item_by_web_page_id(id: str,
     web_task_data_dict = [w._asdict() for w in web_task_data]
     celery_result_db = mongo_db['celery']
     print({"$or": web_task_data_dict})
-    data = celery_result_db['celery_taskmeta'].find(
-        {"$or": web_task_data_dict}).sort({"date_done": -1}) 
+    data = celery_result_db['celery_taskmeta'].find({"$or": web_task_data_dict},{ "_id": 1, "status": 1, "date_done": 1}
+        ).sort("date_done", -1)
     return json.loads(json_util.dumps(data))
 
     # json.loads(json_util.dumps(data))

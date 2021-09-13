@@ -2,7 +2,7 @@ import { TaskService } from './../../services/task.service';
 import { Component, OnInit } from '@angular/core';
 import { ForumService } from '../../services/forum.service';
 import { Observable, of } from 'rxjs';
-import { Forum, ForumWebPage, TaskInfo, WebPage } from '../../models/data.model';
+import { Forum, ForumWebPage, TaskInfo, TaskResult, WebPage } from '../../models/data.model';
 import { DashboardService } from '../../services/dashboard.service';
 import { ItemService } from '../../services/item.service';
 import { WebPageService } from '../../services/web-page.service';
@@ -25,10 +25,12 @@ export class ForumComponent implements OnInit {
   startPageNumber: number = 0;
   endPageNumber: number = 0;
   displayFormModal: boolean = false;
+  hideTaskResultsForm: boolean = true;
   formModalTitle: string = "";
   formModalType: FormType = FormType.Create;
   forumWebPageData: ForumWebPage = { forum: {}, webPageList: [] };
   cols!: any[];
+  taskResultsList$: Observable<TaskResult[]> = of();
   curretnTaskStatusList$: Observable<{ [webPageId: string]: TaskInfo }> = of();
 
   constructor(
@@ -42,6 +44,7 @@ export class ForumComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.taskResultsList$=this.taskService.taskResultsList$;
     this.itemList$ = this.forumService.getForumData();
     this.webPageList$ = this.webPageService.webPageSubjectList$;
     this.forumService.forumDetailSubject$.subscribe(a => {
@@ -160,7 +163,10 @@ export class ForumComponent implements OnInit {
   }
   onRefreshTaskCount(data: WebPage) {
     console.log(data)
+    this.selectedWebPage=data;
+    this.hideTaskResultsForm=false;
     this.webPageService.getWebPageByForumID(data.ForumID)
     this.taskService.getCurrentTaskStatus();
+    this.taskService.getTaskInfo(data.ID)
   }
 }

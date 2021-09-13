@@ -35,6 +35,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzBackTopModule } from 'ng-zorro-antd/back-top';
+import { NzListModule } from 'ng-zorro-antd/list';
 
 registerLocaleData(zh);
 
@@ -73,7 +74,8 @@ registerLocaleData(zh);
     NzGridModule,
     NzCardModule,
     NzSelectModule,
-    NzBackTopModule
+    NzBackTopModule,
+    NzListModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_TW },NzMessageService,NzModalService,NzImageService ],
   bootstrap: [AppComponent]

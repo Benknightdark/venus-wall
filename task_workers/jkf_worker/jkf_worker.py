@@ -13,7 +13,7 @@ app.config_from_envvar('CELERY_CONFIG_MODULE')
 
 @app.task(autoretry_for=(Exception,),     max_retries=20,
           retry_backoff=True,
-          retry_backoff_max=700)
+          retry_backoff_max=60)
 def update_item(id, start, end):
     with base.SessionLocal() as session:
         session.begin()
