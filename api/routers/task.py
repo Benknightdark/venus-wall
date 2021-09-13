@@ -37,14 +37,13 @@ async def get_item_by_web_page_id(
 async def get_item_by_web_page_id(id: str,
                                   db: Session = Depends(get_db),
                                   mongo_db: mongo_client = Depends(get_mongo_db)):
-    web_task_data = db.query(func.lower(models.WebPageTask.ID.cast(NVARCHAR(None))).label('_id')).filter(
+    web_task_data = db.query(func.lower(models.WebPageTask.TaskID.cast(NVARCHAR(None))).label('_id')).filter(
         models.WebPageTask.WebPageID == id).all()
-    print(web_task_data[0]._asdict())    
-  
-    print('---------------------------')
-    # celery_result_db = mongo_db['celery']
-    print({"$or": web_task_data})
-    # data = celery_result_db['celery_taskmeta'].find({"$or": web_task_data})
-    return web_task_data
-    
-    #json.loads(json_util.dumps(data))
+    web_task_data_dict = [w._asdict() for w in web_task_data]
+    celery_result_db = mongo_db['celery']
+    print({"$or": web_task_data_dict})
+    data = celery_result_db['celery_taskmeta'].find(
+        {"$or": web_task_data_dict}).sort({"date_done": -1}) 
+    return json.loads(json_util.dumps(data))
+
+    # json.loads(json_util.dumps(data))

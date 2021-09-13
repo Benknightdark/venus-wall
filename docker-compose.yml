@@ -3,6 +3,7 @@ services:
   ############################
   # celery mongo backend
   ############################
+  
   mongo-back-end:
     restart: always
     image: mongo
