@@ -19,7 +19,7 @@ services:
             - venus-wall-network      
   
   ############################
-  # celery rabbit broker
+  # celery rabbitmq broker
   ############################ 
   rabbitmq-broker:
       hostname: 'rabbitmq'
@@ -73,7 +73,7 @@ services:
   # celery  jkf_worker
   ############################
   jkf-worker:
-    build: ./task_schedule/workers/jkf_worker
+    build: ./task_workers/jkf_worker
     entrypoint: celery
     command: -A jkf_worker worker -l info -E  --concurrency=10 --pool=prefork --autoscale=AUTOSCALE --autoscale=10,3  -n jkf_worker
     restart: always
