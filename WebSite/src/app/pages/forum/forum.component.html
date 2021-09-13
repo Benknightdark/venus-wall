@@ -53,14 +53,11 @@
           </nz-dropdown-menu>
         </td>
         <td>{{data.Name}}
-          <span
-          (click)="onRefreshCurrentTaskInfo(data.ID)"
-          [style.cursor]="'pointer'"
-          [style.color]="'white'"
-          [style.background-color]="(((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state==='FAILURE'?'#D53515':'#bcf4c3'">
+          <span (click)="onRefreshCurrentTaskInfo(data.ID)" [style.cursor]="'pointer'" [style.color]="'white'"
+            [style.background-color]="(((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state==='FAILURE'?'#D53515':'#bcf4c3'">
             {{
             (((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state
-          }}
+            }}
           </span>
         </td>
         <td>
@@ -84,7 +81,7 @@
 </tbody>
 </nz-table>
 
-<!-- 爬蟲 -->
+<!-- 執行爬蟲任務表單 -->
 <nz-modal [(nzVisible)]="!hideCrawlerForm" [nzTitle]="selectedWebPage?.Name" (nzOnOk)="hideCrawlerForm=true"
   (nzOnCancel)="hideCrawlerForm=true">
   <ng-container *nzModalContent>
@@ -168,5 +165,21 @@
   </ng-container>
   <ng-template [nzModalFooter]>
     <button nz-button nzType="default" (click)="displayFormModal=false">關閉</button>
+  </ng-template>
+</nz-modal>
+
+<!-- 爬蟲執行結果列表 -->
+<nz-modal [(nzVisible)]="!hideTaskResultsForm" [nzTitle]="selectedWebPage?.Name" (nzOnOk)="hideTaskResultsForm=true"
+  (nzOnCancel)="hideTaskResultsForm=true">
+  <ng-container *nzModalContent>
+    <nz-list nzBordered nzHeader="爬蟲執行結果列表" >
+      <nz-list-item *ngFor="let item of taskResultsList$|async">
+        <span nz-typography><mark> {{ item?.status }}</mark></span>
+        {{ item?.date_done |date:'yyyy/MM/dd, hh:mm:ss' }}
+      </nz-list-item>
+    </nz-list>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="hideCrawlerForm=true">關閉</button>
   </ng-template>
 </nz-modal>
