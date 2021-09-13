@@ -96,6 +96,7 @@ services:
     environment:
       - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8
       - FLOWER_API_URL=http://task-schedule-monitor:8888
+      - MONGO_DB_CONNECT_STRING=mongodb://root:example@mongo-back-end/
     ports:
       - 8780:8780
     depends_on:

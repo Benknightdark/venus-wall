@@ -1,10 +1,9 @@
 import os
 from fastapi import Request
 from pymongo import MongoClient
-
 flower_api_url = os.environ.get("FLOWER_API_URL", "http://localhost:8888")
 mongo_db_connect_string = os.environ.get(
-    "MONGO_DB", 'mongodb://root:example@localhost:1769')
+    "MONGO_DB_CONNECT_STRING", 'mongodb://root:example@localhost:1769')
 
 
 def get_db(request: Request):
