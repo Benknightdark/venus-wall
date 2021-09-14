@@ -75,7 +75,7 @@ services:
   jkf-worker:
     build: ./task_workers/jkf_worker
     entrypoint: celery
-    command: -A jkf_worker worker -l info -E  --concurrency=30 --pool=prefork --autoscale=AUTOSCALE --autoscale=10,3  -n jkf_worker
+    command: -A jkf_worker worker -l info -E  --concurrency=4 --pool=solo  --autoscale=AUTOSCALE --autoscale=10,3  -n jkf_worker
     restart: always
     environment:
       - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/beauty_wall?charset=utf8
