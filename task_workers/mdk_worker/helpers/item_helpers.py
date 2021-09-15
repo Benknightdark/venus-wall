@@ -30,14 +30,14 @@ class ItemHandler:
             res = httpx.get(url)
             root = BeautifulSoup(res.text, "html.parser")
             get_all_page = self.end
-            if get_all_page == None:
+            if get_all_page == "0":
                 get_all_page = int(root.find('a', attrs={'class': 'last'}).text.replace(
                     '.', '').replace(' ', ''))
             else:
                 get_all_page = int(self.end)
             logging.info(get_all_page)
             i = self.start
-            if i == None:
+            if i == "0":
                 i: int = 1
             else:
                 i = int(self.start)
@@ -52,6 +52,7 @@ class ItemHandler:
                     href = l.find('a')
                     title = href['title']
                     page_name = href['href']
+                    seq=page_name.split('&')[1].replace('tid=','')
                     link = f"https://www.mdkforum.com/{href['href']}"
                     avator = ''
                     logging.info(href.img)
@@ -59,7 +60,7 @@ class ItemHandler:
                         avator = f"https://www.mdkforum.com/{href.img['src']}"
 
                     modfied_date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    logging.info(f"{href['title']} ==== {i}")
+                    logging.info(f"{href['title']} ==== {i} - {get_all_page}")
                     logging.info('----------------------')
                     selected_item = db.query(models.Item).filter(
                         models.Item.PageName == page_name)
@@ -73,6 +74,7 @@ class ItemHandler:
                                 "Title": title,
                                 "PageName": page_name,
                                 "Page": i,
+                                "Seq":int(seq),
                                 "Url": link,
                                 "Avator": avator,
                                 "Enable": True,
@@ -80,7 +82,7 @@ class ItemHandler:
                             })
                     else:
                         logging.info('insert')
-                        add_data = models.Item(ID=item_id, Title=title, Page=i, Enable=True,
+                        add_data = models.Item(ID=item_id, Title=title, Page=i, Enable=True,Seq=int(seq),
                                                PageName=page_name, Url=link, WebPageID=id, Avator=avator,
                                                ModifiedDateTime=modfied_date_time)
                         db.add(add_data)
@@ -105,19 +107,11 @@ class ItemHandler:
                     db.commit()
                     logging.info('-------------------------')
                 i = i+1
-            return {"status": "success"}
+            return {"status": f"{web_page.Name} - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"}
         except Exception as e:
             logging.error('----------------------------------------------')
             error_msg = format_error_msg(e)
             raise(error_msg)
-            # return {"status":"fail","reason":error_msg}
-
-    def update_item(self, web_page: WebPage, db: Session):
-        if web_page.WebPageForumID_U.Name == 'JKF':
-            return self.update_jkf_item(web_page, db)
-        if web_page.WebPageForumID_U.Name == 'MDK':
-            return self.update_mdk_item(web_page, db)
-        return ""
 
 
 class WebPageFilter:
@@ -145,4 +139,4 @@ class ItemHelper:
 
     def process(self):
         data = self.f.get_by_id(self.db)
-        return self.h.update_item(data, self.db)
+        return self.h.update_mdk_item(data, self.db)

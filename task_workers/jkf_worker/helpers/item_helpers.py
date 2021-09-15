@@ -133,7 +133,7 @@ class ItemHandler:
                 i = i+1
             db.commit()
 
-            return {"status": "success"}
+            return {"status": f"{web_page.Name} - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"}
         except Exception as e:
             logging.error('----------------------------------------------')
             error_msg = format_error_msg(e)

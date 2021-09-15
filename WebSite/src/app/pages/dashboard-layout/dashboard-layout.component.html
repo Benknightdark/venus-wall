@@ -10,10 +10,14 @@
       <a [routerLink]="['/admin']" nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="setting"></i></a>
       <div style="padding-right:10px;">
       </div>
-      <nz-select nzPlaceHolder="看版選單" [(ngModel)]="selectWebPageID!" nzSize="large" style="width:120px"
+      <nz-select nzPlaceHolder="看版選單"
+      [(ngModel)]="selectWebPageID!"
+       nzSize="large" style="width:120px"
         (ngModelChange)="onChangeWebPage($event)">
-        <nz-option *ngFor="let option of webPageList$ |async" [nzLabel]="option.Name!" [nzValue]="option.ID!">
-        </nz-option>
+        <nz-option-group *ngFor="let option of  forumWebPageList$ |async" [nzLabel]="option.Name!">
+          <nz-option [nzValue]="item.ID!" [nzLabel]="item.Name!"
+          *ngFor="let item of option.WebPageList!"></nz-option>
+        </nz-option-group>
       </nz-select>
     </div>
   </nz-header>

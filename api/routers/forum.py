@@ -12,20 +12,6 @@ router = APIRouter()
 @router.get("/forum", summary="取得所有論壇資料")
 async def get_item_by_web_page_id(db: Session = Depends(get_db)):
     forum_data = db.query(models.Forum)
-    if forum_data.count() == 0:
-        forum_id = uuid.uuid4()
-        db.add(models.Forum(
-            ID=forum_id, Name='JKF', WorkerName='jkf_worker',
-            CreatedTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), Enable=True))
-        db.add(models.WebPage(
-            ID=uuid.uuid4(),
-            ForumID=forum_id,
-            Name='網路美女',
-            Url='https://www.jkforum.net/forum-736-1.html',
-            Seq=0,
-            Enable=True
-        ))
-        db.commit()
     data = forum_data.filter(models.Forum.Enable ==
                              True).order_by(desc(models.Forum.CreatedTime)).all()
     return data

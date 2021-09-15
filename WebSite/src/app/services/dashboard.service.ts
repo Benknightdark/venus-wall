@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, share } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Item, WebPage } from '../models/data.model';
+import { ForumWebpageList, Item, WebPage } from '../models/data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class DashboardService {
   readonly webPageIDSubject$ = this._webPageIDSubject$.asObservable();
 
 
-  private _webPageSubjectList$: Subject<WebPage[]> = new Subject();
+  private _webPageSubjectList$: Subject<ForumWebpageList[]> = new Subject();
   readonly webPageSubjectList$ = this._webPageSubjectList$.asObservable();
 
   constructor(private http: HttpClient) { }
@@ -63,7 +63,7 @@ export class DashboardService {
    * @memberof DashboardService
    */
   getPageListSubject() {
-    this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`).pipe( share(),
+    this.http.get<ForumWebpageList[]>(`${environment.apiUrl}/api/webpage`).pipe( share(),
     debounceTime(300),
     distinctUntilChanged()
     ).subscribe(r => {
@@ -76,7 +76,7 @@ export class DashboardService {
    * @param {(string | undefined)} newData
    * @memberof WebpageService
    */
-  setSelectPage(newData: string | undefined) {
+  setSelectWebPage(newData: string | undefined) {
     this._webPageIDSubject$.next(newData);
   }
 }

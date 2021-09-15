@@ -103,7 +103,6 @@ export class ForumComponent implements OnInit {
   }
   onFormSubmit() {
     let i = 1;
-    console.log(this.formModalType)
     switch (this.formModalType) {
       case FormType.Create:
         this.forumWebPageData.forum!.ID = uuidv4();
@@ -120,7 +119,7 @@ export class ForumComponent implements OnInit {
           this.messageService.success(`新增資料 => ${a["message"]}`);
         })
         this.itemList$ = this.forumService.getForumData();
-        this.dashBoardService.getPageListSubject()
+        // this.dashBoardService.getPageListSubject()
         break;
       case FormType.Edit:
         for (const iterator of this.forumWebPageData.webPageList!) {
@@ -134,7 +133,7 @@ export class ForumComponent implements OnInit {
           this.messageService.success(`修改資料 => ${a["message"]}`);
         })
         this.itemList$ = this.forumService.getForumData();
-        this.dashBoardService.getPageListSubject();
+        // this.dashBoardService.getPageListSubject();
         break;
       default:
         break;

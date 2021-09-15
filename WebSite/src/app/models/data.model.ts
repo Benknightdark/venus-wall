@@ -89,3 +89,11 @@ export interface TaskResult {
   date_done?: Date;
   parent_id?: string;
 }
+export interface ForumWebpageList {
+  CreatedTime?: string;
+  Name?: string;
+  ID?: string;
+  WorkerName?: string;
+  Enable?: boolean;
+  WebPageList?:WebPage[]
+}
