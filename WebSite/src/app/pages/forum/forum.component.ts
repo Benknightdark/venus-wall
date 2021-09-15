@@ -73,9 +73,11 @@ export class ForumComponent implements OnInit {
     if (this.startPageNumber <= -1 || this.endPageNumber <= -1) {
       return;
     }
-    this.itemService.updateItems(this.selectedWebPage.ID, this.startPageNumber, this.endPageNumber).subscribe((r: any) => {
+    this.itemService.updateItems(this.selectedWebPage.ID,
+       this.startPageNumber,
+      this.endPageNumber).subscribe((r: any) => {
       this.webPageService.getWebPageByForumID(this.selectedWebPage.ForumID)
-      this.taskService.getCurrentTaskStatus(this.selectedWebPage.ID!, r['task-id'])
+      // this.taskService.getCurrentTaskStatus(this.selectedWebPage.ID!, r['task-id'])
     });
     this.hideCrawlerForm = true;
     this.messageService.info(`抓取 => ${this.selectedWebPage.Name} 看版資料`);
@@ -159,14 +161,14 @@ export class ForumComponent implements OnInit {
     this.forumWebPageData.webPageList = [...this.forumWebPageData.webPageList, ...temp]
   }
   onRefreshCurrentTaskInfo(webPageId: string | undefined) {
-    this.taskService.getCurrentTaskStatus(webPageId!);
+    // this.taskService.getCurrentTaskStatus(webPageId!);
   }
   onRefreshTaskCount(data: WebPage) {
     console.log(data)
     this.selectedWebPage=data;
     this.hideTaskResultsForm=false;
     this.webPageService.getWebPageByForumID(data.ForumID)
-    this.taskService.getCurrentTaskStatus();
+    // this.taskService.getCurrentTaskStatus();
     this.taskService.getTaskInfo(data.ID)
   }
 }
