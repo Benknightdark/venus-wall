@@ -104,24 +104,6 @@ class WebPageTask(base.Base):
     # collections
 
 
-class sysdiagrams(base.Base):
-    __tablename__ = "sysdiagrams"
-
-    name = Column(NVARCHAR(128))
-
-    principal_id = Column(TINYINT)
-
-    diagram_id = Column(INT, primary_key=True, index=True)
-
-    version = Column(TINYINT)
-
-    definition = Column(VARBINARY)
-
-    # ForeignKey
-
-    # collections
-
-
 class Forum(base.Base):
     __tablename__ = "Forum"
 

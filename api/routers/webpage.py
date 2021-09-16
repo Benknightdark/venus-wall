@@ -35,8 +35,8 @@ async def get_web_page(db: Session = Depends(get_db)):
         models.Forum.Name,
         models.Forum.CreatedTime,
         models.Forum.Enable,
-        models.Forum.WorkerName).filter(
-        models.Forum.Enable == True).order_by(models.Forum.CreatedTime).all()
+        models.Forum.WorkerName,models.Forum.Seq).filter(
+        models.Forum.Enable == True).order_by(models.Forum.Seq).all()
     root_data_dict = [c._asdict() for c in root_data]
     for r in root_data_dict:
         r['WebPageList']=[]
