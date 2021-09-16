@@ -5,4 +5,4 @@ beautifulsoup4
 httpx
 celery[redis,auth,librabbitmq]
 typing
-kombu
+python-dotenv

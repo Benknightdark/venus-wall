@@ -4,9 +4,10 @@ from celery import Celery
 from helpers.item_helpers import ItemHandler, ItemHelper, WebPageFilter
 from models import base
 from models import models, base
+from dotenv import load_dotenv
+load_dotenv()
 os.environ.setdefault('CELERY_CONFIG_MODULE', 'celery_config')
 models.base.Base.metadata.create_all(bind=base.engine)
-
 app = Celery('jkf_worker')
 app.config_from_envvar('CELERY_CONFIG_MODULE')
 
