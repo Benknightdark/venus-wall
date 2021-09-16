@@ -41,9 +41,6 @@ export class BlurHashImgComponent  implements AfterViewInit {
     [this.resolve, this.animationState] = [true, AnimationState.VISIBLE];
     this.changeDetectorRef.detectChanges();
     this.img.nativeElement.src = this.URL;
-    if (this.alt) {
-      this.img.nativeElement.alt = this.alt;
-    }
   }
 
   private drawCanvas(): void {

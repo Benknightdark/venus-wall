@@ -53,8 +53,8 @@ registerLocaleData(zh);
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
-    FormsModule,
     HttpClientModule,
+    FormsModule,
     BrowserAnimationsModule,
     IconsProviderModule,
     NzLayoutModule,
