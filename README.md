@@ -255,7 +255,7 @@ GO
 ```
 # css text animate 
 - https://codepen.io/caseycallow/pen/yMNqPY
-
-d9c7dd54-162e-41f4-8f1b-6ac0aa21d430
+- https://netbasal.com/lazy-load-images-in-angular-with-two-lines-of-code-beb13cd5a1c4
+- https://github.com/ngneat/cashew
 
 
