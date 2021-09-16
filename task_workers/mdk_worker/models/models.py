@@ -117,8 +117,6 @@ class Forum(base.Base):
 
     Enable = Column(BIT)
 
-    Seq = Column(TINYINT)
-
     # ForeignKey
 
     # collections

@@ -46,4 +46,3 @@ async def get_item_by_web_page_id(id: str,
         ).sort("date_done", -1)
     return json.loads(json_util.dumps(data))
 
-    # json.loads(json_util.dumps(data))

@@ -1,10 +1,10 @@
 from sqlalchemy.sql.functions import func
-from sqlalchemy.sql.expression import and_
+from sqlalchemy.sql.expression import and_, desc
 from dependencies import get_db
 from fastapi.params import Depends
 from typing import List
 from fastapi import APIRouter
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload, lazyload, subqueryload
 import uuid
 from models import models, view_models
 
@@ -25,9 +25,26 @@ async def add_web_apge(data: List[view_models.WebPageCreate], db: Session = Depe
 
 @router.get("/webpage", summary="取得要抓的所有WebPage ")
 async def get_web_page(db: Session = Depends(get_db)):
-    data = db.query(models.WebPage).filter(
+    option_data = db.query(models.WebPage.ID, models.WebPage.Name,
+                           models.WebPage.Url, models.WebPage.Seq, 
+                           models.WebPage.Enable, models.WebPage.ForumID).filter(
         models.WebPage.Enable == True).order_by(models.WebPage.Seq).all()
-    return data
+    option_data_dict = [c._asdict() for c in option_data]
+    root_data = db.query(
+        models.Forum.ID,
+        models.Forum.Name,
+        models.Forum.CreatedTime,
+        models.Forum.Enable,
+        models.Forum.WorkerName,models.Forum.Seq).filter(
+        models.Forum.Enable == True).order_by(models.Forum.Seq).all()
+    root_data_dict = [c._asdict() for c in root_data]
+    for r in root_data_dict:
+        r['WebPageList']=[]
+        for o in option_data_dict:
+            if r['ID']==o['ForumID']:
+                r['WebPageList'].append(o)
+
+    return root_data_dict
 
 
 @router.get("/webpage/{id}", summary="透過id，取得要抓的WebPage ")
@@ -65,9 +82,7 @@ async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
         models.WebPage.ForumID,
         stmt.c.TaskCount)\
         .filter(
-        and_(models.WebPage.ForumID == id,models.WebPage.Enable == True))\
+        and_(models.WebPage.ForumID == id, models.WebPage.Enable == True))\
         .outerjoin(stmt, stmt.c.WebPageID == models.WebPage.ID)\
         .order_by(models.WebPage.Seq).all()
     return data
-
-

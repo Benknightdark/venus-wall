@@ -75,18 +75,28 @@ services:
   jkf-worker:
     build: ./task_workers/jkf_worker
     entrypoint: celery
-    command: -A jkf_worker worker -l info -E  --concurrency=10 --pool=prefork --autoscale=AUTOSCALE --autoscale=10,3  -n jkf_worker
+    command: -A jkf_worker worker -Q jkf_worker  -l info -E  --concurrency=4 --pool=solo   -n jkf_worker 
     restart: always
     environment:
-      - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8
+      - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/beauty_wall?charset=utf8
       - BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq-broker:5672//
       - RESULT_BACKEND=mongodb://root:example@mongo-back-end/?authSource=admin
     networks:
-        - venus-wall-network 
-    # deploy:
-    #   mode: replicated
-    #   replicas: 3             
- 
+        - venus-wall-network            
+  ############################
+  # celery  mdk_worker
+  ############################
+  mdk-worker:
+    build: ./task_workers/mdk_worker
+    entrypoint: celery
+    command: -A mdk_worker worker -Q mdk_worker  -l info -E  --concurrency=4 --pool=solo   -n mdk_worker 
+    restart: always
+    environment:
+      - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/beauty_wall?charset=utf8
+      - BROKER_URL=pyamqp://rabbitmq:rabbitmq@rabbitmq-broker:5672//
+      - RESULT_BACKEND=mongodb://root:example@mongo-back-end/?authSource=admin
+    networks:
+        - venus-wall-network    
   ############################
   # Api
   ############################
@@ -94,7 +104,7 @@ services:
     build: ./api
     restart: always
     environment:
-      - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/jkf?charset=utf8
+      - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/beauty_wall?charset=utf8
       - FLOWER_API_URL=http://task-schedule-monitor:8888
       - MONGO_DB_CONNECT_STRING=mongodb://root:example@mongo-back-end/
     ports:

@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, relationships
 from jinja2 import Environment, PackageLoader, FileSystemLoader, Template
 
 import os
-SQLALCHEMY_DATABASE_URL = "mssql+pymssql://sa:YourStrong!Passw0rd@localhost:9487/jkf?charset=utf8"
+SQLALCHEMY_DATABASE_URL = "mssql+pymssql://sa:YourStrong!Passw0rd@localhost:9487/beauty_wall?charset=utf8"
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )
@@ -144,7 +144,8 @@ base_model_template_string = f'''
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-SQLALCHEMY_DATABASE_URL = "{SQLALCHEMY_DATABASE_URL}"
+import os 
+SQLALCHEMY_DATABASE_URL =os.environ.get('DB_CONNECT_STRING',"{SQLALCHEMY_DATABASE_URL}")
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )

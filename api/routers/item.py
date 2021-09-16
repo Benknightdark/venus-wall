@@ -18,19 +18,19 @@ router = APIRouter()
 async def post_item_by_web_page_id(id: str, start: Optional[str] = None, end: Optional[str] = None,
  flower_apply_async: str = Depends(send_task), db: Session = Depends(get_db)
                                    ):
+    web_page_data=db.query(models.WebPage).filter(models.WebPage.ID==id).first()    
+    forum_worker_name=db.query(models.Forum).filter(models.Forum.ID==web_page_data.ForumID).first().WorkerName
     if end == "" or end == None:
         end = "0"
     data = json.dumps({
         "args": [
             str(id), str(start), str(end)
-        ]
+        ],
+        "queue":f"{forum_worker_name}"
     })
     headers = {
         'Content-Type': 'application/json'
     }
-    web_page_data=db.query(models.WebPage).filter(models.WebPage.ID==id).first()
-    print(web_page_data.__dict__)
-    forum_worker_name=db.query(models.Forum).filter(models.Forum.ID==web_page_data.ForumID).first().WorkerName
     req = httpx.post(f'{flower_apply_async}/{forum_worker_name}.update_item',
                      headers=headers,
                      data=data)

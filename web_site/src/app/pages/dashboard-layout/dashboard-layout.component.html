@@ -1,0 +1,31 @@
+<nz-layout class="layout">
+  <nz-header>
+    <img class="logo" src='assets/logo.png' style=" display:flex; justify-content: flex-start;
+    " />
+    <div style='
+    display: flex;
+    justify-content: flex-end;
+    margin:10px
+    '>
+      <a [routerLink]="['/admin']" nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="setting"></i></a>
+      <div style="padding-right:10px;">
+      </div>
+      <nz-select nzPlaceHolder="看版選單"
+      [(ngModel)]="selectWebPageID!"
+       nzSize="large" style="width:120px"
+        (ngModelChange)="onChangeWebPage($event)">
+        <nz-option-group *ngFor="let option of  forumWebPageList$ |async" [nzLabel]="option.Name!">
+          <nz-option [nzValue]="item.ID!" [nzLabel]="item.Name!"
+          *ngFor="let item of option.WebPageList!"></nz-option>
+        </nz-option-group>
+      </nz-select>
+    </div>
+  </nz-header>
+  <nz-content>
+    <div style="padding-top: 20px;"></div>
+    <div class="inner-content">
+      <router-outlet></router-outlet>
+    </div>
+  </nz-content>
+  <nz-footer>©{{currentYear}} Implement By Ben</nz-footer>
+</nz-layout>
