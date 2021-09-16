@@ -1,5 +1,5 @@
 <div style='display: block;
 width: 100%;'>
 <canvas #canvas *ngIf="!resolve" ></canvas>
-<img #img [hidden]="!resolve" [@fadeIn]="animationState" >
+<img #img [hidden]="!resolve" [@fadeIn]="animationState" loading="lazy">
 </div>
