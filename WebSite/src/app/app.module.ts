@@ -1,3 +1,4 @@
+import { BlurHashImgComponent } from './component/blur-hash-img/blur-hash-img.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { NgModule } from '@angular/core';
@@ -46,7 +47,8 @@ registerLocaleData(zh);
     ItemComponent,
     DashboardComponent,
     AdminLayoutComponent,
-    DashboardLayoutComponent
+    DashboardLayoutComponent,
+    BlurHashImgComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -75,7 +77,7 @@ registerLocaleData(zh);
     NzCardModule,
     NzSelectModule,
     NzBackTopModule,
-    NzListModule
+    NzListModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_TW },NzMessageService,NzModalService,NzImageService ],
   bootstrap: [AppComponent]

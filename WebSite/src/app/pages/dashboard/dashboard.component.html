@@ -12,7 +12,10 @@ overflow-y: scroll;"
         <nz-card-meta [nzTitle]="item.Title!" [nzDescription]="item.Title!"></nz-card-meta>
       </nz-card>
       <ng-template #coverTemplate>
-        <img alt="example" [src]="item.Avator!" />
+        <!-- <img alt="example" [src]="item.Avator!" /> -->
+        <app-blur-hash-img  hash="L7Gi_o1J0M~9mUAD5m,?01=^C5rY"
+        [URL]="item.Avator!"
+        ></app-blur-hash-img>
       </ng-template>
       <ng-template #actionFavorite>
         <i nz-icon nzType="heart"  [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"
