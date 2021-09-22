@@ -5,3 +5,6 @@ httpx
 celery[redis,auth,librabbitmq]
 typing
 python-dotenv
+jieba
+sklearn
+pymongo

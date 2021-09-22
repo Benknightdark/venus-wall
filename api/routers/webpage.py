@@ -1,6 +1,8 @@
+import json
+import httpx
 from sqlalchemy.sql.functions import func
 from sqlalchemy.sql.expression import and_, desc
-from dependencies import get_db
+from dependencies import get_db,send_task
 from fastapi.params import Depends
 from typing import List
 from fastapi import APIRouter
@@ -86,3 +88,22 @@ async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
         .outerjoin(stmt, stmt.c.WebPageID == models.WebPage.ID)\
         .order_by(models.WebPage.Seq).all()
     return data
+
+@router.get("/webpage/similarity/{id}", summary="透過WebPage id，更新所有文章的相似度資料")
+async def get_webpage_similarity(id: str, flower_apply_async: str = Depends(send_task)
+                                   ):
+    data = json.dumps({
+        "args": [
+            str(id)
+        ],
+        "queue":'text_similarity_worker'
+    })
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    req = httpx.post(f'{flower_apply_async}/text_similarity_worker.update_web_page_similarity',
+                     headers=headers,
+                     data=data)
+    res = req.json()
+
+    return res
