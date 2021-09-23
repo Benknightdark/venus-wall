@@ -2,7 +2,7 @@ import json
 import httpx
 from sqlalchemy.sql.functions import func
 from sqlalchemy.sql.expression import and_, desc
-from dependencies import get_db,send_task
+from dependencies import get_db, send_task
 from fastapi.params import Depends
 from typing import List
 from fastapi import APIRouter
@@ -28,7 +28,7 @@ async def add_web_apge(data: List[view_models.WebPageCreate], db: Session = Depe
 @router.get("/webpage", summary="取得要抓的所有WebPage ")
 async def get_web_page(db: Session = Depends(get_db)):
     option_data = db.query(models.WebPage.ID, models.WebPage.Name,
-                           models.WebPage.Url, models.WebPage.Seq, 
+                           models.WebPage.Url, models.WebPage.Seq,
                            models.WebPage.Enable, models.WebPage.ForumID).filter(
         models.WebPage.Enable == True).order_by(models.WebPage.Seq).all()
     option_data_dict = [c._asdict() for c in option_data]
@@ -37,13 +37,13 @@ async def get_web_page(db: Session = Depends(get_db)):
         models.Forum.Name,
         models.Forum.CreatedTime,
         models.Forum.Enable,
-        models.Forum.WorkerName,models.Forum.Seq).filter(
+        models.Forum.WorkerName, models.Forum.Seq).filter(
         models.Forum.Enable == True).order_by(models.Forum.Seq).all()
     root_data_dict = [c._asdict() for c in root_data]
     for r in root_data_dict:
-        r['WebPageList']=[]
+        r['WebPageList'] = []
         for o in option_data_dict:
-            if r['ID']==o['ForumID']:
+            if r['ID'] == o['ForumID']:
                 r['WebPageList'].append(o)
 
     return root_data_dict
@@ -89,14 +89,14 @@ async def get_web_page_by_id(id: str, db: Session = Depends(get_db)):
         .order_by(models.WebPage.Seq).all()
     return data
 
+
 @router.get("/webpage/similarity/{id}", summary="透過WebPage id，更新所有文章的相似度資料")
-async def get_webpage_similarity(id: str, flower_apply_async: str = Depends(send_task)
-                                   ):
+async def get_webpage_similarity(id: str, flower_apply_async: str = Depends(send_task)):
     data = json.dumps({
         "args": [
             str(id)
         ],
-        "queue":'text_similarity_worker'
+        "queue": 'text_similarity_worker'
     })
     headers = {
         'Content-Type': 'application/json'
