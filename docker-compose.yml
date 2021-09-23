@@ -140,7 +140,7 @@ services:
       SA_PASSWORD: "YourStrong!Passw0rd"
       ACCEPT_EULA: "Y"
     volumes:
-      - beauty-db-data111:/var/opt/mssql
+      - beauty-db-data:/var/opt/mssql
     ports:
       - 9487:1433
     networks:
@@ -148,7 +148,7 @@ services:
 networks:
     venus-wall-network:      
 volumes:
-  beauty-db-data111:
+  beauty-db-data:
   redis_data:
   rabbitmq_data:
   mongo-data:

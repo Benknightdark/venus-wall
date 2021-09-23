@@ -13,8 +13,7 @@ python3.9 -m celery -A tasks worker --loglevel=info  -E
 python3.9 -m celery -A tasks events
 # open flower celery monitor webiste
 python3.9 -m celery -A tasks flower 
-
-
+# 初始化女神牆資料庫
 docker exec -it venus-wall_db_1 /opt/mssql-tools/bin/sqlcmd -U SA -P YourStrong!Passw0rd  -W -i init_db.sql
 ```
 # css text animate 
