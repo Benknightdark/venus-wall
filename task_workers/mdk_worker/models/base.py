@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import session, sessionmaker
 import os 
 
-SQLALCHEMY_DATABASE_URL =os.environ.get('DB_CONNECT_STRING', "mssql+pymssql://sa:YourStrong!Passw0rd@localhost:9487/beauty_wall?charset=utf8") 
+SQLALCHEMY_DATABASE_URL =os.environ.get('DB_CONNECT_STRING') 
 print(SQLALCHEMY_DATABASE_URL)
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,echo=False,pool_size=0,

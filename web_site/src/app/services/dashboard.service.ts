@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, share } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, share, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { ForumWebpageList, Item, WebPage } from '../models/data.model';
 
@@ -39,11 +39,18 @@ export class DashboardService {
    * @param {number} [limit=10]
    * @memberof ItemService
    */
-  getItems(id: string | undefined, offset: number = 0, limit: number = 30) {
+  getItems(id: string | undefined, offset: number = 0, limit: number = 30,filterIDs: string | undefined=undefined) {
     if (id !== '' && id !== undefined) {
-      this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}`)
+      filterIDs=filterIDs===undefined?'':`&filterId=${filterIDs}`
+      this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}${filterIDs}`)
         .pipe(
           share(),
+          map(m=>{
+            for (const item of m) {
+                item.WebPageSimilarityCount=item.WebPageSimilarity?.length;
+            }
+            return m
+          }),
           debounceTime(300),
           distinctUntilChanged())
         .subscribe(data => {

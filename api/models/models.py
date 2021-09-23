@@ -5,6 +5,29 @@ from . import base
 from sqlalchemy.dialects.mssql import BIGINT, BINARY, BIT, CHAR, DATE, DATETIME, DATETIME2,     DATETIMEOFFSET, DECIMAL, FLOAT, IMAGE, INTEGER, JSON, MONEY,     NCHAR, NTEXT, NUMERIC, NVARCHAR, REAL, SMALLDATETIME,     SMALLINT, SMALLMONEY, SQL_VARIANT, TEXT, TIME,     TIMESTAMP, TINYINT, UNIQUEIDENTIFIER, VARBINARY, VARCHAR
 
 
+class WebPageSimilarity(base.Base):
+    __tablename__ = "WebPageSimilarity"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    SimilarityItemID = Column(UNIQUEIDENTIFIER)
+
+    SimilarityItemTitle = Column(NVARCHAR(None))
+
+    SimilarityRation = Column(FLOAT)
+
+    TargetItemID = Column(UNIQUEIDENTIFIER, ForeignKey("Item.ID"))
+    WebPageID = Column(UNIQUEIDENTIFIER, ForeignKey("WebPage.ID"))
+
+    # ForeignKey
+    WebPageSimilarityTargetItemID_U = relationship(
+        "Item", back_populates="WebPageSimilarity")
+    WebPageSimilarityWebPageID_U = relationship(
+        "WebPage", back_populates="WebPageSimilarity")
+
+    # collections
+
+
 class Image(base.Base):
     __tablename__ = "Image"
 
@@ -48,6 +71,8 @@ class Item(base.Base):
 
     # collections
     Image = relationship("Image", back_populates="ImageItemID_U")
+    WebPageSimilarity = relationship(
+        "WebPageSimilarity", back_populates="WebPageSimilarityTargetItemID_U")
 
 
 class Users(base.Base):
@@ -83,6 +108,8 @@ class WebPage(base.Base):
     WebPageForumID_U = relationship("Forum", back_populates="WebPage")
 
     # collections
+    WebPageSimilarity = relationship(
+        "WebPageSimilarity", back_populates="WebPageSimilarityWebPageID_U")
     Item = relationship("Item", back_populates="ItemWebPageID_U")
     WebPageTask = relationship(
         "WebPageTask", back_populates="WebPageTaskWebPageID_U")
@@ -102,6 +129,9 @@ class WebPageTask(base.Base):
         "WebPage", back_populates="WebPageTask")
 
     # collections
+
+
+
 
 
 class Forum(base.Base):

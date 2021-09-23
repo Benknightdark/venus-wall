@@ -1,0 +1,10 @@
+SQLAlchemy
+pymssql
+beautifulsoup4
+httpx
+celery[redis,auth,librabbitmq]
+typing
+python-dotenv
+jieba
+sklearn
+pymongo

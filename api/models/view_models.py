@@ -21,7 +21,7 @@ class ItemCreate(BaseConfigModel):
     Url: str
     Avator: str
     PageName: str
-    ModifiedDateTime:str 
+    ModifiedDateTime: str
 
 # class ForumCreate(BaseModel):
 #     forum:Optional[models.Forum]

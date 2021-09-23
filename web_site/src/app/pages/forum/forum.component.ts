@@ -170,4 +170,9 @@ export class ForumComponent implements OnInit {
     // this.taskService.getCurrentTaskStatus();
     this.taskService.getTaskInfo(data.ID)
   }
+  onCalSimilarity(data: WebPage) {
+    this.webPageService.updateWebPageItemSimilarity(data.ID).subscribe(r=>{
+      this.messageService.info(`開始計算${data.Name}的文章相似度`);
+    })
+  }
 }

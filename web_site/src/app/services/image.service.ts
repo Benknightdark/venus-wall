@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { debounceTime, distinctUntilChanged, share } from 'rxjs/operators';
+import { asyncScheduler, scheduled } from 'rxjs';
+import { combineAll, debounceTime, distinctUntilChanged, map, share } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Image } from '../models/data.model';
 
@@ -14,6 +15,15 @@ export class ImageService {
    return  this.http.get<Image[]>(`${environment.apiUrl}/api/image/${itemID}`)
       .pipe( debounceTime(300),
       distinctUntilChanged())
-
+  }
+  getMultiItemImageData(itemIDArray:string[]){
+    const reqArray=itemIDArray.map(itemID=>this.http.get<Image[]>(`${environment.apiUrl}/api/image/${itemID}`))
+    return scheduled(reqArray, asyncScheduler).pipe(combineAll(),map(data=>{
+      let combinedData:Image[]=[]
+      for (const d of data){
+        combinedData=[...combinedData,...d]
+      }
+      return combinedData;
+    }))
   }
 }

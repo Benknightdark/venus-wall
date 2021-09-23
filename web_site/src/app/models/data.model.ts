@@ -24,8 +24,9 @@ export interface Item {
   Page?: number
 
   WebPageID?: string,
-  Seq?: number
-
+  Seq?: number,
+  WebPageSimilarity?:WebPageSimilarity[],
+  WebPageSimilarityCount?:number;
 }
 
 export interface Forum {
@@ -96,4 +97,14 @@ export interface ForumWebpageList {
   WorkerName?: string;
   Enable?: boolean;
   WebPageList?:WebPage[]
+}
+
+
+export interface WebPageSimilarity {
+  SimilarityItemID?:    string;
+  SimilarityRation?:    number;
+  WebPageID?:           string;
+  SimilarityItemTitle?: string;
+  ID?:                  string;
+  TargetItemID?:        string;
 }

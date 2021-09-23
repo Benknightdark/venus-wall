@@ -33,7 +33,17 @@ export class WebPageService {
   getWebPageByID(id: string | undefined) {
     return this.http.get<WebPage>(`${environment.apiUrl}/api/webpage/${id}`)
       .pipe(share())
-
+  }
+  /**
+   * 透過WebPage id，更新所有文章的相似度資料
+   *
+   * @param {(string | undefined)} id
+   * @return {*}
+   * @memberof WebPageService
+   */
+  updateWebPageItemSimilarity(id: string | undefined) {
+    return this.http.get<{}>(`${environment.apiUrl}/api/webpage/similarity/${id}`)
+      .pipe(share())
   }
 }
 
