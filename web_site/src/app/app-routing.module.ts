@@ -15,8 +15,10 @@ const routes: Routes = [
   {
     path: '', component: DashboardLayoutComponent, children: [
       { path: "dashboard", component: DashboardComponent },
+      { path: "dashboard/:id", component: DashboardComponent },
     ]
   },
+
   {
     path: 'admin', component: AdminLayoutComponent, children: [
       { path: 'item/:id', component: ItemComponent },
