@@ -15,14 +15,15 @@ python3.9 -m celery -A tasks events
 python3.9 -m celery -A tasks flower 
 
 
-docker exec -it venus-wall_db_1 /opt/mssql-tools/bin/sqlcmd -U SA -P YourStrong!Passw0rd  -W -q "USE [master]
+docker exec -it venus-wall_db_1 /opt/mssql-tools/bin/sqlcmd -U SA -P YourStrong!Passw0rd  -W -q "
+USE [master]
 GO
 CREATE DATABASE [beauty_wall]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'jkf', FILENAME = N'/var/opt/mssql/data/jkf.mdf' , SIZE = 204800KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+( NAME = N'beauty_wall', FILENAME = N'/var/opt/mssql/data/beauty_wall.mdf' , SIZE = 204800KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON 
-( NAME = N'jkf_log', FILENAME = N'/var/opt/mssql/data/jkf_log.ldf' , SIZE = 532480KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'beauty_wall_log', FILENAME = N'/var/opt/mssql/data/beauty_wall_log.ldf' , SIZE = 532480KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
  WITH CATALOG_COLLATION = DATABASE_DEFAULT
 GO
 ALTER DATABASE [beauty_wall] SET COMPATIBILITY_LEVEL = 150
@@ -98,7 +99,7 @@ ALTER DATABASE [beauty_wall] SET QUERY_STORE = OFF
 GO
 USE [beauty_wall]
 GO
-/****** Object:  Table [dbo].[Forum]    Script Date: 2021/9/13 下午 05:23:50 ******/
+/****** Object:  Table [dbo].[Forum]    Script Date: 2021/9/23 下午 03:03:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -109,13 +110,14 @@ CREATE TABLE [dbo].[Forum](
 	[WorkerName] [nvarchar](100) NULL,
 	[CreatedTime] [datetime] NULL,
 	[Enable] [bit] NULL,
+	[Seq] [int] NULL,
  CONSTRAINT [PK_Forum] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Image]    Script Date: 2021/9/13 下午 05:23:50 ******/
+/****** Object:  Table [dbo].[Image]    Script Date: 2021/9/23 下午 03:03:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -130,7 +132,7 @@ CREATE TABLE [dbo].[Image](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Item]    Script Date: 2021/9/13 下午 05:23:50 ******/
+/****** Object:  Table [dbo].[Item]    Script Date: 2021/9/23 下午 03:03:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -152,7 +154,7 @@ CREATE TABLE [dbo].[Item](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 2021/9/13 下午 05:23:50 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 2021/9/23 下午 03:03:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -167,7 +169,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[WebPage]    Script Date: 2021/9/13 下午 05:23:50 ******/
+/****** Object:  Table [dbo].[WebPage]    Script Date: 2021/9/23 下午 03:03:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -185,7 +187,25 @@ CREATE TABLE [dbo].[WebPage](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[WebPageTask]    Script Date: 2021/9/13 下午 05:23:50 ******/
+/****** Object:  Table [dbo].[WebPageSimilarity]    Script Date: 2021/9/23 下午 03:03:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[WebPageSimilarity](
+	[ID] [uniqueidentifier] NOT NULL,
+	[WebPageID] [uniqueidentifier] NULL,
+	[TargetItemID] [uniqueidentifier] NULL,
+	[SimilarityItemID] [uniqueidentifier] NULL,
+	[SimilarityItemTitle] [nvarchar](max) NULL,
+	[SimilarityRation] [float] NULL,
+ CONSTRAINT [PK_WebPageSimilarity] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[WebPageTask]    Script Date: 2021/9/23 下午 03:03:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -200,19 +220,19 @@ CREATE TABLE [dbo].[WebPageTask](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Index [NonClusteredIndex-20210910-103647]    Script Date: 2021/9/13 下午 05:23:50 ******/
+/****** Object:  Index [NonClusteredIndex-20210910-103647]    Script Date: 2021/9/23 下午 03:03:35 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [NonClusteredIndex-20210910-103647] ON [dbo].[Image]
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [NonClusteredIndex-20210910-102227]    Script Date: 2021/9/13 下午 05:23:50 ******/
+/****** Object:  Index [NonClusteredIndex-20210910-102227]    Script Date: 2021/9/23 下午 03:03:35 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [NonClusteredIndex-20210910-102227] ON [dbo].[Item]
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [ix_Users_ID]    Script Date: 2021/9/13 下午 05:23:50 ******/
+/****** Object:  Index [ix_Users_ID]    Script Date: 2021/9/23 下午 03:03:35 ******/
 CREATE NONCLUSTERED INDEX [ix_Users_ID] ON [dbo].[Users]
 (
 	[ID] ASC
@@ -233,6 +253,16 @@ REFERENCES [dbo].[Forum] ([ID])
 GO
 ALTER TABLE [dbo].[WebPage] CHECK CONSTRAINT [FK_WebPage_Forum]
 GO
+ALTER TABLE [dbo].[WebPageSimilarity]  WITH CHECK ADD  CONSTRAINT [FK_WebPageSimilarity_Item] FOREIGN KEY([TargetItemID])
+REFERENCES [dbo].[Item] ([ID])
+GO
+ALTER TABLE [dbo].[WebPageSimilarity] CHECK CONSTRAINT [FK_WebPageSimilarity_Item]
+GO
+ALTER TABLE [dbo].[WebPageSimilarity]  WITH CHECK ADD  CONSTRAINT [FK_WebPageSimilarity_WebPage] FOREIGN KEY([WebPageID])
+REFERENCES [dbo].[WebPage] ([ID])
+GO
+ALTER TABLE [dbo].[WebPageSimilarity] CHECK CONSTRAINT [FK_WebPageSimilarity_WebPage]
+GO
 ALTER TABLE [dbo].[WebPageTask]  WITH CHECK ADD  CONSTRAINT [FK_WebPageTask_WebPage] FOREIGN KEY([WebPageID])
 REFERENCES [dbo].[WebPage] ([ID])
 GO
@@ -242,6 +272,7 @@ USE [master]
 GO
 ALTER DATABASE [beauty_wall] SET  READ_WRITE 
 GO
+
 
 USE [beauty_wall]
 GO
@@ -254,8 +285,6 @@ GO
 "
 ```
 # css text animate 
-- https://codepen.io/caseycallow/pen/yMNqPY
-- https://netbasal.com/lazy-load-images-in-angular-with-two-lines-of-code-beb13cd5a1c4
 - https://github.com/ngneat/cashew
 
 
