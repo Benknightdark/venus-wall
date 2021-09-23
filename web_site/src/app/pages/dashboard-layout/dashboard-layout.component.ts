@@ -26,6 +26,10 @@ export class DashboardLayoutComponent implements OnInit {
         this.dashBoardService.setSelectWebPage(this.selectWebPageID)
       }))
   }
+  onRefreshDashboard(){
+    this.dashBoardService.resetItems();
+    this.dashBoardService.setSelectWebPage(this.selectWebPageID);
+  }
   onChangeWebPage(id:any) {
     this.selectWebPageID = id;
     this.dashBoardService.resetItems();

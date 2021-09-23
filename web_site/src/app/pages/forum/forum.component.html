@@ -34,6 +34,7 @@
               <th nzWidth="60px"></th>
               <th>看板</th>
               <th nzWidth="150px">爬蟲執行歷史記錄</th>
+              <th nzWidth="150px">文章相似度計算</th>
               <th>看板連結</th>
             </tr>
           </thead>
@@ -64,6 +65,12 @@
           <button nz-button nzType="primary" *ngIf="data?.TaskCount!=null" (click)="onRefreshTaskCount(data)">
             <i nz-icon nzType="bug" nzTheme="outline"></i>
             {{data?.TaskCount}}
+          </button>
+        </td>
+        <td>
+          <button nz-button nzType="dashed"  (click)="onCalSimilarity(data)">
+            <i nz-icon nzType="file-text" nzTheme="outline"></i>
+            開始計算
           </button>
         </td>
         <td>
