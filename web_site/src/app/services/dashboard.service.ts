@@ -53,7 +53,6 @@ export class DashboardService {
           debounceTime(300),
           distinctUntilChanged())
         .subscribe(data => {
-          console.log(data)
           this.itemList = [...this.itemList, ...data]
           this._itemSubjectList$.next(this.itemList);
         }, error => console.log(error));

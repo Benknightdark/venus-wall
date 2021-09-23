@@ -44,4 +44,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.nzImageService.preview(r, { nzZoom: 1, nzRotate: 0 });
     })
   }
+  onOpenSimilarityGallery(data:Item) {
+    const ItemIDArray:string[]=[]
+    ItemIDArray.push(data.ID!)
+    for (const iterator of data.WebPageSimilarity!) {
+      ItemIDArray.push(iterator.SimilarityItemID!)
+    }
+
+    this.imageService.getMultiItemImageData(ItemIDArray!).pipe(
+    map(data => data.map(a => { return { src: a.Url } }))
+    ).subscribe(r => {
+      this.nzImageService.preview(r, { nzZoom: 1, nzRotate: 0 });
+    })
+  }
 }

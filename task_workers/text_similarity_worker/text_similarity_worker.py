@@ -37,7 +37,7 @@ def update_web_page_similarity(id):
     conn = pymssql.connect('db', 'sa', 'YourStrong!Passw0rd', "beauty_wall")
     cursor = conn.cursor(as_dict=True)
     cursor.execute(
-        'SELECT *  FROM [beauty_wall].[dbo].[Item] A WHERE WebPageID=%s', id)
+        'SELECT *  FROM [beauty_wall].[dbo].[Item] A WHERE WebPageID=%s AND Enable=1', id)
     row = cursor.fetchall()
     re_punctuation = "[^\w\s]"
     corpus = []
