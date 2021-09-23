@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.itemList$ = this.dashBoardService.itemSubjectList$;
     this.selectedWebPageSub$ = this.dashBoardService.webPageIDSubject$.subscribe(id => {
       this.selectWebPageId = id;
+      this.itemIDArrayString=undefined;
       this.dashBoardService.resetItems();
       this.dashBoardService.getItems(this.selectWebPageId);
     })
