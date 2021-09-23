@@ -7,6 +7,13 @@
     justify-content: flex-end;
     margin:10px
     '>
+          <button nz-button nzType="primary" nzShape="circle"
+          (click)="onRefreshDashboard()"
+          nzTooltipTitle="重新整理" nzTooltipPlacement="bottom"  nz-tooltip
+          >
+            <i nz-icon nzType="reload"  nzTheme="outline"></i>
+          </button>
+
       <a [routerLink]="['/admin']" nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="setting"></i></a>
       <div style="padding-right:10px;">
       </div>
