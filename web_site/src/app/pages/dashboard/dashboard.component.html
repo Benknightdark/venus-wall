@@ -18,9 +18,12 @@ overflow-y: scroll;"
         ></app-blur-hash-img> -->
       </ng-template>
       <ng-template #actionFavorite>
-        <i nz-icon nzType="heart"  [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"
+        <!-- <i nz-icon nzType="heart"  [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"
         nzTooltipTitle="加入最愛" nzTooltipPlacement="topLeft" nz-tooltip
-        ></i>
+        ></i> -->
+        <nz-badge nzStandalone [nzCount]="item.WebPageSimilarityCount" nzShowZero
+        [nzTooltipTitle]="'相似文章有'+item.WebPageSimilarityCount!.toString()+'筆'" nzTooltipPlacement="topLeft" nz-tooltip
+        ></nz-badge>
       </ng-template>
       <ng-template #actionOpenGallery>
         <i nz-icon nzType="file-image" [nzTheme]="'twotone'" [nzTwotoneColor]="'red'"

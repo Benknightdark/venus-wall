@@ -7,7 +7,7 @@ from dependencies import get_db, send_task
 from fastapi.params import Depends
 from typing import Optional
 from fastapi import APIRouter
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload, lazyload
 from models import models
 import json
 
@@ -52,7 +52,8 @@ async def post_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
 async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
     offset_count = offset*limit
-    data = db.query(models.Item).filter(and_(models.Item.WebPageID == id, models.Item.Enable == True)).order_by(
+    #
+    data = db.query(models.Item).options(joinedload(models.Item.WebPageSimilarity)).filter(and_(models.Item.WebPageID == id, models.Item.Enable == True)).order_by(
         desc(models.Item.Seq)).offset(offset_count).limit(limit).all()
     return data
 
