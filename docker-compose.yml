@@ -133,14 +133,14 @@ services:
   # db
   ############################
   db:
-    image: mcr.microsoft.com/mssql/server:2019-CU12-ubuntu-20.04
+    build: ./db/sql_server
     restart: always
     user: root
     environment:
       SA_PASSWORD: "YourStrong!Passw0rd"
       ACCEPT_EULA: "Y"
     volumes:
-      - beauty-db-data:/var/opt/mssql
+      - beauty-db-data111:/var/opt/mssql
     ports:
       - 9487:1433
     networks:
@@ -148,7 +148,7 @@ services:
 networks:
     venus-wall-network:      
 volumes:
-  beauty-db-data:
+  beauty-db-data111:
   redis_data:
   rabbitmq_data:
   mongo-data:
