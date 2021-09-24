@@ -29,10 +29,7 @@ def get_similarity_sentence(titles, articleid, tfidf):
         suggest_titles.append({'titleData':titles[idx],'ratio':cosine_similarities[idx]})
     return suggest_titles
 
-autoretry_for=(Exception,),     max_retries=20,
-          retry_backoff=True,
-          retry_backoff_max=60
-@app.task()
+@app.task(autoretry_for=(Exception,),max_retries=20,retry_backoff=True,retry_backoff_max=60)
 def update_web_page_similarity(id):
     conn = pymssql.connect('db', 'sa', 'YourStrong!Passw0rd', "beauty_wall")
     cursor = conn.cursor(as_dict=True)
