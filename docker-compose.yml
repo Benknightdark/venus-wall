@@ -121,19 +121,41 @@ services:
       - DB_CONNECT_STRING=mssql+pymssql://sa:YourStrong!Passw0rd@db/beauty_wall?charset=utf8
       - FLOWER_API_URL=http://task-schedule-monitor:8888
       - MONGO_DB_CONNECT_STRING=mongodb://root:example@mongo-back-end/
-    ports:
-      - 8780:8780
+    # ports:
+    #   - 8780:8780
     depends_on:
       - db
       - redis-back-end
     networks:
-        - venus-wall-network       
-  
+        - venus-wall-network
+  ############################
+  # website
+  ############################        
+  website:
+    build: ./web_site
+    restart: always
+    # ports:
+    #   - 8780:8780
+    networks:
+        - venus-wall-network                
+  ############################
+  # api gateway
+  ############################  
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    # environment:
+    #     - "ENVOY_UID=0"      
+    networks:
+      - venus-wall-network     
   ############################
   # db
   ############################
   db:
-    image: mcr.microsoft.com/mssql/server:2019-CU12-ubuntu-20.04
+    build: ./db/sql_server
     restart: always
     user: root
     environment:

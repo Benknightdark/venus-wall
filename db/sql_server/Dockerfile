@@ -1,0 +1,2 @@
+FROM mcr.microsoft.com/mssql/server:2019-CU12-ubuntu-20.04
+COPY init_db.sql ./
