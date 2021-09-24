@@ -5,6 +5,25 @@
 - 精美的女神流水牆
 - 使用``celery``套件擴充和開發爬蟲作業程式
 - 透過論壇文章標題相似度計算，找出更多相似的文章
+## 系統截圖
+- > 女神流水牆
+<center><img src="./screenshots/1.png" /></center>
+<br/>
+
+- > 論壇管理
+<center><img src="./screenshots/2.png" /></center>
+<br/>
+
+- > 文章管理
+<center><img src="./screenshots/3.png" /></center>
+<br/>
+
+## 系統啟動方式
+1. ``` docker compose up -d ```
+2. 如果是第一次啟動系統，需執行下列指令，以產生系統需要用到的資料庫
+``` bash
+docker exec -it venus-wall_db_1 /opt/mssql-tools/bin/sqlcmd -U SA -P YourStrong!Passw0rd  -W -i init_db.sql
+```
 
 ## 常用指令
 ``` bash
@@ -14,7 +33,6 @@ python3.9 -m celery -A tasks worker --loglevel=info  -E
 python3.9 -m celery -A tasks events
 # open flower celery monitor webiste
 python3.9 -m celery -A tasks flower 
-# 初始化女神牆資料庫
 ```
 ``` sql
 SELECT DISTINCT A.*, ISNULL(C.MaxPage,0) AS  MaxPage FROM DBO.WebPage A
