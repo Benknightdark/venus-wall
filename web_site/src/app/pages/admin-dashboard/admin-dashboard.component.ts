@@ -8,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AdminDashboardComponent implements OnInit {
 
   constructor() { }
-
+  gridStyle = {
+    width: '50%',
+  };
   ngOnInit(): void {
   }
 

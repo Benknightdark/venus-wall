@@ -1,5 +1,5 @@
 from sqlalchemy.orm.session import Session
-from routers import forum, webpage, item, user, image, task
+from routers import forum, webpage, item, user, image, task,admin
 from fastapi import FastAPI, Request, Response, status
 from models import models, base
 from fastapi.middleware.cors import CORSMiddleware
@@ -70,3 +70,4 @@ app.include_router(image.router, prefix="/api", tags=['項目圖片'])
 app.include_router(user.router, prefix="/api", tags=['使用者'])
 app.include_router(forum.router, prefix="/api", tags=['論壇'])
 app.include_router(task.router, prefix="/api", tags=['爬蟲工作任務'])
+app.include_router(admin.router, prefix="/api", tags=['管理者儀表板'])
