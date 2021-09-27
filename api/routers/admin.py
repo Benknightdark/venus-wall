@@ -1,3 +1,4 @@
+from itertools import groupby
 from sqlalchemy.sql.expression import and_, desc, false, text
 from dependencies import get_db
 from fastapi.params import Depends
@@ -6,7 +7,7 @@ from sqlalchemy.orm import Session
 from models import models, view_models
 from datetime import datetime
 import uuid
-
+import json
 router = APIRouter()
 @router.get("/admin/forum-count", summary="取得論壇文章數")
 async def get_image_by_item_id(db: Session = Depends(get_db)):
@@ -20,7 +21,7 @@ async def get_image_by_item_id(db: Session = Depends(get_db)):
     WHERE B.WebPageID=A.ID
     )C(TotalCount)
     WHERE A.Enable=1 AND F.Enable=1
-    for json auto
-    -- ORDER BY F.Seq, TotalCount DESC
+    ORDER BY F.Seq, TotalCount DESC
     ''')).all()
-    return data
+    cc=[{'forumName':key,'data':list(g)} for key, g in groupby(data, lambda d : d['ForumName'])] 
+    return cc

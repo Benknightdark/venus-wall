@@ -131,13 +131,13 @@ services:
   ############################
   # website
   ############################        
-  website:
-    build: ./web_site
-    restart: always
-    # ports:
-    #   - 8780:8780
-    networks:
-        - venus-wall-network                
+  # website:
+  #   build: ./web_site
+  #   restart: always
+  #   # ports:
+  #   #   - 8780:8780
+  #   networks:
+  #       - venus-wall-network                
   ############################
   # api gateway
   ############################  
