@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import {  Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, share, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { ForumWebpageList, Item, WebPage } from '../models/data.model';
