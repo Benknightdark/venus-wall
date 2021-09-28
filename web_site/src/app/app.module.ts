@@ -41,6 +41,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { ChartModule } from 'angular-highcharts';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 
 registerLocaleData(zh);
 
@@ -85,7 +86,8 @@ registerLocaleData(zh);
     NzListModule,
     NzBadgeModule,
     NzTagModule,
-    ChartModule
+    ChartModule,
+    NzStatisticModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_TW },NzMessageService,NzModalService,NzImageService ],
   bootstrap: [AppComponent]

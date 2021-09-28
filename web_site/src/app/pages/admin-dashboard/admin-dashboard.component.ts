@@ -9,16 +9,18 @@ import { AdminService } from '../../services/admin.service';
 })
 export class AdminDashboardComponent implements OnInit {
 
-  constructor(private adminService:AdminService) { }
+  constructor(private adminService: AdminService) { }
   isCollapsed = false;
-  chartData:Chart[]=[];
-
+  chartData: Chart[] = [];
+  summaryData:{forumName:string,totalCount:number}[]=[]
   ngOnInit(): void {
-    this.adminService.getForumCount().subscribe(r=>{
+    this.adminService.getForumCount().subscribe(r => {
       for (const item of r) {
+        let totalCountTemp=0;
+
         const chart = new Chart({
           chart: {
-            type: 'column'
+            type: 'bar'
           },
           title: {
             text: item.forumName!
@@ -26,30 +28,47 @@ export class AdminDashboardComponent implements OnInit {
           credits: {
             enabled: false
           },
-          series:item.data?.map(c=>{
+          tooltip: {
+            pointFormat: '【{point.series.name}】文章數量： <b>{point.y:.1f}</b>'
+          },
+          xAxis: {
+            lineWidth: 0,
+             minorGridLineWidth: 0,
+             labels: {
+                 enabled: false
+             },
+             minorTickLength: 0,
+             tickLength: 0
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: '文章數量'
+            }
+          },
+          series: item.data?.map(c => {
+            totalCountTemp+=c.TotalCount!;
             return {
-              type:'column',
-              name:c.Name!,
-              data:[c.TotalCount!]
+              type: 'bar',
+              name: c.Name!,
+              data: [c.TotalCount!],
+              dataLabels: {
+                enabled: true,
+                color: '#FFFFFF',
+                align: 'right',
+                format: '{point.series.name} - {point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                  fontSize: '13px',
+                }
+              }
             }
           })
-          // series: [
-          //   {
-          //     type: 'column',
-          //     name: item.forumName!,
-          //     data: item.data?.map(c=>{
-          //         return {
-          //           data:[c.TotalCount]
-          //         }
-          //       })
-
-          //   }
-          // ]
         });
+        this.summaryData.push({'forumName':item.forumName!,'totalCount':totalCountTemp})
         this.chartData.push(chart)
       }
-
-  });
+    });
   }
 
 }
