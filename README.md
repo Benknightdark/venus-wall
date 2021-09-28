@@ -10,6 +10,10 @@
 <center><img src="./screenshots/1.png" /></center>
 <br/>
 
+- > 管理者儀表板
+<center><img src="./screenshots/4.png" /></center>
+<br/>
+
 - > 論壇管理
 <center><img src="./screenshots/2.png" /></center>
 <br/>
