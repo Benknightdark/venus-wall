@@ -16,7 +16,7 @@ export class AdminService {
    * @return {*}  {Observable<AdminForumCount[]>}
    * @memberof AdminService
    */
-  getFroumCount(): Observable<AdminForumCount[]> {
+  getForumCount(): Observable<AdminForumCount[]> {
     return this.http.get<AdminForumCount[]>(`${environment.apiUrl}/api/admin/forum-count`)
   }
 }

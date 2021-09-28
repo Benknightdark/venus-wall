@@ -7,12 +7,13 @@ overflow-y: scroll;
 <div>
   <nz-card nzTitle="論壇文章數量">
     <div nz-row nzJustify="space-around" nzAlign="middle">
-      <div nz-col class="gutter-row" [nzSpan]="6" nzXs="20" nzSm="16" nzMd="12" nzLg="8" nzXl="4">
-        <div class="inner-box">col-6</div>
+      <div nz-col class="gutter-row" [nzSpan]="3" nzXs="20" nzSm="16" nzMd="12" nzLg="10" nzXl="10"
+        *ngFor="let chart of chartData">
+        <div>
+          <div [chart]="chart"></div>
+        </div>
       </div>
-      <div nz-col class="gutter-row" [nzSpan]="6" nzXs="20" nzSm="16" nzMd="12" nzLg="8" nzXl="4">
-        <div class="inner-box">col-6</div>
-      </div>
+
     </div>
   </nz-card>
 
