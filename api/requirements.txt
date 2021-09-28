@@ -9,4 +9,4 @@ beautifulsoup4
 httpx
 uvicorn
 pymongo
-python-dotenv
+python-dotenv 

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from '../../services/admin.service';
+import { Chart } from 'angular-highcharts';
 
 @Component({
   selector: 'app-admin-layout',
@@ -7,10 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminLayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private adminService:AdminService) { }
   isCollapsed = false;
-
+  chartData:Chart[]=[];
   ngOnInit(): void {
+
   }
 
 }

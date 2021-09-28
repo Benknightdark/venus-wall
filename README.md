@@ -10,6 +10,10 @@
 <center><img src="./screenshots/1.png" /></center>
 <br/>
 
+- > 管理者儀表板
+<center><img src="./screenshots/4.png" /></center>
+<br/>
+
 - > 論壇管理
 <center><img src="./screenshots/2.png" /></center>
 <br/>
@@ -41,5 +45,16 @@ WHERE B.WebPageID=A.ID
 ORDER BY B.Page DESC 
 )C(MaxPage)
 ORDER BY MaxPage DESC
+
+SELECT  A.*, F.Name AS ForumName,
+ISNULL(C.TotalCount,0) AS  TotalCount 
+FROM DBO.WebPage A
+JOIN DBO.Forum F ON A.ForumID=F.ID
+OUTER  APPLY ( 
+SELECT COUNT(B.ID) AS TotalCount FROM DBO.Item B
+WHERE B.WebPageID=A.ID
+)C(TotalCount)
+WHERE A.Enable=1 AND F.Enable=1
+ORDER BY TotalCount DESC
 ```
 
