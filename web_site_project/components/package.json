@@ -24,7 +24,10 @@
     "ngx-build-plus": "^12.2.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "angular-highcharts": "^12.0.0",
+    "highcharts": "^9.2.2",
+    "ng-zorro-antd": "^12.0.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.7",
