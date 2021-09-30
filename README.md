@@ -66,6 +66,7 @@ ng g application mf-element1 --routing=false --style=css
 ng add @angular/elements --project=mf-element1
 ng add ngx-build-plus --project=mf-element1
 
-
+ng add @angular/elements --project=AdminDashboardComponent
+ng add ngx-build-plus --project=AdminDashboardComponent
 ```
 

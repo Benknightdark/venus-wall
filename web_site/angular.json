@@ -36,8 +36,9 @@
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/mf-element1/polyfills.js",
-              "src/assets/mf-element1/main.js"
+
+              "src/assets/AdminDashboardComponent/polyfills.js",
+              "src/assets/AdminDashboardComponent/main.js"
             ]
           },
           "configurations": {
@@ -46,7 +47,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "200mb"
+                  "maximumError": "2000mb"
                 },
                 {
                   "type": "anyComponentStyle",
