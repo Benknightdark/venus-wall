@@ -10,12 +10,14 @@ import { AdminService } from '../../services/admin.service';
 export class AdminDashboardComponent implements OnInit {
 
   constructor(private adminService: AdminService) { }
-  chartData: Chart[] = [];
-  summaryData: { forumName: string, totalCount: number }[] = [];
-  adminDataSource: any[] = []
+  adminDataSource: any[] = [];
+  taskCountDataSource:any[]=[]
   ngOnInit(): void {
     this.adminService.getForumCount().subscribe(r => {
       this.adminDataSource = r;
+    });
+    this.adminService.getCrawlTaskCount().subscribe(r => {
+      this.taskCountDataSource=r;
     });
   }
 

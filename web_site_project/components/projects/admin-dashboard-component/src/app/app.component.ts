@@ -8,6 +8,7 @@ import { Chart } from 'angular-highcharts';
 })
 export class AppComponent implements OnChanges {
   @Input() adminDataSource: any[] = []
+  @Input() taskCountDataSource:any[]=[]
   chartData: Chart[] = [];
   summaryData: { forumName: string, totalCount: number }[] = []
   ngOnChanges(): void {

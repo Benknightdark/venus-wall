@@ -63,10 +63,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dashBoardService.resetItems();
     this.dashBoardService.getItems(this.selectWebPageId,0,30,this.itemIDArrayString);
 
-    // this.imageService.getMultiItemImageData(ItemIDArray!).pipe(
-    // map(data => data.map(a => { return { src: a.Url } }))
-    // ).subscribe(r => {
-    //   this.nzImageService.preview(r, { nzZoom: 1, nzRotate: 0 });
-    // })
   }
 }
