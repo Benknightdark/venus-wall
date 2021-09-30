@@ -2,7 +2,7 @@ import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard
 import { BlurHashImgComponent } from './component/blur-hash-img/blur-hash-img.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -89,6 +89,8 @@ registerLocaleData(zh);
     ChartModule,
     NzStatisticModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
   providers: [{ provide: NZ_I18N, useValue: zh_TW },NzMessageService,NzModalService,NzImageService ],
   bootstrap: [AppComponent]
 })

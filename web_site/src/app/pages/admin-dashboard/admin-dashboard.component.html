@@ -2,17 +2,14 @@
 height:100vh;
 overflow-y: scroll;">
   <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23">
-    <nz-row [nzGutter]="[16,16]"  nzJustify='center' nzAlign="top">
-      <nz-col  nzXs="20" nzSm="16" nzMd="15" nzLg="12" nzXl="12" *ngFor="let summary of summaryData">
+    <nz-row [nzGutter]="[16,16]" nzJustify='center' nzAlign="top">
+      <nz-col nzXs="20" nzSm="16" nzMd="15" nzLg="12" nzXl="12" *ngFor="let summary of summaryData">
         <nz-card class='summary-background'>
-          <nz-statistic [nzValue]="summary.totalCount" [nzTitle]="summary.forumName" nzSuffix="筆文章數量"
-
-          ></nz-statistic>
+          <nz-statistic [nzValue]="summary.totalCount" [nzTitle]="summary.forumName" nzSuffix="筆文章數量"></nz-statistic>
         </nz-card>
       </nz-col>
     </nz-row>
   </div>
-  <!-- {{this.summaryData|json}} -->
   <nz-divider></nz-divider>
   <nz-card nzTitle="論壇文章數量" nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23"
     nzXl="23">
@@ -24,3 +21,4 @@ overflow-y: scroll;">
     </div>
   </nz-card>
 </div>
+<mf-element1></mf-element1>
