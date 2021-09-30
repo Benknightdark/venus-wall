@@ -3,10 +3,6 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
     "build:mf-element1": "ng build --project=mf-element1 --configuration production --output-hashing=none --single-bundle && robocopy ./dist/mf-element1/.  ../../web_site/src/assets/mf-element1/.",
     "build:AdminDashboardComponent": "ng build --project=AdminDashboardComponent --configuration production --output-hashing=none --single-bundle && robocopy ./dist/AdminDashboardComponent/.  ../../web_site/src/assets/AdminDashboardComponent/."
 
@@ -22,14 +18,14 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "angular-highcharts": "^12.0.0",
     "document-register-element": "^1.7.2",
+    "highcharts": "^9.2.2",
+    "ng-zorro-antd": "^12.0.1",
     "ngx-build-plus": "^12.2.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "angular-highcharts": "^12.0.0",
-    "highcharts": "^9.2.2",
-    "ng-zorro-antd": "^12.0.1"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.7",
@@ -44,6 +40,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "npm-watch": "^0.11.0",
     "typescript": "~4.3.5"
   }
 }

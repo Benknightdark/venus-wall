@@ -7,6 +7,8 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzStatisticModule,
     NzGridModule,
     NzCardModule,
-    NzDividerModule
+    NzDividerModule,
+    NzIconModule,
+    HttpClientModule
   ],
   providers: [],
 })
