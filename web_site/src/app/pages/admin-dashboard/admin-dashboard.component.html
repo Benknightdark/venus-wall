@@ -1,24 +1,3 @@
-<!-- <div nz-row nzJustify="center" nzAlign="top" style="  max-height: 750px;
-height:100vh;
-overflow-y: scroll;">
-  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23">
-    <nz-row [nzGutter]="[16,16]" nzJustify='center' nzAlign="top">
-      <nz-col nzXs="20" nzSm="16" nzMd="15" nzLg="12" nzXl="12" *ngFor="let summary of summaryData">
-        <nz-card class='summary-background'>
-          <nz-statistic [nzValue]="summary.totalCount" [nzTitle]="summary.forumName" nzSuffix="筆文章數量"></nz-statistic>
-        </nz-card>
-      </nz-col>
-    </nz-row>
-  </div>
-  <nz-divider></nz-divider>
-  <nz-card nzTitle="論壇文章數量" nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23"
-    nzXl="23">
-    <div nz-row nzJustify="space-around" nzAlign="middle">
-      <div nz-col class="gutter-row" [nzSpan]="3" nzXs="20" nzSm="16" nzMd="12" nzLg="10" nzXl="10"
-        *ngFor="let chart of chartData">
-        <div [chart]="chart"></div>
-      </div>
-    </div>
-  </nz-card>
-</div> -->
-<admin-dashboard-component  [adminDataSource]="adminDataSource" [taskCountDataSource]="taskCountDataSource"></admin-dashboard-component>
+<admin-dashboard-component  [adminDataSource]="adminDataSource" [taskCountDataSource]="taskCountDataSource">
+
+</admin-dashboard-component>
