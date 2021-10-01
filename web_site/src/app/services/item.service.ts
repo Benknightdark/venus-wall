@@ -69,4 +69,12 @@ export class ItemService {
     let endString = end != 0 ? `&end=${end}` : ''
     return this.http.post(`${environment.apiUrl}/api/item/${id?.toString().toUpperCase()}?start=${start}${endString}`, {});
   }
+
+  getItemPageTitle(id:string){
+    return this.http.get(`${environment.apiUrl}/api/item/page-title/${id}`)
+    .pipe(
+      share(),
+      debounceTime(300),
+      distinctUntilChanged())
+  }
 }

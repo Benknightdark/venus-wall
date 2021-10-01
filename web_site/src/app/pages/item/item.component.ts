@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from '../../services/image.service';
 import { ItemService } from '../../services/item.service';
 import { Observable, of } from 'rxjs';
-import { Item } from '../../models/data.model';
+import { Item ,WebPage} from '../../models/data.model';
 import { Image } from '../../models/data.model';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzImageService } from 'ng-zorro-antd/image';
@@ -25,7 +25,8 @@ export class ItemComponent implements OnInit {
   keyWord: string = "";
   sortColumnName: string = ''
   sortFiled: string | undefined = '';
-  sortOrder: string | undefined = ''
+  sortOrder: string | undefined = '';
+  pageTitle: Observable<any>=of();
   constructor(private itemService: ItemService, private route: ActivatedRoute,
     private router: Router,
     private imageService: ImageService,
@@ -33,9 +34,9 @@ export class ItemComponent implements OnInit {
     private modalService: NzModalService) { }
 
   ngOnInit(): void {
-    console.log(history.state)
-    this.itemService.getItems(this.route.snapshot.params.id);
+    this.pageTitle=this.itemService.getItemPageTitle(this.route.snapshot.params.id);
     this.itemList$ = this.itemService.itemSubjectList$;
+    this.itemService.getItems(this.route.snapshot.params.id);
     this.loading = false;
   }
   onQueryParamsChange(params: NzTableQueryParams): void {

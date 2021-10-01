@@ -60,7 +60,7 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int, filterId: Op
     else:
         filterId_array = or_(
             *list(map(lambda x: models.Item.ID == x, filterId.split(','))))
-        clause = filterId_array 
+        clause = filterId_array
 
     data = db.query(models.Item).options(joinedload(models.Item.WebPageSimilarity)).filter(clause).order_by(
         desc(models.Item.Seq)).offset(offset_count).limit(limit).all()
@@ -93,5 +93,13 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
         else:
             order_column = asc(models.Item.Seq)
         data = item_data.order_by(order_column)
-    data = data.options(joinedload(models.Item.WebPageSimilarity)).offset(offset_count).limit(limit).all()
+    data = data.options(joinedload(models.Item.WebPageSimilarity)).offset(
+        offset_count).limit(limit).all()
     return {'totalDataCount': item_data_count, 'data': data}
+
+
+@router.get("/item/page-title/{id}", summary="透過WebPage id，當前頁面的標題資料 (For Item Page)")
+async def get_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
+    data = db.query(models.WebPage).options(joinedload(
+        models.WebPage.WebPageForumID_U)).filter(models.WebPage.ID == id).first()
+    return data

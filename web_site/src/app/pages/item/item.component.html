@@ -1,4 +1,4 @@
-<nz-page-header class="site-page-header" nzTitle="看版管理">
+<nz-page-header class="site-page-header" nzTitle="看版文章管理" [nzSubtitle]="(pageTitle|async)?.WebPageForumID_U?.Name+' - '+(pageTitle|async)?.Name">
 </nz-page-header>
 <input nz-input placeholder="關鍵字" [(ngModel)]="keyWord" nzSize="large" (ngModelChange)="onSearch()" style="float: 'right';width:auto!important"/>
 
