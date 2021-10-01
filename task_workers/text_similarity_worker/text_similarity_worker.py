@@ -14,7 +14,6 @@ os.environ.setdefault('CELERY_CONFIG_MODULE', 'celery_config')
 app = Celery('text_similarity_worker')
 app.config_from_envvar('CELERY_CONFIG_MODULE')
 
-
 def get_similarity_sentence(titles, articleid, tfidf):
     print('[查詢文章]:{}'.format(titles[articleid]['title']))
     cosine_similarities = cosine_similarity(
@@ -26,11 +25,15 @@ def get_similarity_sentence(titles, articleid, tfidf):
     for idx in idx_list:
         print('[相似內容]:{} {}'.format(
             titles[idx]['title'], cosine_similarities[idx]))
-        suggest_titles.append({'titleData':titles[idx],'ratio':cosine_similarities[idx]})
+        suggest_titles.append(
+            {'titleData': titles[idx], 'ratio': cosine_similarities[idx]})
     return suggest_titles
 
-@app.task(autoretry_for=(Exception,),max_retries=20,retry_backoff=True,retry_backoff_max=60)
+
+@app.task(autoretry_for=(Exception,), max_retries=20, retry_backoff=True, retry_backoff_max=60)
 def update_web_page_similarity(id):
+    jieba.load_userdict('./userdict.txt')
+
     conn = pymssql.connect('db', 'sa', 'YourStrong!Passw0rd', "beauty_wall")
     cursor = conn.cursor(as_dict=True)
     cursor.execute(
@@ -41,24 +44,24 @@ def update_web_page_similarity(id):
     titles = []
     for article in row:
         titles.append({'title': article['Title'], 'id': article['ID']})
-        pre_process_content = re.sub(re_punctuation, " ", article['Title'])
+        pre_process_content = re.sub(re_punctuation, " ", article['Title'].replace('_',' ') )
         corpus_data = ' '.join(jieba.cut_for_search(pre_process_content))
         corpus.append(corpus_data)
     vectorizer = CountVectorizer()
     X = vectorizer.fit_transform(corpus)
     transformer = TfidfTransformer()
     tfidf = transformer.fit_transform(X)
-    sql_array=[]
-    delete_sql_string=f'''
+    sql_array = []
+    delete_sql_string = f'''
     DELETE FROM [dbo].[WebPageSimilarity] WHERE WebPageID=N'{id}'    
     '''
     sql_array.append(delete_sql_string)
     for i in range(len(titles)):
-        suggest_titles=get_similarity_sentence(titles, i, tfidf)
+        suggest_titles = get_similarity_sentence(titles, i, tfidf)
         print(len(suggest_titles))
         print('--------------------------')
         for s in suggest_titles:
-            sql=f'''
+            sql = f'''
             INSERT INTO [dbo].[WebPageSimilarity]
             ([ID]
            ,[WebPageID]
@@ -76,13 +79,12 @@ def update_web_page_similarity(id):
             )
             '''
             sql_array.append(sql)
-    sql_string='\n'.join(sql_array) 
+    sql_string = '\n'.join(sql_array)
     insert_cursor = conn.cursor()
     insert_cursor.execute(sql_string)
     conn.commit()
     conn.close()
     return
-      
 
 
 if __name__ == "__main__":

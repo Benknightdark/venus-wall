@@ -93,5 +93,5 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
         else:
             order_column = asc(models.Item.Seq)
         data = item_data.order_by(order_column)
-    data = data.offset(offset_count).limit(limit).all()
+    data = data.options(joinedload(models.Item.WebPageSimilarity)).offset(offset_count).limit(limit).all()
     return {'totalDataCount': item_data_count, 'data': data}

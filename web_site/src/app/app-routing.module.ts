@@ -1,3 +1,4 @@
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ForumComponent } from './pages/forum/forum.component';
@@ -23,12 +24,9 @@ const routes: Routes = [
     path: 'admin', component: AdminLayoutComponent, children: [
       { path: 'item/:id', component: ItemComponent },
       { path: 'forum', component: ForumComponent },
-      {
-        path: '',
-        redirectTo: 'forum',
-        pathMatch: 'full'
-      },
-      { path: '**', component: ForumComponent }
+      { path: 'dashboard', component: AdminDashboardComponent },
+
+      { path: '**', component: AdminDashboardComponent }
     ]
   },
   {
@@ -44,7 +42,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
     initialNavigation: 'enabled'
-})],
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

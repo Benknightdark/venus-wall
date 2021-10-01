@@ -10,6 +10,10 @@
 <center><img src="./screenshots/1.png" /></center>
 <br/>
 
+- > 管理者儀表板
+<center><img src="./screenshots/4.png" /></center>
+<br/>
+
 - > 論壇管理
 <center><img src="./screenshots/2.png" /></center>
 <br/>
@@ -41,5 +45,28 @@ WHERE B.WebPageID=A.ID
 ORDER BY B.Page DESC 
 )C(MaxPage)
 ORDER BY MaxPage DESC
+
+SELECT  A.*, F.Name AS ForumName,
+ISNULL(C.TotalCount,0) AS  TotalCount 
+FROM DBO.WebPage A
+JOIN DBO.Forum F ON A.ForumID=F.ID
+OUTER  APPLY ( 
+SELECT COUNT(B.ID) AS TotalCount FROM DBO.Item B
+WHERE B.WebPageID=A.ID
+)C(TotalCount)
+WHERE A.Enable=1 AND F.Enable=1
+ORDER BY TotalCount DESC
+```
+``` bash
+# 建立微前端元件
+cd web_site_project
+ng new  --create-application=false components  
+cd components
+ng g application mf-element1 --routing=false --style=css     
+ng add @angular/elements --project=mf-element1
+ng add ngx-build-plus --project=mf-element1
+
+ng add @angular/elements --project=AdminDashboardComponent
+ng add ngx-build-plus --project=AdminDashboardComponent
 ```
 

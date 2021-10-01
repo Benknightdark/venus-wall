@@ -1,3 +1,5 @@
+<nz-page-header class="site-page-header" nzTitle="看版管理">
+</nz-page-header>
 <input nz-input placeholder="關鍵字" [(ngModel)]="keyWord" nzSize="large" (ngModelChange)="onSearch()" style="float: 'right';width:auto!important"/>
 
 <nz-table nzShowSizeChanger [nzData]="(itemList$|async)?.data||[]" [nzFrontPagination]="false" [nzLoading]="loading"  [nzScroll]="{ y: '500px' }"
@@ -11,7 +13,8 @@
       <th nzWidth='150px'>縮圖</th>
       <th nzWidth='80px' nzColumnKey="page" [nzSortFn]="true">頁數</th>
       <th nzWidth='150px' nzColumnKey="seq" [nzSortFn]="true">序號</th>
-      <th nzColumnKey="title" [nzSortFn]="true">標題</th>
+      <th nzColumnKey="title" [nzSortFn]="true">文章標題</th>
+      <th nzColumnKey="title" [nzSortFn]="true">相似文章</th>
     </tr>
   </thead>
   <tbody>
@@ -21,9 +24,8 @@
             style=" background: orange;">功能</button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item (click)="onOpenGallery(item)">看美照</li>
+              <li nz-menu-item (click)="onOpenGallery(item.ID!)">看美照</li>
               <li nz-menu-item>
-
                 <a [href]='item.Url' target="_blank">外部連結</a>
               </li>
               <li nz-menu-item (click)="onDeleteItem(item)">刪除</li>
@@ -41,6 +43,12 @@
       <td>{{item.Page}}</td>
       <td>{{item.Seq}}</td>
       <td>{{item.Title}}</td>
+      <td>
+        <div *ngFor="let wItem of item.WebPageSimilarity">
+          <nz-tag [nzColor]="'magenta'" style="cursor: pointer;" (click)="onOpenGallery(wItem.SimilarityItemID!)">{{wItem.SimilarityItemTitle}}</nz-tag>
+        </div>
+      </td>
+
     </tr>
   </tbody>
 </nz-table>
