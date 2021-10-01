@@ -59,9 +59,8 @@ ORDER BY TotalCount DESC
 ```
 ``` bash
 # 建立微前端元件
-cd web_site_project
+cd web_site_components
 ng new  --create-application=false components  
-cd components
 ng g application mf-element1 --routing=false --style=css     
 ng add @angular/elements --project=mf-element1
 ng add ngx-build-plus --project=mf-element1

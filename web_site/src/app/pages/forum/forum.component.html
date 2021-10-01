@@ -47,19 +47,13 @@
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
               <li nz-menu-item>
-                <a [routerLink]="['/admin/item',data.ID]" [state]="data">明細</a>
+                <a [routerLink]="['/admin/item',data.ID]"[state]="data">明細</a>
               </li>
               <li nz-menu-item (click)="selectedWebPage=data;hideCrawlerForm=false;">執行爬蟲作業</li>
             </ul>
           </nz-dropdown-menu>
         </td>
         <td>{{data.Name}}
-          <!-- <span (click)="onRefreshCurrentTaskInfo(data.ID)" [style.cursor]="'pointer'" [style.color]="'white'"
-            [style.background-color]="(((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state==='FAILURE'?'#D53515':'#bcf4c3'">
-            {{
-            (((curretnTaskStatusList$|async)||{})[data.ID!.toString().toUpperCase()])?.state
-            }}
-          </span> -->
         </td>
         <td>
           <button nz-button nzType="primary" *ngIf="data?.TaskCount!=null" (click)="onRefreshTaskCount(data)">
