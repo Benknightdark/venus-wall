@@ -25,11 +25,7 @@ const routes: Routes = [
       { path: 'item/:id', component: ItemComponent },
       { path: 'forum', component: ForumComponent },
       { path: 'dashboard', component: AdminDashboardComponent },
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
-      },
+
       { path: '**', component: AdminDashboardComponent }
     ]
   },
@@ -46,7 +42,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
     initialNavigation: 'enabled'
-})],
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

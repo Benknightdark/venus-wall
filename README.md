@@ -57,4 +57,16 @@ WHERE B.WebPageID=A.ID
 WHERE A.Enable=1 AND F.Enable=1
 ORDER BY TotalCount DESC
 ```
+``` bash
+# 建立微前端元件
+cd web_site_project
+ng new  --create-application=false components  
+cd components
+ng g application mf-element1 --routing=false --style=css     
+ng add @angular/elements --project=mf-element1
+ng add ngx-build-plus --project=mf-element1
+
+ng add @angular/elements --project=AdminDashboardComponent
+ng add ngx-build-plus --project=AdminDashboardComponent
+```
 

@@ -35,7 +35,11 @@
               "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+
+              "src/assets/AdminDashboardComponent/polyfills.js",
+              "src/assets/AdminDashboardComponent/main.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -43,7 +47,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "200mb"
+                  "maximumError": "2000mb"
                 },
                 {
                   "type": "anyComponentStyle",
