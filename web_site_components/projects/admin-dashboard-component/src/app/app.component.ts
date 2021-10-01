@@ -36,7 +36,7 @@ import { Chart } from 'angular-highcharts';
   .card {
     margin: 20px;
     padding: 10px;
-    width: 300px;
+    width: 200px;
     min-height: 100x;
     display: grid;
     grid-template-rows: 10px 20px 1fr 10px;
@@ -137,7 +137,7 @@ export class AppComponent implements OnChanges {
           type: 'bar'
         },
         title: {
-          text: item.forumName!
+          text: `【${item.forumName!}】論壇文章數量長條圖`
         },
         credits: {
           enabled: false

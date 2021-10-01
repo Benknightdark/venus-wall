@@ -40,8 +40,6 @@ import { NzBackTopModule } from 'ng-zorro-antd/back-top';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { ChartModule } from 'angular-highcharts';
-import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 
 registerLocaleData(zh);
 
@@ -86,8 +84,6 @@ registerLocaleData(zh);
     NzListModule,
     NzBadgeModule,
     NzTagModule,
-    ChartModule,
-    NzStatisticModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 

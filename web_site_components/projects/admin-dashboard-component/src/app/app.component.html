@@ -3,10 +3,8 @@
 <div nz-row nzJustify="center" nzAlign="top" style="  max-height: 750px;
 height:100vh;
 overflow-y: scroll;">
-  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23">
-    <h2 nz-typography><i nz-icon nzType="line-chart" nzTheme="outline"></i><u>論壇文章數量</u></h2>
-  </div>
-  <div nz-col nzJustify="center">
+  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="12" nzLg="12">
+    <h2 nz-typography><i nz-icon nzType="line-chart" nzTheme="outline"></i><u>論壇文章總數量</u></h2>
     <div class="cards">
       <div class="card card-4" *ngFor="let summary of summaryData">
         <div class="card__icon"><i class="fas fa-bolt"></i></div>
@@ -21,11 +19,8 @@ overflow-y: scroll;">
       </div>
     </div>
   </div>
-  <nz-divider></nz-divider>
-  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23">
+  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="12" nzLg="12">
     <h2 nz-typography><i nz-icon nzType="bug" nzTheme="outline"></i><u>論壇爬蟲執行總次數</u></h2>
-  </div>
-  <div nz-col nzJustify="center">
     <div class="cards">
       <div class="card card-1" *ngFor="let summary of taskCountDataSource">
         <div class="card__icon"><i class="fas fa-bolt"></i></div>
@@ -40,15 +35,16 @@ overflow-y: scroll;">
       </div>
     </div>
   </div>
-  <nz-divider></nz-divider>
 
-  <nz-card nzTitle="論壇文章數量圖表" nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23"
-    nzXl="23" nzHoverable='true'>
+  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23"
+    nzHoverable='true'>
+    <h2 nz-typography><i nz-icon nzType="bar-chart" nzTheme="outline"></i><u>各類別文章數量</u></h2>
+
     <div nz-row nzJustify="space-around" nzAlign="middle">
       <div nz-col class="gutter-row" [nzSpan]="3" nzXs="20" nzSm="16" nzMd="12" nzLg="10" nzXl="10"
         *ngFor="let chart of chartData">
         <div [chart]="chart"></div>
       </div>
     </div>
-  </nz-card>
+  </div>
 </div>
