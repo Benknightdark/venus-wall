@@ -1,35 +1,47 @@
+<ng-template #lineChartIcon><i nz-icon nzType="line-chart" nzTheme="outline"></i></ng-template>
+<ng-template #bugIcon><i nz-icon nzType="bug" nzTheme="outline"></i></ng-template>
 <div nz-row nzJustify="center" nzAlign="top" style="  max-height: 750px;
 height:100vh;
 overflow-y: scroll;">
-  <ng-template #lineChartIcon><i nz-icon nzType="line-chart" nzTheme="outline"></i></ng-template>
-  <ng-template #bugIcon><i nz-icon nzType="bug" nzTheme="outline"></i></ng-template>
-
-  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23">
-    <h1>論壇文章數量</h1>
-    <nz-row [nzGutter]="[16,16]" nzJustify='center' nzAlign="top">
-      <nz-col nzXs="20" nzSm="16" nzMd="15" nzLg="12" nzXl="12" *ngFor="let summary of summaryData">
-        <nz-card style='background: antiquewhite;' class='summary-background' nzHoverable='true'>
+  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23">
+    <h2 nz-typography><i nz-icon nzType="line-chart" nzTheme="outline"></i><u>論壇文章數量</u></h2>
+  </div>
+  <div nz-col nzJustify="center">
+    <div class="cards">
+      <div class="card card-4" *ngFor="let summary of summaryData">
+        <div class="card__icon"><i class="fas fa-bolt"></i></div>
+        <p class="card__exit"><i class="fas fa-times"></i></p>
+        <h2 class="card__title">
           <nz-statistic [nzValue]="summary.totalCount" [nzTitle]="summary.forumName" nzSuffix="筆"
             [nzPrefix]="lineChartIcon"></nz-statistic>
-        </nz-card>
-      </nz-col>
-    </nz-row>
+        </h2>
+        <p class="card__apply">
+          <a class="card__link" href="javascript:void(0)">看更多 <i class="fas fa-arrow-right"></i></a>
+        </p>
+      </div>
+    </div>
   </div>
   <nz-divider></nz-divider>
-
-  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23">
-    <h1>論壇爬蟲執行總次數</h1>
-    <nz-row [nzGutter]="[16,16]" nzJustify='center' nzAlign="top">
-      <nz-col nzXs="20" nzSm="16" nzMd="15" nzLg="12" nzXl="12" *ngFor="let summary of taskCountDataSource">
-        <nz-card style='background:cornsilk;' class='summary-background' nzHoverable='true'>
+  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23">
+    <h2 nz-typography><i nz-icon nzType="bug" nzTheme="outline"></i><u>論壇爬蟲執行總次數</u></h2>
+  </div>
+  <div nz-col nzJustify="center">
+    <div class="cards">
+      <div class="card card-1" *ngFor="let summary of taskCountDataSource">
+        <div class="card__icon"><i class="fas fa-bolt"></i></div>
+        <p class="card__exit"><i class="fas fa-times"></i></p>
+        <h2 class="card__title">
           <nz-statistic [nzValue]="summary.TotalCount" [nzTitle]="summary.ForumName" nzSuffix="次" [nzPrefix]="bugIcon">
           </nz-statistic>
-        </nz-card>
-      </nz-col>
-    </nz-row>
+        </h2>
+        <p class="card__apply">
+          <a class="card__link" href="javascript:void(0)">看更多 <i class="fas fa-arrow-right"></i></a>
+        </p>
+      </div>
+    </div>
   </div>
-
   <nz-divider></nz-divider>
+
   <nz-card nzTitle="論壇文章數量圖表" nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23"
     nzXl="23" nzHoverable='true'>
     <div nz-row nzJustify="space-around" nzAlign="middle">
