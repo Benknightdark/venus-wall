@@ -134,8 +134,8 @@ services:
   website:
     build: ./web_site
     restart: always
-    # ports:
-    #   - 8780:8780
+    ports:
+      - 4444:4000
     networks:
         - venus-wall-network                
   ############################

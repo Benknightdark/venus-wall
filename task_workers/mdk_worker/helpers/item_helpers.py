@@ -27,7 +27,7 @@ class ItemHandler:
         try:
             id = web_page.ID
             url = f'{web_page.Url}'
-            res = httpx.get(url)
+            res = httpx.get(url,verify=False)
             root = BeautifulSoup(res.text, "html.parser")
             get_all_page = self.end
             if get_all_page == "0":
@@ -44,7 +44,7 @@ class ItemHandler:
             while i <= int(get_all_page):
                 logging.info(f'{i}')
                 url = f"{web_page.Url}&filter=&orderby=lastpost&page={i}"
-                res = httpx.get(url)
+                res = httpx.get(url,verify=False)
                 logging.info(url)
                 root = BeautifulSoup(res.text, "html.parser")
                 lists = root.find_all(
@@ -100,7 +100,7 @@ class ItemHandler:
                                                    ModifiedDateTime=modfied_date_time)
                             db.add(add_data)
                         content_res = httpx.get(
-                            f"https://www.mdkforum.com/{href['href']}")
+                            f"https://www.mdkforum.com/{href['href']}",verify=False)
                         root_content = BeautifulSoup(
                             content_res.text, "html.parser")
                         content_image = root_content.find_all('ignore_js_op')
