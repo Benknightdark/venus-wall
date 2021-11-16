@@ -14,23 +14,23 @@ def update_jkf_item(web_page):
         page_seq = 1
         id = web_page["ID"]
         res = httpx.get(web_page["Url"])
-        get_all_page = web_page["end"]
+        get_all_page = web_page["End"]
 
         # 設定停止頁數
         if get_all_page == "0":
             get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
                 'name': 'custompage'}).next_element['title'].replace('共', '').replace('頁', '').replace(' ', '')
         else:
-            get_all_page = int(web_page["end"])
+            get_all_page = int(web_page["End"])
         logging.info(get_all_page)
         web_page_url = web_page["Url"].replace('-1.html', '')
         root_page_url = web_page_url
         # 設定開始頁數
-        i = web_page["start"]
+        i = web_page["Start"]
         if i == "0":
             i: int = 1
         else:
-            i = int(web_page["start"])
+            i = int(web_page["Start"])
         # 執行爬蟲
         while i <= int(get_all_page):
             url = f"{root_page_url}-{i}.html"
@@ -103,4 +103,3 @@ def update_jkf_item(web_page):
         logging.error('----------------------------------------------')
         error_msg = format_error_msg(e)
         logging.error(error_msg)
-        raise(error_msg)

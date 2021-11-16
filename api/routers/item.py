@@ -1,3 +1,4 @@
+import logging
 import uuid
 import httpx
 from sqlalchemy.sql.expression import and_, asc, desc, or_
@@ -10,13 +11,14 @@ from fastapi import APIRouter
 from sqlalchemy.orm import Session, joinedload, lazyload
 from models import models
 import json
+pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 
 router = APIRouter()
 
 
 @router.post("/item/{id}", summary="透過WebPage id，新增或修改此類別底下的item資料")
 async def post_item_by_web_page_id(id: str, start: Optional[str] = None, end: Optional[str] = None,
-                                   flower_apply_async: str = Depends(send_task), db: Session = Depends(get_db)
+                                   db: Session = Depends(get_db)
                                    ):
     web_page_data = db.query(models.WebPage).filter(
         models.WebPage.ID == id).first()
@@ -24,23 +26,20 @@ async def post_item_by_web_page_id(id: str, start: Optional[str] = None, end: Op
         models.Forum.ID == web_page_data.ForumID).first().WorkerName
     if end == "" or end == None:
         end = "0"
-    data = json.dumps({
-        "args": [
-            str(id), str(start), str(end)
-        ],
-        "queue": f"{forum_worker_name}"
+
+    req=httpx.post(f'{pubsub_url}/{forum_worker_name}', json={
+        "ID": str(id),
+        "Name": web_page_data.Name,
+        "Url": web_page_data.Url,
+        "Start": str(start),
+        "End": str(end),
     })
-    headers = {
-        'Content-Type': 'application/json'
-    }
-    req = httpx.post(f'{flower_apply_async}/{forum_worker_name}.update_item',
-                     headers=headers,
-                     data=data)
-    res = req.json()
-    task_id = res['task-id']
-    db.add(models.WebPageTask(ID=str(uuid.uuid4()), TaskID=task_id, WebPageID=id))
+    logging.info(req.text)
+
+    db.add(models.WebPageTask(ID=str(uuid.uuid4()),
+           TaskID=str(uuid.uuid4()), WebPageID=id))
     db.commit()
-    return res
+    return {"message": "ok"}
 
 
 @router.delete("/item/{id}", summary="透過item id刪除特定item資料")

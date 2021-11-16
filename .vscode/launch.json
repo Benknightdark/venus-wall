@@ -13,6 +13,16 @@
             "program": "${workspaceFolder}/api/main.py",
             "preLaunchTask": "daprd-debug-api-service",
             "postDebugTask": "daprd-down-api-service",
+        },
+        {
+            "name": "jkf-worker",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/task_workers/jkf_worker/main.py",
+            "preLaunchTask": "daprd-debug-jkf-worker",
+            "postDebugTask": "daprd-down-jkf-worker",
         }
     ],
     "compounds": [
@@ -20,7 +30,7 @@
             "name": "Debug All",
             "preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
-                "api-service"
+                "api-service","jkf-worker"
             ]
         }
     ]
