@@ -21,6 +21,21 @@
         // ],
       },
       {
+        "label": "watch",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "watch",
+          "run",
+          "--project",
+          "${workspaceFolder}/task_workers/data_processor/data_processor.csproj",
+          "/property:GenerateFullPaths=true",
+          "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile",
+        "dependsOn":"daprd-debug-data-processor"
+      },
+      {
         "label": "daprd-debug-api-service",
         "type": "daprd",
         "appId": "api-service",
@@ -51,18 +66,18 @@
       },
   
       {
-        "label": "daprd-debug-app3",
+        "label": "daprd-debug-data-processor",
         "type": "daprd",
-        "appId": "pythonapp3",
-        "appPort": 8790,
+        "appId": "data-processor",
+        "appPort": 5235,
         "httpPort": 3506,
         "metricsPort": 9095,
         "grpcPort": 53319,
       },
       {
-        "label": "daprd-down-app3",
+        "label": "daprd-down-data-processor",
         "type": "daprd-down",
-        "appId": "pythonapp3"
+        "appId": "data-processor"
       },
     ]
   }

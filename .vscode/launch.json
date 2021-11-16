@@ -23,14 +23,31 @@
             "program": "${workspaceFolder}/task_workers/jkf_worker/main.py",
             "preLaunchTask": "daprd-debug-jkf-worker",
             "postDebugTask": "daprd-down-jkf-worker",
-        }
+        },
+        {
+            "name": "data-processor",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "watch",
+            "postDebugTask": "daprd-down-data-processor",
+            "program": "${workspaceFolder}/task_workers/data_processor/bin/Debug/net6.0/data_processor.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/task_workers/data_processor",
+            "stopAtEntry": true,
+            "env": {
+              "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+              "/Views": "${workspaceFolder}/Views"
+            }
+          },
     ],
     "compounds": [
         {
             "name": "Debug All",
             "preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
-                "api-service","jkf-worker"
+                "api-service","jkf-worker","data-processor"
             ]
         }
     ]
