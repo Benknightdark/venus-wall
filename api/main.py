@@ -71,3 +71,11 @@ app.include_router(user.router, prefix="/api", tags=['使用者'])
 app.include_router(forum.router, prefix="/api", tags=['論壇'])
 app.include_router(task.router, prefix="/api", tags=['爬蟲工作任務'])
 app.include_router(admin.router, prefix="/api", tags=['管理者儀表板'])
+
+if __name__ == '__main__':
+    import uvicorn
+    import logging
+    from dotenv import load_dotenv
+    load_dotenv()
+    logging.info(f'Start API')
+    uvicorn.run("main:app",port=8780,debug=True,reload=True)
