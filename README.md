@@ -31,6 +31,8 @@ docker exec -it venus-wall_db_1 /opt/mssql-tools/bin/sqlcmd -U SA -P YourStrong!
 
 ## 常用指令
 ``` bash
+# 建立python 虛擬環境
+ python -m virtualenv venv --python=python3.9.7
 # execute celery worker instance 
 python3.9 -m celery -A tasks worker --loglevel=info  -E
 # show celery tasks
