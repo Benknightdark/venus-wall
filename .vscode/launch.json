@@ -25,6 +25,17 @@
             "preLaunchTask": "daprd-debug-jkf-worker",
             "postDebugTask": "daprd-down-jkf-worker",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "mdk-worker",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/task_workers/mdk_worker/main.py",
+            "envFile": "${workspaceFolder}/.env",
+            "preLaunchTask": "daprd-debug-mdk-worker",
+            "postDebugTask": "daprd-down-mdk-worker",
 
         },
         {
@@ -38,20 +49,31 @@
             "cwd": "${workspaceFolder}/task_workers/data_processor",
             "stopAtEntry": true,
             "env": {
-              "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-              "/Views": "${workspaceFolder}/Views"
+                "/Views": "${workspaceFolder}/Views"
             },
             "envFile": "${workspaceFolder}/.env"
-          },
+        },
+        {
+            "name": "mdk-worker with Dapr",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/task_workers/mdk_worker/main.py",
+            "envFile": "${workspaceFolder}/.env",
+            "preLaunchTask": "daprd-debug",
+            "postDebugTask": "daprd-down"
+        }
     ],
     "compounds": [
         {
             "name": "Debug All",
             "preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
-                "api-service","jkf-worker","data-processor"
+                "api-service","jkf-worker","data-processor","mdk-worker"
             ]
         }
     ]

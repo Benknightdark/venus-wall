@@ -7,18 +7,15 @@
         "label": "clear-all-daprd-processes",
         "type": "shell",
         "isBackground": true,
-        "windows":{
+        "windows": {
           "command": "Get-Process -Name 'daprd' | Stop-Process"
         },
-        "linux":{
+        "linux": {
           "command": "kill -9 $(ps aux | grep daprd | awk '{print $2}')"
         },
-        "osx":{
+        "osx": {
           "command": "ps aux | grep daprd|grep -v grep | awk '{print $2}'|xargs kill -9"
-        },
-        // "command": [
-        //    "kill -9 $(ps aux | grep daprd | awk '{print $2}')"
-        // ],
+        }
       },
       {
         "label": "watch",
@@ -33,7 +30,7 @@
           "/consoleloggerparameters:NoSummary"
         ],
         "problemMatcher": "$msCompile",
-        "dependsOn":"daprd-debug-data-processor"
+        "dependsOn": "daprd-debug-data-processor"
       },
       {
         "label": "daprd-debug-api-service",
@@ -42,14 +39,13 @@
         "appPort": 8780,
         "httpPort": 3500,
         "metricsPort": 9090,
-        "grpcPort": 53320,
+        "grpcPort": 53320
       },
       {
         "label": "daprd-down-api-service",
         "type": "daprd-down",
         "appId": "api-service"
       },
-  
       {
         "label": "daprd-debug-jkf-worker",
         "type": "daprd",
@@ -57,14 +53,13 @@
         "appPort": 8789,
         "httpPort": 3501,
         "metricsPort": 9091,
-        "grpcPort": 53317,
+        "grpcPort": 53317
       },
       {
         "label": "daprd-down-jkf-worker",
         "type": "daprd-down",
         "appId": "jkf-worker"
       },
-  
       {
         "label": "daprd-debug-data-processor",
         "type": "daprd",
@@ -72,12 +67,26 @@
         "appPort": 5235,
         "httpPort": 3506,
         "metricsPort": 9095,
-        "grpcPort": 53319,
+        "grpcPort": 53319
       },
       {
         "label": "daprd-down-data-processor",
         "type": "daprd-down",
         "appId": "data-processor"
       },
+      {
+        "appId": "mdk-worker",
+        "appPort": 8790,
+        "httpPort": 3507,
+        "metricsPort": 9099,
+        "grpcPort": 53329,
+        "label": "daprd-debug-mdk-worker",
+        "type": "daprd"
+      },
+      {
+        "appId": "mdk-worker",
+        "label": "daprd-down-mdk-worker",
+        "type": "daprd-down"
+      }
     ]
   }

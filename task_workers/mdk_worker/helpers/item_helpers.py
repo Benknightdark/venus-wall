@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 def update_mdk_item(web_page):
     try:
         id = web_page["ID"]
-        url = f'{web_page.Url}'
+        url =web_page["Url"]
         res = httpx.get(url, verify=False)
         root = BeautifulSoup(res.text, "html.parser")
         get_all_page = web_page["End"]
@@ -29,7 +29,7 @@ def update_mdk_item(web_page):
             i = int(web_page["Start"])
         while i <= int(get_all_page):
             logging.info(f'{i}')
-            url = f"{web_page.Url}&filter=&orderby=lastpost&page={i}"
+            url = f"{url}&filter=&orderby=lastpost&page={i}"
             res = httpx.get(url, verify=False)
             logging.info(url)
             root = BeautifulSoup(res.text, "html.parser")
@@ -61,10 +61,10 @@ def update_mdk_item(web_page):
                     logging.info(
                         f"{title} ==== {i} - {get_all_page}")
                     logging.info('----------------------')
-                    item_id = uuid.uuid4()
+                    item_id = str(uuid.uuid4())
 
                     add_data = {
-                        "ID": str(item_id), "Title": title, "Page": i, "Enable": True, "Seq": int(seq),
+                        "ID": item_id, "Title": title, "Page": i, "Enable": True, "Seq": int(seq),
                         "PageName": page_name, "Url": link, "WebPageID": id, "Avator": avator,
                                                "ModifiedDateTime": modfied_date_time
                     }
