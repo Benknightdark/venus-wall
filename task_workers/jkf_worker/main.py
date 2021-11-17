@@ -2,7 +2,6 @@ from fastapi import BackgroundTasks, FastAPI, Request
 import logging
 import logging
 from helpers import item_helpers
-pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 app = FastAPI()
 
 
@@ -22,9 +21,9 @@ async def send_notification(request: Request, background_tasks: BackgroundTasks)
     request_data = await request.json()
     logging.info(request_data)
     background_tasks.add_task(
-        item_helpers.update_jkf_item(request_data['data']))
+        item_helpers.update_jkf_item,request_data['data'])
     message="OK"
-    return message
+    return {"message":message}
 
 if __name__ == '__main__':
     import uvicorn

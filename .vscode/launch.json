@@ -13,6 +13,7 @@
             "program": "${workspaceFolder}/api/main.py",
             "preLaunchTask": "daprd-debug-api-service",
             "postDebugTask": "daprd-down-api-service",
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "name": "jkf-worker",
@@ -23,6 +24,8 @@
             "program": "${workspaceFolder}/task_workers/jkf_worker/main.py",
             "preLaunchTask": "daprd-debug-jkf-worker",
             "postDebugTask": "daprd-down-jkf-worker",
+            "envFile": "${workspaceFolder}/.env"
+
         },
         {
             "name": "data-processor",
@@ -39,7 +42,8 @@
             },
             "sourceFileMap": {
               "/Views": "${workspaceFolder}/Views"
-            }
+            },
+            "envFile": "${workspaceFolder}/.env"
           },
     ],
     "compounds": [

@@ -39,6 +39,9 @@ python3.9 -m celery -A tasks worker --loglevel=info  -E
 python3.9 -m celery -A tasks events
 # open flower celery monitor webiste
 python3.9 -m celery -A tasks flower 
+# scaffold dbcontext
+dotnet ef dbcontext scaffold 'Server=.,9487;Database=beauty_wall;user id=sa;password=YourStrong!Passw0rd' 'Microsoft.EntityFrameworkCore.SqlServer'  -o Models/DBModels -f -c BeautyDBContext --use-database-names --no-build --json
+
 ```
 ``` sql
 SELECT DISTINCT A.*, ISNULL(C.MaxPage,0) AS  MaxPage FROM DBO.WebPage A

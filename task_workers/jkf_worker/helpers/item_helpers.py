@@ -5,6 +5,7 @@ from helpers.error_log_helper import format_error_msg
 import uuid
 from bs4 import BeautifulSoup
 import httpx
+pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 logging.basicConfig(level=logging.INFO)
 
 
@@ -66,7 +67,7 @@ def update_jkf_item(web_page):
                 logging.info(f"{image_name} === {i}")
                 logging.info(image_url)
                 logging.info(avator)
-                item_id = uuid.uuid4()
+                item_id = str(uuid.uuid4())
                 add_data = {
                     "ID": item_id, "Title": image_name, "Page": i,
                     "Enable": True,
@@ -89,16 +90,22 @@ def update_jkf_item(web_page):
 
                         db_images_array.append(
                             {
-                                "ID": uuid.uuid4(), "Url": image_url, "ItemID": item_id
+                                "ID": str(uuid.uuid4()), "Url": image_url, "ItemID": item_id
                             })
 
                         logging.info(f"  {image_url}")
                     except:
                         pass
+                add_data['Images']=db_images_array    
+                req=httpx.post(f"{pubsub_url}/process-jkf",json=add_data)
+                res=req.text
+                logging.info(res)
                 logging.info('-------------------------')
             i = i+1
         web_page_name = web_page["Name"]
-        return {"status": f"{web_page_name} - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"}
+        finished_time=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        return_data={"status": f"{web_page_name} - {finished_time}"}
+        return return_data
     except Exception as e:
         logging.error('----------------------------------------------')
         error_msg = format_error_msg(e)
