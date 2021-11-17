@@ -96,8 +96,7 @@ def update_jkf_item(web_page):
                         logging.info(f"  {image_url}")
                     except:
                         pass
-                add_data['Images']=db_images_array    
-                req=httpx.post(f"{pubsub_url}/process-jkf",json=add_data)
+                req=httpx.post(f"{pubsub_url}/process-jkf",json={"Item":add_data,"Images":db_images_array})
                 res=req.text
                 logging.info(res)
                 logging.info('-------------------------')
