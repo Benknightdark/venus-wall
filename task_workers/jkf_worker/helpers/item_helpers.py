@@ -11,7 +11,6 @@ logging.basicConfig(level=logging.INFO)
 
 def update_jkf_item(web_page):
     try:
-        # web_page={id:1,url:'',start,end}
         page_seq = 1
         id = web_page["ID"]
         res = httpx.get(web_page["Url"])
@@ -96,7 +95,7 @@ def update_jkf_item(web_page):
                         logging.info(f"  {image_url}")
                     except:
                         pass
-                req=httpx.post(f"{pubsub_url}/process-jkf",json={"Item":add_data,"Images":db_images_array})
+                req=httpx.post(f"{pubsub_url}/process-jkf?metadata.ttlInSeconds=1200",json={"Item":add_data,"Images":db_images_array})
                 res=req.text
                 logging.info(res)
                 logging.info('-------------------------')
