@@ -89,7 +89,9 @@ def update_jkf_item(web_page):
 
                         db_images_array.append(
                             {
-                                "ID": str(uuid.uuid4()), "Url": image_url, "ItemID": item_id
+                                "ID": str(uuid.uuid4()),
+                                 "Url": image_url, 
+                                 "ItemID": item_id
                             })
 
                         logging.info(f"  {image_url}")
