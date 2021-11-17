@@ -1,6 +1,7 @@
 using data_processor.Models.DBModels;
 using data_processor.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BeautyDBContext>(options =>
@@ -24,10 +25,19 @@ app.MapGet("/dapr/subscribe", () =>
 });
 
 // 更新jkf論壇資料
-app.MapPost("/process-jkf", async (BeautyDBContext db, MessageQueueModel ItemData) =>
+app.MapPost("/process-jkf", (BeautyDBContext db, MessageQueueModel MessageData) =>
 {
-      var Data = System.Text.Json.JsonSerializer.Serialize(ItemData.data);
-      Console.WriteLine(Data);
-    return Data;
+    var Data = System.Text.Json.JsonSerializer.Serialize(MessageData.data);
+    var ItemData = JsonConvert.DeserializeObject<Item>(Data);
+
+    app.Logger.LogInformation(ItemData!.Title);
+    app.Logger.LogInformation(ItemData.Page.ToString());
+    app.Logger.LogInformation(ItemData.WebPageID.ToString());
+    app.Logger.LogInformation(ItemData.ID.ToString());
+    app.Logger.LogInformation(ItemData.ModifiedDateTime.ToString());
+
+    app.Logger.LogInformation("=============");
+
+    return global::System.Threading.Tasks.Task.FromResult(Data);
 });
 app.Run();
