@@ -16,14 +16,14 @@ from dotenv import load_dotenv
 load_dotenv()
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
-
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+        CORSMiddleware,
+        allow_origins=["http://localhost:4200"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
 
 
 @app.exception_handler(StarletteHTTPException)
@@ -70,9 +70,5 @@ if __name__ == '__main__':
     import logging
     from dotenv import load_dotenv
     load_dotenv()
-    # origins = [
-    #     "http://localhost:4200",
-    # ]
-
     logging.info(f'Start API')
     uvicorn.run("main:app", port=8780, debug=True, reload=True)
