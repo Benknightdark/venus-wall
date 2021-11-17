@@ -30,7 +30,6 @@ app.MapPost("/process-jkf", async (BeautyDBContext db, MessageQueueModel Message
  {
      var Data = System.Text.Json.JsonSerializer.Serialize(MessageData.data);
      var ItemData = JsonConvert.DeserializeObject<ItemImageMessageModel>(Data);
-
      app.Logger.LogInformation(ItemData!.Item.Title);
      app.Logger.LogInformation(ItemData.Item.Page.ToString());
      app.Logger.LogInformation(ItemData.Item.WebPageID.ToString());
@@ -39,9 +38,10 @@ app.MapPost("/process-jkf", async (BeautyDBContext db, MessageQueueModel Message
      app.Logger.LogInformation(ItemData.Item.Images.Count().ToString());
      app.Logger.LogInformation("=====Start DB Process========");
      var CurrentItme = db.Items.Where(a => a.Title == ItemData.Item.Title);
-     var NewItemID=Guid.Empty;
+     var NewItemID = Guid.Empty;
      if (CurrentItme.Any())
      {
+        app.Logger.LogInformation("=====Update Item========");
          var UpdateCurrentItme = await CurrentItme.FirstAsync();
          app.Logger.LogInformation(UpdateCurrentItme.Title);
          UpdateCurrentItme.Title = ItemData!.Item.Title;
@@ -52,30 +52,32 @@ app.MapPost("/process-jkf", async (BeautyDBContext db, MessageQueueModel Message
          UpdateCurrentItme.Page = ItemData.Item.Page;
          UpdateCurrentItme.Seq = ItemData.Item.Seq;
          db.Update(UpdateCurrentItme);
-         NewItemID=UpdateCurrentItme.ID;
+         NewItemID = UpdateCurrentItme.ID;
      }
      else
      {
-         NewItemID=ItemData!.Item.ID;
+        app.Logger.LogInformation("=====Insert Item========");
+         NewItemID = ItemData!.Item.ID;
          await db.AddAsync(ItemData.Item);
      }
-
      if (ItemData.Images.Count() > 0)
      {
          foreach (var image in ItemData.Images)
          {
-             image.ItemID=NewItemID;
+             image.ItemID = NewItemID;
          }
          var CurrentImages = db.Images.Where(a => a.ItemID == ItemData.Item.ID);
-         if (await CurrentImages.AnyAsync()){
-              db.RemoveRange(CurrentImages);
+         if (await CurrentImages.AnyAsync())
+         {
+             db.RemoveRange(CurrentImages);
          }
-            
-         await db.AddAsync(ItemData.Images);
+
+         await db.AddRangeAsync(ItemData.Images);
+        app.Logger.LogInformation("=====Insert Image========");
+      
      }
      await db.SaveChangesAsync();
      app.Logger.LogInformation("=====End DB Process========");
-
      return (Data);
  });
 app.Run();
