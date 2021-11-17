@@ -72,7 +72,5 @@ export class AdminDashboardComponent implements OnInit {
     this.adminService.getCrawlTaskCount().subscribe(r => {
       this.taskCountDataSource=r;
     });
-
   }
-
 }
