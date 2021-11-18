@@ -34,9 +34,11 @@ docker build --pull --rm --no-cache -f "./db/sql_server/Dockerfile" -t sql-serve
 docker tag sql-server:latest localhost:5000/sql-server:latest
 docker push localhost:5000/sql-server:latest 
 kubectl apply -f ./deploy/sqlserver.yaml
-/opt/mssql-tools/bin/sqlcmd -U SA -P 'MyC0m9l&xPbbssw0rd'  -W -i init_db.sql
 # 新增 keda config
 kubectl apply -f ./deploy/redis-scale.yaml
+
+/opt/mssql-tools/bin/sqlcmd -U SA -P 'MyC0m9l&xPbbssw0rd'  -W -i init_db.sql
+
 ```
 # 開啟local registry對外連線
 ```bash
