@@ -3,7 +3,7 @@
 ## Features
 - 透過web管理頁面執行論壇爬蟲作業
 - 精美的女神流水牆
-- 使用``celery``套件擴充和開發爬蟲作業程式
+- 使用``dapr`` + ``keda``擴充和開發爬蟲作業程式
 - 透過論壇文章標題相似度計算，找出更多相似的文章
 ## 系統截圖
 - > 女神流水牆
@@ -62,15 +62,5 @@ WHERE B.WebPageID=A.ID
 WHERE A.Enable=1 AND F.Enable=1
 ORDER BY TotalCount DESC
 ```
-``` bash
-# 建立微前端元件
-cd web_site_components
-ng new  --create-application=false components  
-ng g application mf-element1 --routing=false --style=css     
-ng add @angular/elements --project=mf-element1
-ng add ngx-build-plus --project=mf-element1
 
-ng add @angular/elements --project=AdminDashboardComponent
-ng add ngx-build-plus --project=AdminDashboardComponent
-```
 
