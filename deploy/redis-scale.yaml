@@ -36,7 +36,7 @@ spec:
         ports: "6379"
         stream: jkf_worker
         consumerGroup: daprConsumerGroup
-        pendingEntriesCount: "10"  
+        pendingEntriesCount: "3"  
         enableTLS: "false"
       authenticationRef:
         name: keda-redis-stream-triggerauth         
@@ -61,7 +61,7 @@ spec:
         ports: "6379"
         stream: process-jkf
         consumerGroup: daprConsumerGroup
-        pendingEntriesCount: "10"  
+        pendingEntriesCount: "3"  
         enableTLS: "false"
       authenticationRef:
         name: keda-redis-stream-triggerauth        
