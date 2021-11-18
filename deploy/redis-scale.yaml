@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: redis-streams-password
+type: Opaque
+data:
+  redis_password: c2VjcmV0cGFzc3dvcmQ=
+---
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: keda-redis-stream-triggerauth
+spec:
+  secretTargetRef:
+    - parameter: password
+      name: redis-streams-password # name of the Secret
+      key: redis_password # name of the key in the Secret
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: jkf-worker-redis-streams-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: jkf-worker
+  pollingInterval: 15
+  cooldownPeriod: 200
+  maxReplicaCount: 25
+  minReplicaCount: 3
+  triggers:
+    - type: redis-streams
+      metadata:
+        address: redis-master.default.svc.cluster.local:6379
+        hosts: redis-master.default.svc.cluster.local
+        ports: "6379"
+        stream: jkf_worker
+        consumerGroup: daprConsumerGroup
+        pendingEntriesCount: "10"  
+        enableTLS: "false"
+      authenticationRef:
+        name: keda-redis-stream-triggerauth         
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: data-processo-redis-streams-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: data-processor
+  pollingInterval: 15
+  cooldownPeriod: 200
+  maxReplicaCount: 25
+  minReplicaCount: 3
+  triggers:
+    - type: redis-streams
+      metadata:
+        address: redis-master.default.svc.cluster.local:6379
+        hosts: redis-master.default.svc.cluster.local
+        ports: "6379"
+        stream: process-jkf
+        consumerGroup: daprConsumerGroup
+        pendingEntriesCount: "10"  
+        enableTLS: "false"
+      authenticationRef:
+        name: keda-redis-stream-triggerauth        
