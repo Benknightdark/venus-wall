@@ -37,7 +37,6 @@ spec:
             - name: http
               containerPort: 8780
               protocol: TCP
-              nodePort: 30000
           # livenessProbe:
           #   httpGet:
           #     path: /
