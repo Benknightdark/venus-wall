@@ -39,7 +39,32 @@ spec:
         pendingEntriesCount: "3"  
         enableTLS: "false"
       authenticationRef:
-        name: keda-redis-stream-triggerauth         
+        name: keda-redis-stream-triggerauth   
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: jkf-worker-download-redis-streams-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: jkf-worker
+  pollingInterval: 15
+  cooldownPeriod: 200
+  maxReplicaCount: 25
+  minReplicaCount: 3
+  triggers: 
+    - type: redis-streams
+      metadata:
+        address: redis-master.default.svc.cluster.local:6379
+        hosts: redis-master.default.svc.cluster.local
+        ports: "6379"
+        stream: jkf_worker_download
+        consumerGroup: daprConsumerGroup
+        pendingEntriesCount: "3"  
+        enableTLS: "false"
+      authenticationRef:
+        name: keda-redis-stream-triggerauth                       
 ---
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject

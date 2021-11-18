@@ -5,52 +5,16 @@ from helpers.error_log_helper import format_error_msg
 import uuid
 from bs4 import BeautifulSoup
 import httpx
+import json
 pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 logging.basicConfig(level=logging.INFO)
 
-
-
-
-
-def get_jkf_url(web_page):
-    try:
-        page_seq = 1
-        id = web_page["ID"]
-        res = httpx.get(web_page["Url"])
-        get_all_page = web_page["End"]
-        # 設定停止頁數
-        if get_all_page == "0":
-            get_all_page = BeautifulSoup(res.text, "html.parser").find('input', attrs={
-                'name': 'custompage'}).next_element['title'].replace('共', '').replace('頁', '').replace(' ', '')
-        else:
-            get_all_page = int(web_page["End"])
-        logging.info(get_all_page)
-        web_page_url = web_page["Url"].replace('-1.html', '')
-        root_page_url = web_page_url
-        # 設定開始頁數
-        i = web_page["Start"]
-        if i == "0":
-            i: int = 1
-        else:
-            i = int(web_page["Start"])
-        # 執行爬蟲
-        while i <= int(get_all_page):
-            cc={"root_page_url":root_page_url,"i":i}
-            httpx.post(f'{pubsub_url}/jkf_crawl',json={"root_page_url":root_page_url,"i":i,"id":id})
-            i = i+1
-        web_page_name = web_page["Name"]
-        finished_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        return_data = {"status": f"{web_page_name} - {finished_time}"}
-        return return_data
-    except Exception as e:
-        logging.error('----------------------------------------------')
-        error_msg = format_error_msg(e)
-        logging.error(error_msg)
 
 def download_jkf(data):
     client = httpx.Client()
     root_page_url = data['root_page_url']
     i = data['i']
+    id = data['id']
     url = f"{root_page_url}-{i}.html"
     res = client.get(url)
     html = res.text
@@ -85,11 +49,12 @@ def download_jkf(data):
         logging.info(image_url)
         logging.info(avator)
         item_id = str(uuid.uuid4())
+        page_name = w.a['href']
         add_data = {
-            "ID": item_id, "Title": image_name, "Page": i,
+            "ID": item_id, "Title": str(image_name), "Page": i,
             "Enable": True,
             "Seq": page_seq,
-            "PageName": w.a['href'], "Url": image_url, "WebPageID": id, "Avator": avator,
+            "PageName": str(page_name), "Url": str(image_url), "WebPageID": str(id), "Avator": str(avator),
             "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
         image_html = httpx.get(image_url).text
@@ -104,11 +69,11 @@ def download_jkf(data):
                 else:
                     image_url = image.find(
                         'img', attrs={'class': 'zoom'})['file']
-
+                image_id = str(uuid.uuid4())
                 db_images_array.append(
                     {
-                        "ID": str(uuid.uuid4()),
-                        "Url": image_url,
+                        "ID": image_id,
+                        "Url": str(image_url),
                         "ItemID": item_id
                     })
 
@@ -116,5 +81,12 @@ def download_jkf(data):
             except:
                 pass
         logging.info('-------------------------')
-        client.post(f'{pubsub_url}/process-jkf',json={"Images":db_images_array,"Item":add_data})   
-        client.close()
+
+        try:
+            response = client.post(
+                f'{pubsub_url}/process-jkf', json={"Images": db_images_array, "Item": add_data})  # , ,"Item": add_data
+            response.raise_for_status()
+        except Exception as e:
+            logging.error(e)
+        finally:
+            client.close()

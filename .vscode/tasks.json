@@ -87,6 +87,20 @@
         "appId": "mdk-worker",
         "label": "daprd-down-mdk-worker",
         "type": "daprd-down"
+      },
+      {
+        "appId": "jkf-crawler",
+        "appPort": 8800,
+        "httpPort": 3510,
+        "metricsPort": 9101,
+        "grpcPort": 53344,
+        "label": "daprd-debug-jkf-crawler",
+        "type": "daprd"
+      },
+      {
+        "appId": "jkf-crawler",
+        "label": "daprd-down-jkf-crawler",
+        "type": "daprd-down"
       }
     ]
   }
