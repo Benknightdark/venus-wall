@@ -13,19 +13,16 @@ def subscribe():
     return (subscriptions)
 
 
-
-
-
 @app.post("/jkf_worker")
-async def send_notification(request: Request, background_tasks: BackgroundTasks):
+async def jkf_worker(request: Request, background_tasks: BackgroundTasks):
     request_data = await request.json()
     logging.info(request_data)
     background_tasks.add_task(
-        item_helpers.update_jkf_item,request_data['data'])
-    message="OK"
-    return {"message":message}
+        item_helpers.get_jkf_url, request_data['data'])
+    message = "OK"
+    return {"message": message}
 
 if __name__ == '__main__':
     import uvicorn
-    logging.info("🔧😎😎🤖🤖🤖==== jkf Crawler start ===🤖🤖🤖😎😎🔧")
+    logging.info("🔧😎😎🤖🤖🤖==== jkf Worker start ===🤖🤖🤖😎😎🔧")
     uvicorn.run("main:app", port=8789, debug=True, reload=True)

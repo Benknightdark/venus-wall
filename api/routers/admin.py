@@ -1,13 +1,11 @@
 from itertools import groupby
-from sqlalchemy.sql.expression import and_, desc, false, text
+from sqlalchemy.sql.expression import text
 from dependencies import get_db
 from fastapi.params import Depends
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from sqlalchemy.orm import Session
-from models import models, view_models
-from datetime import datetime
-import uuid
-import json
+
+
 router = APIRouter()
 
 @router.get("/admin/forum-count", summary="取得論壇文章數")

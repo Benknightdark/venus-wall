@@ -27,7 +27,7 @@ async def post_item_by_web_page_id(id: str, start: Optional[str] = None, end: Op
     if end == "" or end == None:
         end = "0"
 
-    req=httpx.post(f'{pubsub_url}/{forum_worker_name}', json={
+    req=httpx.post(f'{pubsub_url}/{forum_worker_name}?metadata.ttlInSeconds=120', json={
         "ID": str(id),
         "Name": web_page_data.Name,
         "Url": web_page_data.Url,

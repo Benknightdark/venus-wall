@@ -1,5 +1,57 @@
-<admin-dashboard-component  [adminDataSource]="adminDataSource" [taskCountDataSource]="taskCountDataSource">
-</admin-dashboard-component>
+<!-- <admin-dashboard-component  [adminDataSource]="adminDataSource" [taskCountDataSource]="taskCountDataSource">
+</admin-dashboard-component> -->
 
+<div>
 
+<ng-template #lineChartIcon><i nz-icon nzType="line-chart" nzTheme="outline"></i></ng-template>
+<ng-template #bugIcon><i nz-icon nzType="bug" nzTheme="outline"></i></ng-template>
+<div nz-row nzJustify="center" nzAlign="top" style="  max-height: 750px;
+height:100vh;
+overflow-y: scroll;">
+  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="12" nzLg="12">
+    <h2 nz-typography><i nz-icon nzType="line-chart" nzTheme="outline"></i><u>論壇文章總數量</u></h2>
+    <div class="cards">
+      <div class="card card-4" *ngFor="let summary of summaryData">
+        <div class="card__icon"><i class="fas fa-bolt"></i></div>
+        <p class="card__exit"><i class="fas fa-times"></i></p>
+        <h2 class="card__title">
+          <nz-statistic [nzValue]="summary.totalCount" [nzTitle]="summary.forumName" nzSuffix="筆"
+            [nzPrefix]="lineChartIcon"></nz-statistic>
+        </h2>
+        <p class="card__apply">
+          <a class="card__link" href="javascript:void(0)">看更多 <i class="fas fa-arrow-right"></i></a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="12" nzLg="12">
+    <h2 nz-typography><i nz-icon nzType="bug" nzTheme="outline"></i><u>論壇爬蟲執行總次數</u></h2>
+    <div class="cards">
+      <div class="card card-1" *ngFor="let summary of taskCountDataSource">
+        <div class="card__icon"><i class="fas fa-bolt"></i></div>
+        <p class="card__exit"><i class="fas fa-times"></i></p>
+        <h2 class="card__title">
+          <nz-statistic [nzValue]="summary.TotalCount" [nzTitle]="summary.ForumName" nzSuffix="次" [nzPrefix]="bugIcon">
+          </nz-statistic>
+        </h2>
+        <p class="card__apply">
+          <a class="card__link" href="javascript:void(0)">看更多 <i class="fas fa-arrow-right"></i></a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div nz-col nzJustify="center" class="gutter-row" nzXs="23" nzSm="23" nzMd="23" nzLg="23" nzXl="23"
+    nzHoverable='true'>
+    <h2 nz-typography><i nz-icon nzType="bar-chart" nzTheme="outline"></i><u>各看版文章數量</u></h2>
+
+    <div nz-row nzJustify="space-around" nzAlign="middle">
+      <div nz-col class="gutter-row" [nzSpan]="3" nzXs="20" nzSm="16" nzMd="12" nzLg="10" nzXl="10"
+        *ngFor="let chart of chartData">
+        <div [chart]="chart"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
