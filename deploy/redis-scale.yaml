@@ -5,7 +5,7 @@ metadata:
 type: Opaque
 data:
   redis_password: c2VjcmV0cGFzc3dvcmQ=
----
+--- ##
 apiVersion: keda.sh/v1alpha1
 kind: TriggerAuthentication
 metadata:
@@ -15,7 +15,7 @@ spec:
     - parameter: password
       name: redis-streams-password # name of the Secret
       key: redis_password # name of the key in the Secret
----
+--- ## jkf_worker
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
@@ -40,7 +40,7 @@ spec:
         enableTLS: "false"
       authenticationRef:
         name: keda-redis-stream-triggerauth   
----
+--- ## jkf_crawl
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
@@ -65,7 +65,7 @@ spec:
         enableTLS: "false"
       authenticationRef:
         name: keda-redis-stream-triggerauth                       
----
+--- ## process-jkf
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
