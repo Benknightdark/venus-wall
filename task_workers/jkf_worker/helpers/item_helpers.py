@@ -47,12 +47,13 @@ def get_jkf_url(web_page):
         error_msg = format_error_msg(e)
         logging.error(error_msg)
 
-def download_jkf(data):
-    client = httpx.Client()
+async def download_jkf(data):
+    client = httpx.AsyncClient()
     root_page_url = data['root_page_url']
     i = data['i']
+    id = data['id']
     url = f"{root_page_url}-{i}.html"
-    res = client.get(url)
+    res =await  client.get(url)
     html = res.text
     root = BeautifulSoup(html, "html.parser")
     water_fall_root = root.find('ul', id='waterfall')
@@ -85,14 +86,15 @@ def download_jkf(data):
         logging.info(image_url)
         logging.info(avator)
         item_id = str(uuid.uuid4())
+        page_name = w.a['href']
         add_data = {
-            "ID": item_id, "Title": image_name, "Page": i,
+            "ID": item_id, "Title": str(image_name), "Page": i,
             "Enable": True,
             "Seq": page_seq,
-            "PageName": w.a['href'], "Url": image_url, "WebPageID": id, "Avator": avator,
+            "PageName": str(page_name), "Url": str(image_url), "WebPageID": str(id), "Avator": str(avator),
             "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
-        image_html = httpx.get(image_url).text
+        image_html = (await client.get(image_url)).text
         image_root = BeautifulSoup(image_html, "html.parser")
         images = image_root.find_all('ignore_js_op')
         db_images_array = []
@@ -104,11 +106,11 @@ def download_jkf(data):
                 else:
                     image_url = image.find(
                         'img', attrs={'class': 'zoom'})['file']
-
+                image_id = str(uuid.uuid4())
                 db_images_array.append(
                     {
-                        "ID": str(uuid.uuid4()),
-                        "Url": image_url,
+                        "ID": image_id,
+                        "Url": str(image_url),
                         "ItemID": item_id
                     })
 
@@ -116,5 +118,12 @@ def download_jkf(data):
             except:
                 pass
         logging.info('-------------------------')
-        client.post(f'{pubsub_url}/process-jkf',json={"Images":db_images_array,"Item":add_data})   
-        client.close()
+
+        try:
+            response =await  client.post(
+                f'{pubsub_url}/process-jkf', json={"Images": db_images_array, "Item": add_data})  # , ,"Item": add_data
+            response.raise_for_status()
+        except Exception as e:
+            logging.error(e)
+        # finally:
+        #     await client.aclose()

@@ -73,7 +73,8 @@
             "name": "Debug All",
             "preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
-                "api-service","jkf-worker","data-processor","mdk-worker","jkf-crawler"
+                "api-service","jkf-worker","data-processor","mdk-worker"
+                //,"jkf-crawler"
             ]
         }
     ]

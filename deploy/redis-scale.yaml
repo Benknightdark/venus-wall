@@ -59,7 +59,7 @@ spec:
         address: redis-master.default.svc.cluster.local:6379
         hosts: redis-master.default.svc.cluster.local
         ports: "6379"
-        stream: jkf_worker_download
+        stream: jkf_crawl
         consumerGroup: daprConsumerGroup
         pendingEntriesCount: "3"  
         enableTLS: "false"

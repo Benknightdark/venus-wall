@@ -9,6 +9,7 @@ app = FastAPI()
 def subscribe():
     subscriptions = [
         {'pubsubname': 'pubsub', 'topic': 'jkf_worker', 'route': '/jkf_worker'},
+        {'pubsubname': 'pubsub', 'topic': 'jkf_crawl', 'route': '/jkf_crawl'},
     ]
     return (subscriptions)
 
@@ -19,6 +20,16 @@ async def jkf_worker(request: Request, background_tasks: BackgroundTasks):
     logging.info(request_data)
     background_tasks.add_task(
         item_helpers.get_jkf_url, request_data['data'])
+    message = "OK"
+    return {"message": message}
+
+
+@app.post("/jkf_crawl")
+async def jkf_crawl(request: Request, background_tasks: BackgroundTasks):
+    request_data = await request.json()
+    logging.info(request_data)
+    background_tasks.add_task(
+        item_helpers.download_jkf, request_data['data'])
     message = "OK"
     return {"message": message}
 
