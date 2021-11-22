@@ -32,6 +32,10 @@ kubectl create secret generic venus-wall-secrets --from-literal="DB_CONNECT_STRI
 # 新增 keda config
 kubectl apply -f ./deploy/redis-scale.yaml
 ```
+# 開啟local registry對外連線
+```bash
+docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:$(minikube ip):5000"
+```
 # 安裝Sql Server
 ``` bash
 # 安裝 sql server 
@@ -42,10 +46,7 @@ kubectl apply -f ./deploy/sqlserver.yaml
 # 在sql server pod裡執行下列Command
 /opt/mssql-tools/bin/sqlcmd -U SA -P 'MyC0m9l&xPbbssw0rd'  -W -i init_db.sql
 ```
-# 開啟local registry對外連線
-```bash
-docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:$(minikube ip):5000"
-```
+
 # 部署服務至minikube
 ```bash
 # 更新 api-service
@@ -56,10 +57,17 @@ helm un api-service
 helm upgrade  --install  api-service ./deploy/api-service
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
-docker tag  jkf-worker:latest localhost:5000/jkf-worker:latest
-docker push localhost:5000/jkf-worker:latest 
+docker tag  jkf-worker localhost:5000/jkf-worker:latest8
+docker push localhost:5000/jkf-worker:latest8 
 helm un  jkf-worker 
-helm upgrade  --install   jkf-worker ./deploy/jkf-worker
+helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=latest8
+
+# 更新 jkf-crawler
+docker build --pull --rm --no-cache -f "./task_workers/jkf_crawler/Dockerfile" -t jkf-crawler "./task_workers/jkf_crawler"
+docker tag  jkf-crawler localhost:5000/jkf-crawler:latest
+docker push localhost:5000/jkf-crawler:latest 
+helm un  jkf-crawler 
+helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=latest
 # 更新 data-processor
 docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"
 docker tag  data-processor:latest localhost:5000/data-processor:latest
