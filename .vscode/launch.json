@@ -67,14 +67,24 @@
             "postDebugTask": "daprd-down-jkf-crawler",
             "envFile": "${workspaceFolder}/.env"
         },
+        {
+            "name": "mdk-crawler",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/task_workers/mdk_crawler/main.py",
+            "preLaunchTask": "daprd-debug-mdk-crawler",
+            "postDebugTask": "daprd-down-mdk-crawler",
+            "envFile": "${workspaceFolder}/.env"
+        },
     ],
     "compounds": [
         {
             "name": "Debug All",
             "preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
-                "api-service","jkf-worker","data-processor","mdk-worker","jkf-crawler"
-                //,"jkf-crawler"
+                "api-service","jkf-worker","mdk-worker","jkf-crawler","mdk-crawler","data-processor"
             ]
         }
     ]

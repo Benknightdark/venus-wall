@@ -91,15 +91,29 @@
       {
         "appId": "jkf-crawler",
         "appPort": 8800,
-        "httpPort": 3510,
+        "httpPort": 3512,
         "metricsPort": 9101,
-        "grpcPort": 53344,
+        "grpcPort": 53349,
         "label": "daprd-debug-jkf-crawler",
         "type": "daprd"
       },
       {
         "appId": "jkf-crawler",
         "label": "daprd-down-jkf-crawler",
+        "type": "daprd-down"
+      },
+      {
+        "appId": "mdk-crawler",
+        "appPort": 8791,
+        "httpPort": 3510,
+        "metricsPort": 9103,
+        "grpcPort": 53344,
+        "label": "daprd-debug-mdk-crawler",
+        "type": "daprd"
+      },
+      {
+        "appId": "mdk-crawler",
+        "label": "daprd-down-mdk-crawler",
         "type": "daprd-down"
       }
     ]

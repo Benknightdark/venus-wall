@@ -14,8 +14,7 @@ logging.basicConfig(level=logging.INFO)
 
 async def get_jkf_url(web_page):
     try:
-        client = httpx.AsyncClient(
-            timeout=None)#, transport=httpx.HTTPTransport(retries=500)
+        client = httpx.AsyncClient(timeout=None)#, transport=httpx.HTTPTransport(retries=500)
         page_seq = 1
         id = web_page["ID"]
         res = httpx.get(web_page["Url"])

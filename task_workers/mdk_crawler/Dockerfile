@@ -17,8 +17,4 @@ COPY . /app
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
-CMD ["uvicorn","main:app","--host", "0.0.0.0", "--port", "8790"]
-
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-#CMD ["python", "tasks.py"]
-# CMD [ "celery" ,"-A", "tasks" ,"worker","--hostname=worker_1@%h", "--loglevel=info" , "-E" ]
+CMD ["uvicorn","main:app","--host", "0.0.0.0", "--port", "8791"]

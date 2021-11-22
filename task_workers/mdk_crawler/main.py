@@ -8,7 +8,7 @@ app = FastAPI()
 @app.get('/dapr/subscribe')
 def subscribe():
     subscriptions = [
-        {'pubsubname': 'pubsub', 'topic': 'mdk_worker', 'route': '/mdk_worker'},
+        {'pubsubname': 'pubsub', 'topic': 'mdk_crawl', 'route': '/mdk_crawl'},
     ]
     return (subscriptions)
 
@@ -16,16 +16,16 @@ def subscribe():
 
 
 
-@app.post("/mdk_worker")
-async def send_notification(request: Request, background_tasks: BackgroundTasks):
+@app.post("/mdk_crawl")
+async def mdk_crawl(request: Request, background_tasks: BackgroundTasks):
     request_data = await request.json()
     logging.info(request_data)
     background_tasks.add_task(
-        item_helpers.get_mdk_url,request_data['data'])
+        item_helpers.download_mdk,request_data['data'])
     message="OK"
     return {"message":message}
 
 if __name__ == '__main__':
     import uvicorn
-    logging.info("🔧😎😎🤖🤖🤖==== mdk Worker start ===🤖🤖🤖😎😎🔧")
-    uvicorn.run("main:app", port=8790, debug=True, reload=True)
+    logging.info("🔧😎😎🤖🤖🤖==== mdk Crawler start ===🤖🤖🤖😎😎🔧")
+    uvicorn.run("main:app", port=8791, debug=True, reload=True)
