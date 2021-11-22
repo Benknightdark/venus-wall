@@ -5,7 +5,7 @@ metadata:
 type: Opaque
 data:
   redis_password: c2VjcmV0cGFzc3dvcmQ=
---- ##
+--- ## redis password
 apiVersion: keda.sh/v1alpha1
 kind: TriggerAuthentication
 metadata:
