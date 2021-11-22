@@ -13,8 +13,7 @@ logging.basicConfig(level=logging.INFO)
 
 async def download_jkf(data):
     try:
-        client = httpx.AsyncClient(
-            timeout=None)  # , transport=httpx.HTTPTransport(retries=500)
+        client = httpx.AsyncClient(timeout=None)  # , transport=httpx.HTTPTransport(retries=500)
         root_page_url = data['root_page_url']
         i = data['i']
         id = data['id']

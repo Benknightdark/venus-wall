@@ -9,14 +9,14 @@ pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 logging.basicConfig(level=logging.INFO)
 
 
-def download_mdk(data):
+async def download_mdk(data):
     client = httpx.AsyncClient(
         timeout=None)
-    url=data["url"]
+    url=data["root_page_url"]
     i=data["i"]
     id=data["id"]
     url = f"{url}&filter=&orderby=lastpost&page={i}"
-    res = client.get(url, verify=False)
+    res = await client.get(url)
     logging.info(url)
     root = BeautifulSoup(res.text, "html.parser")
     lists = root.find_all(
@@ -52,8 +52,8 @@ def download_mdk(data):
                 "PageName": page_name, "Url": link, "WebPageID": id, "Avator": avator,
                                        "ModifiedDateTime": modfied_date_time
             }
-            content_res = client.get(
-                f"https://www.mdkforum.com/{href['href']}", verify=False)
+            content_res = await client.get(
+                f"https://www.mdkforum.com/{href['href']}")
             root_content = BeautifulSoup(
                 content_res.text, "html.parser")
             content_image = root_content.find_all('ignore_js_op')
@@ -73,7 +73,7 @@ def download_mdk(data):
                 except:
                     pass
             logging.info('-------------------------')
-            req = client.post(f"{pubsub_url}/process-mdk?metadata.ttlInSeconds=1200", json={
+            req = await client.post(f"{pubsub_url}/process-mdk?metadata.ttlInSeconds=1200", json={
                 "Item": add_data, "Images": db_images_array})
             res = req.text
             logging.info(res)

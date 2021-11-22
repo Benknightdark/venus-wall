@@ -11,10 +11,10 @@ logging.basicConfig(level=logging.INFO)
 
 async def get_mdk_url(web_page):
     try:
-        client = httpx.AsyncClient(timeout=None),
+        client = httpx.AsyncClient(timeout=None)
         id = web_page["ID"]
         url = web_page["Url"]
-        res = await client.get(url, verify=False)
+        res = await client.get(url)#, verify=False
         root = BeautifulSoup(res.text, "html.parser")
         get_all_page = web_page["End"]
         if get_all_page == "0":
@@ -30,7 +30,6 @@ async def get_mdk_url(web_page):
             i = int(web_page["Start"])
         while i <= int(get_all_page):
             logging.info(f'{i}')
-            # url
             cc = {"root_page_url": url, "i": i, "id": id}
             await client.post(f'{pubsub_url}/mdk_crawl?metadata.ttlInSeconds=1200', json=cc)
             i = i+1
