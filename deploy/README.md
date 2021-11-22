@@ -1,4 +1,4 @@
-# 安裝minikube和相關套件
+# 啟動minikube和安裝相關套件
 ```bash
 # 啟動minikube 16384  4096
 minikube start --cpus=4 --memory=7933
@@ -29,16 +29,18 @@ kubectl delete secret mssql
 kubectl create secret generic mssql --from-literal=SA_PASSWORD="MyC0m9l&xPbbssw0rd"
 kubectl delete secret venus-wall-secrets
 kubectl create secret generic venus-wall-secrets --from-literal="DB_CONNECT_STRING=mssql+pymssql://sa:MyC0m9l&xPbbssw0rd@mssql-deployment/beauty_wall?charset=utf8"
+# 新增 keda config
+kubectl apply -f ./deploy/redis-scale.yaml
+```
+# 安裝Sql Server
+``` bash
 # 安裝 sql server 
 docker build --pull --rm --no-cache -f "./db/sql_server/Dockerfile" -t sql-server "./db/sql_server"
 docker tag sql-server:latest localhost:5000/sql-server:latest
 docker push localhost:5000/sql-server:latest 
 kubectl apply -f ./deploy/sqlserver.yaml
-# 新增 keda config
-kubectl apply -f ./deploy/redis-scale.yaml
-
+# 在sql server pod裡執行下列Command
 /opt/mssql-tools/bin/sqlcmd -U SA -P 'MyC0m9l&xPbbssw0rd'  -W -i init_db.sql
-
 ```
 # 開啟local registry對外連線
 ```bash
