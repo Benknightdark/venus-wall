@@ -53,38 +53,33 @@ helm upgrade  --install  api-service ./deploy/api-service
 
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
-docker tag  jkf-worker localhost:5000/jkf-worker:latest998
-docker push localhost:5000/jkf-worker:latest998 
-helm un  jkf-worker 
-helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=latest998
+docker tag  jkf-worker localhost:5000/jkf-worker:latest13
+docker push localhost:5000/jkf-worker:latest13 
+helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=latest13
 
 # 更新 jkf-crawler
 docker build --pull --rm --no-cache -f "./task_workers/jkf_crawler/Dockerfile" -t jkf-crawler "./task_workers/jkf_crawler"
-docker tag  jkf-crawler localhost:5000/jkf-crawler:latest99
-docker push localhost:5000/jkf-crawler:latest99 
-helm un  jkf-crawler 
-helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=latest99
+docker tag  jkf-crawler localhost:5000/jkf-crawler:latest11
+docker push localhost:5000/jkf-crawler:latest11 
+helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=latest11
 
 # 更新 mdk-worker
 docker build --pull --rm --no-cache -f "./task_workers/mdk_worker/Dockerfile" -t mdk-worker "./task_workers/mdk_worker"
-docker tag  mdk-worker localhost:5000/mdk-worker:latest99
-docker push localhost:5000/mdk-worker:latest99 
-helm un  mdk-worker 
-helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=latest99
+docker tag  mdk-worker localhost:5000/mdk-worker:latest20
+docker push localhost:5000/mdk-worker:latest20 
+helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=latest20
 
 # 更新 mdk-crawler
 docker build --pull --rm --no-cache -f "./task_workers/mdk_crawler/Dockerfile" -t mdk-crawler "./task_workers/mdk_crawler"
 docker tag  mdk-crawler localhost:5000/mdk-crawler:latest99
 docker push localhost:5000/mdk-crawler:latest99 
-helm un  mdk-crawler 
 helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=latest99
 
 # 更新 data-processor
 docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"
 docker tag  data-processor localhost:5000/data-processor:latest99
 docker push localhost:5000/data-processor:latest99 
-helm un  data-processor 
-helm upgrade  --install   data-processor ./deploy/data-processor
+helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=latest99
 
 
 

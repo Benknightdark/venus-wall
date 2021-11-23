@@ -30,8 +30,10 @@ async def get_mdk_url(web_page):
             i = int(web_page["Start"])
         while i <= int(get_all_page):
             logging.info(f'{i}')
-            cc = {"root_page_url": url, "i": i, "id": id}
-            await client.post(f'{pubsub_url}/mdk_crawl?metadata.ttlInSeconds=1200', json=cc)
+            payload = {"root_page_url": url, "i": i, "id": id}
+            message_client=httpx.AsyncClient(timeout=None)
+            await message_client.post(f'{pubsub_url}/mdk_crawl?metadata.ttlInSeconds=1200', json=payload)
+            await message_client.aclose()
             i = i+1
 
         web_page_name = web_page["Name"]

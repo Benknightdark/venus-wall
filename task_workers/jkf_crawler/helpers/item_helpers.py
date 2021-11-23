@@ -13,15 +13,12 @@ logging.basicConfig(level=logging.INFO)
 
 async def download_jkf(data):
     try:
-        client = httpx.AsyncClient(timeout=None)  # , transport=httpx.HTTPTransport(retries=500)
+        client = httpx.Client(timeout=None ,transport=httpx.HTTPTransport(retries=500))  # , transport=httpx.HTTPTransport(retries=500)
         root_page_url = data['root_page_url']
         i = data['i']
         id = data['id']
         url = f"{root_page_url}-{i}.html"
-        res = await client.get(url)
-        if not res.is_success:
-            logging.error(data)
-            return {"status": res.status_code, 'data': data}
+        res =  client.get(url)
         html = res.text
         root = BeautifulSoup(html, "html.parser")
         water_fall_root = root.find('ul', id='waterfall')
@@ -47,7 +44,7 @@ async def download_jkf(data):
                     avator = w.a['style'].split(
                         "url('")[1][:-3].split("');")[0]
                 elif hasattr(w.a.img, 'src'):
-                    avator = w.a.img['src']
+                    avator = w.a.img['src']           
             except:
                 pass
             logging.info(f"{image_name} === {i}")
@@ -62,8 +59,9 @@ async def download_jkf(data):
                 "PageName": str(page_name), "Url": str(image_url), "WebPageID": str(id), "Avator": str(avator),
                 "ModifiedDateTime": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
+            images=''
             try:
-                image_html = await client.get(image_url)
+                image_html = client.get(image_url)
                 image_root = BeautifulSoup(image_html.text, "html.parser")
                 images = image_root.find_all('ignore_js_op')
             except Exception as e:
@@ -89,14 +87,16 @@ async def download_jkf(data):
                     logging.info(f"  {image_url}")
                 except:
                     pass
-            logging.info('-------------------------')
             request_data = {"Images": db_images_array, "Item": add_data}
-            response = await client.post(
-                f'{pubsub_url}/process-jkf?metadata.ttlInSeconds=120', json=request_data)  # , ,"Item": add_data
-            logging.info(response.text)
-            return request_data
+            response =  client.post(
+                f'{pubsub_url}/process-jkf?metadata.ttlInSeconds=120', json=request_data) 
+            logging.info(response.status_code)
+        return data
     except Exception as e:
-        logging.error('----------------------------------------------')
+        logging.error('---------------ERROR START---------------------')
+        logging.error(data)
         error_msg = format_error_msg(e)
         logging.error(error_msg)
+        logging.error('---------------ERROR END---------------------')
         return error_msg
+        

@@ -12,9 +12,9 @@ logging.basicConfig(level=logging.INFO)
 async def download_mdk(data):
     client = httpx.AsyncClient(
         timeout=None)
-    url=data["root_page_url"]
-    i=data["i"]
-    id=data["id"]
+    url = data["root_page_url"]
+    i = data["i"]
+    id = data["id"]
     url = f"{url}&filter=&orderby=lastpost&page={i}"
     res = await client.get(url)
     logging.info(url)
@@ -78,3 +78,4 @@ async def download_mdk(data):
             res = req.text
             logging.info(res)
             logging.info('-------------------------')
+    return data     

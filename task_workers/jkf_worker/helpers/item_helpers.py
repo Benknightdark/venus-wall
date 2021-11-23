@@ -14,7 +14,6 @@ logging.basicConfig(level=logging.INFO)
 
 async def get_jkf_url(web_page):
     try:
-        client = httpx.AsyncClient(timeout=None)#, transport=httpx.HTTPTransport(retries=500)
         page_seq = 1
         id = web_page["ID"]
         res = httpx.get(web_page["Url"])
@@ -36,8 +35,13 @@ async def get_jkf_url(web_page):
             i = int(web_page["Start"])
         # 執行爬蟲
         while i <= int(get_all_page):
-            cc = {"root_page_url": root_page_url, "i": i, "id": id}
-            await client.post(f'{pubsub_url}/jkf_crawl?metadata.ttlInSeconds=1200', json=cc)
+            payload = {"root_page_url": root_page_url, "i": i, "id": id}
+            message_client = httpx.AsyncClient(timeout=None ,transport=httpx.AsyncHTTPTransport(retries=500))
+            message_req=await message_client.post(f'{pubsub_url}/jkf_crawl?metadata.ttlInSeconds=12000', json=payload)
+            message_res=message_req.status_code
+            logging.info(message_res)
+            await message_client.aclose()
+            logging.info(payload)
             i = i+1
         web_page_name = web_page["Name"]
         finished_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
