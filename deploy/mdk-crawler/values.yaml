@@ -26,7 +26,7 @@ serviceAccount:
 podAnnotations:
   {
     dapr.io/enabled: "true",
-    dapr.io/app-id: "mdk-worker",
+    dapr.io/app-id: "mdk-crawler",
     dapr.io/app-port: "8791",
     dapr.io/config: "tracing",
     dapr.io/log-as-json: "true",

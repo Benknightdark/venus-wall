@@ -36,10 +36,10 @@ spec:
         ports: "6379"
         stream: jkf_worker
         consumerGroup: daprConsumerGroup
-        pendingEntriesCount: "3"  
+        pendingEntriesCount: "3"
         enableTLS: "false"
       authenticationRef:
-        name: keda-redis-stream-triggerauth          
+        name: keda-redis-stream-triggerauth
 --- ## jkf_crawl
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
@@ -53,7 +53,7 @@ spec:
   cooldownPeriod: 200
   maxReplicaCount: 10
   minReplicaCount: 3
-  triggers: 
+  triggers:
     - type: redis-streams
       metadata:
         address: redis-master.default.svc.cluster.local:6379
@@ -61,10 +61,62 @@ spec:
         ports: "6379"
         stream: jkf_crawl
         consumerGroup: daprConsumerGroup
-        pendingEntriesCount: "3"  
+        pendingEntriesCount: "3"
         enableTLS: "false"
       authenticationRef:
-        name: keda-redis-stream-triggerauth                       
+        name: keda-redis-stream-triggerauth
+
+--- ## mdk_worker
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: mdk-worker-redis-streams-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: mdk-worker
+  pollingInterval: 15
+  cooldownPeriod: 200
+  maxReplicaCount: 10
+  minReplicaCount: 3
+  triggers:
+    - type: redis-streams
+      metadata:
+        address: redis-master.default.svc.cluster.local:6379
+        hosts: redis-master.default.svc.cluster.local
+        ports: "6379"
+        stream: mdk_worker
+        consumerGroup: daprConsumerGroup
+        pendingEntriesCount: "3"
+        enableTLS: "false"
+      authenticationRef:
+        name: keda-redis-stream-triggerauth
+--- ## mdk_crawl
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: mdk-worker-download-redis-streams-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: mdk-crawler
+  pollingInterval: 15
+  cooldownPeriod: 200
+  maxReplicaCount: 10
+  minReplicaCount: 3
+  triggers:
+    - type: redis-streams
+      metadata:
+        address: redis-master.default.svc.cluster.local:6379
+        hosts: redis-master.default.svc.cluster.local
+        ports: "6379"
+        stream: mdk_crawl
+        consumerGroup: daprConsumerGroup
+        pendingEntriesCount: "3"
+        enableTLS: "false"
+      authenticationRef:
+        name: keda-redis-stream-triggerauth
+
 --- ## process-jkf
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
@@ -86,7 +138,7 @@ spec:
         ports: "6379"
         stream: process-jkf
         consumerGroup: daprConsumerGroup
-        pendingEntriesCount: "3"  
+        pendingEntriesCount: "3"
         enableTLS: "false"
       authenticationRef:
-        name: keda-redis-stream-triggerauth        
+        name: keda-redis-stream-triggerauth
