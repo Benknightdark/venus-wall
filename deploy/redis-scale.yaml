@@ -51,7 +51,7 @@ spec:
     name: jkf-crawler
   pollingInterval: 15
   cooldownPeriod: 200
-  maxReplicaCount: 10
+  maxReplicaCount: 6
   minReplicaCount: 3
   triggers:
     - type: redis-streams
@@ -128,7 +128,7 @@ spec:
     name: data-processor
   pollingInterval: 15
   cooldownPeriod: 200
-  maxReplicaCount: 10
+  maxReplicaCount: 6
   minReplicaCount: 3
   triggers:
     - type: redis-streams

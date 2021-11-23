@@ -59,9 +59,9 @@ helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=13
 
 # 更新 jkf-crawler
 docker build --pull --rm --no-cache -f "./task_workers/jkf_crawler/Dockerfile" -t jkf-crawler "./task_workers/jkf_crawler"
-docker tag  jkf-crawler localhost:5000/jkf-crawler:11
-docker push localhost:5000/jkf-crawler:11 
-helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=11
+docker tag  jkf-crawler localhost:5000/jkf-crawler:16
+docker push localhost:5000/jkf-crawler:16
+helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=16
 
 # 更新 mdk-worker
 docker build --pull --rm --no-cache -f "./task_workers/mdk_worker/Dockerfile" -t mdk-worker "./task_workers/mdk_worker"
