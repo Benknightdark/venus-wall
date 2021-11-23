@@ -82,7 +82,7 @@
     "compounds": [
         {
             "name": "Debug All",
-            "preLaunchTask": "clear-all-daprd-processes",
+            //"preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
                 "api-service","jkf-worker","mdk-worker","jkf-crawler","mdk-crawler","data-processor"
             ]

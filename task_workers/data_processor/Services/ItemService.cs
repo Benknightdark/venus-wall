@@ -70,5 +70,6 @@ public class ItemService
         }
         await _db.SaveChangesAsync();
         _logger.LogInformation("=====End DB Process========");
+        await _db.DisposeAsync();
     }
 }

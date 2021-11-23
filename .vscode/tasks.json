@@ -6,7 +6,7 @@
       {
         "label": "clear-all-daprd-processes",
         "type": "shell",
-        "isBackground": true,
+        "isBackground": false,
         "windows": {
           "command": "Get-Process -Name 'daprd' | Stop-Process"
         },
@@ -106,8 +106,8 @@
         "appId": "mdk-crawler",
         "appPort": 8791,
         "httpPort": 3510,
-        "metricsPort": 9103,
-        "grpcPort": 53344,
+        "metricsPort": 9109,
+        "grpcPort": 53348,
         "label": "daprd-debug-mdk-crawler",
         "type": "daprd"
       },
