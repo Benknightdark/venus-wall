@@ -38,9 +38,10 @@ export class DashboardService {
    * @memberof ItemService
    */
   getItems(id: string | undefined, offset: number = 0, limit: number = 30, filterIDs: string | undefined = undefined) {
-    if (id !== '' && id !== undefined) {
+    if (id !== undefined) {
+      id=id==''?'?':`?id=${id}&`
       filterIDs = filterIDs === undefined ? '' : `&filterId=${filterIDs}`
-      this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}${filterIDs}`)
+      this.http.get<Item[]>(`${environment.apiUrl}/api/item${id}offset=${offset}&limit=${limit}${filterIDs}`)
         .pipe(
           share(),
           map(m => {
@@ -79,7 +80,7 @@ export class DashboardService {
    * @param {(string | undefined)} newData
    * @memberof WebpageService
    */
-  setSelectWebPage(newData: string | undefined) {
+  setSelectWebPage(newData?: string | undefined) {
     this._webPageIDSubject$.next(newData);
   }
 }

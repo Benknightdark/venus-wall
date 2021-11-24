@@ -49,13 +49,16 @@ async def post_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
     return {"message": "已刪除資料"}
 
 
-@router.get("/item/{id}", summary="透過WebPage id，取得要抓的item資料")
-async def get_item_by_web_page_id(id: str, offset: int, limit: int, filterId: Optional[str] = None,
+@router.get("/item", summary="透過WebPage id，取得要抓的item資料")
+async def get_item_by_web_page_id( offset: int, limit: int, filterId: Optional[str] = None,id: Optional[str] =None,
                                   db: Session = Depends(get_db)):
     offset_count = offset*limit
     if filterId == None:
-        clause = and_(*[models.Item.WebPageID == id,
+        if id!=None:
+            clause = and_(*[models.Item.WebPageID == id,
                       models.Item.Enable == True])
+        else:
+             clause = models.Item.Enable == True          
     else:
         filterId_array = or_(
             *list(map(lambda x: models.Item.ID == x, filterId.split(','))))
