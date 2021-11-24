@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl:"http://localhost:57251"
+  apiUrl:"http://localhost:53774"
+  //http://localhost:3500/v1.0/invoke/api-service/method
   //8780
 };
 

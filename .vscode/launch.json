@@ -36,7 +36,6 @@
             "envFile": "${workspaceFolder}/.env",
             "preLaunchTask": "daprd-debug-mdk-worker",
             "postDebugTask": "daprd-down-mdk-worker",
-
         },
         {
             "name": "data-processor",
@@ -78,13 +77,27 @@
             "postDebugTask": "daprd-down-mdk-crawler",
             "envFile": "${workspaceFolder}/.env"
         },
+        {
+            "name": "web-site",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm start",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/web_site"
+        }
     ],
     "compounds": [
         {
             "name": "Debug All",
             //"preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
-                "api-service","jkf-worker","mdk-worker","jkf-crawler","mdk-crawler","data-processor"
+                "api-service",
+                "jkf-worker",
+                "mdk-worker",
+                "jkf-crawler",
+                "mdk-crawler",
+                "data-processor",
+                "web-site"
             ]
         }
     ]
