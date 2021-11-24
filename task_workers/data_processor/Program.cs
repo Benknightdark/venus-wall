@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BeautyDBContext>(options =>
-               options.UseSqlServer(builder.Configuration.GetConnectionString("db"))
+               options.UseSqlServer(builder.Configuration.GetConnectionString("db"),
+               opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds))               
             );
 builder.Services.AddScoped<ItemService>();
 var app = builder.Build();
