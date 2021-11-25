@@ -77,9 +77,9 @@
       {
         "appId": "mdk-worker",
         "appPort": 8790,
-        "httpPort": 3507,
-        "metricsPort": 9099,
-        "grpcPort": 53329,
+        "httpPort": 3522,
+        "metricsPort": 922,
+        "grpcPort": 53333,
         "label": "daprd-debug-mdk-worker",
         "type": "daprd"
       },
@@ -105,9 +105,9 @@
       {
         "appId": "mdk-crawler",
         "appPort": 8791,
-        "httpPort": 3510,
-        "metricsPort": 9109,
-        "grpcPort": 53348,
+        "httpPort": 3566,
+        "metricsPort": 9166,
+        "grpcPort": 53366,
         "label": "daprd-debug-mdk-crawler",
         "type": "daprd"
       },

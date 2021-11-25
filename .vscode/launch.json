@@ -13,7 +13,8 @@
             "program": "${workspaceFolder}/api/main.py",
             "preLaunchTask": "daprd-debug-api-service",
             "postDebugTask": "daprd-down-api-service",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+
         },
         {
             "name": "jkf-worker",
@@ -89,15 +90,15 @@
     "compounds": [
         {
             "name": "Debug All",
-            //"preLaunchTask": "clear-all-daprd-processes",
+            // "preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
                 "api-service",
                 "jkf-worker",
                 "mdk-worker",
                 "jkf-crawler",
                 "mdk-crawler",
+                "web-site",
                 "data-processor",
-                "web-site"
             ]
         }
     ]
