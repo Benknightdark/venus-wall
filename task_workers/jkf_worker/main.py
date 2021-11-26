@@ -7,6 +7,7 @@ app = FastAPI()
 
 @app.get('/dapr/subscribe')
 def subscribe():
+    logging.info('subscribe==================================')
     subscriptions = [
         {'pubsubname': 'pubsub', 'topic': 'jkf_worker', 'route': '/jkf_worker'},
     ]
@@ -22,7 +23,9 @@ async def jkf_worker(request: Request, background_tasks: BackgroundTasks):
     message = "OK"
     return {"message": message}
 
+
+
 if __name__ == '__main__':
     import uvicorn
-    logging.info("🔧😎😎🤖🤖🤖==== jkf Worker start ===🤖🤖🤖😎😎🔧")
+    logging.info("🔧😎😎🤖🤖🤖==== jkf Worker startv ===🤖🤖🤖😎😎🔧")
     uvicorn.run("main:app", port=8789, debug=True, reload=True)

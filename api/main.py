@@ -70,5 +70,5 @@ if __name__ == '__main__':
     import logging
     from dotenv import load_dotenv
     load_dotenv()
-    logging.info(f'Start API')
+    logging.info("🔧😎😎🤖🤖🤖==== API Start ===🤖🤖🤖😎😎🔧")
     uvicorn.run("main:app", port=8780, debug=True, reload=True)

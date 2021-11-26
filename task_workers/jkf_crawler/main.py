@@ -7,10 +7,12 @@ app = FastAPI()
 
 @app.get('/dapr/subscribe')
 def subscribe():
+    logging.info('subscribe==================================')
     subscriptions = [
         {'pubsubname': 'pubsub', 'topic': 'jkf_crawl', 'route': '/jkf_crawl'},
     ]
     return (subscriptions)
+
 
 
 
@@ -22,7 +24,8 @@ async def jkf_crawl(request: Request, background_tasks: BackgroundTasks):
         item_helpers.download_jkf, request_data['data'])
     message = "OK"
     return {"message": message}
+
 if __name__ == '__main__':
     import uvicorn
-    logging.info("🔧😎😎🤖🤖🤖==== jkf Crawler start ===🤖🤖🤖😎😎🔧")
+    logging.info("🔧😎😎🤖🤖🤖==== jkf Crawler ===🤖🤖🤖😎😎🔧")
     uvicorn.run("main:app", port=8800, debug=True, reload=True)

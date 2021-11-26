@@ -12,10 +12,19 @@ export class AdminDashboardComponent implements OnInit {
   adminDataSource: any[] = [];
   taskCountDataSource:any[]=[]
   chartData: Chart[] = [];
+  isSync=true;
   summaryData: { forumName: string, totalCount: number }[] = []
   ngOnInit(): void {
+    this.initDashboard();
+  }
+  initDashboard(){
+
+    this.isSync=true;
     this.adminService.getForumCount().subscribe(r => {
+      this.adminDataSource = [];
+      this.chartData = [];
       this.adminDataSource = r;
+      this.summaryData=[];
       for (const item of this.adminDataSource) {
         let totalCountTemp = 0;
         const chart = new Chart({
@@ -68,8 +77,10 @@ export class AdminDashboardComponent implements OnInit {
         this.summaryData.push({ 'forumName': item.forumName!, 'totalCount': totalCountTemp })
         this.chartData.push(chart)
       }
+      this.isSync=false;
     });
     this.adminService.getCrawlTaskCount().subscribe(r => {
+      this.taskCountDataSource=[]
       this.taskCountDataSource=r;
     });
   }

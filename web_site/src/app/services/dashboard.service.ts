@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {  Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, share, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { ForumWebpageList, Item, WebPage } from '../models/data.model';
@@ -14,8 +14,6 @@ export class DashboardService {
   readonly itemSubjectList$ = this._itemSubjectList$.asObservable();
   private _webPageIDSubject$: Subject<string | undefined> = new Subject<string | undefined>();
   readonly webPageIDSubject$ = this._webPageIDSubject$.asObservable();
-
-
   private _webPageSubjectList$: Subject<ForumWebpageList[]> = new Subject();
   readonly webPageSubjectList$ = this._webPageSubjectList$.asObservable();
 
@@ -39,15 +37,16 @@ export class DashboardService {
    * @param {number} [limit=10]
    * @memberof ItemService
    */
-  getItems(id: string | undefined, offset: number = 0, limit: number = 30,filterIDs: string | undefined=undefined) {
-    if (id !== '' && id !== undefined) {
-      filterIDs=filterIDs===undefined?'':`&filterId=${filterIDs}`
-      this.http.get<Item[]>(`${environment.apiUrl}/api/item/${id}?offset=${offset}&limit=${limit}${filterIDs}`)
+  getItems(id: string | undefined, offset: number = 0, limit: number = 30, filterIDs: string | undefined = undefined) {
+    if (id !== undefined) {
+      id=id==''?'?':`?id=${id}&`
+      filterIDs = filterIDs === undefined ? '' : `&filterId=${filterIDs}`
+      this.http.get<Item[]>(`${environment.apiUrl}/api/item${id}offset=${offset}&limit=${limit}${filterIDs}`)
         .pipe(
           share(),
-          map(m=>{
+          map(m => {
             for (const item of m) {
-                item.WebPageSimilarityCount=item.WebPageSimilarity?.length;
+              item.WebPageSimilarityCount = item.WebPageSimilarity?.length;
             }
             return m
           }),
@@ -60,9 +59,7 @@ export class DashboardService {
     }
   }
 
-  // getPageList() {
-  //   return this.http.get<WebPage[]>(`${environment.apiUrl}/api/webpage`)
-  // }
+
 
   /**
    * 取得WebPage資料
@@ -70,9 +67,9 @@ export class DashboardService {
    * @memberof DashboardService
    */
   getPageListSubject() {
-    this.http.get<ForumWebpageList[]>(`${environment.apiUrl}/api/webpage`).pipe( share(),
-    debounceTime(300),
-    distinctUntilChanged()
+    this.http.get<ForumWebpageList[]>(`${environment.apiUrl}/api/webpage`).pipe(share(),
+      debounceTime(300),
+      distinctUntilChanged()
     ).subscribe(r => {
       this._webPageSubjectList$.next(r)
     })
@@ -83,7 +80,7 @@ export class DashboardService {
    * @param {(string | undefined)} newData
    * @memberof WebpageService
    */
-  setSelectWebPage(newData: string | undefined) {
+  setSelectWebPage(newData?: string | undefined) {
     this._webPageIDSubject$.next(newData);
   }
 }

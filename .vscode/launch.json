@@ -13,7 +13,8 @@
             "program": "${workspaceFolder}/api/main.py",
             "preLaunchTask": "daprd-debug-api-service",
             "postDebugTask": "daprd-down-api-service",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+
         },
         {
             "name": "jkf-worker",
@@ -36,7 +37,6 @@
             "envFile": "${workspaceFolder}/.env",
             "preLaunchTask": "daprd-debug-mdk-worker",
             "postDebugTask": "daprd-down-mdk-worker",
-
         },
         {
             "name": "data-processor",
@@ -67,13 +67,38 @@
             "postDebugTask": "daprd-down-jkf-crawler",
             "envFile": "${workspaceFolder}/.env"
         },
+        {
+            "name": "mdk-crawler",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/task_workers/mdk_crawler/main.py",
+            "preLaunchTask": "daprd-debug-mdk-crawler",
+            "postDebugTask": "daprd-down-mdk-crawler",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "web-site",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm start",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/web_site"
+        }
     ],
     "compounds": [
         {
             "name": "Debug All",
-            "preLaunchTask": "clear-all-daprd-processes",
+            // "preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
-                "api-service","jkf-worker","data-processor","mdk-worker","jkf-crawler"
+                "api-service",
+                "jkf-worker",
+                "mdk-worker",
+                "jkf-crawler",
+                "mdk-crawler",
+                "web-site",
+                "data-processor",
             ]
         }
     ]

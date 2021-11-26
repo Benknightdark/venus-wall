@@ -9,11 +9,12 @@ pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 logging.basicConfig(level=logging.INFO)
 
 
-def update_mdk_item(web_page):
+async def get_mdk_url(web_page):
     try:
+        client = httpx.AsyncClient(timeout=None)
         id = web_page["ID"]
-        url =web_page["Url"]
-        res = httpx.get(url, verify=False)
+        url = web_page["Url"]
+        res = await client.get(url)#, verify=False
         root = BeautifulSoup(res.text, "html.parser")
         get_all_page = web_page["End"]
         if get_all_page == "0":
@@ -29,71 +30,10 @@ def update_mdk_item(web_page):
             i = int(web_page["Start"])
         while i <= int(get_all_page):
             logging.info(f'{i}')
-            url = f"{url}&filter=&orderby=lastpost&page={i}"
-            res = httpx.get(url, verify=False)
-            logging.info(url)
-            root = BeautifulSoup(res.text, "html.parser")
-            lists = root.find_all(
-                'div', attrs={'class': 'nex_waterfallbox'})
-            if lists == []:
-                lists = root.find_all(
-                    'th', attrs={'class': 'new forumtit'})
-            if len(lists) > 0:
-                for l in lists:
-                    href = l.find('a')
-                    try:
-                        title = href['title']
-                    except:
-                        title = href.text
-                    page_name = href['href']
-                    seq = page_name.split('&')[1].replace('tid=', '')
-                    link = f"https://www.mdkforum.com/{href['href']}"
-                    avator = ''
-                    try:
-                        avator = f"https://www.mdkforum.com/{href.img['src']}"
-                    except:
-                        forumlist_pics = l.find(
-                            'div', attrs={'class': 'nex_forumlist_pics'}).find('a')
-                        logging.info(forumlist_pics)
-                        if forumlist_pics != None:
-                            avator = f"https://www.mdkforum.com/{forumlist_pics.img['src']}"
-                    modfied_date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    logging.info(
-                        f"{title} ==== {i} - {get_all_page}")
-                    logging.info('----------------------')
-                    item_id = str(uuid.uuid4())
-
-                    add_data = {
-                        "ID": item_id, "Title": title, "Page": i, "Enable": True, "Seq": int(seq),
-                        "PageName": page_name, "Url": link, "WebPageID": id, "Avator": avator,
-                                               "ModifiedDateTime": modfied_date_time
-                    }
-                    content_res = httpx.get(
-                        f"https://www.mdkforum.com/{href['href']}", verify=False)
-                    root_content = BeautifulSoup(
-                        content_res.text, "html.parser")
-                    content_image = root_content.find_all('ignore_js_op')
-                    db_images_array = []
-                    for c in content_image:
-                        try:
-                            logging.info(
-                                c.find('img', attrs={'class': 'zoom'})['file'])
-                            image_url = c.find(
-                                'img', attrs={'class': 'zoom'})['file']
-                            db_images_array.append(
-                                {
-                                    "ID": str(uuid.uuid4()),
-                                    "Url": f"https://www.mdkforum.com/{image_url}",
-                                    "ItemID": item_id
-                                })
-                        except:
-                            pass
-                    logging.info('-------------------------')
-                    req = httpx.post(f"{pubsub_url}/process-mdk?metadata.ttlInSeconds=1200", json={
-                                     "Item": add_data, "Images": db_images_array})
-                    res = req.text
-                    logging.info(res)
-                    logging.info('-------------------------')
+            payload = {"root_page_url": url, "i": i, "id": id}
+            message_client=httpx.AsyncClient(timeout=None)
+            await message_client.post(f'{pubsub_url}/mdk_crawl?metadata.ttlInSeconds=1200', json=payload)
+            await message_client.aclose()
             i = i+1
 
         web_page_name = web_page["Name"]
@@ -103,4 +43,4 @@ def update_mdk_item(web_page):
     except Exception as e:
         logging.error('----------------------------------------------')
         error_msg = format_error_msg(e)
-        raise(error_msg)
+        return(error_msg)
