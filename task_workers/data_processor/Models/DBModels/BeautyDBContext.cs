@@ -16,6 +16,7 @@ namespace data_processor.Models.DBModels
         {
         }
 
+        public virtual DbSet<CrawlerLog> CrawlerLogs { get; set; } = null!;
         public virtual DbSet<Forum> Forums { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
         public virtual DbSet<Item> Items { get; set; } = null!;
@@ -35,6 +36,15 @@ namespace data_processor.Models.DBModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CrawlerLog>(entity =>
+            {
+                entity.ToTable("CrawlerLog");
+
+                entity.Property(e => e.ID).ValueGeneratedNever();
+
+                entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<Forum>(entity =>
             {
                 entity.ToTable("Forum");

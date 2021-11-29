@@ -49,23 +49,26 @@ async def post_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
     return {"message": "已刪除資料"}
 
 
-@router.get("/item", summary="透過WebPage id，取得要抓的item資料")
+@router.get("/item", summary="透過WebPage id，取得要抓的item資料 (for dashboard)")
 async def get_item_by_web_page_id( offset: int, limit: int, filterId: Optional[str] = None,id: Optional[str] =None,
                                   db: Session = Depends(get_db)):
     offset_count = offset*limit
+    sort_mode=models.Item.Seq
     if filterId == None:
         if id!=None:
             clause = and_(*[models.Item.WebPageID == id,
                       models.Item.Enable == True])
         else:
-             clause = models.Item.Enable == True          
+            clause = models.Item.Enable == True 
+            sort_mode=models.Item.ModifiedDateTime
+
     else:
         filterId_array = or_(
             *list(map(lambda x: models.Item.ID == x, filterId.split(','))))
         clause = filterId_array
 
     data = db.query(models.Item).options(joinedload(models.Item.WebPageSimilarity)).filter(clause).order_by(
-        desc(models.Item.Seq)).offset(offset_count).limit(limit).all()
+        desc(sort_mode)).offset(offset_count).limit(limit).all()
     return data
 
 

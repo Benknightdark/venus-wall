@@ -1,12 +1,9 @@
 from datetime import datetime
 import logging
-import re
 from helpers.error_log_helper import format_error_msg
-import uuid
 from bs4 import BeautifulSoup
 import httpx
-import asyncio
-
+import json
 pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 logging.basicConfig(level=logging.INFO)
 
@@ -36,11 +33,11 @@ async def get_jkf_url(web_page):
         # 執行爬蟲
         while i <= int(get_all_page):
             payload = {"root_page_url": root_page_url, "i": i, "id": id}
-            message_client = httpx.AsyncClient(timeout=None ,transport=httpx.AsyncHTTPTransport(retries=500))
-            message_req=await message_client.post(f'{pubsub_url}/jkf_crawl?metadata.ttlInSeconds=12000', json=payload)
+            async_client = httpx.AsyncClient(timeout=None ,transport=httpx.AsyncHTTPTransport(retries=500))
+            message_req=await async_client.post(f'{pubsub_url}/jkf_crawl?metadata.ttlInSeconds=12000', json=payload)
             message_res=message_req.status_code
             logging.info(message_res)
-            await message_client.aclose()
+            await async_client.aclose()
             logging.info(payload)
             i = i+1
         web_page_name = web_page["Name"]

@@ -21,6 +21,7 @@ async def jkf_worker(request: Request, background_tasks: BackgroundTasks):
     background_tasks.add_task(
         item_helpers.get_jkf_url, request_data['data'])
     message = "OK"
+    
     return {"message": message}
 
 
