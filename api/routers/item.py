@@ -11,7 +11,7 @@ from fastapi import APIRouter
 from sqlalchemy.orm import Session, joinedload, lazyload
 from models import models
 import json
-pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
+pubsub_url = 'http://localhost:3500/v1.0/publish/worker'
 
 router = APIRouter()
 

@@ -61,6 +61,37 @@ WHERE B.WebPageID=A.ID
 )C(TotalCount)
 WHERE A.Enable=1 AND F.Enable=1
 ORDER BY TotalCount DESC
+
+--- 取出Worker LOG
+SELECT  
+A.ID,
+A.CreateDateTime,
+JSON_VALUE(A.RawData,'$.data.topic') AS Topic,
+JSON_VALUE(A.RawData,'$.data.data.Name') AS Name ,
+JSON_VALUE(A.RawData,'$.data.data.Url') AS Url ,
+JSON_VALUE(A.RawData,'$.data.data.Start') AS Start ,
+JSON_VALUE(A.RawData,'$.data.data.End') AS [End] ,
+JSON_VALUE(A.RawData,'$.data.traceid') AS TraceID ,
+JSON_VALUE(A.RawData,'$.data.data.ID') AS WebPageID 
+FROM [beauty_wall].[dbo].[CrawlerLog] A
+WHERE JSON_VALUE(A.RawData,'$.topic')='process-log' AND JSON_VALUE(A.RawData,'$.data.data.Name') IS NOT NULL
+ORDER BY CreateDateTime DESC 
+
+--- 取出資料寫入DB的LOG
+SELECT  A.ID,A.CreateDateTime,
+	 JSON_VALUE(A.RawData,'$.source') AS Source,
+	 JSON_VALUE(A.RawData,'$.topic') AS Topic,
+	 JSON_VALUE(A.RawData,'$.traceid') AS TraceID,
+	 JSON_VALUE(A.RawData,'$.data.Item.Title') AS Title,
+	 JSON_VALUE(A.RawData,'$.data.Item.Url') AS Url,
+	 JSON_QUERY(A.RawData,'$.data.Images') AS Images,
+	 B.Name AS WebPageName,
+	 B.ID AS WebPageID,
+	 C.Name AS ForumName,
+	 C.ID AS ForumID
+FROM [beauty_wall].[dbo].[CrawlerLog] A
+JOIN [beauty_wall].[dbo].[WebPage] B ON JSON_VALUE(A.RawData,'$.data.Item.WebPageID')=B.ID
+JOIN [beauty_wall].[dbo].[Forum] C ON B.ForumID=C.ID
 ```
 
 

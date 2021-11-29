@@ -30,6 +30,12 @@ app.MapGet("/dapr/subscribe", () =>
                 topic = "process-mdk",
                 route = "/process-mdk"
             },
+                        new
+            {
+                pubsubname = "pubsub",
+                topic = "process-log",
+                route = "/process-log"
+            },
     };
     app.Logger.LogInformation("註冊dapr pubsub broker");
     return (subscriptions);
@@ -50,5 +56,10 @@ app.MapPost("/process-mdk", async (ItemService _ItemService, CrawlerLogService _
      await _crawlerLogService.UpdateData(System.Text.Json.JsonSerializer.Serialize(MessageData));
      return (MessageData);
  });
-
+// 更新爬蟲執行log資料
+app.MapPost("/process-log", async (CrawlerLogService _crawlerLogService, MessageQueueModel MessageData) =>
+ {
+     await _crawlerLogService.UpdateData(System.Text.Json.JsonSerializer.Serialize(MessageData));
+     return (MessageData);
+ });
 app.Run();
