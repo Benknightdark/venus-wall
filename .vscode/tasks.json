@@ -11,8 +11,7 @@
           "command": "Get-Process -Name 'daprd' | Stop-Process"
         },
         "linux": {
-          "command": "kill -9 $(ps aux | grep daprd | awk '{print $2}')"
-        },
+          "command": "kill -9 $(ps aux | grep daprd | awk '{print $2}')"        },
         "osx": {
           "command": "ps aux | grep daprd|grep -v grep | awk '{print $2}'|xargs kill -9"
         }
@@ -38,8 +37,8 @@
         "appId": "api-service",
         "appPort": 8780,
         "httpPort": 3500,
-        "metricsPort": 9090,
-        "grpcPort": 53320
+        "metricsPort": 9033,
+        "grpcPort": 53393
       },
       {
         "label": "daprd-down-api-service",
