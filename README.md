@@ -67,14 +67,35 @@ SELECT
 A.ID,
 A.CreateDateTime,
 JSON_VALUE(A.RawData,'$.data.topic') AS Topic,
-JSON_VALUE(A.RawData,'$.data.data.Name') AS Name ,
+JSON_VALUE(A.RawData,'$.data.data.Name') AS WebPageName ,
 JSON_VALUE(A.RawData,'$.data.data.Url') AS Url ,
 JSON_VALUE(A.RawData,'$.data.data.Start') AS Start ,
 JSON_VALUE(A.RawData,'$.data.data.End') AS [End] ,
 JSON_VALUE(A.RawData,'$.data.traceid') AS TraceID ,
-JSON_VALUE(A.RawData,'$.data.data.ID') AS WebPageID 
+JSON_VALUE(A.RawData,'$.data.data.ID') AS WebPageID ,
+C.ID AS ForumID,
+C.Name AS ForumName
 FROM [beauty_wall].[dbo].[CrawlerLog] A
+JOIN [beauty_wall].[dbo].[WebPage] B ON JSON_VALUE(A.RawData,'$.data.data.ID')=B.ID
+JOIN [beauty_wall].[dbo].[Forum] C ON B.ForumID=C.ID
 WHERE JSON_VALUE(A.RawData,'$.topic')='process-log' AND JSON_VALUE(A.RawData,'$.data.data.Name') IS NOT NULL
+ORDER BY CreateDateTime DESC 
+
+--- 取出爬取資料的LOG
+SELECT  
+A.ID,
+A.CreateDateTime,
+JSON_VALUE(A.RawData,'$.data.topic') AS Topic,
+JSON_VALUE(A.RawData,'$.data.data.root_page_url') AS RootPageUrl ,
+JSON_VALUE(A.RawData,'$.data.data.i') AS Page ,
+JSON_VALUE(A.RawData,'$.data.data.id') AS WebPageID ,
+C.ID AS ForumID,
+B.Name AS WebPageName,
+C.Name AS ForumName
+FROM [beauty_wall].[dbo].[CrawlerLog] A
+JOIN [beauty_wall].[dbo].[WebPage] B ON JSON_VALUE(A.RawData,'$.data.data.id')=B.ID
+JOIN [beauty_wall].[dbo].[Forum] C ON B.ForumID=C.ID
+WHERE JSON_VALUE(A.RawData,'$.topic')='process-log' AND JSON_VALUE(A.RawData,'$.data.data.i') IS NOT NULL
 ORDER BY CreateDateTime DESC 
 
 --- 取出資料寫入DB的LOG
