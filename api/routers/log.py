@@ -59,7 +59,7 @@ async def get_worker_log( offset: int, limit: int,db: Session = Depends(get_db))
     return data
 
 
-@router.get("/log/crawler", summary="取得processor的執行記錄")
+@router.get("/log/processor", summary="取得processor的執行記錄")
 async def get_processor_log( offset: int, limit: int,db: Session = Depends(get_db)):
     data=db.execute(text(f''' 
     SELECT  A.ID,A.CreateDateTime,
