@@ -113,6 +113,7 @@ SELECT  A.ID,A.CreateDateTime,
 FROM [beauty_wall].[dbo].[CrawlerLog] A
 JOIN [beauty_wall].[dbo].[WebPage] B ON JSON_VALUE(A.RawData,'$.data.Item.WebPageID')=B.ID
 JOIN [beauty_wall].[dbo].[Forum] C ON B.ForumID=C.ID
+ORDER BY CreateDateTime DESC 
 ```
 
 
