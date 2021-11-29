@@ -2,16 +2,13 @@ import logging
 import uuid
 import httpx
 from sqlalchemy.sql.expression import and_, asc, desc, or_
-from sqlalchemy.sql.functions import func
-from starlette.background import BackgroundTasks
-from dependencies import get_db, send_task
+from dependencies import get_db
 from fastapi.params import Depends
 from typing import Optional
 from fastapi import APIRouter
-from sqlalchemy.orm import Session, joinedload, lazyload
+from sqlalchemy.orm import Session, joinedload
 from models import models
-import json
-pubsub_url = 'http://localhost:3500/v1.0/publish/worker'
+pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 
 router = APIRouter()
 
