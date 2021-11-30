@@ -8,42 +8,34 @@
             "name": "api-service",
             "type": "python",
             "request": "launch",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "jinja": true,
             "program": "${workspaceFolder}/api/main.py",
-            "preLaunchTask": "daprd-debug-api-service",
-            "postDebugTask": "daprd-down-api-service",
             "envFile": "${workspaceFolder}/.env",
-
         },
         {
             "name": "jkf-worker",
             "type": "python",
             "request": "launch",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "jinja": true,
             "program": "${workspaceFolder}/task_workers/jkf_worker/main.py",
-            "preLaunchTask": "daprd-debug-jkf-worker",
-            "postDebugTask": "daprd-down-jkf-worker",
             "envFile": "${workspaceFolder}/.env"
         },
         {
             "name": "mdk-worker",
             "type": "python",
             "request": "launch",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "jinja": true,
             "program": "${workspaceFolder}/task_workers/mdk_worker/main.py",
             "envFile": "${workspaceFolder}/.env",
-            "preLaunchTask": "daprd-debug-mdk-worker",
-            "postDebugTask": "daprd-down-mdk-worker",
         },
         {
             "name": "data-processor",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "watch",
-            "postDebugTask": "daprd-down-data-processor",
             "program": "${workspaceFolder}/task_workers/data_processor/bin/Debug/net6.0/data_processor.dll",
             "args": [],
             "cwd": "${workspaceFolder}/task_workers/data_processor",
@@ -60,22 +52,18 @@
             "name": "jkf-crawler",
             "type": "python",
             "request": "launch",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "jinja": true,
             "program": "${workspaceFolder}/task_workers/jkf_crawler/main.py",
-            "preLaunchTask": "daprd-debug-jkf-crawler",
-            "postDebugTask": "daprd-down-jkf-crawler",
             "envFile": "${workspaceFolder}/.env"
         },
         {
             "name": "mdk-crawler",
             "type": "python",
             "request": "launch",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "jinja": true,
             "program": "${workspaceFolder}/task_workers/mdk_crawler/main.py",
-            "preLaunchTask": "daprd-debug-mdk-crawler",
-            "postDebugTask": "daprd-down-mdk-crawler",
             "envFile": "${workspaceFolder}/.env"
         },
         {
@@ -83,14 +71,14 @@
             "type": "node-terminal",
             "request": "launch",
             "command": "npm start",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/web_site"
         }
     ],
     "compounds": [
         {
             "name": "Debug All",
-            // "preLaunchTask": "clear-all-daprd-processes",
+            "preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
                 "api-service",
                 "jkf-worker",

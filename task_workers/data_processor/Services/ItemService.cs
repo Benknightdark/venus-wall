@@ -81,7 +81,7 @@ public class ItemService
         }
         finally
         {
-            await _db.DisposeAsync();
+            //await _db.DisposeAsync();
         }
 
 

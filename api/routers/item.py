@@ -2,15 +2,12 @@ import logging
 import uuid
 import httpx
 from sqlalchemy.sql.expression import and_, asc, desc, or_
-from sqlalchemy.sql.functions import func
-from starlette.background import BackgroundTasks
-from dependencies import get_db, send_task
+from dependencies import get_db
 from fastapi.params import Depends
 from typing import Optional
 from fastapi import APIRouter
-from sqlalchemy.orm import Session, joinedload, lazyload
+from sqlalchemy.orm import Session, joinedload
 from models import models
-import json
 pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 
 router = APIRouter()
@@ -49,23 +46,26 @@ async def post_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
     return {"message": "已刪除資料"}
 
 
-@router.get("/item", summary="透過WebPage id，取得要抓的item資料")
+@router.get("/item", summary="透過WebPage id，取得要抓的item資料 (for dashboard)")
 async def get_item_by_web_page_id( offset: int, limit: int, filterId: Optional[str] = None,id: Optional[str] =None,
                                   db: Session = Depends(get_db)):
     offset_count = offset*limit
+    sort_mode=models.Item.Seq
     if filterId == None:
         if id!=None:
             clause = and_(*[models.Item.WebPageID == id,
                       models.Item.Enable == True])
         else:
-             clause = models.Item.Enable == True          
+            clause = models.Item.Enable == True 
+            sort_mode=models.Item.ModifiedDateTime
+
     else:
         filterId_array = or_(
             *list(map(lambda x: models.Item.ID == x, filterId.split(','))))
         clause = filterId_array
 
     data = db.query(models.Item).options(joinedload(models.Item.WebPageSimilarity)).filter(clause).order_by(
-        desc(models.Item.Seq)).offset(offset_count).limit(limit).all()
+        desc(sort_mode)).offset(offset_count).limit(limit).all()
     return data
 
 

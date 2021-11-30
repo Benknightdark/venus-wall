@@ -5,7 +5,6 @@ from helpers.error_log_helper import format_error_msg
 import uuid
 from bs4 import BeautifulSoup
 import httpx
-import asyncio
 
 pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 logging.basicConfig(level=logging.INFO)

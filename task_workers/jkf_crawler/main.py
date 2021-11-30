@@ -1,7 +1,10 @@
 from fastapi import BackgroundTasks, FastAPI, Request
 import logging
 import logging
+import httpx
 from helpers import item_helpers
+pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
+
 app = FastAPI()
 
 
@@ -23,6 +26,8 @@ async def jkf_crawl(request: Request, background_tasks: BackgroundTasks):
     background_tasks.add_task(
         item_helpers.download_jkf, request_data['data'])
     message = "OK"
+    res=httpx.post(f'{pubsub_url}/process-log',json=request_data)
+    logging.info(res.status_code)
     return {"message": message}
 
 if __name__ == '__main__':
