@@ -42,6 +42,10 @@ python3.9 -m celery -A tasks flower
 # scaffold dbcontext
 dotnet ef dbcontext scaffold 'Server=.,9487;Database=beauty_wall;user id=sa;password=YourStrong!Passw0rd' 'Microsoft.EntityFrameworkCore.SqlServer'  -o Models/DBModels -f -c BeautyDBContext --use-database-names --no-build --json
 
+daprd --app-id "api-service" --app-port "8780" --components-path "./components" --dapr-grpc-port "53317" --dapr-http-port "3500" --metrics-port "9090"
+
+wt -p "Windows PowerShell" -d C:\Users\arianeb\backend --title backend-srv docker-compose up `; new-tab -p "Windows PowerShell" -d C:\Users\arianeb\frontend --title frontend-srv npm run dev `; new-tab -p "Windows PowerShell" -d C:\Users\arianeb\backend --title backend `; new-tab -p "Windows PowerShell" -d C:\Users\arianeb\frontend --title frontend
+
 ```
 ``` sql
 SELECT DISTINCT A.*, ISNULL(C.MaxPage,0) AS  MaxPage FROM DBO.WebPage A
