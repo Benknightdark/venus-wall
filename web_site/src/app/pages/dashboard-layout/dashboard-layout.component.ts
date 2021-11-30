@@ -20,8 +20,6 @@ export class DashboardLayoutComponent implements OnInit {
     this.dashBoardService.getPageListSubject();
     this.forumWebPageList$ = this.dashBoardService.webPageSubjectList$.pipe(
       tap(d => {
-        console.log(d)
-        this.selectWebPageID = (d[0].WebPageList!)[0].ID;
         this.dashBoardService.resetItems();
         this.dashBoardService.setSelectWebPage(this.selectWebPageID)
       }))
@@ -33,6 +31,7 @@ export class DashboardLayoutComponent implements OnInit {
   onChangeWebPage(id:any) {
     this.selectWebPageID = id;
     this.dashBoardService.resetItems();
+    this.selectWebPageID=this.selectWebPageID==null?'':this.selectWebPageID
     this.dashBoardService.setSelectWebPage(this.selectWebPageID);
   }
 }

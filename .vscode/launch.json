@@ -1,0 +1,93 @@
+{
+    // 使用 IntelliSense 以得知可用的屬性。
+    // 暫留以檢視現有屬性的描述。
+    // 如需詳細資訊，請瀏覽: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "api-service",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/api/main.py",
+            "envFile": "${workspaceFolder}/.env",
+        },
+        {
+            "name": "jkf-worker",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/task_workers/jkf_worker/main.py",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "mdk-worker",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/task_workers/mdk_worker/main.py",
+            "envFile": "${workspaceFolder}/.env",
+        },
+        {
+            "name": "data-processor",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "watch",
+            "program": "${workspaceFolder}/task_workers/data_processor/bin/Debug/net6.0/data_processor.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/task_workers/data_processor",
+            "stopAtEntry": true,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "jkf-crawler",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/task_workers/jkf_crawler/main.py",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "mdk-crawler",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "program": "${workspaceFolder}/task_workers/mdk_crawler/main.py",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "web-site",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm start",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/web_site"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug All",
+            "preLaunchTask": "clear-all-daprd-processes",
+            "configurations": [
+                "api-service",
+                "jkf-worker",
+                "mdk-worker",
+                "jkf-crawler",
+                "mdk-crawler",
+                "web-site",
+                "data-processor",
+            ]
+        }
+    ]
+}

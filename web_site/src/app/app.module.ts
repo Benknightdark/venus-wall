@@ -1,3 +1,4 @@
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { BlurHashImgComponent } from './component/blur-hash-img/blur-hash-img.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
@@ -40,6 +41,9 @@ import { NzBackTopModule } from 'ng-zorro-antd/back-top';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { ChartModule } from 'angular-highcharts';
+import { LogComponent } from './pages/log/log.component';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
 
 registerLocaleData(zh);
 
@@ -52,11 +56,13 @@ registerLocaleData(zh);
     AdminLayoutComponent,
     DashboardLayoutComponent,
     BlurHashImgComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    LogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
+    NzStepsModule ,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -84,6 +90,9 @@ registerLocaleData(zh);
     NzListModule,
     NzBadgeModule,
     NzTagModule,
+    NzStatisticModule,
+    ChartModule,
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 

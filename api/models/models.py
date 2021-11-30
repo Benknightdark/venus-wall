@@ -5,27 +5,25 @@ from . import base
 from sqlalchemy.dialects.mssql import BIGINT, BINARY, BIT, CHAR, DATE, DATETIME, DATETIME2,     DATETIMEOFFSET, DECIMAL, FLOAT, IMAGE, INTEGER, JSON, MONEY,     NCHAR, NTEXT, NUMERIC, NVARCHAR, REAL, SMALLDATETIME,     SMALLINT, SMALLMONEY, SQL_VARIANT, TEXT, TIME,     TIMESTAMP, TINYINT, UNIQUEIDENTIFIER, VARBINARY, VARCHAR
 
 
-class WebPageSimilarity(base.Base):
-    __tablename__ = "WebPageSimilarity"
+class Forum(base.Base):
+    __tablename__ = "Forum"
 
     ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
 
-    SimilarityItemID = Column(UNIQUEIDENTIFIER)
+    Name = Column(NVARCHAR(50))
 
-    SimilarityItemTitle = Column(NVARCHAR(None))
+    WorkerName = Column(NVARCHAR(100))
 
-    SimilarityRation = Column(FLOAT)
+    CreatedTime = Column(DATETIME)
 
-    TargetItemID = Column(UNIQUEIDENTIFIER, ForeignKey("Item.ID"))
-    WebPageID = Column(UNIQUEIDENTIFIER, ForeignKey("WebPage.ID"))
+    Enable = Column(BIT)
+
+    Seq = Column(TINYINT)
 
     # ForeignKey
-    WebPageSimilarityTargetItemID_U = relationship(
-        "Item", back_populates="WebPageSimilarity")
-    WebPageSimilarityWebPageID_U = relationship(
-        "WebPage", back_populates="WebPageSimilarity")
 
     # collections
+    WebPage = relationship("WebPage", back_populates="WebPageForumID_U")
 
 
 class Image(base.Base):
@@ -108,11 +106,34 @@ class WebPage(base.Base):
     WebPageForumID_U = relationship("Forum", back_populates="WebPage")
 
     # collections
+    Item = relationship("Item", back_populates="ItemWebPageID_U")
     WebPageSimilarity = relationship(
         "WebPageSimilarity", back_populates="WebPageSimilarityWebPageID_U")
-    Item = relationship("Item", back_populates="ItemWebPageID_U")
     WebPageTask = relationship(
         "WebPageTask", back_populates="WebPageTaskWebPageID_U")
+
+
+class WebPageSimilarity(base.Base):
+    __tablename__ = "WebPageSimilarity"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    SimilarityItemID = Column(UNIQUEIDENTIFIER)
+
+    SimilarityItemTitle = Column(NVARCHAR(None))
+
+    SimilarityRation = Column(FLOAT)
+
+    TargetItemID = Column(UNIQUEIDENTIFIER, ForeignKey("Item.ID"))
+    WebPageID = Column(UNIQUEIDENTIFIER, ForeignKey("WebPage.ID"))
+
+    # ForeignKey
+    WebPageSimilarityTargetItemID_U = relationship(
+        "Item", back_populates="WebPageSimilarity")
+    WebPageSimilarityWebPageID_U = relationship(
+        "WebPage", back_populates="WebPageSimilarity")
+
+    # collections
 
 
 class WebPageTask(base.Base):
@@ -131,25 +152,13 @@ class WebPageTask(base.Base):
     # collections
 
 
-
-
-
-class Forum(base.Base):
-    __tablename__ = "Forum"
+class CrawlerLog(base.Base):
+    __tablename__ = "CrawlerLog"
 
     ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
 
-    Name = Column(NVARCHAR(50))
-
-    WorkerName = Column(NVARCHAR(100))
-
-    CreatedTime = Column(DATETIME)
-
-    Enable = Column(BIT)
-
-    Seq = Column(TINYINT)
+    CreateDateTime = Column(DATETIME)
 
     # ForeignKey
 
     # collections
-    WebPage = relationship("WebPage", back_populates="WebPageForumID_U")

@@ -37,7 +37,8 @@ export class TaskService {
           }
           this._currentTaskStatusList$.next(this.curretnTaskStatusList);
         })
-    } else {
+    }
+    else {
       taskId = (taskId === undefined || taskId === null) ? this.curretnTaskStatusList[String(webPageId).toUpperCase()].uuid : taskId;
       this.http.get<TaskInfo>(`${environment.apiUrl}/api/task/${taskId}`).pipe(
         share(),
