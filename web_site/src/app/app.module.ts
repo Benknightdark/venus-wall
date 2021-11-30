@@ -42,6 +42,8 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { ChartModule } from 'angular-highcharts';
+import { LogComponent } from './pages/log/log.component';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
 
 registerLocaleData(zh);
 
@@ -54,11 +56,13 @@ registerLocaleData(zh);
     AdminLayoutComponent,
     DashboardLayoutComponent,
     BlurHashImgComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    LogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
+    NzStepsModule ,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
