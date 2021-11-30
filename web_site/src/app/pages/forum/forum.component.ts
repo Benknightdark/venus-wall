@@ -37,20 +37,19 @@ export class ForumComponent implements OnInit {
     private forumService: ForumService,
     private webPageService: WebPageService,
     private itemService: ItemService,
-    private dashBoardService: DashboardService,
     private messageService: NzMessageService,
     private modalService: NzModalService,
-    private taskService: TaskService
+    // private taskService: TaskService
   ) { }
 
   ngOnInit(): void {
-    this.taskResultsList$=this.taskService.taskResultsList$;
+    // this.taskResultsList$=this.taskService.taskResultsList$;
     this.itemList$ = this.forumService.getForumData();
     this.webPageList$ = this.webPageService.webPageSubjectList$;
     this.forumService.forumDetailSubject$.subscribe(a => {
       this.forumWebPageData = a;
     })
-    this.curretnTaskStatusList$ = this.taskService.currentTaskStatusList$;
+    // this.curretnTaskStatusList$ = this.taskService.currentTaskStatusList$;
     this.cols = [
       { field: 'Name', header: '看版名稱' },
       { field: 'Url', header: '連結' },
@@ -60,7 +59,7 @@ export class ForumComponent implements OnInit {
     const isExpanded = event as boolean
     data.Expanded = isExpanded;
     this.webPageService.getWebPageByForumID(data.ID);
-    this.taskService.getCurrentTaskStatus();
+    // this.taskService.getCurrentTaskStatus();
 
   }
   handleCrawlerFormCancel() {
@@ -168,7 +167,7 @@ export class ForumComponent implements OnInit {
     this.hideTaskResultsForm=false;
     this.webPageService.getWebPageByForumID(data.ForumID)
     // this.taskService.getCurrentTaskStatus();
-    this.taskService.getTaskInfo(data.ID)
+    // this.taskService.getTaskInfo(data.ID)
   }
   onCalSimilarity(data: WebPage) {
     this.webPageService.updateWebPageItemSimilarity(data.ID).subscribe(r=>{

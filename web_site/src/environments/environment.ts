@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl:"http://localhost:8080"
-  //8000
+  apiUrl:"http://localhost:3500/v1.0/invoke/api-service/method"
+  //http://localhost:3500/v1.0/invoke/api-service/metho
+  //8780
 };
 
 /*
