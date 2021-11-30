@@ -6,6 +6,7 @@ import { ItemComponent } from './pages/item/item.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AdminLayoutComponent } from './pages/admin-layout/admin-layout.component';
 import { DashboardLayoutComponent } from './pages/dashboard-layout/dashboard-layout.component';
+import { LogComponent } from './pages/log/log.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'item/:id', component: ItemComponent },
       { path: 'forum', component: ForumComponent },
       { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'log', component: LogComponent },
 
       { path: '**', component: AdminDashboardComponent }
     ]
