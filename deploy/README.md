@@ -82,7 +82,11 @@ docker push localhost:5000/data-processor:103
 helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=103
 
 
-
+# 更新 api-gateway
+docker build --pull --rm --no-cache -f "./api-gateway/Dockerfile" -t api-gateway "./api-gateway"
+docker tag  api-gateway localhost:5000/api-gateway:1
+docker push localhost:5000/api-gateway:1 
+helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=1
 
 
 ```
