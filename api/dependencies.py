@@ -1,6 +1,5 @@
 import os
 from fastapi import Request
-from pymongo import MongoClient
 flower_api_url = os.environ.get("FLOWER_API_URL")
 mongo_db_connect_string = os.environ.get("MONGO_DB_CONNECT_STRING")
 def get_db(request: Request):
@@ -11,15 +10,6 @@ def get_db(request: Request):
         db.close()
 
 
-def get_mongo_db(request: Request):
-    '''
-    取得爬蟲執行結果
-    '''
-    try:
-        db = MongoClient(mongo_db_connect_string)
-        yield db
-    finally:
-        db.close()
 
 
 def send_task(request: Request):
