@@ -78,7 +78,6 @@
     "compounds": [
         {
             "name": "Debug All",
-            "preLaunchTask": "clear-all-daprd-processes",
             "configurations": [
                 "api-service",
                 "jkf-worker",
