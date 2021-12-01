@@ -13,6 +13,8 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
+import logging
+
 load_dotenv()
 models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
