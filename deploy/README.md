@@ -27,8 +27,8 @@ kubectl apply -f ./deploy/config.yaml
 # 建立 secrets
 kubectl delete secret mssql
 kubectl create secret generic mssql --from-literal=SA_PASSWORD="MyC0m9l&xPbbssw0rd"
-kubectl delete secret venus-wall-secrets
-kubectl create secret generic venus-wall-secrets --from-literal="DB_CONNECT_STRING=mssql+pymssql://sa:MyC0m9l&xPbbssw0rd@mssql-deployment/beauty_wall?charset=utf8"
+kubectl delete secret venuswallsecrets
+kubectl create secret generic venuswallsecrets --from-literal="DB_CONNECT_STRING=mssql+pymssql://sa:MyC0m9l&xPbbssw0rd@mssql-deployment/beauty_wall?charset=utf8"
 # 新增 keda config
 kubectl apply -f ./deploy/redis-scale.yaml
 # 開啟local registry對外連線
@@ -46,52 +46,52 @@ kubectl apply -f ./deploy/sqlserver.yaml
 ```bash
 # 更新 api-service
 docker build --pull --rm --no-cache -f "./api/Dockerfile" -t api-service "./api"
-docker tag api-service localhost:5000/api-service:101
-docker push localhost:5000/api-service:101 
-helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=101
+docker tag api-service localhost:5000/api-service:118
+docker push localhost:5000/api-service:118 
+helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=118
 
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
-docker tag  jkf-worker localhost:5000/jkf-worker:15
-docker push localhost:5000/jkf-worker:15 
-helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=15
+docker tag  jkf-worker localhost:5000/jkf-worker:16
+docker push localhost:5000/jkf-worker:16 
+helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=16
 
 # 更新 jkf-crawler
 docker build --pull --rm --no-cache -f "./task_workers/jkf_crawler/Dockerfile" -t jkf-crawler "./task_workers/jkf_crawler"
-docker tag  jkf-crawler localhost:5000/jkf-crawler:17
-docker push localhost:5000/jkf-crawler:17
-helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=17
+docker tag  jkf-crawler localhost:5000/jkf-crawler:18
+docker push localhost:5000/jkf-crawler:18
+helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=18
 
 # 更新 mdk-worker
 docker build --pull --rm --no-cache -f "./task_workers/mdk_worker/Dockerfile" -t mdk-worker "./task_workers/mdk_worker"
-docker tag  mdk-worker localhost:5000/mdk-worker:21
-docker push localhost:5000/mdk-worker:21 
-helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=21
+docker tag  mdk-worker localhost:5000/mdk-worker:22
+docker push localhost:5000/mdk-worker:22 
+helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=22
 
 # 更新 mdk-crawler
 docker build --pull --rm --no-cache -f "./task_workers/mdk_crawler/Dockerfile" -t mdk-crawler "./task_workers/mdk_crawler"
-docker tag  mdk-crawler localhost:5000/mdk-crawler:100
-docker push localhost:5000/mdk-crawler:100 
-helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=100
+docker tag  mdk-crawler localhost:5000/mdk-crawler:101
+docker push localhost:5000/mdk-crawler:101 
+helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=101
 
 # 更新 data-processor
 docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"
-docker tag  data-processor localhost:5000/data-processor:106
-docker push localhost:5000/data-processor:106 
-helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=106
+docker tag  data-processor localhost:5000/data-processor:107
+docker push localhost:5000/data-processor:107 
+helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=107
 
 
 # 更新 api-gateway
 docker build --pull --rm --no-cache -f "./api-gateway/Dockerfile" -t api-gateway "./api-gateway"
-docker tag  api-gateway localhost:5000/api-gateway:9
-docker push localhost:5000/api-gateway:9
-helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=9
+docker tag  api-gateway localhost:5000/api-gateway:11
+docker push localhost:5000/api-gateway:11
+helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=11
 
 # 更新 web-site
 docker build --pull --rm  -f "./web_site/Dockerfile" -t web-site "./web_site"
-docker tag  web-site localhost:5000/web-site:2
-docker push localhost:5000/web-site:2
-helm upgrade  --install   web-site ./deploy/web-site --set=image.tag=2
+docker tag  web-site localhost:5000/web-site:3
+docker push localhost:5000/web-site:3
+helm upgrade  --install   web-site ./deploy/web-site --set=image.tag=3
 ```
 # 三、開啟女神牆網站的對外連線
 ```
@@ -103,4 +103,5 @@ minikube dashboard
 minikube service dapr-dashboard -n dapr-system
 minikube service kibana-kibana -n dapr-monitoring
 minikube service zipkin
+kubectl create clusterrolebinding system-node-role-bound --clusterrole=system:node --group=system:nodes
 ```
