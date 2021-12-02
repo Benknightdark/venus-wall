@@ -30,11 +30,16 @@
 - [docker](https://www.docker.com/)
 - [minikube](https://minikube.sigs.k8s.io/docs/start/)
 - [helm](https://helm.sh/)
+* windows
+  - [windows terminal](https://www.microsoft.com/zh-tw/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab) 
+* mac
+  - [iTerm2](https://iterm2.com/)
 ## 開發環境啟動方式
 ### 一、啟動資料庫
 1. 在專案根目錄執行 ```docker compose up -d```指令
 2. 如果是第一次啟動系統，需在專案根目錄執行```docker exec -it venus-wall_db_1 /opt/mssql-tools/bin/sqlcmd -U SA -P YourStrong!Passw0rd  -W -i init_db.sql```指令，以產生系統需要用到的資料庫
 ### 二、啟動dapr side-car服務
+1. 執行```dapr init```指令啟動dapr
 * windows作業系統
    - 在專案根目錄執行```./start-dapr-sidecar.ps1 ```指令
 * mac作業系統

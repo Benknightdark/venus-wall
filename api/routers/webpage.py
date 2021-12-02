@@ -9,7 +9,6 @@ from fastapi import APIRouter
 from sqlalchemy.orm import Session, joinedload, lazyload, subqueryload
 import uuid
 from models import models, view_models
-
 router = APIRouter()
 
 
@@ -45,7 +44,6 @@ async def get_web_page(db: Session = Depends(get_db)):
         for o in option_data_dict:
             if r['ID'] == o['ForumID']:
                 r['WebPageList'].append(o)
-
     return root_data_dict
 
 

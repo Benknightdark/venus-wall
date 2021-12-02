@@ -5,14 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BeautyDBContext>(options =>
-               options.UseSqlServer(builder.Configuration.GetConnectionString("db"),
+               options.UseSqlServer(Environment.GetEnvironmentVariable("DOTNET_DB_CONNECT_STRING"),
                opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds))
             );
 builder.Services.AddScoped<ItemService>();
 builder.Services.AddScoped<CrawlerLogService>();
-
 var app = builder.Build();
-
 app.MapGet("/", async (BeautyDBContext db) => await db.Items.FirstAsync());
 // 註冊dapr pubsub broker
 app.MapGet("/dapr/subscribe", () =>
@@ -37,7 +35,6 @@ app.MapGet("/dapr/subscribe", () =>
                 route = "/process-log"
             },
     };
-    app.Logger.LogInformation("註冊dapr pubsub broker");
     return (subscriptions);
 });
 
