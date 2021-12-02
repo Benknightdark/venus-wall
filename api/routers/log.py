@@ -68,7 +68,6 @@ async def get_processor_log( offset: int, limit: int,db: Session = Depends(get_d
         JSON_VALUE(A.RawData,'$.traceid') AS TraceID,
         JSON_VALUE(A.RawData,'$.data.Item.Title') AS Title,
         JSON_VALUE(A.RawData,'$.data.Item.Url') AS Url,
-        JSON_QUERY(A.RawData,'$.data.Images') AS Images,
         B.Name AS WebPageName,
         B.ID AS WebPageID,
         C.Name AS ForumName,

@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { DynamicComponentDirective } from './../../directives/dynamic-component.directive';
+import { LogDataViewComponent } from './../log-data-view/log-data-view.component';
+import { DynamicComponents } from './../../models/dynamic-components';
+import { LogService } from './../../services/log.service';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'app-log',
@@ -7,11 +11,63 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogComponent implements OnInit {
 
-  constructor() { }
+  constructor(private logService: LogService) { }
   index = 0;
+  dynamicComponetsData: DynamicComponents[] = [];
+  currentAdIndex = -1;
+  interval: any;
+
+  @ViewChild(DynamicComponentDirective, { static: true }) componentHost!: DynamicComponentDirective;
+
   ngOnInit(): void {
+    // this.logService.getCrawlerLog(0,10).subscribe(r=>{
+    //   console.log(r)
+    // })
+    // this.logService.getWorkerLog(0,10).subscribe(r=>{
+    //   console.log(r)
+    // })
+    // this.logService.getProcessorLog(0,10).subscribe(r=>{
+    //   console.log(r)
+    // })
+    this.dynamicComponetsData = [
+      new DynamicComponents(
+        LogDataViewComponent,
+        { name: 'Bombasto', bio: 'Brave as they come' }
+      ),
+      new DynamicComponents(
+        LogDataViewComponent,
+        { name: 'Dr 11IQ', bio: 'Smart as they co555me' }
+      ),
+      new DynamicComponents(
+        LogDataViewComponent,
+        { name: 'Dr I22Q', bio: 'Smart as they com11e' }
+      ),
+      new DynamicComponents(
+        LogDataViewComponent,
+        { name: 'Dr I2333Q', bio: 'Smart as they com333e' }
+      )
+    ];
+    this.loadComponent();
+
   }
+
+
+  loadComponent() {
+    this.currentAdIndex = (this.currentAdIndex + 1) % this.dynamicComponetsData.length;
+    const adItem = this.dynamicComponetsData[this.currentAdIndex];
+    console.log(adItem)
+    console.log(this.componentHost)
+    const viewContainerRef = this.componentHost.viewContainerRef;
+
+    viewContainerRef.clear();
+    const componentRef = viewContainerRef.createComponent<DynamicComponents>(adItem.component);
+    componentRef.instance.data = adItem.data;
+  }
+
+
   onIndexChange(event: number): void {
     this.index = event;
+    this.currentAdIndex=this.index-1;
+    this.loadComponent();
   }
 }
