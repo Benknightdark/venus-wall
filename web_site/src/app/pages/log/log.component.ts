@@ -32,19 +32,15 @@ export class LogComponent implements OnInit {
     this.dynamicComponetsData = [
       new DynamicComponents(
         LogDataViewComponent,
-        { name: 'Bombasto', bio: 'Brave as they come' }
+        { name: 'worker' }
       ),
       new DynamicComponents(
         LogDataViewComponent,
-        { name: 'Dr 11IQ', bio: 'Smart as they co555me' }
+        { name: 'crawler' }
       ),
       new DynamicComponents(
         LogDataViewComponent,
-        { name: 'Dr I22Q', bio: 'Smart as they com11e' }
-      ),
-      new DynamicComponents(
-        LogDataViewComponent,
-        { name: 'Dr I2333Q', bio: 'Smart as they com333e' }
+        { name: 'processor' }
       )
     ];
     this.loadComponent();
@@ -55,10 +51,7 @@ export class LogComponent implements OnInit {
   loadComponent() {
     this.currentAdIndex = (this.currentAdIndex + 1) % this.dynamicComponetsData.length;
     const adItem = this.dynamicComponetsData[this.currentAdIndex];
-    console.log(adItem)
-    console.log(this.componentHost)
     const viewContainerRef = this.componentHost.viewContainerRef;
-
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent<DynamicComponents>(adItem.component);
     componentRef.instance.data = adItem.data;
