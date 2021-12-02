@@ -37,6 +37,12 @@ spec:
             - name: http
               containerPort: 5235
               protocol: TCP
+          env:
+            - name: DOTNET_DB_CONNECT_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: venuswallsecrets
+                  key: DOTNET_DB_CONNECT_STRING            
           # livenessProbe:
           #   httpGet:
           #     path: /

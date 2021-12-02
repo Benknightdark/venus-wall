@@ -28,7 +28,7 @@ kubectl apply -f ./deploy/config.yaml
 kubectl delete secret mssql
 kubectl create secret generic mssql --from-literal=SA_PASSWORD="MyC0m9l&xPbbssw0rd"
 kubectl delete secret venuswallsecrets
-kubectl create secret generic venuswallsecrets --from-literal="DB_CONNECT_STRING=mssql+pymssql://sa:MyC0m9l&xPbbssw0rd@mssql-deployment/beauty_wall?charset=utf8"
+kubectl create secret generic venuswallsecrets --from-literal="DB_CONNECT_STRING=mssql+pymssql://sa:MyC0m9l&xPbbssw0rd@mssql-deployment/beauty_wall?charset=utf8" --from-literal="DOTNET_DB_CONNECT_STRING=server=mssql-deployment;Database=beauty_wall;user id=sa;password=MyC0m9l&xPbbssw0rd"
 # 新增 keda config
 kubectl apply -f ./deploy/redis-scale.yaml
 # 開啟local registry對外連線
@@ -46,9 +46,9 @@ kubectl apply -f ./deploy/sqlserver.yaml
 ```bash
 # 更新 api-service
 docker build --pull --rm --no-cache -f "./api/Dockerfile" -t api-service "./api"
-docker tag api-service localhost:5000/api-service:123
-docker push localhost:5000/api-service:123 
-helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=123
+docker tag api-service localhost:5000/api-service:124
+docker push localhost:5000/api-service:124 
+helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=124
 
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"

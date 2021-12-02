@@ -4,11 +4,8 @@ using data_processor.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-Console.WriteLine("--------------------------------");
-Console.WriteLine(Environment.GetEnvironmentVariable("DOTNET_DB_CONNECT_STRING"));
-Console.WriteLine("--------------------------------");
 builder.Services.AddDbContext<BeautyDBContext>(options =>
-               options.UseSqlServer(builder.Configuration.GetConnectionString("db"),
+               options.UseSqlServer(Environment.GetEnvironmentVariable("DOTNET_DB_CONNECT_STRING"),
                opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds))
             );
 builder.Services.AddScoped<ItemService>();
