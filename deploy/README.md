@@ -46,9 +46,9 @@ kubectl apply -f ./deploy/sqlserver.yaml
 ```bash
 # 更新 api-service
 docker build --pull --rm --no-cache -f "./api/Dockerfile" -t api-service "./api"
-docker tag api-service localhost:5000/api-service:124
-docker push localhost:5000/api-service:124 
-helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=124
+docker tag api-service localhost:5000/api-service:125
+docker push localhost:5000/api-service:125 
+helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=125
 
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
@@ -76,9 +76,9 @@ helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=101
 
 # 更新 data-processor
 docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"
-docker tag  data-processor localhost:5000/data-processor:107
-docker push localhost:5000/data-processor:107 
-helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=107
+docker tag  data-processor localhost:5000/data-processor:108
+docker push localhost:5000/data-processor:108 
+helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=108
 
 
 # 更新 api-gateway
