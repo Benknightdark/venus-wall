@@ -46,9 +46,9 @@ kubectl apply -f ./deploy/sqlserver.yaml
 ```bash
 # 更新 api-service
 docker build --pull --rm --no-cache -f "./api/Dockerfile" -t api-service "./api"
-docker tag api-service localhost:5000/api-service:118
-docker push localhost:5000/api-service:118 
-helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=118
+docker tag api-service localhost:5000/api-service:123
+docker push localhost:5000/api-service:123 
+helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=123
 
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
@@ -103,5 +103,12 @@ minikube dashboard
 minikube service dapr-dashboard -n dapr-system
 minikube service kibana-kibana -n dapr-monitoring
 minikube service zipkin
-kubectl create clusterrolebinding system-node-role-bound --clusterrole=system:node --group=system:nodes
+kubectl delete role access-secrets
+kubectl create role access-secrets --verb=get,list --resource=secrets
+kubectl delete rolebinding default-api-service-to-secrets
+kubectl create rolebinding --role=access-secrets default-api-service-to-secrets --serviceaccount=default:api-service
+
 ```
+
+# 參考連結
+- https://ithelp.ithome.com.tw/articles/10195944

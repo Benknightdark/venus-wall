@@ -10,9 +10,7 @@ builder.Services.AddDbContext<BeautyDBContext>(options =>
             );
 builder.Services.AddScoped<ItemService>();
 builder.Services.AddScoped<CrawlerLogService>();
-
 var app = builder.Build();
-
 app.MapGet("/", async (BeautyDBContext db) => await db.Items.FirstAsync());
 // 註冊dapr pubsub broker
 app.MapGet("/dapr/subscribe", () =>
@@ -37,7 +35,6 @@ app.MapGet("/dapr/subscribe", () =>
                 route = "/process-log"
             },
     };
-    app.Logger.LogInformation("註冊dapr pubsub broker");
     return (subscriptions);
 });
 

@@ -9,7 +9,6 @@ from fastapi import APIRouter
 from sqlalchemy.orm import Session, joinedload, lazyload, subqueryload
 import uuid
 from models import models, view_models
-import logging
 router = APIRouter()
 
 
@@ -45,11 +44,6 @@ async def get_web_page(db: Session = Depends(get_db)):
         for o in option_data_dict:
             if r['ID'] == o['ForumID']:
                 r['WebPageList'].append(o)
-    print('-----------------------------------------------')    
-    tt3=httpx.get('http://localhost:3500/v1.0/secrets/kubernetes/bulk')
-    print(tt3.status_code)
-    print(tt3.json())
-    print('-----------------------------------------------')       
     return root_data_dict
 
 
