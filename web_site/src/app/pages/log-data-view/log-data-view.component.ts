@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { LogService } from './../../services/log.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Observable, of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-log-data-view',
@@ -6,10 +8,15 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./log-data-view.component.css']
 })
 export class LogDataViewComponent implements OnInit {
-
-  constructor() { }
+  $getData!: Subscription;
+  constructor(private lgoService: LogService) { }
   @Input() data: any;
   ngOnInit(): void {
+    this.$getData = this.lgoService.getLogData(this.data['name']).subscribe(a => {
+      console.log(a)
+    });
   }
-
+  OnDestroy(): void {
+    this.$getData.unsubscribe();
+  }
 }
