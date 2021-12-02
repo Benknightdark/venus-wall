@@ -25,7 +25,6 @@
     "@angular/platform-server": "~13.0.3",
     "@angular/router": "~13.0.3",
     "@ant-design/icons-angular": "^13.0.0-beta.0",
-    "@compodoc/compodoc": "^1.1.16",
     "@nguniversal/express-engine": "^13.0.1",
     "@types/uuid": "^8.3.1",
     "angular-highcharts": "^12.0.0",
