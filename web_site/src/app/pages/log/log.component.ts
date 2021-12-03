@@ -1,8 +1,7 @@
 import { DynamicComponentDirective } from './../../directives/dynamic-component.directive';
 import { LogDataViewComponent } from './../log-data-view/log-data-view.component';
 import { DynamicComponents } from './../../models/dynamic-components';
-import { LogService } from './../../services/log.service';
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-log',
@@ -11,7 +10,7 @@ import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 })
 export class LogComponent implements OnInit {
 
-  constructor(private logService: LogService) { }
+  constructor() { }
   index = 0;
   dynamicComponetsData: DynamicComponents[] = [];
   currentAdIndex = -1;
@@ -20,22 +19,13 @@ export class LogComponent implements OnInit {
   @ViewChild(DynamicComponentDirective, { static: true }) componentHost!: DynamicComponentDirective;
 
   ngOnInit(): void {
-    // this.logService.getCrawlerLog(0,10).subscribe(r=>{
-    //   console.log(r)
-    // })
-    // this.logService.getWorkerLog(0,10).subscribe(r=>{
-    //   console.log(r)
-    // })
-    // this.logService.getProcessorLog(0,10).subscribe(r=>{
-    //   console.log(r)
-    // })
     this.dynamicComponetsData = [
       new DynamicComponents(
         LogDataViewComponent,
         {
           name: 'worker', columns: [
             {
-              columnName:"CreateDateTime"
+              columnName: "CreateDateTime"
             },
             {
               columnName: "ForumName"
@@ -57,11 +47,47 @@ export class LogComponent implements OnInit {
       ),
       new DynamicComponents(
         LogDataViewComponent,
-        { name: 'crawler', columns: [] }
+        {
+          name: 'crawler', columns: [
+            {
+              columnName: "CreateDateTime"
+            },
+            {
+              columnName: "ForumName"
+            },
+            {
+              columnName: "WebPageName"
+            },
+            {
+              columnName: "Topic"
+            },
+            {
+              columnName: "Page"
+            }
+          ]
+        }
       ),
       new DynamicComponents(
         LogDataViewComponent,
-        { name: 'processor', columns: [] }
+        {
+          name: 'processor', columns: [
+            {
+              columnName: "CreateDateTime"
+            },
+            {
+              columnName: "ForumName"
+            },
+            {
+              columnName: "WebPageName"
+            },
+            {
+              columnName: "Topic"
+            },
+            {
+              columnName: "Title"
+            }
+          ]
+        }
       )
     ];
     this.loadComponent();

@@ -14,6 +14,7 @@ export class LogDataViewComponent implements OnInit {
   tableData:any;
   ngOnInit(): void {
     this.$getData = this.lgoService.getLogData(this.data['name']).subscribe(a => {
+      console.log(a)
       this.tableData=a;
     });
   }
