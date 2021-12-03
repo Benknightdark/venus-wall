@@ -32,15 +32,36 @@ export class LogComponent implements OnInit {
     this.dynamicComponetsData = [
       new DynamicComponents(
         LogDataViewComponent,
-        { name: 'worker' }
+        {
+          name: 'worker', columns: [
+            {
+              columnName:"CreateDateTime"
+            },
+            {
+              columnName: "ForumName"
+            },
+            {
+              columnName: "WebPageName"
+            },
+            {
+              columnName: "Topic"
+            },
+            {
+              columnName: "Start"
+            },
+            {
+              columnName: "End"
+            }
+          ]
+        }
       ),
       new DynamicComponents(
         LogDataViewComponent,
-        { name: 'crawler' }
+        { name: 'crawler', columns: [] }
       ),
       new DynamicComponents(
         LogDataViewComponent,
-        { name: 'processor' }
+        { name: 'processor', columns: [] }
       )
     ];
     this.loadComponent();
@@ -60,7 +81,7 @@ export class LogComponent implements OnInit {
 
   onIndexChange(event: number): void {
     this.index = event;
-    this.currentAdIndex=this.index-1;
+    this.currentAdIndex = this.index - 1;
     this.loadComponent();
   }
 }

@@ -1,4 +1,18 @@
 <nz-page-header class="site-page-header"
  nzTitle="爬蟲執行記錄管理" [nzSubtitle]="data.name">
 </nz-page-header>
-{{data|json}}
+
+<div *ngIf="data.columns.length>0">
+  <nz-table [nzScroll]="{ y: '500px' }" #basicTable [nzData]="tableData" [nzPageSize]="20">
+    <thead>
+      <tr>
+        <th *ngFor="let item of data.columns">{{item.columnName}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of basicTable.data">
+        <td *ngFor="let itemTd of data.columns">{{row[itemTd.columnName]}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

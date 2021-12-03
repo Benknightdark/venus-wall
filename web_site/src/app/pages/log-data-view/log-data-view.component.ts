@@ -11,9 +11,10 @@ export class LogDataViewComponent implements OnInit {
   $getData!: Subscription;
   constructor(private lgoService: LogService) { }
   @Input() data: any;
+  tableData:any;
   ngOnInit(): void {
     this.$getData = this.lgoService.getLogData(this.data['name']).subscribe(a => {
-      console.log(a)
+      this.tableData=a;
     });
   }
   OnDestroy(): void {
