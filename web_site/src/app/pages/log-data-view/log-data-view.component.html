@@ -2,7 +2,7 @@
 </nz-page-header>
 
 <div *ngIf="data.columns.length>0">
-  <nz-table [nzVirtualItemSize]="20" [nzScroll]="{ y: '500px' }" #basicTable [nzData]="tableData"
+  <nz-table [nzVirtualItemSize]="50" [nzScroll]="{ y: '500px' }" #basicTable [nzData]="tableData"
    [nzPageSize]="20"
    [nzLoading]="loading"       [nzFrontPagination]="false"
    [nzShowPagination]="false"
@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-template nz-virtual-scroll let-row let-index="index" (scrolledIndexChange)="nextBatch($event)">
+      <ng-template nz-virtual-scroll let-row let-index="index">
         <tr>
         <td *ngFor="let itemTd of data.columns">{{row[itemTd.columnName]}}</td>
       </tr>
