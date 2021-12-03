@@ -25,6 +25,7 @@
 - > 爬蟲執行記錄管理
 <center><img src="./screenshots/5.png" /></center>
 <br/>
+
 ## 安裝開發工具
 - [nodejs](https://nodejs.org/en/)
 - [python3.9.x](https://www.python.org/downloads/release/python-399/)
