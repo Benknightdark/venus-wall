@@ -15,7 +15,6 @@ export class LogDataViewComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() data: any;
   tableData: any[] = [];
   loading: boolean = true;
-  currentDataCount: number = 0;
   offset = 0;
   limit = 20;
   stopGetMoreData: boolean = false;
@@ -28,7 +27,6 @@ export class LogDataViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.$getData = this.lgoService.getLogData(this.data['name'], this.offset, this.limit).subscribe(logData => {
       if (logData.length > 0) {
         this.tableData = [...this.tableData, ...logData];
-        this.currentDataCount = this.tableData.length
       } else {
         this.stopGetMoreData = true;
       }
@@ -37,6 +35,12 @@ export class LogDataViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   trackByIndex(_: number, data: any): number {
     return data.index;
+  }
+  refreshData(){
+    this.loading = true;
+    this.$getData.unsubscribe();
+    this.resetVariable();
+    this.loadData();
   }
   ngAfterViewInit(): void {
     this.nzTableComponent?.cdkVirtualScrollViewport?.scrolledIndexChange.subscribe((scrollIndex: number) => {
@@ -57,7 +61,7 @@ export class LogDataViewComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
   resetVariable() {
-    this.currentDataCount = 0;
+    this.tableData=[];
     this.offset = 0;
     this.limit = 20;
     this.stopGetMoreData = false;

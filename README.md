@@ -22,6 +22,9 @@
 <center><img src="./screenshots/3.png" /></center>
 <br/>
 
+- > 爬蟲執行記錄管理
+<center><img src="./screenshots/5.png" /></center>
+<br/>
 ## 安裝開發工具
 - [nodejs](https://nodejs.org/en/)
 - [python3.9.x](https://www.python.org/downloads/release/python-399/)
@@ -30,9 +33,10 @@
 - [docker](https://www.docker.com/)
 - [minikube](https://minikube.sigs.k8s.io/docs/start/)
 - [helm](https://helm.sh/)
-* windows
+- [dapr](https://dapr.io/)
+* windows作業系統
   - [windows terminal](https://www.microsoft.com/zh-tw/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab) 
-* mac
+* osx作業系統
   - [iTerm2](https://iterm2.com/)
 ## 開發環境啟動方式
 ### 一、啟動資料庫
@@ -42,7 +46,7 @@
 1. 執行```dapr init```指令啟動dapr
 * windows作業系統
    - 在專案根目錄執行```./start-dapr-sidecar.ps1 ```指令
-* mac作業系統
+* osx作業系統
    - 在專案根目錄執行```./start-dapr-sidecar.sh ```指令
 ### 三、啟動系統裡所有的專案
 ``` bash
