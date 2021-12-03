@@ -1,4 +1,5 @@
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { BlurHashImgComponent } from './component/blur-hash-img/blur-hash-img.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
@@ -95,7 +96,7 @@ registerLocaleData(zh);
     NzTagModule,
     NzStatisticModule,
     ChartModule,
-
+    ScrollingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
