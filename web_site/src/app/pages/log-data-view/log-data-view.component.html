@@ -1,0 +1,26 @@
+<nz-page-header class="site-page-header" nzTitle="爬蟲執行記錄管理" [nzSubtitle]="data.name">
+</nz-page-header>
+<div nz-row nzJustify="end" nzAlign="top">
+  <button nz-button nzType="primary" (click)="refreshData()" [disabled]="loading">
+    <i nz-icon nzType="sync" [nzSpin]="loading"></i>
+    重新整理
+  </button>
+</div>
+<div *ngIf="data.columns.length>0">
+  <nz-table [nzVirtualItemSize]="20" [nzScroll]="{ y: '500px' }" #basicTable [nzData]="tableData" [nzPageSize]="20"
+    [nzLoading]="loading" [nzFrontPagination]="false" [nzShowPagination]="false" [nzVirtualForTrackBy]="trackByIndex"
+    [nzVirtualScroll]="true">
+    <thead>
+      <tr>
+        <th *ngFor="let item of data.columns">{{item.columnName}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template nz-virtual-scroll let-row let-index="index">
+        <tr>
+          <td *ngFor="let itemTd of data.columns">{{row[itemTd.columnName]}}</td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</div>

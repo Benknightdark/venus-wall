@@ -1,8 +1,9 @@
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { BlurHashImgComponent } from './component/blur-hash-img/blur-hash-img.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -44,7 +45,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { ChartModule } from 'angular-highcharts';
 import { LogComponent } from './pages/log/log.component';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
-
+import { DynamicComponentDirective } from './directives/dynamic-component.directive';
+import { LogDataViewComponent } from './pages/log-data-view/log-data-view.component'
 registerLocaleData(zh);
 
 @NgModule({
@@ -57,12 +59,14 @@ registerLocaleData(zh);
     DashboardLayoutComponent,
     BlurHashImgComponent,
     AdminDashboardComponent,
-    LogComponent
+    LogComponent,
+    LogDataViewComponent,
+    DynamicComponentDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
-    NzStepsModule ,
+    NzStepsModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -76,8 +80,8 @@ registerLocaleData(zh);
     NzDropDownModule,
     NzModalModule,
     NzFormModule,
-    NzInputNumberModule ,
-    NzMessageModule ,
+    NzInputNumberModule,
+    NzMessageModule,
     NzInputModule,
     NzSpaceModule,
     DragDropModule,
@@ -92,11 +96,11 @@ registerLocaleData(zh);
     NzTagModule,
     NzStatisticModule,
     ChartModule,
-
+    ScrollingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
-  providers: [{ provide: NZ_I18N, useValue: zh_TW },NzMessageService,NzModalService,NzImageService ],
+  providers: [{ provide: NZ_I18N, useValue: zh_TW }, NzMessageService, NzModalService, NzImageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
