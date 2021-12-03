@@ -12,14 +12,20 @@ export class LogDataViewComponent implements OnInit, AfterViewInit {
   $getData!: Subscription;
   constructor(private lgoService: LogService) { }
   @Input() data: any;
-  tableData: any;
+  tableData: any[]=[];
   loading: boolean = true;
+  currentDataCount:number=0;
+  offset=0;
+  limit=20
   @ViewChild('basicTable', { static: false }) nzTableComponent?: NzTableComponent<any>;
 
   ngOnInit(): void {
-    this.$getData = this.lgoService.getLogData(this.data['name']).subscribe(a => {
-      console.log(a)
-      this.tableData = a;
+this.loadData();
+  }
+  loadData(){
+    this.$getData = this.lgoService.getLogData(this.data['name'],this.offset,this.limit).subscribe(logData => {
+      this.tableData =[...this.tableData,...logData];
+      this.currentDataCount=this.tableData.length-1
       this.loading = false;
     });
   }
@@ -27,8 +33,13 @@ export class LogDataViewComponent implements OnInit, AfterViewInit {
     return data.index;
   }
   ngAfterViewInit(): void {
-    this.nzTableComponent?.cdkVirtualScrollViewport?.scrolledIndexChange.subscribe((data: number) => {
-      console.log('scroll index to', data);
+    this.nzTableComponent?.cdkVirtualScrollViewport?.scrolledIndexChange.subscribe((scrolledIndex: number) => {
+      if(scrolledIndex===this.currentDataCount){
+        console.log("Got YOU")
+        this.offset=  this.offset+this.limit;
+        this.loading=true;
+        this.loadData();
+      }
     });
   }
   nextBatch(index: any) {
