@@ -35,8 +35,8 @@ kubectl apply -f ./deploy/redis-scale.yaml
 docker run --rm -it -d --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:$(minikube ip):5000"
 # 安裝 sql server 
 docker build --pull --rm --no-cache -f "./db/sql_server/Dockerfile" -t sql-server "./db/sql_server"
-docker tag sql-server:latest localhost:5000/sql-server:latest
-docker push localhost:5000/sql-server:latest
+docker tag sql-server:latest 172.28.171.154:32000/sql-server:latest
+docker push 172.28.171.154:32000/sql-server:latest
 kubectl apply -f ./deploy/sqlserver.yaml
 # 在sql server pod裡執行下列Command
 /opt/mssql-tools/bin/sqlcmd -U SA -P 'MyC0m9l&xPbbssw0rd'  -W -i init_db.sql
@@ -46,51 +46,51 @@ kubectl apply -f ./deploy/sqlserver.yaml
 ```bash
 # 更新 api-service
 docker build --pull --rm --no-cache -f "./api/Dockerfile" -t api-service "./api"
-docker tag api-service localhost:5000/api-service:125
-docker push localhost:5000/api-service:125 
-helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=125
+docker tag api-service 172.28.171.154:32000/api-service:126
+docker push 172.28.171.154:32000/api-service:126 
+helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=126
 
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
-docker tag  jkf-worker localhost:5000/jkf-worker:16
-docker push localhost:5000/jkf-worker:16 
+docker tag  jkf-worker 172.28.171.154:32000/jkf-worker:16
+docker push 172.28.171.154:32000/jkf-worker:16 
 helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=16
 
 # 更新 jkf-crawler
 docker build --pull --rm --no-cache -f "./task_workers/jkf_crawler/Dockerfile" -t jkf-crawler "./task_workers/jkf_crawler"
-docker tag  jkf-crawler localhost:5000/jkf-crawler:18
-docker push localhost:5000/jkf-crawler:18
+docker tag  jkf-crawler 172.28.171.154:32000/jkf-crawler:18
+docker push 172.28.171.154:32000/jkf-crawler:18
 helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=18
 
 # 更新 mdk-worker
 docker build --pull --rm --no-cache -f "./task_workers/mdk_worker/Dockerfile" -t mdk-worker "./task_workers/mdk_worker"
-docker tag  mdk-worker localhost:5000/mdk-worker:22
-docker push localhost:5000/mdk-worker:22 
+docker tag  mdk-worker 172.28.171.154:32000/mdk-worker:22
+docker push 172.28.171.154:32000/mdk-worker:22 
 helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=22
 
 # 更新 mdk-crawler
 docker build --pull --rm --no-cache -f "./task_workers/mdk_crawler/Dockerfile" -t mdk-crawler "./task_workers/mdk_crawler"
-docker tag  mdk-crawler localhost:5000/mdk-crawler:101
-docker push localhost:5000/mdk-crawler:101 
+docker tag  mdk-crawler 172.28.171.154:32000/mdk-crawler:101
+docker push 172.28.171.154:32000/mdk-crawler:101 
 helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=101
 
 # 更新 data-processor
 docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"
-docker tag  data-processor localhost:5000/data-processor:108
-docker push localhost:5000/data-processor:108 
+docker tag  data-processor 172.28.171.154:32000/data-processor:108
+docker push 172.28.171.154:32000/data-processor:108 
 helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=108
 
 
 # 更新 api-gateway
 docker build --pull --rm --no-cache -f "./api-gateway/Dockerfile" -t api-gateway "./api-gateway"
-docker tag  api-gateway localhost:5000/api-gateway:11
-docker push localhost:5000/api-gateway:11
+docker tag  api-gateway 172.28.171.154:32000/api-gateway:11
+docker push 172.28.171.154:32000/api-gateway:11
 helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=11
 
 # 更新 web-site
 docker build --pull --rm  -f "./web_site/Dockerfile" -t web-site "./web_site"
-docker tag  web-site localhost:5000/web-site:3
-docker push localhost:5000/web-site:3
+docker tag  web-site 172.28.171.154:32000/web-site:3
+docker push 172.28.171.154:32000/web-site:3
 helm upgrade  --install   web-site ./deploy/web-site --set=image.tag=3
 ```
 # 三、開啟女神牆網站的對外連線
