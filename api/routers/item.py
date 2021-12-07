@@ -8,6 +8,7 @@ from typing import Optional
 from fastapi import APIRouter
 from sqlalchemy.orm import Session, joinedload
 from models import models
+from dapr_httpx.pubsub_api import PubSubApi
 pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 
 router = APIRouter()
@@ -23,15 +24,15 @@ async def post_item_by_web_page_id(id: str, start: Optional[str] = None, end: Op
         models.Forum.ID == web_page_data.ForumID).first().WorkerName
     if end == "" or end == None:
         end = "0"
-
-    req=httpx.post(f'{pubsub_url}/{forum_worker_name}?metadata.ttlInSeconds=120', json={
+    pubsub_api=PubSubApi('pubsub')
+    req=await pubsub_api.publish(f"{forum_worker_name}?metadata.ttlInSeconds=120",payload={
         "ID": str(id),
         "Name": web_page_data.Name,
         "Url": web_page_data.Url,
         "Start": str(start),
         "End": str(end),
     })
-    logging.info(req.text)
+    logging.info(req)
 
     db.add(models.WebPageTask(ID=str(uuid.uuid4()),
            TaskID=str(uuid.uuid4()), WebPageID=id))
