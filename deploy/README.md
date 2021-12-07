@@ -64,15 +64,15 @@ helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=19
 
 # 更新 mdk-worker
 docker build --pull --rm --no-cache -f "./task_workers/mdk_worker/Dockerfile" -t mdk-worker "./task_workers/mdk_worker"
-docker tag  mdk-worker localhost:5000/mdk-worker:22
-docker push localhost:5000/mdk-worker:22 
-helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=22
+docker tag  mdk-worker localhost:5000/mdk-worker:23
+docker push localhost:5000/mdk-worker:23 
+helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=23
 
 # 更新 mdk-crawler
 docker build --pull --rm --no-cache -f "./task_workers/mdk_crawler/Dockerfile" -t mdk-crawler "./task_workers/mdk_crawler"
-docker tag  mdk-crawler localhost:5000/mdk-crawler:101
-docker push localhost:5000/mdk-crawler:101 
-helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=101
+docker tag  mdk-crawler localhost:5000/mdk-crawler:102
+docker push localhost:5000/mdk-crawler:102 
+helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=102
 
 # 更新 data-processor
 docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"

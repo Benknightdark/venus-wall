@@ -25,7 +25,7 @@ async def jkf_crawl(request: Request, background_tasks: BackgroundTasks, pub_sub
     background_tasks.add_task(
         item_helpers.download_jkf, request_data['data'])
     message = "OK"
-    res = pub_sub.publish('process-log', payload=request_data)
+    res = await pub_sub.publish('process-log', payload=request_data)
     logging.info(res)
     return {"message": message}
 
