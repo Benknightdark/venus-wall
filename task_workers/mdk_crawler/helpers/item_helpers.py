@@ -1,11 +1,11 @@
 from datetime import datetime
 import logging
-import re
-from helpers.error_log_helper import format_error_msg
+from dapr_httpx.error_log_helper import format_error_msg
 import uuid
 from bs4 import BeautifulSoup
 import httpx
-pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
+from dapr_httpx.pubsub_api import PubSubApi
+pub_sub = PubSubApi(end_point_name='pubsub')
 logging.basicConfig(level=logging.INFO)
 
 
@@ -73,9 +73,9 @@ async def download_mdk(data):
                 except:
                     pass
             logging.info('-------------------------')
-            req = await client.post(f"{pubsub_url}/process-mdk?metadata.ttlInSeconds=1200", json={
+
+            req = await pub_sub.publish('process-mdk?metadata.ttlInSeconds=1200', payload={
                 "Item": add_data, "Images": db_images_array})
-            res = req.text
-            logging.info(res)
+            logging.info(req)
             logging.info('-------------------------')
-    return data     
+    return data

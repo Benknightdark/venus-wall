@@ -52,27 +52,27 @@ helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=125
 
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
-docker tag  jkf-worker localhost:5000/jkf-worker:16
-docker push localhost:5000/jkf-worker:16 
-helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=16
+docker tag  jkf-worker localhost:5000/jkf-worker:20
+docker push localhost:5000/jkf-worker:20 
+helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=20
 
 # 更新 jkf-crawler
 docker build --pull --rm --no-cache -f "./task_workers/jkf_crawler/Dockerfile" -t jkf-crawler "./task_workers/jkf_crawler"
-docker tag  jkf-crawler localhost:5000/jkf-crawler:18
-docker push localhost:5000/jkf-crawler:18
-helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=18
+docker tag  jkf-crawler localhost:5000/jkf-crawler:19
+docker push localhost:5000/jkf-crawler:19
+helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=19
 
 # 更新 mdk-worker
 docker build --pull --rm --no-cache -f "./task_workers/mdk_worker/Dockerfile" -t mdk-worker "./task_workers/mdk_worker"
-docker tag  mdk-worker localhost:5000/mdk-worker:22
-docker push localhost:5000/mdk-worker:22 
-helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=22
+docker tag  mdk-worker localhost:5000/mdk-worker:23
+docker push localhost:5000/mdk-worker:23 
+helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=23
 
 # 更新 mdk-crawler
 docker build --pull --rm --no-cache -f "./task_workers/mdk_crawler/Dockerfile" -t mdk-crawler "./task_workers/mdk_crawler"
-docker tag  mdk-crawler localhost:5000/mdk-crawler:101
-docker push localhost:5000/mdk-crawler:101 
-helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=101
+docker tag  mdk-crawler localhost:5000/mdk-crawler:102
+docker push localhost:5000/mdk-crawler:102 
+helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=102
 
 # 更新 data-processor
 docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"

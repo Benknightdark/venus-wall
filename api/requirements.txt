@@ -8,4 +8,5 @@ fastapi
 beautifulsoup4
 httpx
 uvicorn
-python-dotenv 
+python-dotenv
+dapr-httpx

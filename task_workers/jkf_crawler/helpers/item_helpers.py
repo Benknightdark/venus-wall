@@ -1,12 +1,12 @@
 from datetime import datetime
 import logging
 import re
-from helpers.error_log_helper import format_error_msg
 import uuid
 from bs4 import BeautifulSoup
 import httpx
-
-pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
+from dapr_httpx.error_log_helper import format_error_msg
+from dapr_httpx.pubsub_api import PubSubApi
+pub_sub=PubSubApi(end_point_name='pubsub')
 logging.basicConfig(level=logging.INFO)
 
 
@@ -87,9 +87,8 @@ async def download_jkf(data):
                 except:
                     pass
             request_data = {"Images": db_images_array, "Item": add_data}
-            response =  client.post(
-                f'{pubsub_url}/process-jkf?metadata.ttlInSeconds=120', json=request_data) 
-            logging.info(response.status_code)
+            response =  await pub_sub.publish('process-jkf?metadata.ttlInSeconds=120',payload=request_data)
+            logging.info(response)
         return data
     except Exception as e:
         logging.error('---------------ERROR START---------------------')

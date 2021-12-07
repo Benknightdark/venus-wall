@@ -3,4 +3,4 @@ httpx
 python-dotenv
 fastapi
 uvicorn
-# nest_asyncio
+dapr_httpx
