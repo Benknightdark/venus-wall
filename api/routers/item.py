@@ -9,7 +9,6 @@ from fastapi import APIRouter
 from sqlalchemy.orm import Session, joinedload
 from models import models
 from dapr_httpx.pubsub_api import PubSubApi
-pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
 
 router = APIRouter()
 
