@@ -7,24 +7,20 @@
     justify-content: flex-end;
     margin:10px
     '>
-          <button nz-button nzType="primary" nzShape="circle"
-          (click)="onRefreshDashboard()"
-          nzTooltipTitle="重新整理" nzTooltipPlacement="bottom"  nz-tooltip
-          >
-            <i nz-icon nzType="reload"  nzTheme="outline"></i>
-          </button>
+      <button nz-button nzType="primary" nzShape="circle" (click)="onRefreshDashboard()" nzTooltipTitle="重新整理"
+        nzTooltipPlacement="bottom" nz-tooltip>
+        <i nz-icon nzType="reload" nzTheme="outline"></i>
+      </button>
 
-      <a [routerLink]="['admin','dashboard']" nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="setting"></i></a>
+      <a [routerLink]="['admin','dashboard']" nz-button nzType="primary" nzShape="circle" nzTooltipPlacement="bottom"
+       nzTooltipTitle="管理頁面" nz-tooltip>
+        <i nz-icon nzType="setting"></i></a>
       <div style="padding-right:10px;">
       </div>
-      <nz-select nzPlaceHolder="看版選單"
-      nzAllowClear
-      [(ngModel)]="selectWebPageID!"
-       nzSize="large" style="width:120px"
+      <nz-select nzPlaceHolder="看版選單" nzAllowClear [(ngModel)]="selectWebPageID!" nzSize="large" style="width:120px"
         (ngModelChange)="onChangeWebPage($event)">
         <nz-option-group *ngFor="let option of  forumWebPageList$ |async" [nzLabel]="option.Name!">
-          <nz-option [nzValue]="item.ID!" [nzLabel]="item.Name!"
-          *ngFor="let item of option.WebPageList!"></nz-option>
+          <nz-option [nzValue]="item.ID!" [nzLabel]="item.Name!" *ngFor="let item of option.WebPageList!"></nz-option>
         </nz-option-group>
       </nz-select>
     </div>

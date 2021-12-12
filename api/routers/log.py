@@ -15,7 +15,7 @@ async def get_worker_log( offset: int, limit: int,db: Session = Depends(get_db))
     data=db.execute(text(f''' 
     SELECT  
     A.ID,
-    A.CreateDateTime,
+    CONVERT(varchar,A.CreateDateTime,21) as CreateDateTime,
     JSON_VALUE(A.RawData,'$.data.topic') AS Topic,
     JSON_VALUE(A.RawData,'$.data.data.Name') AS WebPageName ,
     JSON_VALUE(A.RawData,'$.data.data.Url') AS Url ,
@@ -40,7 +40,7 @@ async def get_worker_log( offset: int, limit: int,db: Session = Depends(get_db))
     data=db.execute(text(f''' 
     SELECT  
     A.ID,
-    A.CreateDateTime,
+    CONVERT(varchar,A.CreateDateTime,21) as CreateDateTime,
     JSON_VALUE(A.RawData,'$.data.topic') AS Topic,
     JSON_VALUE(A.RawData,'$.data.data.root_page_url') AS RootPageUrl ,
     JSON_VALUE(A.RawData,'$.data.data.i') AS Page ,
@@ -62,13 +62,13 @@ async def get_worker_log( offset: int, limit: int,db: Session = Depends(get_db))
 @router.get("/log/processor", summary="取得processor的執行記錄")
 async def get_processor_log( offset: int, limit: int,db: Session = Depends(get_db)):
     data=db.execute(text(f''' 
-    SELECT  A.ID,A.CreateDateTime,
+    SELECT  A.ID,
+    CONVERT(varchar,A.CreateDateTime,21) as CreateDateTime,
         JSON_VALUE(A.RawData,'$.source') AS Source,
         JSON_VALUE(A.RawData,'$.topic') AS Topic,
         JSON_VALUE(A.RawData,'$.traceid') AS TraceID,
         JSON_VALUE(A.RawData,'$.data.Item.Title') AS Title,
         JSON_VALUE(A.RawData,'$.data.Item.Url') AS Url,
-        JSON_QUERY(A.RawData,'$.data.Images') AS Images,
         B.Name AS WebPageName,
         B.ID AS WebPageID,
         C.Name AS ForumName,

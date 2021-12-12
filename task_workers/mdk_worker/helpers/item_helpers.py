@@ -1,11 +1,10 @@
 from datetime import datetime
 import logging
-import re
-from helpers.error_log_helper import format_error_msg
-import uuid
+from dapr_httpx.error_log_helper import format_error_msg
 from bs4 import BeautifulSoup
 import httpx
-pubsub_url = 'http://localhost:3500/v1.0/publish/pubsub'
+from dapr_httpx.pubsub_api import PubSubApi
+pub_sub=PubSubApi(end_point_name='pubsub')
 logging.basicConfig(level=logging.INFO)
 
 
@@ -31,9 +30,8 @@ async def get_mdk_url(web_page):
         while i <= int(get_all_page):
             logging.info(f'{i}')
             payload = {"root_page_url": url, "i": i, "id": id}
-            message_client=httpx.AsyncClient(timeout=None)
-            await message_client.post(f'{pubsub_url}/mdk_crawl?metadata.ttlInSeconds=1200', json=payload)
-            await message_client.aclose()
+            message_res=await pub_sub.publish('mdk_crawl?metadata.ttlInSeconds=1200',payload=payload)
+            logging.info(message_res)
             i = i+1
 
         web_page_name = web_page["Name"]

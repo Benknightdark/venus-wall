@@ -3,3 +3,4 @@ httpx
 python-dotenv
 fastapi
 uvicorn
+dapr_httpx
