@@ -52,9 +52,9 @@ helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=126
 
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
-docker tag  jkf-worker 172.28.171.154:32000/jkf-worker:16
-docker push 172.28.171.154:32000/jkf-worker:16 
-helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=16
+docker tag  jkf-worker 172.18.173.249:32000/jkf-worker:1
+docker push 172.18.173.249:32000/jkf-worker:1 
+helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=1
 
 # 更新 jkf-crawler
 docker build --pull --rm --no-cache -f "./task_workers/jkf_crawler/Dockerfile" -t jkf-crawler "./task_workers/jkf_crawler"
