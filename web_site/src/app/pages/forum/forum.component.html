@@ -47,7 +47,7 @@
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
               <li nz-menu-item>
-                <a [routerLink]="['/admin/item',data.ID]"[state]="data">明細</a>
+                <a [routerLink]="['/admin/item',data.ID]" [state]="data">明細</a>
               </li>
               <li nz-menu-item (click)="selectedWebPage=data;hideCrawlerForm=false;">執行爬蟲作業</li>
             </ul>
@@ -62,7 +62,7 @@
           </button>
         </td>
         <td>
-          <button nz-button nzType="dashed"  (click)="onCalSimilarity(data)">
+          <button nz-button nzType="dashed" (click)="onCalSimilarity(data)">
             <i nz-icon nzType="file-text" nzTheme="outline"></i>
             開始計算
           </button>
@@ -173,7 +173,7 @@
 <nz-modal [(nzVisible)]="!hideTaskResultsForm" [nzTitle]="selectedWebPage?.Name" (nzOnOk)="hideTaskResultsForm=true"
   (nzOnCancel)="hideTaskResultsForm=true">
   <ng-container *nzModalContent>
-    <nz-list nzBordered nzHeader="爬蟲執行結果列表" >
+    <nz-list nzBordered nzHeader="爬蟲執行結果列表">
       <nz-list-item *ngFor="let item of taskResultsList$|async">
         <span nz-typography><mark> {{ item?.status }}</mark></span>
         {{ item?.date_done |date:'yyyy/MM/dd, hh:mm:ss' }}
