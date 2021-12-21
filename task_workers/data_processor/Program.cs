@@ -53,6 +53,11 @@ app.MapPost("/process-mdk", async (ItemService _ItemService, CrawlerLogService _
      await _crawlerLogService.UpdateData(System.Text.Json.JsonSerializer.Serialize(MessageData));
      return (MessageData);
  });
+// 更新論壇文章標題相似度計算資料
+app.MapPost("/process-text-similariy", async (CrawlerLogService _crawlerLogService, MessageQueueModel MessageData) =>
+ {
+     return (MessageData);
+ }); 
 // 更新爬蟲執行log資料
 app.MapPost("/process-log", async (CrawlerLogService _crawlerLogService, MessageQueueModel MessageData) =>
  {
