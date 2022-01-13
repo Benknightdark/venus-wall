@@ -7,15 +7,16 @@ namespace data_processor.Models.DBModels
 {
     public partial class BeautyDBContext : DbContext
     {
-        public BeautyDBContext()
-        {
-        }
+        // public BeautyDBContext()
+        // {
+        // }
 
-        public BeautyDBContext(DbContextOptions<BeautyDBContext> options)
-            : base(options)
-        {
-        }
-
+        // public BeautyDBContext(DbContextOptions<BeautyDBContext> options)
+        //     : base(options)
+        // {
+        // }
+        public static long InstanceCount;
+        public BeautyDBContext(DbContextOptions<BeautyDBContext> options) : base(options) => System.Threading.Interlocked.Increment(ref InstanceCount);
         public virtual DbSet<CrawlerLog> CrawlerLogs { get; set; } = null!;
         public virtual DbSet<Forum> Forums { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
