@@ -4,14 +4,14 @@ using data_processor.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<BeautyDBContext>(options =>
+builder.Services.AddPooledDbContextFactory<BeautyDBContext>(options =>
                options.UseSqlServer(Environment.GetEnvironmentVariable("DOTNET_DB_CONNECT_STRING"),
                opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds))
             );
 builder.Services.AddScoped<ItemService>();
 builder.Services.AddScoped<CrawlerLogService>();
 var app = builder.Build();
-app.MapGet("/", async (BeautyDBContext db) => await db.Items.FirstAsync());
+
 // 註冊dapr pubsub broker
 app.MapGet("/dapr/subscribe", () =>
 {
@@ -39,7 +39,7 @@ app.MapGet("/dapr/subscribe", () =>
 });
 
 // 更新jkf論壇資料
-app.MapPost("/process-jkf", async (ItemService _ItemService, CrawlerLogService _crawlerLogService, MessageQueueModel MessageData) =>
+app.MapPost("/process-jkf", async (MessageQueueModel MessageData, ItemService _ItemService,  CrawlerLogService _crawlerLogService) =>
  {
      await _ItemService.UpdateItemData(MessageData);
      await _crawlerLogService.UpdateData(System.Text.Json.JsonSerializer.Serialize(MessageData));
@@ -47,14 +47,19 @@ app.MapPost("/process-jkf", async (ItemService _ItemService, CrawlerLogService _
  });
 
 // 更新mdk論壇資料
-app.MapPost("/process-mdk", async (ItemService _ItemService, CrawlerLogService _crawlerLogService, MessageQueueModel MessageData) =>
+app.MapPost("/process-mdk", async (MessageQueueModel MessageData,ItemService _ItemService, CrawlerLogService _crawlerLogService) =>
  {
      await _ItemService.UpdateItemData(MessageData);
      await _crawlerLogService.UpdateData(System.Text.Json.JsonSerializer.Serialize(MessageData));
      return (MessageData);
  });
+// 更新論壇文章標題相似度計算資料
+app.MapPost("/process-text-similariy", async (MessageQueueModel MessageData,CrawlerLogService _crawlerLogService) =>
+ {
+     return (MessageData);
+ }); 
 // 更新爬蟲執行log資料
-app.MapPost("/process-log", async (CrawlerLogService _crawlerLogService, MessageQueueModel MessageData) =>
+app.MapPost("/process-log", async (MessageQueueModel MessageData,CrawlerLogService _crawlerLogService) =>
  {
      await _crawlerLogService.UpdateData(System.Text.Json.JsonSerializer.Serialize(MessageData));
      return (MessageData);
