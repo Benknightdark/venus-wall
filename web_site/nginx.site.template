@@ -1,13 +1,10 @@
 server {
     listen 4000;
+    listen [::]:4000 default_server;
+
     root  /usr/share/nginx/html;
 
-    # The dog.ceo domain is very slow that will lead nginx resolver not working.
     resolver 8.8.8.8 valid=30s ipv6=off;
-location / {
-        root   /usr/share/nginx/html;
-        try_files $uri $uri/ /index.html;
-        index  index.html index.htm;
-    }
+
 
 }

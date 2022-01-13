@@ -27,7 +27,7 @@ podAnnotations:
   {
     dapr.io/enabled: "true",
     dapr.io/app-id: "web-site",
-    dapr.io/app-port: "4000",
+    dapr.io/app-port: "80",
     dapr.io/config: "tracing",
     dapr.io/log-as-json: "true"
   }

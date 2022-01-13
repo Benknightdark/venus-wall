@@ -5,10 +5,11 @@ RUN npm i
 RUN npm run build
 
 FROM nginx:alpine
-COPY nginx.site.template /etc/nginx/conf.d/
+# COPY nginx.site.template /etc/nginx/conf.d/
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY --from=Build /app/dist/web_site/browser .
+COPY --from=Build /usr/src/app/dist/WebSite/browser/. .
+# EXPOSE 4000
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 
