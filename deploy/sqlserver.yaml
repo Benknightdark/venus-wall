@@ -39,7 +39,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: mssql
-          image: localhost:5000/sql-server
+          image: localhost:32000/sql-server
           ports:
             - containerPort: 1433
           env:

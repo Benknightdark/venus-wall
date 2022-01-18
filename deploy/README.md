@@ -35,8 +35,8 @@ kubectl apply -f ./deploy/redis-scale.yaml
 docker run --rm -it -d --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:$(minikube ip):5000"
 # 安裝 sql server 
 docker build --pull --rm --no-cache -f "./db/sql_server/Dockerfile" -t sql-server "./db/sql_server"
-docker tag sql-server:latest localhost:5000/sql-server:latest
-docker push localhost:5000/sql-server:latest
+docker tag sql-server:latest 192.168.10.125:32000/sql-server:latest
+docker push 192.168.10.125:32000/sql-server:latest
 kubectl apply -f ./deploy/sqlserver.yaml
 # 在sql server pod裡執行下列Command
 /opt/mssql-tools/bin/sqlcmd -U SA -P 'MyC0m9l&xPbbssw0rd'  -W -i init_db.sql
