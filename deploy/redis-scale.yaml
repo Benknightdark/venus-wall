@@ -102,7 +102,7 @@ spec:
     name: mdk-crawler
   pollingInterval: 15
   cooldownPeriod: 200
-  maxReplicaCount: 6
+  maxReplicaCount: 9
   minReplicaCount: 3
   triggers:
     - type: redis-streams
@@ -112,7 +112,7 @@ spec:
         ports: "6379"
         stream: mdk_crawl
         consumerGroup: daprConsumerGroup
-        pendingEntriesCount: "3"
+        pendingEntriesCount: "10000"
         enableTLS: "false"
       authenticationRef:
         name: keda-redis-stream-triggerauth
@@ -128,7 +128,7 @@ spec:
     name: data-processor
   pollingInterval: 15
   cooldownPeriod: 200
-  maxReplicaCount: 6
+  maxReplicaCount: 10
   minReplicaCount: 3
   triggers:
     - type: redis-streams
@@ -138,7 +138,7 @@ spec:
         ports: "6379"
         stream: process-jkf
         consumerGroup: daprConsumerGroup
-        pendingEntriesCount: "3"
+        pendingEntriesCount: "10000"
         enableTLS: "false"
       authenticationRef:
         name: keda-redis-stream-triggerauth
