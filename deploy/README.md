@@ -10,7 +10,7 @@ minikube addons enable metrics-server
 helm repo add dapr https://dapr.github.io/helm-charts/
 helm repo update
 helm upgrade --install dapr dapr/dapr --namespace dapr-system --create-namespace  --set global.logAsJson=true --set global.ha.enabled=true  --wait
-kubectl replace -f https://raw.githubusercontent.com/dapr/dapr/v1.5.0/charts/dapr/crds/subscription.yaml
+# kubectl replace -f https://raw.githubusercontent.com/dapr/dapr/v1.5.0/charts/dapr/crds/subscription.yaml
 # 安裝 zipkin
 kubectl create deployment zipkin --image openzipkin/zipkin
 kubectl expose deployment zipkin --type ClusterIP --port 9411

@@ -29,7 +29,8 @@ podAnnotations:
     dapr.io/app-id: "web-site",
     dapr.io/app-port: "80",
     dapr.io/config: "tracing",
-    dapr.io/log-as-json: "true"
+    dapr.io/log-as-json: "true",
+    dapr.io/enable-api-logging: "true"
   }
 podSecurityContext: {}
   # fsGroup: 2000
