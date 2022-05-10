@@ -90,9 +90,9 @@ helm upgrade  --install   web-site ./deploy/web-site --set=image.tag=201
 
 # 更新 api-gateway
 docker build --pull --rm --no-cache -f "./api-gateway/Dockerfile" -t api-gateway "./api-gateway"
-docker tag  api-gateway localhost:5000/api-gateway:200
-docker push localhost:5000/api-gateway:200
-helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=200
+docker tag  api-gateway localhost:5000/api-gateway:305
+docker push localhost:5000/api-gateway:305
+helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=305
 ```
 # 三、開啟女神牆網站的對外連線
 ```
