@@ -56,7 +56,7 @@ static_resources:
 
   clusters:
     - name: dapr
-      connect_timeout: 60s
+      connect_timeout: 200s
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
       load_assignment:

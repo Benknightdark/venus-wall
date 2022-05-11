@@ -52,15 +52,15 @@ helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=300
 
 # 更新 jkf-worker
 docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
-docker tag  jkf-worker localhost:5000/jkf-worker:300
-docker push localhost:5000/jkf-worker:300 
-helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=300
+docker tag  jkf-worker localhost:5000/jkf-worker:301
+docker push localhost:5000/jkf-worker:301 
+helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=301
 
 # 更新 jkf-crawler
 docker build --pull --rm --no-cache -f "./task_workers/jkf_crawler/Dockerfile" -t jkf-crawler "./task_workers/jkf_crawler"
-docker tag  jkf-crawler localhost:5000/jkf-crawler:300
-docker push localhost:5000/jkf-crawler:300
-helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=300
+docker tag  jkf-crawler localhost:5000/jkf-crawler:301
+docker push localhost:5000/jkf-crawler:301
+helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=301
 
 # 更新 mdk-worker
 docker build --pull --rm --no-cache -f "./task_workers/mdk_worker/Dockerfile" -t mdk-worker "./task_workers/mdk_worker"
@@ -90,14 +90,14 @@ helm upgrade  --install   web-site ./deploy/web-site --set=image.tag=300
 
 # 更新 api-gateway
 docker build --pull --rm --no-cache -f "./api-gateway/Dockerfile" -t api-gateway "./api-gateway"
-docker tag  api-gateway localhost:5000/api-gateway:300
-docker push localhost:5000/api-gateway:300
-helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=300
+docker tag  api-gateway localhost:5000/api-gateway:301
+docker push localhost:5000/api-gateway:301
+helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=301
 ```
 # 三、開啟女神牆網站的對外連線
-```
-minikube service api-gateway
-```
+- 開啟新的CommandLine視窗，並輸入``` minikube tunnel -c ```
+- 在Browser開啟 http://127.0.0.1:8049/
+
 # 其他指令
 ```bash
 minikube dashboard

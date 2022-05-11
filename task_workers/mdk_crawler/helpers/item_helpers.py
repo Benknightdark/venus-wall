@@ -5,11 +5,11 @@ import uuid
 from bs4 import BeautifulSoup
 import httpx
 from dapr_httpx.pubsub_api import PubSubApi
-pub_sub = PubSubApi(end_point_name='pubsub')
 logging.basicConfig(level=logging.INFO)
 
 
 async def download_mdk(data):
+    pub_sub = PubSubApi(end_point_name='pubsub')
     client = httpx.AsyncClient(
         timeout=None)
     url = data["root_page_url"]
