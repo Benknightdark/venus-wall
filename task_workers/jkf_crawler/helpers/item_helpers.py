@@ -6,11 +6,11 @@ from bs4 import BeautifulSoup
 import httpx
 from dapr_httpx.error_log_helper import format_error_msg
 from dapr_httpx.pubsub_api import PubSubApi
-pub_sub=PubSubApi(end_point_name='pubsub')
 logging.basicConfig(level=logging.INFO)
 
 
 async def download_jkf(data):
+    pub_sub=PubSubApi(end_point_name='pubsub')
     try:
         client = httpx.Client(timeout=None ,transport=httpx.HTTPTransport(retries=500))  # , transport=httpx.HTTPTransport(retries=500)
         root_page_url = data['root_page_url']

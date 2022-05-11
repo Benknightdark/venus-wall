@@ -1,5 +1,5 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.9.7-slim
+FROM python:3.9.12-slim
 EXPOSE 8789
 
 # Keeps Python from generating .pyc files in the container

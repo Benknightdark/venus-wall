@@ -4,12 +4,12 @@ from bs4 import BeautifulSoup
 import httpx
 from dapr_httpx.error_log_helper import format_error_msg
 from dapr_httpx.pubsub_api import PubSubApi
-pub_sub=PubSubApi(end_point_name='pubsub')
 logging.basicConfig(level=logging.INFO)
 
 
 
 async def get_jkf_url(web_page):
+    pub_sub=PubSubApi(end_point_name='pubsub')
     try:
         page_seq = 1
         id = web_page["ID"]

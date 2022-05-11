@@ -27,9 +27,10 @@ podAnnotations:
   {
     dapr.io/enabled: "true",
     dapr.io/app-id: "api-gateway",
-    dapr.io/app-port: "80",
+    dapr.io/app-port: "8049",
     dapr.io/config: "tracing",
-    dapr.io/log-as-json: "true"
+    dapr.io/log-as-json: "true",
+    dapr.io/enable-api-logging: "true"
   }
 podSecurityContext: {}
   # fsGroup: 2000
@@ -43,8 +44,8 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
-  port: 80
+  type: LoadBalancer #ClusterIP
+  port: 8049
 
 ingress:
   enabled: false
