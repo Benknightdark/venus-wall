@@ -5,6 +5,10 @@
 - 精美的女神流水牆
 - 使用``dapr`` + ``keda``擴充和開發爬蟲作業程式
 - 透過論壇文章標題相似度計算，找出更多相似的文章
+## 系統架構圖
+<center><img src="./drawio/SystemArchitecture.png" /></center>
+<br/>
+
 ## 🔥系統截圖🔥
 - > 女神流水牆
 <center><img src="./screenshots/1.png" /></center>
