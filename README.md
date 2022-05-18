@@ -57,15 +57,15 @@ cd web_site
 npm i 
 cd ..
 # 下載api專案所需要的套件
-python3.9 -m pip install -r ./api/requirements.txt --upgrade
+pip install -r ./api/requirements.txt --upgrade
 # 下載jkf_crawler專案所需要的套件
-python3.9 -m pip install -r ./task_workers/jkf_crawler/requirements.txt --upgrade
+pip install -r ./task_workers/jkf_crawler/requirements.txt --upgrade
 # 下載jkf_worker專案所需要的套件
-python3.9 -m pip install -r ./task_workers/jkf_worker/requirements.txt --upgrade
+pip install -r ./task_workers/jkf_worker/requirements.txt --upgrade
 # 下載mdk_worker專案所需要的套件
-python3.9 -m pip install -r /task_workers/mdk_worker/requirements.txt --upgrade
+pip install -r ./task_workers/mdk_worker/requirements.txt --upgrade
 # 下載mdk_crawler專案所需要的套件
-python3.9 -m pip install -r ./task_workers/mdk_crawler/requirements.txt --upgrade
+pip install -r ./task_workers/mdk_crawler/requirements.txt --upgrade
 ```
 1. 使用```visual studio code```開啟專案
 2. 按下```F5鍵```後，即可以啟動所有程式 
