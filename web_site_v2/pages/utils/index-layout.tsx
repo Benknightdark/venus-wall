@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Fragment, PropsWithChildren, useState } from "react";
 import { GiSpiderMask, GiHamburgerMenu } from 'react-icons/gi'
@@ -27,24 +26,7 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                     <span className='dark:text-white text-black hover:font-bold'>女神牆</span>
                                 </p>
 
-                            </div>
-                            <div className="justify-end flex-row">
-                                <span className="p-3 rounded-lg dark:bg-indigo-800 bg-blue-300 
-                                    2xl:hidden              
-                                    xl:hidden 
-                                    md:hidden
-                                    nmd:hidden
-                                    sm: inline-flex
-                                    ">
-                                    <GiHamburgerMenu className="h-6 w-6 text-white cursor-pointer"
-                                        onClick={
-                                            () => {
-
-                                            }
-                                        }
-                                    ></GiHamburgerMenu>
-                                </span>
-                            </div>
+                            </div>                     
                         </div>
                     </div>
                 </header>       
