@@ -1,12 +1,12 @@
-import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import useSWRInfinite from 'swr/infinite'
 import Loading from '../components/loading'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import IndexLayout from './utils/index-layout'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
-const Home: NextPage = () => {
+const Home = () => {
   // const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${0}&limit=${30}`, fetcher)
   const [showLoading, setShowLoading] = useState(false)
   const { data, size, setSize, error } = useSWRInfinite(index =>
@@ -117,5 +117,11 @@ const Home: NextPage = () => {
     </div>
   )
 }
-
+Home.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <IndexLayout>
+     {page}
+    </IndexLayout>
+  )
+}
 export default Home
