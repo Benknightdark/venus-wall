@@ -1,7 +1,11 @@
 import { Fragment, PropsWithChildren } from "react";
-import { GiSpiderMask } from "react-icons/gi";
-
+import { GiSpiderBot, GiSpiderMask } from "react-icons/gi";
+import { AiFillHome } from 'react-icons/ai'
+import { MdManageSearch } from 'react-icons/md'
+import { useRouter } from "next/router";
+import Link from "next/link";
 const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
+    const router = useRouter();
     return (
         <Fragment>
             <div className="flex flex-col h-screen">
@@ -14,45 +18,48 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                                     <GiSpiderMask className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                         onClick={
                                             () => {
-
+                                                router.push('/admin')
                                             }
                                         }
                                     ></GiSpiderMask>
                                 </span>
                                 <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
                                 <p className="ml-3 mr-3 font-medium text-white truncate">
-                                    <span className='text-white hover:font-bold'>管理後台</span>
+                                    <span className='text-white hover:font-bold cursor-pointer'>管理後台</span>
                                 </p>
 
                             </div>
                         </div>
                     </div>
                 </header>
-                <div className='flex flex-row'>
+
+                {/* 內容主頁 */}
+                <div className=" bg-slate-50 dark:bg-black flex-1 overflow-y-hidden overflow-x-hidden" id="contentBody">
+
                     <div className="drawer drawer-mobile">
                         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-                        <div className="drawer-content flex flex-col items-center justify-center">
-                            {/* 內容主頁 */}
-                            <div className=" bg-slate-50  flex-1 w-full overflow-y-auto overflow-x-hidden
-                            p-4 
-                            " 
-                            id="contentBody">
-                                <div className='border border-indigo-600'>
-                                    {children}
-                                </div>
+                        <div className="drawer-content flex flex-col items-center justify-between">
+                            <div className="min-h-screen bg-base-200 w-full">
+                                {children}
                             </div>
                         </div>
                         <div className="drawer-side">
                             <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-                            <ul className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
-                                <li><a>Sidebar Item 1</a></li>
-                                <li><a>Sidebar Item 2</a></li>
+                            <ul className="menu overflow-y-auto w-60 bg-base-100 text-base-content">
+                                <li><Link href="/"><a><AiFillHome></AiFillHome>首頁</a></Link></li>
+                                <li><Link href="/admin/forum"><a><MdManageSearch></MdManageSearch>論壇管理</a></Link></li>
+                                <li><Link href="/admin/log"><a><GiSpiderBot></GiSpiderBot>爬蟲執行記錄管理</a></Link></li>
                             </ul>
                         </div>
-
                     </div>
 
+
+
                 </div>
+                {/* 頁腳 */}
+                {/* <footer className="py-5 bg-gray-700 text-center text-white">
+                    made by ben 😎
+                </footer> */}
             </div>
         </Fragment>
     );
