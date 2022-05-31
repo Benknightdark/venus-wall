@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   const { data, size, setSize, error } = useSWRInfinite(index =>
     `${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${index}&limit=${30}`,
     fetcher)
-  const router=useRouter();
+  const router = useRouter();
   useEffect(() => {
     document.getElementById('contentBody')!.onscroll = async () => {
       // console.log((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight)
@@ -50,15 +50,25 @@ const Home: NextPage = () => {
               return (
                 <div className="rounded-lg shadow-xl bg-white py-3 px-6  border-2 border-purple-500 
                     hover:shadow-md  transform hover:-translate-y-1 transition-all duration-200 hover:border-red-500 hover:ring-indigo-300" key={itemData.image}>
-                   <Image
+                 {
+                    itemData.Avator&&<Image
                     layout='responsive'
                     width='100%'
                     height='100%'
                     src={itemData.Avator}
                     alt={itemData.Title}
                     className="rounded-t-lg h-120 w-full object-cover z-0 "
-            
+                    onError={() => <Image
+                      layout='responsive'
+                      width='100%'
+                      height='100%'
+                      src='/images/error.gif'
+                      alt={itemData.Title}
+                      className="rounded-t-lg h-120 w-full object-cover z-0 "
+                    />}
+
                   />
+                 }
                   <header className=" text-xl font-extrabold p-4">{itemData.Title}</header>
 
                   <footer className="text-center py-3 px-5 text-gray-500">
