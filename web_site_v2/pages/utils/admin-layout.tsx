@@ -1,5 +1,5 @@
 import { Fragment, PropsWithChildren } from "react";
-import { GiSpiderBot, GiSpiderMask } from "react-icons/gi";
+import { GiHamburgerMenu, GiSpiderBot, GiSpiderMask } from "react-icons/gi";
 import { AiFillHome } from 'react-icons/ai'
 import { MdManageSearch } from 'react-icons/md'
 import { useRouter } from "next/router";
@@ -23,12 +23,17 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                                         }
                                     ></GiSpiderMask>
                                 </span>
-                                <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
                                 <p className="ml-3 mr-3 font-medium text-white truncate">
                                     <span className='text-white hover:font-bold cursor-pointer'>管理後台</span>
                                 </p>
-
                             </div>
+                            <label htmlFor="my-drawer-2" className=" drawer-button 
+                            hover:opacity-100 opacity-50
+                            lg:hidden hover:shadow-lg hover:shadow-slate-900">
+                                    <GiHamburgerMenu className="w-10 h-10 cursor-pointer 
+                                    
+                                    "></GiHamburgerMenu>
+                                </label>
                         </div>
                     </div>
                 </header>
