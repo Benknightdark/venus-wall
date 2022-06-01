@@ -12,6 +12,8 @@ const Chart = (props: any) => <div id={props.id}></div>
 const Index = () => {
   const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
     { fallbackData: defaultAdminGlobalStoreData })
+  adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: 'DashBoard', pageDescription: '檢視系統資料圖表' }, false)
+
   const { data: forumCountData, mutate: forumCountMutate, error: forumCountError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/admin/forum-count`,
     fetcher)
   const { data: crawlTaskData, mutate: crawlTaskMutate, error: crawlTaskError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/admin/crawl-task-count`,
@@ -72,7 +74,6 @@ const Index = () => {
     })
   }
   useEffect(() => {
-    adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: 'DashBoard', pageDescription: '檢視系統資料圖表' }, false)
     setTimeout(() => intCharts(), 1000)
   })
   if (!forumCountData || !crawlTaskData) return <Loading></Loading>
