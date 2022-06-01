@@ -23,10 +23,10 @@ const Index = () => {
           type: 'bar'
         },
         title: {
-          text: f.forumName
+          text: `${f.forumName} 文章數量`
         },
         xAxis: {
-          categories:f.data.map((d:any)=>d.Name)
+          categories: f.data.map((d: any) => d.Name)
         },
         yAxis: {
           title: {
@@ -44,11 +44,11 @@ const Index = () => {
         series: [{
           name: `${f.forumName}`,
           type: 'bar',
-          data: f.data.map((d:any)=>{
-            const color=uniqolor(d.TotalCount)
+          data: f.data.map((d: any) => {
+            const color = uniqolor(d.TotalCount)
             return {
-              y:d.TotalCount,
-              color:color.color
+              y: d.TotalCount,
+              color: color.color
             }
           }),
           dataLabels: {
@@ -70,20 +70,32 @@ const Index = () => {
         }
       });
     })
-
   }
   useEffect(() => {
     adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: 'DashBoard', pageDescription: '檢視系統資料圖表' }, false)
     setTimeout(() => intCharts(), 1000)
   })
-  if (!forumCountData ||!crawlTaskData) return <Loading></Loading>
-  if (forumCountError ||crawlTaskError) return <Loading></Loading>
+  if (!forumCountData || !crawlTaskData) return <Loading></Loading>
+  if (forumCountError || crawlTaskError) return <Loading></Loading>
 
   return (
-    <div className='flex flex-col sm:space-y-3 lg:space-y-0 lg:flex-row lg:space-x-3  items-center justify-center'>
-      {
-        forumCountData && forumCountData.map((f: any) => <Chart key={f.forumName} id={f.forumName}></Chart>)
-      }
+    <div>
+      <div className='flex flex-wrap pb-5 items-center justify-center'>
+        <div className="stats stats-vertical lg:stats-horizontal shadow bg-green-200 text-black-content">
+          {
+            crawlTaskData && crawlTaskData.map((c: any) => <div key={`${c.ForumName}-crawler`} className="stat">
+              <div className="stat-title">{c.ForumName}</div>
+              <div className="stat-value">{c.TotalCount}</div>
+              <div className="stat-desc">爬蟲執行次數</div>
+            </div>)
+          }
+        </div>
+      </div>
+      <div className='flex flex-col sm:space-y-3 lg:space-y-0 lg:flex-row lg:space-x-3  items-center justify-center flex-wrap'>
+        {
+          forumCountData && forumCountData.map((f: any) => <Chart key={f.forumName} id={f.forumName}></Chart>)
+        }
+      </div>
     </div>
   );
 }

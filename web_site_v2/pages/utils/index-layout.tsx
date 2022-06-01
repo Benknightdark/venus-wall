@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { Fragment, PropsWithChildren, useState } from "react";
 import { GiSpiderMask, GiHamburgerMenu } from 'react-icons/gi'
+import { MdOutlineManageAccounts } from "react-icons/md";
 
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
@@ -26,7 +27,14 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                     <span className='dark:text-white text-black hover:font-bold'>女神牆</span>
                                 </p>
 
-                            </div>                     
+                            </div>    
+                            <MdOutlineManageAccounts className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                                        onClick={
+                                            () => {
+                                                router.push('/admin')
+                                            }
+                                        }
+                                    ></MdOutlineManageAccounts>                 
                         </div>
                     </div>
                 </header>       
