@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 router = APIRouter()
 
+
 @router.get("/admin/forum-count", summary="取得論壇文章數")
 async def get_image_by_item_id(db: Session = Depends(get_db)):
     data = db.execute(text(''' 
@@ -22,8 +23,13 @@ async def get_image_by_item_id(db: Session = Depends(get_db)):
     WHERE A.Enable=1 AND F.Enable=1
     ORDER BY F.Seq, TotalCount DESC
     ''')).all()
-    cc=[{'forumName':key,'data':list(g)} for key, g in groupby(data, lambda d : d['ForumName'])] 
-    return cc
+    group_data = [{'forumName': key, 'data': list(g)}
+                  for key, g in groupby(data, lambda d: d['ForumName'])]
+    for group in group_data:
+        group['totalCount'] = sum(
+            list(map(lambda x: int(x['TotalCount']), group['data'])))
+    return group_data
+
 
 @router.get("/admin/crawl-task-count", summary="取得論壇的爬蟲工作執行總次數")
 async def get_image_by_item_id(db: Session = Depends(get_db)):

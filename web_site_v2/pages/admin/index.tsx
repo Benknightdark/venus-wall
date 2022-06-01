@@ -80,7 +80,16 @@ const Index = () => {
 
   return (
     <div>
-      <div className='flex flex-wrap pb-5 items-center justify-center'>
+      <div className='flex flex-wrap pb-5 items-center justify-center  space-x-3'>
+        <div className="stats stats-vertical lg:stats-horizontal shadow bg-blue-200 text-black-content">
+          {
+            forumCountData && forumCountData.map((c: any) => <div key={`${c.ForumName}-count`} className="stat">
+              <div className="stat-title">{c.forumName}</div>
+              <div className="stat-value">{c.totalCount}</div>
+              <div className="stat-desc">文章總數</div>
+            </div>)
+          }
+        </div>
         <div className="stats stats-vertical lg:stats-horizontal shadow bg-green-200 text-black-content">
           {
             crawlTaskData && crawlTaskData.map((c: any) => <div key={`${c.ForumName}-crawler`} className="stat">
@@ -90,6 +99,7 @@ const Index = () => {
             </div>)
           }
         </div>
+
       </div>
       <div className='flex flex-col sm:space-y-3 lg:space-y-0 lg:flex-row lg:space-x-3  items-center justify-center flex-wrap'>
         {
