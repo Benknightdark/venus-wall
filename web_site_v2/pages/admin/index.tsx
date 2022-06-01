@@ -3,8 +3,12 @@ import useSWR from "swr";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admon-global-store";
 import AdminLayout from '../utils/admin-layout';
 import * as Highcharts from 'highcharts';
-const fetcher = (url: string) => fetch(url).then(res => res.json())
+import Loading from '../../components/loading';
+import uniqolor from 'uniqolor';
 
+
+const fetcher = (url: string) => fetch(url).then(res => res.json())
+const Chart = (props: any) => <div id={props.id}></div>
 const Index = () => {
   const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
     { fallbackData: defaultAdminGlobalStoreData })
@@ -13,48 +17,74 @@ const Index = () => {
   const { data: crawlTaskData, mutate: crawlTaskMutate, error: crawlTaskError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/admin/crawl-task-count`,
     fetcher)
   const intCharts = () => {
-    Highcharts.chart("chart", {
-      chart: {
-        type: 'bar'
-      },
-      title: {
-        text: 'Monthly Average Temperature'
-      },
-      subtitle: {
-        text: 'Source: WorldClimate.com'
-      },
-      xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      },
-      yAxis: {
+    forumCountData?.map((f: any) => {
+      Highcharts.chart(f.forumName, {
+        chart: {
+          type: 'bar'
+        },
         title: {
-          text: 'Temperature (°C)'
-        }
-      },
-      plotOptions: {
-        line: {
+          text: f.forumName
+        },
+        xAxis: {
+          categories:f.data.map((d:any)=>d.Name)
+        },
+        yAxis: {
+          title: {
+            text: '文章數量'
+          }
+        },
+        plotOptions: {
+          line: {
+            dataLabels: {
+              enabled: true
+            },
+            enableMouseTracking: false
+          }
+        },
+        series: [{
+          name: `${f.forumName}`,
+          type: 'bar',
+          data: f.data.map((d:any)=>{
+            const color=uniqolor(d.TotalCount)
+            return {
+              y:d.TotalCount,
+              color:color.color
+            }
+          }),
           dataLabels: {
-            enabled: true
-          },
-          enableMouseTracking: false
+            enabled: true,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.0f} 筆', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+              fontSize: '13px',
+            }
+          }
+        }],
+        tooltip: {
+          pointFormat: '【{point.series.name}】文章數量： <b>{point.y:.1f}</b>'
+        },
+        credits: {
+          enabled: false
         }
-      },
-      series: [{
-        name: 'Tokyo',
-        type: 'bar',
-        data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-      }]
-    });
+      });
+    })
+
   }
   useEffect(() => {
     adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: 'DashBoard', pageDescription: '檢視系統資料圖表' }, false)
+    setTimeout(() => intCharts(), 1000)
+  })
+  if (!forumCountData ||!crawlTaskData) return <Loading></Loading>
+  if (forumCountError ||crawlTaskError) return <Loading></Loading>
 
-    console.log(forumCountData)
-    intCharts();
-
-  }, [])
   return (
-    <div id='chart'></div>
+    <div className='flex flex-col sm:space-y-3 lg:space-y-0 lg:flex-row lg:space-x-3  items-center justify-center'>
+      {
+        forumCountData && forumCountData.map((f: any) => <Chart key={f.forumName} id={f.forumName}></Chart>)
+      }
+    </div>
   );
 }
 Index.getLayout = function getLayout(page: ReactElement) {
