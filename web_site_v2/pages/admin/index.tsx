@@ -1,42 +1,60 @@
-import { useRouter } from "next/router";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from 'react';
 import useSWR from "swr";
+import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admon-global-store";
 import AdminLayout from '../utils/admin-layout';
-import { FcRefresh } from 'react-icons/fc'
-import { AiOutlineRead } from "react-icons/ai";
+import * as Highcharts from 'highcharts';
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Index = () => {
+  const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
+    { fallbackData: defaultAdminGlobalStoreData })
   const { data: forumCountData, mutate: forumCountMutate, error: forumCountError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/admin/forum-count`,
     fetcher)
   const { data: crawlTaskData, mutate: crawlTaskMutate, error: crawlTaskError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/admin/crawl-task-count`,
     fetcher)
-  const router = useRouter();
-  console.log(forumCountData)
-  console.log(crawlTaskData)
+  const intCharts = () => {
+    Highcharts.chart("chart", {
+      chart: {
+        type: 'bar'
+      },
+      title: {
+        text: 'Monthly Average Temperature'
+      },
+      subtitle: {
+        text: 'Source: WorldClimate.com'
+      },
+      xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      },
+      yAxis: {
+        title: {
+          text: 'Temperature (°C)'
+        }
+      },
+      plotOptions: {
+        line: {
+          dataLabels: {
+            enabled: true
+          },
+          enableMouseTracking: false
+        }
+      },
+      series: [{
+        name: 'Tokyo',
+        type: 'bar',
+        data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+      }]
+    });
+  }
+  useEffect(() => {
+    adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: 'DashBoard', pageDescription: '檢視系統資料圖表' }, false)
 
+    console.log(forumCountData)
+    intCharts();
+
+  }, [])
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center justify-between">
-        <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">DashBoard</h2>
-          <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
-            <div className="mt-2 flex items-center text-sm text-gray-500">
-              <AiOutlineRead className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"></AiOutlineRead>
-              檢視爬蟲工作圖表
-            </div>
-          </div>
-        </div>
-        <div className="mt-5 flex lg:mt-0 lg:ml-4">
-            <button type="button" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md
-             shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none
-             focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              <FcRefresh className="-ml-1 mr-2 h-5 w-5 text-gray-500"></FcRefresh>
-              重新整理
-            </button>
-        </div>
-      </div>
-    </div>
+    <div id='chart'></div>
   );
 }
 Index.getLayout = function getLayout(page: ReactElement) {
