@@ -7,7 +7,6 @@ import IndexLayout from './utils/index-layout'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Home = () => {
-  // const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${0}&limit=${30}`, fetcher)
   const [showLoading, setShowLoading] = useState(false)
   const { data, size, setSize, error } = useSWRInfinite(index =>
     `${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${index}&limit=${30}`,
