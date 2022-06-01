@@ -34,11 +34,11 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                 </header>
 
                 {/* 內容主頁 */}
-                <div className=" bg-slate-50 dark:bg-black flex-1 overflow-y-hidden overflow-x-hidden" id="contentBody">
+                <div className=" bg-base-200  flex-1 overflow-y-hidden overflow-x-hidden" id="contentBody">
                     <div className="drawer drawer-mobile">
                         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                         <div className="drawer-content flex flex-col items-center justify-between">
-                            <div className="bg-base-200 w-full pt-5 pb-20">
+                            <div className="w-full pt-5 pb-20 pr-10 pl-10">
                                 {children}
                             </div>
                         </div>
