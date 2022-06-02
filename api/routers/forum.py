@@ -1,4 +1,4 @@
-from sqlalchemy.sql.expression import and_, desc, false
+from sqlalchemy.sql.expression import and_, desc, false, or_
 from dependencies import get_db
 from fastapi.params import Depends
 from fastapi import APIRouter, Request
@@ -81,3 +81,19 @@ async def put_item_by_web_page_id(requests: Request, db: Session = Depends(get_d
                     models.WebPage.ID == n.ID).update({"Enable": False})
     db.commit()
     return {"message": "修改成功"}
+
+
+@router.get("/forum/table", summary="分頁查詢forum")
+async def get_forum_fro_table(offset: int, limit: int, db: Session = Depends(get_db)):
+    offset_count = offset*limit
+    sort_mode = models.Item.Seq
+    if id != None:
+        clause = and_(*[models.Item.WebPageID == id,
+                        models.Item.Enable == True])
+    else:
+        clause = models.Item.Enable == True
+        sort_mode = models.Item.ModifiedDateTime
+
+    data = db.query(models.Item).filter(clause).order_by(
+        desc(sort_mode)).offset(offset_count).limit(limit).all()
+    return data
