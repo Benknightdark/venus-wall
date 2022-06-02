@@ -1,4 +1,5 @@
-from sqlalchemy.sql.expression import and_, desc, false, or_
+from typing import Optional
+from sqlalchemy.sql.expression import and_, desc, false, or_,asc
 from dependencies import get_db
 from fastapi.params import Depends
 from fastapi import APIRouter, Request
@@ -83,17 +84,34 @@ async def put_item_by_web_page_id(requests: Request, db: Session = Depends(get_d
     return {"message": "修改成功"}
 
 
-@router.get("/forum/table", summary="分頁查詢forum")
-async def get_forum_fro_table(offset: int, limit: int, db: Session = Depends(get_db)):
+@router.get("/forum-table", summary="分頁查詢forum")
+async def get_forum_fro_table( offset: int, limit: int,
+                                  keyword: Optional[str] = None,
+                                  sort: Optional[str] = None,
+                                  mode: Optional[str] = None,
+                                  db: Session = Depends(get_db)):
+    forum_data = db.query(models.Forum).filter(models.Forum.Enable== True)
+    if keyword != None:
+        forum_data = forum_data.filter(models.Forum.Name.contains(keyword))
+    forum_data_count = forum_data.count()
     offset_count = offset*limit
-    sort_mode = models.Item.Seq
-    if id != None:
-        clause = and_(*[models.Item.WebPageID == id,
-                        models.Item.Enable == True])
+    if sort == None:
+        data = forum_data.order_by(desc(models.Forum.CreatedTime))
     else:
-        clause = models.Item.Enable == True
-        sort_mode = models.Item.ModifiedDateTime
-
-    data = db.query(models.Item).filter(clause).order_by(
-        desc(sort_mode)).offset(offset_count).limit(limit).all()
-    return data
+        if sort == 'Name':
+            order_column = models.Forum.Name
+        if sort == 'Seq':
+            order_column = models.Forum.Seq
+        if sort == 'WorkerName':
+            order_column = models.Forum.WorkerName
+        if sort == 'CreatedTime':
+            order_column = models.Forum.CreatedTime
+        if mode == 'descend':
+            order_column = desc(sort)
+        else:
+            order_column = asc(sort)
+        data = forum_data.order_by(order_column)
+    data = data.offset(
+        offset_count).limit(limit).all()
+    print(data)
+    return {'totalDataCount': forum_data_count, 'data': data}
