@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import useSWR from "swr";
 import Loading from "../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admon-global-store";
@@ -12,7 +12,6 @@ const fetcher = (url: string) => fetch(url).then(res => res.json())
 const Index = () => {
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
-    adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '管理要爬的論壇網站' }, false)
     const defaultPageList = [1, 2, 3, 4, 5]
     const [pageList, setPageList] = useState(defaultPageList)
     const [page, setPage] = useState(1)
@@ -32,6 +31,10 @@ const Index = () => {
         //     document.getElementById('contentBody')!.scrollTo(0, 9999);
         // }, 200)
     }
+    useEffect(() => {
+        adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '管理要爬的論壇網站' }, false)
+
+    })
     if (!forumData) return <Loading></Loading>
     if (forumError) return <Loading></Loading>
     return (
