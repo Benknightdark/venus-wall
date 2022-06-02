@@ -4,7 +4,7 @@ import Loading from "../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admon-global-store";
 import AdminLayout from "../../utils/admin-layout";
 import { IoIosRefreshCircle } from 'react-icons/io'
-
+import { FaPlusCircle } from 'react-icons/fa'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Index = () => {
@@ -35,7 +35,10 @@ const Index = () => {
         <div className="flex flex-col">
             <div className="flex p-4 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                  justify-between"  role="alert">
-                <span className="text-2xl">論壇管理</span>
+                <button className='monochrome-purple-btn  flex space-x-2'>
+                    <FaPlusCircle className='w-4 h-4'></FaPlusCircle>
+                    新增
+                </button>
                 <div className="tooltip tooltip-left" data-tip="重新取得資料">
                     <IoIosRefreshCircle className="inline flex-shrink-0 mr-3 w-8 h-8 cursor-pointer hover:h-10 hover:w-10" onClick={() => {
                         setPage(1);
