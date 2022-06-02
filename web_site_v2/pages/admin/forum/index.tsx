@@ -5,6 +5,8 @@ import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/a
 import AdminLayout from "../../utils/admin-layout";
 import { IoIosRefreshCircle } from 'react-icons/io'
 import { FaPlusCircle } from 'react-icons/fa'
+import { FiEdit, FiSearch, FiTrash2 } from 'react-icons/fi'
+
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Index = () => {
@@ -14,7 +16,8 @@ const Index = () => {
     const defaultPageList = [1, 2, 3, 4, 5]
     const [pageList, setPageList] = useState(defaultPageList)
     const [page, setPage] = useState(1)
-    const { data: forumData, mutate: forumMutate, error: forumError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/forum-table?offset=${page - 1}&limit=10`,
+    const { data: forumData, mutate: forumMutate, error: forumError } = useSWR(
+        `${process.env.NEXT_PUBLIC_APIURL}/api/forum-table?offset=${page - 1}&limit=10`,
         fetcher)
     const changePage = async (curretnPage: number) => {
         console.log(curretnPage)
@@ -39,19 +42,23 @@ const Index = () => {
                     <FaPlusCircle className='w-4 h-4'></FaPlusCircle>
                     新增
                 </button>
-                <div className="tooltip tooltip-left" data-tip="重新取得資料">
-                    <IoIosRefreshCircle className="inline flex-shrink-0 mr-3 w-8 h-8 cursor-pointer hover:h-10 hover:w-10" onClick={() => {
-                        setPage(1);
-                        forumMutate();
-                    }}>
-                    </IoIosRefreshCircle>
+
+                <div>
+                    <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary" />
+                    <div className="tooltip tooltip-left" data-tip="重新取得資料">
+                        <IoIosRefreshCircle className="inline flex-shrink-0 mr-3 w-8 h-8 cursor-pointer hover:h-10 hover:w-10" onClick={() => {
+                            setPage(1);
+                            forumMutate();
+                        }}>
+                        </IoIosRefreshCircle>
+                    </div>
                 </div>
             </div>
             <div className="overflow-x-auto ">
                 <table className="table w-full ">
                     <thead className=''>
                         <tr>
-                            <th className='bg-green-200'></th>
+                            <th className='bg-green-200 w-16'></th>
                             <th className='bg-green-200'>Name</th>
                             <th className='bg-green-200'>CreatedTime</th>
                             <th className='bg-green-200'>WorkerName</th>
@@ -61,7 +68,19 @@ const Index = () => {
                     <tbody>
                         {
                             forumData && forumData.data.map((f: any) => <tr key={f.key}>
-                                <th>{ }</th>
+                                <th className='w-16	'>
+                                    <div className="flex flex-l">
+                                        <div className="tooltip" data-tip="編輯">
+                                            <button className='pill-blue-btn'><FiEdit></FiEdit></button>
+                                        </div>
+                                        <div className="tooltip" data-tip="檢視">
+                                            <button className='pill-green-btn'><FiSearch></FiSearch></button>
+                                        </div>
+                                        <div className="tooltip" data-tip="刪除">
+                                            <button className='pill-red-btn'><FiTrash2></FiTrash2></button>
+                                        </div>
+                                    </div>
+                                </th>
                                 <th>{f.Name}</th>
                                 <th>{f.CreatedTime}</th>
                                 <th>{f.WorkerName}</th>
@@ -74,7 +93,7 @@ const Index = () => {
 
             </div>
             {
-                forumData && <div className="flex justify-center btn-group">
+                forumData && <div className="flex justify-center btn-group pt-3">
                     <button className={`btn ${page === 1 ? 'btn-info' : ''}`} onClick={() =>
                         changePage(1)
                     }>1</button>
