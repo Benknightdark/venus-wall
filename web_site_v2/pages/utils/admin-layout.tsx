@@ -10,8 +10,6 @@ import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admo
 const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
-    console.log(    router.pathname
-        )
     return (
         <Fragment>
             <div className="flex flex-col h-screen">
