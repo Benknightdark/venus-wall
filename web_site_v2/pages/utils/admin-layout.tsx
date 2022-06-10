@@ -64,7 +64,7 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                                             shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none
                                             focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                 onClick={()=>{
-                                                    router.reload();
+                                                    router.push(router.pathname)
                                                 }}
                                             >
                                                 <FcRefresh className="-ml-1 mr-2 h-5 w-5 text-gray-500"></FcRefresh>
