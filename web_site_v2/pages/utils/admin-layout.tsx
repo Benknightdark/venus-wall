@@ -10,7 +10,8 @@ import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admo
 const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
-
+    console.log(    router.pathname
+        )
     return (
         <Fragment>
             <div className="flex flex-col h-screen">
@@ -23,7 +24,7 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                                     <GiSpiderMask className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                         onClick={
                                             () => {
-                                                router.push('/admin')
+                                                router.push('/admin/')
                                             }
                                         }
                                     ></GiSpiderMask>
@@ -62,7 +63,9 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                                             <button type="button" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md
                                             shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none
                                             focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                onClick={router.reload}
+                                                onClick={()=>{
+                                                    router.reload();
+                                                }}
                                             >
                                                 <FcRefresh className="-ml-1 mr-2 h-5 w-5 text-gray-500"></FcRefresh>
                                                 重新整理

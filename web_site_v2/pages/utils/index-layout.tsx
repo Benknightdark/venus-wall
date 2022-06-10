@@ -31,7 +31,7 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                             <MdOutlineManageAccounts className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                         onClick={
                                             () => {
-                                                router.push('/admin')
+                                                router.push('/admin/')
                                             }
                                         }
                                     ></MdOutlineManageAccounts>                 
