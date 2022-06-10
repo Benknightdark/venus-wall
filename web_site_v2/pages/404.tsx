@@ -17,10 +17,6 @@ const Custom404 = () => {
                         <button
                             onClick={() => {
                                 router.back();
-                                setTimeout(() => {
-                                    (window as any).location.reload(true);
-
-                                },500)
                             }}
                             className="bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 
                         hover:to-orange-500 text-white font-semibold px-6 py-3 rounded-md mr-6">

@@ -6,10 +6,12 @@ import AdminLayout from "../../utils/admin-layout";
 import { IoIosRefreshCircle } from 'react-icons/io'
 import { FaPlusCircle } from 'react-icons/fa'
 import { FiEdit, FiSearch, FiTrash2 } from 'react-icons/fi'
+import { useRouter } from "next/router";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Index = () => {
+    const router=useRouter();
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
     const defaultPageList = [1, 2, 3, 4, 5]
@@ -27,9 +29,6 @@ const Index = () => {
             setPageList(defaultPageList)
         }
         await forumMutate()
-        // setTimeout(() => {
-        //     document.getElementById('contentBody')!.scrollTo(0, 9999);
-        // }, 200)
     }
     useEffect(() => {
         adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '管理要爬的論壇網站' }, false)
@@ -74,13 +73,16 @@ const Index = () => {
                                 <th className='w-16	'>
                                     <div className="flex flex-l">
                                         <div className="tooltip" data-tip="編輯">
-                                            <button className='pill-blue-btn'><FiEdit></FiEdit></button>
+                                            <button className='pill-blue-btn' onClick={()=>{}}>
+                                                <FiEdit></FiEdit></button>
                                         </div>
                                         <div className="tooltip" data-tip="檢視">
-                                            <button className='pill-green-btn'><FiSearch></FiSearch></button>
+                                            <button className='pill-green-btn' onClick={()=>{
+                                                router.push(`/admin/forum/detail/${f?.ID}`)
+                                            }}><FiSearch></FiSearch></button>
                                         </div>
                                         <div className="tooltip" data-tip="刪除">
-                                            <button className='pill-red-btn'><FiTrash2></FiTrash2></button>
+                                            <button className='pill-red-btn' onClick={()=>{}}><FiTrash2></FiTrash2></button>
                                         </div>
                                     </div>
                                 </th>
@@ -93,7 +95,6 @@ const Index = () => {
 
                     </tbody>
                 </table>
-
             </div>
             {
                 forumData && <div className="flex justify-center btn-group pt-3">
