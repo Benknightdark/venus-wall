@@ -32,7 +32,6 @@ const Index = () => {
     }
     useEffect(() => {
         adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '管理要爬的論壇網站' }, false)
-
     })
     if (!forumData) return <Loading></Loading>
     if (forumError) return <Loading></Loading>
