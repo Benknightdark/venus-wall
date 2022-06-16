@@ -9,8 +9,7 @@ import { GoGlobe } from "react-icons/go"
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Detail = () => {
-    const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
-        { fallbackData: defaultAdminGlobalStoreData })
+    const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,{ fallbackData: defaultAdminGlobalStoreData })
     const router = useRouter();
     const { id } = router.query
     const { data: webPageData, mutate: webPageMutate, error: webPageError } = useSWR(
