@@ -21,7 +21,7 @@ async def get_item_by_web_page_id(db: Session = Depends(get_db)):
 
 @router.get("/forum/{id}", summary="透過id，取得要抓的論壇資料")
 async def get_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
-    data = db.query(models.Forum).filter(models.Forum.ID == id).all()
+    data = db.query(models.Forum).filter(models.Forum.ID == id).one()
     return data
 
 

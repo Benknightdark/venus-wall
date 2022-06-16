@@ -72,7 +72,9 @@ const Index = () => {
                                 <th className='w-16	'>
                                     <div className="flex flex-l">
                                         <div className="tooltip" data-tip="編輯">
-                                            <button className='pill-blue-btn' onClick={()=>{}}>
+                                            <button className='pill-blue-btn' onClick={()=>{
+                                                router.push(`/admin/forum/edit/${f?.ID}`)
+                                            }}>
                                                 <FiEdit></FiEdit></button>
                                         </div>
                                         <div className="tooltip" data-tip="檢視">

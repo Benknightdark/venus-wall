@@ -6,20 +6,15 @@ import Loading from "../../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admon-global-store";
 import AdminLayout from "../../../utils/admin-layout";
 import { GoGlobe } from "react-icons/go"
-import { fetcher } from "../../../../utils/fetcherHelper";
+import { useForum } from "../../../../utils/admin/forumHook";
 
 const Detail = () => {
-    const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,{ fallbackData: defaultAdminGlobalStoreData })
+    const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
     const router = useRouter();
     const { id } = router.query
-    const { data: webPageData, mutate: webPageMutate, error: webPageError } = useSWR(
-        `${process.env.NEXT_PUBLIC_APIURL}/api/webpage/byForum/${id}`,
-        fetcher)
-    const { data: forumData, mutate: forumMutate, error: forumError } = useSWR(
-        `${process.env.NEXT_PUBLIC_APIURL}/api/forum/${id}`,
-        fetcher)
+    const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(id?.toString()!);
     useEffect(() => {
-        adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇明細', pageDescription: '查看論壇明細資料' }, false)
+        adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '明細頁面' }, false)
     })
     if (!webPageData && !forumData) return <Loading></Loading>
     if (webPageError && forumError) return <Loading></Loading>
@@ -27,25 +22,23 @@ const Detail = () => {
         <div className="flex flex-col space-y-2 ">
             <div className="bg-white shadow overflow-hidden sm:rounded-lg">
                 <div className="px-4 py-5 sm:px-6">
-                    {<h3 className="text-lg leading-6 font-medium text-gray-900">{forumData[0]['Name']}</h3>}
-                    {<p className="mt-1 max-w-2xl text-sm text-gray-500">建立時間：{forumData[0]['CreatedTime']}</p>}
+                    {<h3 className="text-lg leading-6 font-medium text-gray-900">{forumData['Name']}</h3>}
+                    {<p className="mt-1 max-w-2xl text-sm text-gray-500">建立時間：{forumData['CreatedTime']}</p>}
                 </div>
                 <div className="border-t border-gray-200">
                     <dl>
                         <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">WorkerName</dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{forumData[0]['WorkerName']}</dd>
+                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{forumData['WorkerName']}</dd>
                         </div>
                         <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">Seq</dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{forumData[0]['Seq']}</dd>
+                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{forumData['Seq']}</dd>
                         </div>
                         <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">Enable</dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-
-                                <input type="checkbox" className="toggle" disabled checked={forumData[0]['Enable']} />
-
+                                <input type="checkbox" className="toggle" disabled checked={forumData['Enable']} />
                             </dd>
                         </div>
                         <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -82,7 +75,7 @@ const Detail = () => {
                 </div>
             </div>
             <div className=' flex flex-row items-center  justify-center space-x-2'>
-                <button className="btn btn-active btn-primary" onClick={router.back}>編輯</button>
+                <button className="btn btn-active btn-primary" onClick={() => { router.push(`/admin/forum/edit/${id}`) }}>編輯</button>
                 <button className="btn btn-active" onClick={router.back}>回上頁</button>
             </div>
         </div>
