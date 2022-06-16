@@ -6,7 +6,7 @@ import Loading from "../../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admon-global-store";
 import AdminLayout from "../../../utils/admin-layout";
 import { GoGlobe } from "react-icons/go"
-const fetcher = (url: string) => fetch(url).then(res => res.json())
+import { fetcher } from "../../../../utils/fetcherHelper";
 
 const Detail = () => {
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,{ fallbackData: defaultAdminGlobalStoreData })

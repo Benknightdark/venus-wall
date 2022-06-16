@@ -5,9 +5,9 @@ import AdminLayout from '../utils/admin-layout';
 import * as Highcharts from 'highcharts';
 import Loading from '../../components/loading';
 import uniqolor from 'uniqolor';
+import { fetcher } from '../../utils/fetcherHelper';
 
 
-const fetcher = (url: string) => fetch(url).then(res => res.json())
 const Chart = (props: any) => <div id={props.id}></div>
 const Index = () => {
   const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,

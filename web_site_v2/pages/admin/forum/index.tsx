@@ -7,8 +7,8 @@ import { IoIosRefreshCircle } from 'react-icons/io'
 import { FaPlusCircle } from 'react-icons/fa'
 import { FiEdit, FiSearch, FiTrash2 } from 'react-icons/fi'
 import { useRouter } from "next/router";
+import { fetcher } from "../../../utils/fetcherHelper";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Index = () => {
     const router=useRouter();
