@@ -86,12 +86,12 @@ const Edit = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        webPageData && webPageData.map((f: any) => <tr key={f.key}>
+                                        webPageData && webPageData.map((f: any) => 
+                                        <tr key={f.key}>
                                             <th className='w-16	'>
                                                 <div className="flex flex-l">
                                                     <div className="tooltip" data-tip="刪除">
-                                                        <button className='pill-red-btn' onClick={() => { 
-                                                            
+                                                        <button className='pill-red-btn' onClick={() => {                                                            
                                                         }}><FiTrash2></FiTrash2></button>
                                                     </div>
                                                 </div>
