@@ -69,7 +69,7 @@ const Detail = () => {
             </div>
             <div className=' flex flex-row items-center  justify-center space-x-2'>
                 <button className="btn btn-active btn-primary" onClick={() => { router.push(`/admin/forum/edit/${id}`) }}>編輯</button>
-                <button className="btn btn-active" onClick={router.back}>回上頁</button>
+                <button className="btn btn-active" onClick={router.back}>返回</button>
             </div>
         </div>
 
