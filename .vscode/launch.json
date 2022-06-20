@@ -73,7 +73,36 @@
             "command": "npm start",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/web_site"
-        }
+        },
+        {
+            "name": "Next.js: debug server-side",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev",
+            "cwd": "${workspaceFolder}/web_site_v2"
+
+          },
+          {
+            "name": "Next.js: debug client-side",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "cwd": "${workspaceFolder}/web_site_v2"
+
+          },
+          {
+            "name": "Next.js: debug full stack",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/web_site_v2",
+            "serverReadyAction": {
+              "pattern": "started server on .+, url: (https?://.+)",
+              "uriFormat": "%s",
+              "action": "debugWithChrome"
+            }
+          }
     ],
     "compounds": [
         {
