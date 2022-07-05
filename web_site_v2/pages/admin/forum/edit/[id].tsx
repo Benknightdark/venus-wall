@@ -42,31 +42,31 @@ const Edit = () => {
                         <span className="text-gray-700">Name</span>
                         <input type="text" placeholder="Name" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full"   {...register("name")} />
-                        <p className="text-red-500">{errors.name?.message}</p>
+                        <p className="text-red-500">{(errors as any).name?.message}</p>
                     </label>
                     <label className="block">
                         <span className="text-gray-700">Worker Name</span>
                         <input type="text" placeholder="Worker Name" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full" {...register("workerName")} />
-                        <p className="text-red-500">{errors.workerName?.message}</p>
+                        <p className="text-red-500">{(errors as any).workerName?.message}</p>
                     </label>
                     <label className="block">
                         <span className="text-gray-700">Seq</span>
                         <input type="number" placeholder="Seq" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full" {...register("seq")} />
-                        <p className="text-red-500">{errors.seq?.message}</p>
+                        <p className="text-red-500">{(errors as any).seq?.message}</p>
                     </label>
                     <label className="block">
                         <span className="text-gray-700">Enable</span>
                         <input type="number" placeholder="Enable" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full" {...register("enable")} />
-                        <p className="text-red-500">{errors.enable?.message}</p>
+                        <p className="text-red-500">{(errors as any).enable?.message}</p>
                     </label>
                     <label className="block">
                         <span className="text-gray-700">CreatedTime</span>
                         <input type="number" placeholder="CreatedTime" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full" {...register("createdTime")} />
-                        <p className="text-red-500">{errors.createdTime?.message}</p>
+                        <p className="text-red-500">{(errors as any).createdTime?.message}</p>
                     </label>
 
                     <div className="flex flex-col">
