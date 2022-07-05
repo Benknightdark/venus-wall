@@ -5,7 +5,7 @@ import Loading from "../../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admon-global-store";
 import { useForum } from "../../../../utils/admin/forumHook";
 import AdminLayout from "../../../utils/admin-layout";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { FaPlusCircle } from "react-icons/fa";
@@ -26,7 +26,7 @@ const Edit = () => {
     const router = useRouter();
     const { id } = router.query
     const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(id?.toString()!);
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
     const onSubmit = (data: any) => console.log(data);
@@ -64,18 +64,36 @@ const Edit = () => {
                         input input-bordered input-primary w-full" {...register("enable")} />
                         <p className="text-red-500">{(errors as any).enable?.message}</p>
                     </label>
-                    <label className="block">
+                    {/* <label className="block">
                         <span className="text-gray-700">CreatedTime</span>
                         <input type="number" placeholder="CreatedTime" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full" {...register("createdTime")} />
                         <p className="text-red-500">{(errors as any).createdTime?.message}</p>
+                    </label> */}
+                    <label className="block">
+                        <span className="text-gray-700">CreatedTime</span>
+                        <Controller
+                            control={control}
+                            name="CreatedTime"
+                            rules={{ required: true }}
+                            render={({
+                            }) => (
+                                <>
+                                    <DatePicker
+                                        placeholder="CreatedTime" className="mt-1  w-full"
+                                        format="YYYY/MM/DD HH:mm:ss"
+                                        plugins={[
+                                            <TimePicker key={1} position="bottom" />
+                                        ]}
+                                    />
+                                </>
+                            )}
+                        />
+                        <p className="text-red-500">{(errors as any).createdTime?.message}</p>
                     </label>
-                    <DatePicker
-                        format="MM/DD/YYYY HH:mm:ss"
-                        plugins={[
-                            <TimePicker key={1} position="bottom" />
-                        ]}
-                    />
+
+
+
                     <div className="flex flex-col">
                         {/* <DndProvider backend={HTML5Backend}> */}
                         <div className="flex p-2 text-sm text-gray-700 bg-orange-100 rounded-lg  
