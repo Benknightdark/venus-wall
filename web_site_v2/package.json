@@ -20,6 +20,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.32.2",
     "react-icons": "^4.4.0",
+    "react-multi-date-picker": "^3.3.0",
     "react-sortablejs": "^6.1.4",
     "sharp": "^0.30.6",
     "sortablejs": "^1.15.0",

@@ -11,6 +11,8 @@ import * as yup from "yup";
 import { FaPlusCircle } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { ReactSortable } from "react-sortablejs";
+import DatePicker from "react-multi-date-picker";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
 
 const schema = yup.object({
     name: yup.string().required(),
@@ -68,7 +70,12 @@ const Edit = () => {
                         input input-bordered input-primary w-full" {...register("createdTime")} />
                         <p className="text-red-500">{(errors as any).createdTime?.message}</p>
                     </label>
-
+                    <DatePicker
+                        format="MM/DD/YYYY HH:mm:ss"
+                        plugins={[
+                            <TimePicker key={1} position="bottom" />
+                        ]}
+                    />
                     <div className="flex flex-col">
                         {/* <DndProvider backend={HTML5Backend}> */}
                         <div className="flex p-2 text-sm text-gray-700 bg-orange-100 rounded-lg  
