@@ -26,10 +26,13 @@ const Edit = () => {
     const router = useRouter();
     const { id } = router.query
     const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(id?.toString()!);
-    const { register, control, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit,control,  formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
-    const onSubmit = (data: any) => console.log(data);
+    const onSubmit = async (data:any) => {
+        console.log('ddd')
+        console.log(data); };
+
     useEffect(() => {
         adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '編輯頁面' }, false);
     })
@@ -58,39 +61,47 @@ const Edit = () => {
                         input input-bordered input-primary w-full" {...register("seq")} />
                         <p className="text-red-500">{(errors as any).seq?.message}</p>
                     </label>
-                    <label className="block">
+                    {/* <label className="block">
                         <span className="text-gray-700">Enable</span>
                         <input type="number" placeholder="Enable" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full" {...register("enable")} />
                         <p className="text-red-500">{(errors as any).enable?.message}</p>
-                    </label>
+                    </label> */}
                     {/* <label className="block">
                         <span className="text-gray-700">CreatedTime</span>
                         <input type="number" placeholder="CreatedTime" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full" {...register("createdTime")} />
                         <p className="text-red-500">{(errors as any).createdTime?.message}</p>
                     </label> */}
-                    <label className="block">
+                    {/* <label className="block">
                         <span className="text-gray-700">CreatedTime</span>
                         <Controller
                             control={control}
-                            name="CreatedTime"
+                            name="createdTime"
                             rules={{ required: true }}
-                            render={({
-                            }) => (
+                            render={({ field } ) => (
                                 <>
                                     <DatePicker
+                                     value={ forumData?.CreatedTime}
+                                    onChange={(date) => {
+                                        console.log(date)
+                                        field.onChange((date as any)?.isValid ? date : "");
+                                        
+                                    }}                                    
                                         placeholder="CreatedTime" className="mt-1  w-full"
                                         format="YYYY/MM/DD HH:mm:ss"
                                         plugins={[
-                                            <TimePicker key={1} position="bottom" />
+                                             <TimePicker key={1} position="bottom" />
                                         ]}
                                     />
+                                     {errors && errors[field.name] && (errors as any)[field.name].type === "required" && (
+                                        <span>your error message !</span>
+                                    )}
                                 </>
                             )}
                         />
                         <p className="text-red-500">{(errors as any).createdTime?.message}</p>
-                    </label>
+                    </label> */}
 
 
 
