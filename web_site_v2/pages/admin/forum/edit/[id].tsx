@@ -15,11 +15,11 @@ import DatePicker from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 
 const schema = yup.object({
-    name: yup.string().required(),
-    workerName: yup.number().required(),
-    seq: yup.number().positive().integer().required(),
-    enable: yup.bool().required(),
-    createdTime: yup.date().required()
+    Name: yup.string().required(),
+    WorkerName: yup.string().required(),
+    // Seq: yup.number().positive().integer().required(),
+    // Enable: yup.bool().required(),
+    // CreatedTime: yup.date().required()
 }).required();
 const Edit = () => {
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
@@ -27,7 +27,8 @@ const Edit = () => {
     const { id } = router.query
     const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(id?.toString()!);
     const { register, handleSubmit,control,  formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
+        defaultValues: forumData,
     });
     const onSubmit = async (data:any) => {
         console.log('ddd')
@@ -46,21 +47,21 @@ const Edit = () => {
                     <label className="block">
                         <span className="text-gray-700">Name</span>
                         <input type="text" placeholder="Name" className="mt-1 block  rounded-md 
-                        input input-bordered input-primary w-full"   {...register("name")} />
+                        input input-bordered input-primary w-full"    {...register("Name")} />
                         <p className="text-red-500">{(errors as any).name?.message}</p>
                     </label>
                     <label className="block">
                         <span className="text-gray-700">Worker Name</span>
                         <input type="text" placeholder="Worker Name" className="mt-1 block  rounded-md 
-                        input input-bordered input-primary w-full" {...register("workerName")} />
+                        input input-bordered input-primary w-full"   {...register("WorkerName")} />
                         <p className="text-red-500">{(errors as any).workerName?.message}</p>
                     </label>
-                    <label className="block">
+                    {/* <label className="block">
                         <span className="text-gray-700">Seq</span>
                         <input type="number" placeholder="Seq" className="mt-1 block  rounded-md 
-                        input input-bordered input-primary w-full" {...register("seq")} />
+                        input input-bordered input-primary w-full" value={forumData?.Seq} {...register("seq")} />
                         <p className="text-red-500">{(errors as any).seq?.message}</p>
-                    </label>
+                    </label> */}
                     {/* <label className="block">
                         <span className="text-gray-700">Enable</span>
                         <input type="number" placeholder="Enable" className="mt-1 block  rounded-md 
@@ -106,11 +107,10 @@ const Edit = () => {
 
 
                     <div className="flex flex-col">
-                        {/* <DndProvider backend={HTML5Backend}> */}
                         <div className="flex p-2 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                             justify-between"  role="alert">
-                            <h1 className="text-lg font-bold">Boards</h1>
-                            <button className='monochrome-purple-btn  flex space-x-2'>
+                            <h1 className="text-lg font-bold">看版</h1>
+                            <button className='monochrome-purple-btn  flex space-x-2' type='button'>
                                 <FaPlusCircle className='w-4 h-4'></FaPlusCircle>
                                 新增
                             </button>
@@ -145,7 +145,6 @@ const Edit = () => {
                                 }
                             </table>
                         </div>
-                        {/* </DndProvider> */}
                     </div>
 
                     <div className="flex flex-row items-center  justify-center space-x-2">
