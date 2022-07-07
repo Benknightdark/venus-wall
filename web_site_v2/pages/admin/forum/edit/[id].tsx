@@ -11,7 +11,7 @@ import * as yup from "yup";
 import { FaPlusCircle } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { fetcher } from "../../../../utils/fetcherHelper";
-import {  v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 const schema = yup.object({
     Name: yup.string().required(),
@@ -38,8 +38,8 @@ const Edit = () => {
         };
     });
     const onSubmit = async (data: any) => {
-        const newData={
-            forum:{
+        const newData = {
+            forum: {
                 CreatedTime: data['CreatedTime'],
                 Enable: data['Enable'],
                 ID: data['ID'],
@@ -47,12 +47,12 @@ const Edit = () => {
                 Seq: data['Seq'],
                 WorkerName: data['WorkerName']
             },
-            webPageList:data['webPageList']
+            webPageList: data['webPageList']
         }
-        const req=await fetcher(`${process.env.NEXT_PUBLIC_APIURL}/api/forum`,{
-            method:'PUT',
+        const req = await fetcher(`${process.env.NEXT_PUBLIC_APIURL}/api/forum`, {
+            method: 'PUT',
             body: JSON.stringify(newData),
-            headers:{
+            headers: {
                 'content-type': 'application/json'
             }
         })
@@ -108,12 +108,12 @@ const Edit = () => {
                             <button className='monochrome-purple-btn  flex space-x-2' type='button'
                                 onClick={() => {
                                     append({
-                                        ID:uuidv4(),
+                                        ID: uuidv4(),
                                         Name: "",
                                         Url: "",
                                         Seq: controlledFields.length + 1,
                                         Enable: true,
-                                        ForumID:forumData?.ID
+                                        ForumID: forumData?.ID
                                     })
                                 }}
                             >
