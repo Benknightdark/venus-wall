@@ -42,10 +42,7 @@ const Index = () => {
 
     useEffect(() => {
         adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '新增頁面' }, false);
-
-       
-
-    }, [])
+    }, [adminGlobalStoreMutate])
 
     return (
         <div>
