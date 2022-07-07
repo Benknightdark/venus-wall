@@ -38,6 +38,7 @@ const Edit = () => {
         };
     });
     const onSubmit = async (data: any) => {
+        console.log(data)
         const newData={
             forum:{
                 CreatedTime: data['CreatedTime'],
@@ -49,14 +50,14 @@ const Edit = () => {
             },
             webPageList:data['webPageList']
         }
-        const req=await fetcher(`${process.env.NEXT_PUBLIC_APIURL}/api/forum`,{
-            method:'PUT',
-            body: JSON.stringify(newData),
-            headers:{
-                'content-type': 'application/json'
-            }
-        })
-        console.log(req)
+        // const req=await fetcher(`${process.env.NEXT_PUBLIC_APIURL}/api/forum`,{
+        //     method:'PUT',
+        //     body: JSON.stringify(newData),
+        //     headers:{
+        //         'content-type': 'application/json'
+        //     }
+        // })
+        // console.log(req)
     };
 
     useEffect(() => {
@@ -111,7 +112,9 @@ const Edit = () => {
                                         ID:uuidv4(),
                                         Name: "",
                                         Url: "",
-                                        Seq: controlledFields.length + 1
+                                        Seq: controlledFields.length + 1,
+                                        Enable: true,
+                                        ForumID:forumData?.ID
                                     })
                                 }}
                             >
