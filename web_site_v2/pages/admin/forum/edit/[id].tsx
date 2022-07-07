@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
 import useSWR from "swr";
 import Loading from "../../../../components/loading";
-import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admon-global-store";
+import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admin-global-store";
 import { useForum } from "../../../../utils/admin/forumHook";
 import AdminLayout from "../../../utils/admin-layout";
 import { Controller, useForm, useFieldArray } from "react-hook-form";

@@ -1,6 +1,6 @@
 import { ReactElement, useEffect } from 'react';
 import useSWR from "swr";
-import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admon-global-store";
+import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admin-global-store";
 import AdminLayout from '../utils/admin-layout';
 import * as Highcharts from 'highcharts';
 import Loading from '../../components/loading';

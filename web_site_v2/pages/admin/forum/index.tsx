@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from "react";
 import useSWR from "swr";
 import Loading from "../../../components/loading";
-import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admon-global-store";
+import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
 import AdminLayout from "../../utils/admin-layout";
 import { IoIosRefreshCircle } from 'react-icons/io'
 import { FaPlusCircle } from 'react-icons/fa'

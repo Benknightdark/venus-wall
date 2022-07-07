@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
 import useSWR from "swr";
 import Loading from "../../../../components/loading";
-import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admon-global-store";
+import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admin-global-store";
 import AdminLayout from "../../../utils/admin-layout";
 import { GoGlobe } from "react-icons/go"
 import { useForum } from "../../../../utils/admin/forumHook";

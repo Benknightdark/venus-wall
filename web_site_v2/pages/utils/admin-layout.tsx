@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { FcRefresh } from "react-icons/fc";
 import useSWR from "swr";
-import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admon-global-store";
+import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admin-global-store";
 const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
