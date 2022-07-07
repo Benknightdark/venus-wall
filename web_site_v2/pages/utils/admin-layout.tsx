@@ -7,14 +7,21 @@ import Link from "next/link";
 import { FcRefresh } from "react-icons/fc";
 import useSWR from "swr";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admin-global-store";
+import { globalSettingStore, initialGlobalSettingStore } from "../../stores/global-setting-store";
+import ToastMessage from "../../components/toast-message";
 const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
+    const { data: globalStoreData, mutate: mutateGlobalStoreData } = useSWR(globalSettingStore, { fallbackData: initialGlobalSettingStore })
+
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
     return (
         <Fragment>
+
             <div className="flex flex-col h-screen">
                 {/* 標題列 */}
                 <header className="bg-gradient-to-r from-blue-400 to-gray-200  w-full">
+                    {globalStoreData.showToast && <ToastMessage />}
+
                     <div className="p-3">
                         <div className="flex items-center justify-between flex-wrap">
                             <div className="w-0 flex-1 flex items-center">
@@ -61,7 +68,7 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                                             <button type="button" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md
                                             shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none
                                             focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                onClick={()=>{
+                                                onClick={() => {
                                                     router.reload();
                                                 }}
                                             >

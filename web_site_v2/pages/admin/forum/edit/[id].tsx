@@ -10,14 +10,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { FaPlusCircle } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
-import { fetcher } from "../../../../utils/fetcherHelper";
 import { v4 as uuidv4 } from 'uuid';
+import { globalSettingStore, initialGlobalSettingStore } from "../../../../stores/global-setting-store";
+import { ToastMessageType, useToast } from "../../../../utils/toastMessageHook";
 
 const schema = yup.object({
     Name: yup.string().required(),
     WorkerName: yup.string().required(),
 }).required();
 const Edit = () => {
+    const { data: globalStoreData, mutate: mutateGlobalStoreData } = useSWR(globalSettingStore, { fallbackData: initialGlobalSettingStore })
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
     const router = useRouter();
     const { id } = router.query
@@ -37,6 +39,7 @@ const Edit = () => {
             ...watchFieldArray[index]
         };
     });
+    const toast = useToast();
     const onSubmit = async (data: any) => {
         const newData = {
             forum: {
@@ -49,14 +52,20 @@ const Edit = () => {
             },
             webPageList: data['webPageList']
         }
-        const req = await fetcher(`${process.env.NEXT_PUBLIC_APIURL}/api/forum`, {
+        const req = await fetch(`${process.env.NEXT_PUBLIC_APIURL}/api/forum`, {
             method: 'PUT',
             body: JSON.stringify(newData),
             headers: {
                 'content-type': 'application/json'
             }
         })
-        console.log(req)
+        if (req.status === 200) {
+            toast.show(true, (await req.json())['message'], ToastMessageType.Success);
+            router.push('/admin/forum')
+        } else {
+            toast.show(true, (await req.text()), ToastMessageType.Error);
+        }
+
     };
 
     useEffect(() => {
@@ -81,7 +90,7 @@ const Edit = () => {
             }
         }, 1000);
 
-    }, [append, forumData, setFocus])
+    }, [append, forumData, setValue, setFocus, adminGlobalStoreMutate, webPageData])
     if (!webPageData && !forumData) return <Loading></Loading>
     if (webPageError && forumError) return <Loading></Loading>
     return (
