@@ -1,3 +1,4 @@
+import { NextPage } from "next";
 import { FaPlusCircle } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { v4 as uuidv4 } from 'uuid';
@@ -28,7 +29,7 @@ export const ForumForm = (props: any) => {
                             Url: "",
                             Seq: props.controlledFields.length + 1,
                             Enable: true,
-                            ForumID: props.forumData?.ID
+                            ForumID: props.forumDataId
                         })
                     }}
                 >

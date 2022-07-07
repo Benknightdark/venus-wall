@@ -11,7 +11,7 @@ import { fetcher } from "../../../utils/fetcherHelper";
 
 
 const Index = () => {
-    const router=useRouter();
+    const router = useRouter();
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
     const defaultPageList = [1, 2, 3, 4, 5]
@@ -39,7 +39,11 @@ const Index = () => {
         <div className="flex flex-col">
             <div className="flex p-4 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                  justify-between"  role="alert">
-                <button className='monochrome-purple-btn  flex space-x-2'>
+                <button className='monochrome-purple-btn  flex space-x-2'
+                onClick={() =>{
+                    router.push('/admin/forum/create')
+                }}
+                >
                     <FaPlusCircle className='w-4 h-4'></FaPlusCircle>
                     新增
                 </button>
@@ -72,18 +76,21 @@ const Index = () => {
                                 <th className='w-16	'>
                                     <div className="flex flex-l">
                                         <div className="tooltip" data-tip="編輯">
-                                            <button className='pill-blue-btn' onClick={()=>{
+                                            <button className='pill-blue-btn' onClick={() => {
                                                 router.push(`/admin/forum/edit/${f?.ID}`)
                                             }}>
                                                 <FiEdit></FiEdit></button>
                                         </div>
                                         <div className="tooltip" data-tip="檢視">
-                                            <button className='pill-green-btn' onClick={()=>{
+                                            <button className='pill-green-btn' onClick={() => {
                                                 router.push(`/admin/forum/detail/${f?.ID}`)
                                             }}><FiSearch></FiSearch></button>
                                         </div>
                                         <div className="tooltip" data-tip="刪除">
-                                            <button className='pill-red-btn' onClick={()=>{}}><FiTrash2></FiTrash2></button>
+                                            <button className='pill-red-btn' onClick={() => {
+                                                router.push(`/admin/forum/delete/${f?.ID}`)
+
+                                            }}><FiTrash2></FiTrash2></button>
                                         </div>
                                     </div>
                                 </th>
