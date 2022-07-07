@@ -26,9 +26,9 @@ const Edit = () => {
     const router = useRouter();
     const { id } = router.query
     const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(id?.toString()!);
-    const { register, handleSubmit,control,  formState: { errors } } = useForm({
+    const { register, handleSubmit,control,  formState: { errors },setValue } = useForm({
         resolver: yupResolver(schema),
-        defaultValues: forumData,
+        //defaultValues: forumData,
     });
     const onSubmit = async (data:any) => {
         console.log('ddd')
@@ -36,13 +36,19 @@ const Edit = () => {
 
     useEffect(() => {
         adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '編輯頁面' }, false);
+        try{
+            Object.keys(forumData).map(k=>{
+                setValue(k,forumData[k]!)
+            })
+        }catch(e){
+            console.log(e)
+        }
     })
     if (!webPageData && !forumData) return <Loading></Loading>
     if (webPageError && forumError) return <Loading></Loading>
     return (
         <div>
             <div className="mt-2 ">
-
                 <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-3">
                     <label className="block">
                         <span className="text-gray-700">Name</span>
@@ -55,57 +61,7 @@ const Edit = () => {
                         <input type="text" placeholder="Worker Name" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full"   {...register("WorkerName")} />
                         <p className="text-red-500">{(errors as any).workerName?.message}</p>
-                    </label>
-                    {/* <label className="block">
-                        <span className="text-gray-700">Seq</span>
-                        <input type="number" placeholder="Seq" className="mt-1 block  rounded-md 
-                        input input-bordered input-primary w-full" value={forumData?.Seq} {...register("seq")} />
-                        <p className="text-red-500">{(errors as any).seq?.message}</p>
-                    </label> */}
-                    {/* <label className="block">
-                        <span className="text-gray-700">Enable</span>
-                        <input type="number" placeholder="Enable" className="mt-1 block  rounded-md 
-                        input input-bordered input-primary w-full" {...register("enable")} />
-                        <p className="text-red-500">{(errors as any).enable?.message}</p>
-                    </label> */}
-                    {/* <label className="block">
-                        <span className="text-gray-700">CreatedTime</span>
-                        <input type="number" placeholder="CreatedTime" className="mt-1 block  rounded-md 
-                        input input-bordered input-primary w-full" {...register("createdTime")} />
-                        <p className="text-red-500">{(errors as any).createdTime?.message}</p>
-                    </label> */}
-                    {/* <label className="block">
-                        <span className="text-gray-700">CreatedTime</span>
-                        <Controller
-                            control={control}
-                            name="createdTime"
-                            rules={{ required: true }}
-                            render={({ field } ) => (
-                                <>
-                                    <DatePicker
-                                     value={ forumData?.CreatedTime}
-                                    onChange={(date) => {
-                                        console.log(date)
-                                        field.onChange((date as any)?.isValid ? date : "");
-                                        
-                                    }}                                    
-                                        placeholder="CreatedTime" className="mt-1  w-full"
-                                        format="YYYY/MM/DD HH:mm:ss"
-                                        plugins={[
-                                             <TimePicker key={1} position="bottom" />
-                                        ]}
-                                    />
-                                     {errors && errors[field.name] && (errors as any)[field.name].type === "required" && (
-                                        <span>your error message !</span>
-                                    )}
-                                </>
-                            )}
-                        />
-                        <p className="text-red-500">{(errors as any).createdTime?.message}</p>
-                    </label> */}
-
-
-
+                    </label>                   
                     <div className="flex flex-col">
                         <div className="flex p-2 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                             justify-between"  role="alert">
