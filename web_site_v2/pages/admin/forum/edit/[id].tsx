@@ -5,14 +5,11 @@ import Loading from "../../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admon-global-store";
 import { useForum } from "../../../../utils/admin/forumHook";
 import AdminLayout from "../../../utils/admin-layout";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { FaPlusCircle } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
-import { ReactSortable } from "react-sortablejs";
-import DatePicker from "react-multi-date-picker";
-import TimePicker from "react-multi-date-picker/plugins/time_picker";
 
 const schema = yup.object({
     Name: yup.string().required(),
@@ -26,24 +23,49 @@ const Edit = () => {
     const router = useRouter();
     const { id } = router.query
     const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(id?.toString()!);
-    const { register, handleSubmit,control,  formState: { errors },setValue } = useForm({
+    const { register, handleSubmit, control, formState: { errors }, setValue, watch, setFocus } = useForm({
         resolver: yupResolver(schema),
-        //defaultValues: forumData,
     });
-    const onSubmit = async (data:any) => {
+    const webPageFieldArrayName = 'webPageList'
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: webPageFieldArrayName
+    });
+    const watchFieldArray = watch(webPageFieldArrayName);
+    const controlledFields = fields.map((field, index) => {
+        return {
+            ...field,
+            ...watchFieldArray[index]
+        };
+    });
+    const onSubmit = async (data: any) => {
         console.log('ddd')
-        console.log(data); };
+        console.log(data);
+    };
 
     useEffect(() => {
         adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '編輯頁面' }, false);
-        try{
-            Object.keys(forumData).map(k=>{
-                setValue(k,forumData[k]!)
-            })
-        }catch(e){
-            console.log(e)
-        }
-    })
+
+        setTimeout(() => {
+            try {
+                Object.keys(forumData).map(k => {
+                    setValue(k, forumData[k]!)
+                })
+                webPageData!.map((w: any) => {
+                    append(w)
+                })
+                setTimeout(() => {
+                    document.getElementsByClassName('drawer-content')[0].scrollTo({
+                        top: 0
+                    })
+                }, 500)
+
+            } catch (e) {
+                console.log(e)
+            }
+        }, 1000);
+
+    }, [append, forumData, setFocus])
     if (!webPageData && !forumData) return <Loading></Loading>
     if (webPageError && forumError) return <Loading></Loading>
     return (
@@ -61,12 +83,22 @@ const Edit = () => {
                         <input type="text" placeholder="Worker Name" className="mt-1 block  rounded-md 
                         input input-bordered input-primary w-full"   {...register("WorkerName")} />
                         <p className="text-red-500">{(errors as any).workerName?.message}</p>
-                    </label>                   
+                    </label>
+
                     <div className="flex flex-col">
                         <div className="flex p-2 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                             justify-between"  role="alert">
                             <h1 className="text-lg font-bold">看版</h1>
-                            <button className='monochrome-purple-btn  flex space-x-2' type='button'>
+                            <button className='monochrome-purple-btn  flex space-x-2' type='button'
+                                onClick={() => {
+                                    console.log()
+                                    append({
+                                        Name: "",
+                                        Url: "",
+                                        Seq: controlledFields.length + 1
+                                    })
+                                }}
+                            >
                                 <FaPlusCircle className='w-4 h-4'></FaPlusCircle>
                                 新增
                             </button>
@@ -82,21 +114,33 @@ const Edit = () => {
                                 </thead>
                                 {
                                     webPageData && <tbody>
-                                        {
-                                            webPageData.map((f: any) =>
-                                                <tr key={f.key}>
+                                        {controlledFields.map((field, index) => {
+                                            return (
+                                                <tr key={field.id}>
                                                     <th className='w-16	'>
                                                         <div className="flex flex-l">
                                                             <div className="tooltip" data-tip="刪除">
                                                                 <button className='pill-red-btn' onClick={() => {
+                                                                    remove(index)
                                                                 }}><FiTrash2></FiTrash2></button>
                                                             </div>
                                                         </div>
                                                     </th>
-                                                    <th>{f.Name}</th>
-                                                    <th>{f.Url}</th>
-                                                </tr>)
-                                        }
+                                                    <th>
+                                                        <input key={field.id}
+                                                            className="mt-1 block  rounded-md 
+                                                        input input-bordered input-primary w-full"
+                                                            {...register(`${webPageFieldArrayName}.${index}.Name` as const, { required: true })} />
+                                                    </th>
+                                                    <th>
+                                                        <input key={field.id}
+                                                            className="mt-1 block  rounded-md 
+                                                        input input-bordered input-primary w-full"
+                                                            {...register(`${webPageFieldArrayName}.${index}.Url` as const, { required: true })} />
+                                                    </th>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 }
                             </table>
