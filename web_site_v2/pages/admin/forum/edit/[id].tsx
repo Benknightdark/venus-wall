@@ -19,7 +19,6 @@ const schema = yup.object({
     WorkerName: yup.string().required(),
 }).required();
 const Edit = () => {
-    const { data: globalStoreData, mutate: mutateGlobalStoreData } = useSWR(globalSettingStore, { fallbackData: initialGlobalSettingStore })
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
     const router = useRouter();
     const { id } = router.query
