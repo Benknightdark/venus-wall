@@ -4,10 +4,11 @@ import { fetcher } from "../fetcherHelper"
 export const useForum = (id: string) => {
     const { data: webPageData, mutate: webPageMutate, error: webPageError } = useSWR(
         `${process.env.NEXT_PUBLIC_APIURL}/api/webpage/byForum/${id}`,
-        fetcher)
+        
+        fetcher,{revalidateOnFocus:false })
     const { data: forumData, mutate: forumMutate, error: forumError } = useSWR(
         `${process.env.NEXT_PUBLIC_APIURL}/api/forum/${id}`,
-        fetcher)
+        fetcher,{revalidateOnFocus:false })
     return {
         webPageData: webPageData,
         webPageMutate: webPageMutate,
