@@ -67,7 +67,6 @@ const Edit = () => {
 
     useEffect(() => {
         adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '編輯頁面' }, false);
-
         setTimeout(() => {
             try {
                 Object.keys(forumData).map(k => {
@@ -77,7 +76,7 @@ const Edit = () => {
             } catch (e) {
                 console.log(e)
             }
-        }, 1000);
+        },100);
 
     }, [append, forumData, setValue, setFocus, adminGlobalStoreMutate, webPageData, replace])
     if (!webPageData && !forumData) return <Loading></Loading>
