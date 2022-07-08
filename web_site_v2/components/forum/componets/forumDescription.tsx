@@ -36,14 +36,18 @@ export const ForumDescription = (props: any) => {
                                 webPageData && webPageData.map((w: any) => <li
                                     key={w.ID}
                                     className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                                    <div className="w-0 flex-1 flex items-center">
+                                    <div className="w-0 flex-1 flex items-center cursor-pointer"
+                                    onClick={()=>{
+                                        window.open(w.Url, '_blank')!.focus();
+                                    }}
+                                    >
                                         <GoGlobe className="flex-shrink-0 h-5 w-5 text-gray-400"></GoGlobe>
-                                        <span className="ml-2 flex-1 w-0 truncate"> {w.Name} </span>
+                                        <span className="ml-2 flex-1 w-0 truncate "> {w.Name} </span>
                                     </div>
                                     <div className="ml-4 flex-shrink-0">
                                         <Link href={`/board/${w.ID}`}
                                             className="font-medium text-indigo-600 hover:text-indigo-500">
-                                            <a> See More </a>
+                                            <a>看更多</a>
                                         </Link>
                                     </div>
                                 </li>)
