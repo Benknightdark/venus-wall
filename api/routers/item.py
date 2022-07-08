@@ -77,11 +77,11 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
     item_data = db.query(models.Item).filter(
         and_(models.Item.WebPageID == id, models.Item.Enable == True))
-    if keyword != None:
+    if keyword != None or keyword != '':
         item_data = item_data.filter(models.Item.Title.contains(keyword))
     item_data_count = item_data.count()
     offset_count = offset*limit
-    if sort == None:
+    if sort == '':
         data = item_data.order_by(desc(models.Item.Seq))
     else:
         if sort == 'title':
@@ -90,7 +90,7 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
             order_column = models.Item.Seq
         if sort == 'page':
             order_column = models.Item.Page
-        if mode == 'descend':
+        if mode == 'DESC':
             order_column = desc(models.Item.Seq)
         else:
             order_column = asc(models.Item.Seq)

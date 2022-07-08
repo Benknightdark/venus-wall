@@ -66,7 +66,9 @@ async def put_item_by_web_page_id(requests: Request, db: Session = Depends(get_d
     else:
         web_page_data = db.query(models.WebPage).filter(
             models.WebPage.ForumID == str(data['forum']['ID']))
+        i=0
         for n in new_web_page_data:
+            n['Seq']=i
             selected_web_page_data = web_page_data.filter(
                 models.WebPage.ID == str(n["ID"]).upper())
 
@@ -77,6 +79,7 @@ async def put_item_by_web_page_id(requests: Request, db: Session = Depends(get_d
             else:
                 # 新增
                 db.add(models.WebPage(**n))
+            i=i+1
         # 刪除
         for n in web_page_data.all():
             exsist_web_page_data = list(filter(lambda x: str(

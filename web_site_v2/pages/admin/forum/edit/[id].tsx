@@ -25,7 +25,7 @@ const Edit = () => {
         resolver: yupResolver(schema),
     });
     const webPageFieldArrayName = 'webPageList'
-    const { fields, append, remove, replace,swap } = useFieldArray({
+    const { fields, append, remove, replace,swap,update } = useFieldArray({
         control,
         name: webPageFieldArrayName
     });
@@ -38,6 +38,7 @@ const Edit = () => {
     });
     const toast = useToast();
     const onSubmit = async (data: any) => {
+        console.log(data)
         const newData = {
             forum: {
                 CreatedTime: data['CreatedTime'],
@@ -93,7 +94,10 @@ const Edit = () => {
                         forumDataId={forumData?.ID}
                         remove={remove}
                         swap={swap}
+                        replace={replace}
                         webPageFieldArrayName={webPageFieldArrayName}
+                        // update={update}
+
                     />
                     <div className="flex flex-row items-center  justify-center space-x-2">
                         <button type="submit" className="btn btn-success">送出</button>
