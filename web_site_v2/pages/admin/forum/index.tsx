@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import Loading from "../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
@@ -17,9 +17,12 @@ const Index = () => {
     const defaultPageList = [1, 2, 3, 4, 5]
     const [pageList, setPageList] = useState(defaultPageList)
     const [page, setPage] = useState(1)
+    const [keyWord, setKeyWord] = useState('');
     const { data: forumData, mutate: forumMutate, error: forumError } = useSWR(
-        `${process.env.NEXT_PUBLIC_APIURL}/api/forum-table?offset=${page - 1}&limit=10`,
+        `${process.env.NEXT_PUBLIC_APIURL}/api/forum-table?offset=${page - 1}&limit=10&keyword=${keyWord}`,
         fetcher)
+        const focusDiv = useRef();
+
     const changePage = async (curretnPage: number) => {
         console.log(curretnPage)
         await setPage(curretnPage)
@@ -30,8 +33,17 @@ const Index = () => {
         }
         await forumMutate()
     }
+    const onChangeHandler = (event:  React.ChangeEvent<HTMLInputElement>) => {
+        setKeyWord(event.target.value);
+        console.log(event.target.value)
+        setTimeout(() => event.target.focus(),500);
+    };
+    const inputRef = useRef();
+
     useEffect(() => {
         adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '管理要爬的論壇網站' }, false)
+        if(keyWord!='')
+            document.getElementById('keyWordInput')?.focus();
     })
     if (!forumData) return <Loading></Loading>
     if (forumError) return <Loading></Loading>
@@ -40,16 +52,20 @@ const Index = () => {
             <div className="flex p-4 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                  justify-between"  role="alert">
                 <button className='monochrome-purple-btn  flex space-x-2'
-                onClick={() =>{
-                    router.push('/admin/forum/create')
-                }}
+                    onClick={() => {
+                        router.push('/admin/forum/create')
+                    }}
                 >
                     <FaPlusCircle className='w-4 h-4'></FaPlusCircle>
                     新增
                 </button>
 
                 <div>
-                    <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary" />
+                    <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
+                    id='keyWordInput'
+                        onChange={onChangeHandler}
+                        value={keyWord!}
+                    />
                     <div className="tooltip tooltip-left" data-tip="重新取得資料">
                         <IoIosRefreshCircle className="inline flex-shrink-0 mr-3 w-8 h-8 cursor-pointer hover:h-10 hover:w-10" onClick={() => {
                             setPage(1);
