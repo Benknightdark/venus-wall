@@ -8,7 +8,17 @@ import { FaPlusCircle } from 'react-icons/fa'
 import { FiEdit, FiSearch, FiTrash2 } from 'react-icons/fi'
 import { useRouter } from "next/router";
 import { fetcher } from "../../../utils/fetcherHelper";
-
+import { HiOutlineSortAscending, HiOutlineSortDescending } from 'react-icons/hi'
+enum ColumnSort {
+    ASC,
+    DESC
+}
+class ColumnModel {
+    displayName: string = '';
+    columnName: string = '';
+    sort: ColumnSort | null = null;
+    enableSort: boolean = true;
+}
 
 const Index = () => {
     const router = useRouter();
@@ -18,10 +28,26 @@ const Index = () => {
     const [pageList, setPageList] = useState(defaultPageList)
     const [page, setPage] = useState(1)
     const [keyWord, setKeyWord] = useState('');
+    const [sortMode,setSortMode]=useState('');
+    const [sortColumn,setSortColumn]=useState('');
+    const [columnList, setColumnList] = useState<Array<ColumnModel>>([
+        {
+            displayName: 'Name', columnName: 'Name', sort: null, enableSort: true
+        },
+        {
+            displayName: 'CreatedTime', columnName: 'CreatedTime', sort: null, enableSort: true
+        },
+        {
+            displayName: 'WorkerName', columnName: 'WorkerName', sort: null, enableSort: true
+        },
+        {
+            displayName: 'Enable', columnName: 'Enable', sort: null, enableSort: false
+        },
+
+    ]);
     const { data: forumData, mutate: forumMutate, error: forumError } = useSWR(
-        `${process.env.NEXT_PUBLIC_APIURL}/api/forum-table?offset=${page - 1}&limit=10&keyword=${keyWord}`,
+        `${process.env.NEXT_PUBLIC_APIURL}/api/forum-table?offset=${page - 1}&limit=10&keyword=${keyWord}&mode=${sortMode}&sort=${sortColumn}`,
         fetcher)
-        const focusDiv = useRef();
 
     const changePage = async (curretnPage: number) => {
         console.log(curretnPage)
@@ -33,16 +59,15 @@ const Index = () => {
         }
         await forumMutate()
     }
-    const onChangeHandler = (event:  React.ChangeEvent<HTMLInputElement>) => {
+
+    const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setKeyWord(event.target.value);
-        console.log(event.target.value)
-        setTimeout(() => event.target.focus(),500);
+        setTimeout(() => event.target.focus(), 500);
     };
-    const inputRef = useRef();
 
     useEffect(() => {
         adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '管理要爬的論壇網站' }, false)
-        if(keyWord!='')
+        if (keyWord != '')
             document.getElementById('keyWordInput')?.focus();
     })
     if (!forumData) return <Loading></Loading>
@@ -62,7 +87,7 @@ const Index = () => {
 
                 <div>
                     <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
-                    id='keyWordInput'
+                        id='keyWordInput'
                         onChange={onChangeHandler}
                         value={keyWord!}
                     />
@@ -80,10 +105,45 @@ const Index = () => {
                     <thead className=''>
                         <tr>
                             <th className='bg-green-200 w-16'></th>
-                            <th className='bg-green-200'>Name</th>
-                            <th className='bg-green-200'>CreatedTime</th>
-                            <th className='bg-green-200'>WorkerName</th>
-                            <th className='bg-green-200'>Enable</th>
+                            {
+                                columnList.map(c => <th key={c.columnName} className='bg-green-200 cursor-pointer select-none	'
+                                    onClick={() => {
+                                        if (c.enableSort) {
+                                            if (c.sort === null) {
+                                                console.log("desc")
+                                                c.sort = ColumnSort.DESC
+                                            } else if (c.sort === ColumnSort.DESC) {
+                                                console.log("ASC")
+                                                c.sort = ColumnSort.ASC
+
+                                            } else {
+                                                console.log("DESC")
+                                                c.sort = ColumnSort.DESC
+
+                                            }
+                                            columnList.filter(f => f.columnName !== c.columnName).map(m => m.sort = null)!
+                                            setColumnList([...columnList]);
+                                            setSortColumn(c.displayName);
+                                            setSortMode( ColumnSort[c.sort])
+                                        }
+                                    }}
+                                >
+                                    <div className="flex  space-x-2">
+                                        <div>{c.displayName}</div>
+                                        {c.enableSort && c.sort !== null && <div>
+                                            {
+                                                c.sort == ColumnSort.DESC && <HiOutlineSortDescending className="w-5 h-5"></HiOutlineSortDescending>
+                                            }
+
+                                            {
+                                                c.sort == ColumnSort.ASC && <HiOutlineSortAscending className="w-5 h-5"></HiOutlineSortAscending>
+                                            }
+
+                                        </div>}
+                                    </div>
+                                </th>)
+                            }
+
                         </tr>
                     </thead>
                     <tbody>

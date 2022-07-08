@@ -95,11 +95,11 @@ async def get_forum_fro_table(offset: int, limit: int,
                               mode: Optional[str] = None,
                               db: Session = Depends(get_db)):
     forum_data = db.query(models.Forum).filter(models.Forum.Enable == True)
-    if keyword != None:
+    if keyword != None or keyword != '':
         forum_data = forum_data.filter(models.Forum.Name.contains(keyword))
     forum_data_count = forum_data.count()
     offset_count = offset*limit
-    if sort == None:
+    if sort == '':
         data = forum_data.order_by(desc(models.Forum.CreatedTime))
     else:
         if sort == 'Name':
@@ -109,8 +109,8 @@ async def get_forum_fro_table(offset: int, limit: int,
         if sort == 'WorkerName':
             order_column = models.Forum.WorkerName
         if sort == 'CreatedTime':
-            order_column = models.Forum.CreatedTime
-        if mode == 'descend':
+            order_column = models.Forum.CreatedTime           
+        if mode == 'DESC':
             order_column = desc(sort)
         else:
             order_column = asc(sort)
