@@ -79,12 +79,7 @@ export const ForumForm = (props: IForumForm) => {
                                                             const temp=t1.Seq
                                                             t1.Seq=t2.Seq
                                                             t2.Seq=temp
-                                                            // props.update(index,t1)
-                                                            // props.update(index-1,t2)
                                                             props.swap(index, index - 1)
-
-
-                                                            // props.replace(props.controlledFields)
                                                         }
                                                     }}><AiOutlineArrowUp></AiOutlineArrowUp></button>
                                                 </div>
@@ -96,11 +91,7 @@ export const ForumForm = (props: IForumForm) => {
                                                             const temp=t1.Seq
                                                             t1.Seq=t2.Seq
                                                             t2.Seq=temp
-                                                            // props.update(index,t1)
-                                                            // props.update(index+1,t2)
                                                             props.swap(index, index + 1)
-
-                                                            // props.replace(props.controlledFields)
                                                         }
 
                                                     }}><AiOutlineArrowDown></AiOutlineArrowDown></button>
