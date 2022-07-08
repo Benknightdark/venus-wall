@@ -1,5 +1,6 @@
 from typing import Optional
-from sqlalchemy.sql.expression import and_, desc, false, or_,asc
+from sqlalchemy import func
+from sqlalchemy.sql.expression import and_, desc, false, or_, asc
 from dependencies import get_db
 from fastapi.params import Depends
 from fastapi import APIRouter, Request
@@ -37,7 +38,10 @@ async def get_item_by_web_page_id(id: str, db: Session = Depends(get_db)):
 @router.post("/forum", summary="新增壇論和看版資料")
 async def post_item_by_web_page_id(requests: Request, db: Session = Depends(get_db)):
     data = await requests.json()
+    new_seq = db.query(func.max(models.Forum.Seq)).scalar()+1
     data['forum']['CreatedTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    data['forum']['Seq'] = new_seq
+    data['forum']['Enable'] = True
     db.add(models.Forum(**data['forum']))
     if len(data['webPageList']) != None:
         db_web_page_array = []
@@ -85,12 +89,12 @@ async def put_item_by_web_page_id(requests: Request, db: Session = Depends(get_d
 
 
 @router.get("/forum-table", summary="分頁查詢forum")
-async def get_forum_fro_table( offset: int, limit: int,
-                                  keyword: Optional[str] = None,
-                                  sort: Optional[str] = None,
-                                  mode: Optional[str] = None,
-                                  db: Session = Depends(get_db)):
-    forum_data = db.query(models.Forum).filter(models.Forum.Enable== True)
+async def get_forum_fro_table(offset: int, limit: int,
+                              keyword: Optional[str] = None,
+                              sort: Optional[str] = None,
+                              mode: Optional[str] = None,
+                              db: Session = Depends(get_db)):
+    forum_data = db.query(models.Forum).filter(models.Forum.Enable == True)
     if keyword != None:
         forum_data = forum_data.filter(models.Forum.Name.contains(keyword))
     forum_data_count = forum_data.count()
