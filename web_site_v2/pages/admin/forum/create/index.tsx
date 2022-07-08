@@ -37,7 +37,7 @@ const Index = () => {
     });
     const toast = useToast();
     const onSubmit = async (data: any) => {
-       
+       console.log(data);
     };
 
     useEffect(() => {
@@ -48,9 +48,14 @@ const Index = () => {
         <div>
             <div className="mt-2 ">
                 <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-3">
-                    <ForumForm errors={errors} register={register} append={append}
-                        controlledFields={controlledFields} forumDataId={uuidv4()}
-                        remove={remove} webPageFieldArrayName={webPageFieldArrayName}
+                    <ForumForm 
+                    errors={errors} 
+                    register={register} 
+                    append={append}
+                    controlledFields={controlledFields} 
+                    forumDataId={uuidv4()}
+                    remove={remove} 
+                    webPageFieldArrayName={webPageFieldArrayName}
                     />
                     <div className="flex flex-row items-center  justify-center space-x-2">
                         <button type="submit" className="btn btn-success">送出</button>

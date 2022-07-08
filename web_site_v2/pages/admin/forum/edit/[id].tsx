@@ -5,12 +5,12 @@ import Loading from "../../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admin-global-store";
 import { useForum } from "../../../../utils/admin/forumHook";
 import AdminLayout from "../../../utils/admin-layout";
-import {  useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, FieldErrorsImpl, DeepRequired, FieldValues, UseFormRegister, UseFieldArrayRemove, UseFieldArrayAppend } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
 import { ToastMessageType, useToast } from "../../../../utils/toastMessageHook";
-import  {ForumForm}  from "../../../../components/forum/componets/forumForm";
+import { ForumForm } from "../../../../components/forum/componets/forumForm";
 
 const schema = yup.object({
     Name: yup.string().required(),
@@ -87,10 +87,14 @@ const Edit = () => {
         <div>
             <div className="mt-2 ">
                 <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-3">
-                    <ForumForm errors={errors} register={register} append={append}
+                    <ForumForm
+                        errors={errors}
+                        register={register}
+                        append={append}
                         controlledFields={controlledFields}
-                        forumDataId={forumData?.ID} 
-                        remove={remove} webPageFieldArrayName={webPageFieldArrayName}
+                        forumDataId={forumData?.ID}
+                        remove={remove}
+                        webPageFieldArrayName={webPageFieldArrayName}
                     />
                     <div className="flex flex-row items-center  justify-center space-x-2">
                         <button type="submit" className="btn btn-success">送出</button>

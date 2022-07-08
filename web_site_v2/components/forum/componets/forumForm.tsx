@@ -1,9 +1,18 @@
 import { NextPage } from "next";
+import { DeepRequired, FieldErrorsImpl, FieldValues, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister } from "react-hook-form";
 import { FaPlusCircle } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { v4 as uuidv4 } from 'uuid';
-
-export const ForumForm = (props: any) => {
+interface IForumForm {
+    errors: FieldErrorsImpl<DeepRequired<FieldValues>>
+    register:UseFormRegister<FieldValues>
+    controlledFields:any[]
+    forumDataId:string
+    remove:UseFieldArrayRemove
+    webPageFieldArrayName:string
+    append:UseFieldArrayAppend<FieldValues>
+}
+export const ForumForm = (props: IForumForm) => {
     return <>
         <label className="block">
             <span className="text-gray-700">Name</span>
