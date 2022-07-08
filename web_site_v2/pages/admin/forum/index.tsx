@@ -50,7 +50,6 @@ const Index = () => {
         fetcher)
 
     const changePage = async (curretnPage: number) => {
-        console.log(curretnPage)
         await setPage(curretnPage)
         if (curretnPage >= 5) {
             setPageList([curretnPage - 2, curretnPage - 1, curretnPage, curretnPage + 1, curretnPage + 2])

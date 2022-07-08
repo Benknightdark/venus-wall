@@ -6,7 +6,7 @@ import AdminLayout from "../../utils/admin-layout";
 const Index = () => {
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
-    adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '看版管理', pageDescription: '管理要爬的看版' }, false)
+    adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '看版管理', pageDescription: '管理看版裡的文章和圖片' }, false)
     return (
         <div>
             Enter

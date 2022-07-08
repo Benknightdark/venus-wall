@@ -45,7 +45,7 @@ export const ForumDescription = (props: any) => {
                                         <span className="ml-2 flex-1 w-0 truncate "> {w.Name} </span>
                                     </div>
                                     <div className="ml-4 flex-shrink-0">
-                                        <Link href={`/board/${w.ID}`}
+                                        <Link href={`/admin/board/${w.ID}`}
                                             className="font-medium text-indigo-600 hover:text-indigo-500">
                                             <a>看更多</a>
                                         </Link>

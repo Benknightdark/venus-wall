@@ -171,5 +171,7 @@
       }
     }
   },
-  "defaultProject": "WebSite"
+  "cli": {
+    "analytics": "e7f7df52-2067-4bb9-b5ca-6e583e4046db"
+  }
 }

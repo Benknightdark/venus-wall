@@ -77,7 +77,7 @@ async def get_item_by_web_page_id(id: str, offset: int, limit: int,
                                   db: Session = Depends(get_db)):
     item_data = db.query(models.Item).filter(
         and_(models.Item.WebPageID == id, models.Item.Enable == True))
-    if keyword != None or keyword != '':
+    if keyword != None : #or keyword != ''
         item_data = item_data.filter(models.Item.Title.contains(keyword))
     item_data_count = item_data.count()
     offset_count = offset*limit

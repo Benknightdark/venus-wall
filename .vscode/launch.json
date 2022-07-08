@@ -113,7 +113,7 @@
                 "mdk-worker",
                 "jkf-crawler",
                 "mdk-crawler",
-                // "web-site",
+                "web-site",
                 "data-processor",
             ]
         }
