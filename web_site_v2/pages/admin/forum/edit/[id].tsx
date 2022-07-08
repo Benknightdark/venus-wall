@@ -5,10 +5,9 @@ import Loading from "../../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admin-global-store";
 import { useForum } from "../../../../utils/admin/forumHook";
 import AdminLayout from "../../../utils/admin-layout";
-import { useForm, useFieldArray, FieldErrorsImpl, DeepRequired, FieldValues, UseFormRegister, UseFieldArrayRemove, UseFieldArrayAppend } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-
 import { ToastMessageType, useToast } from "../../../../utils/toastMessageHook";
 import { ForumForm } from "../../../../components/forum/componets/forumForm";
 
@@ -26,7 +25,7 @@ const Edit = () => {
         resolver: yupResolver(schema),
     });
     const webPageFieldArrayName = 'webPageList'
-    const { fields, append, remove, replace } = useFieldArray({
+    const { fields, append, remove, replace,swap } = useFieldArray({
         control,
         name: webPageFieldArrayName
     });
@@ -94,6 +93,7 @@ const Edit = () => {
                         controlledFields={controlledFields}
                         forumDataId={forumData?.ID}
                         remove={remove}
+                        swap={swap}
                         webPageFieldArrayName={webPageFieldArrayName}
                     />
                     <div className="flex flex-row items-center  justify-center space-x-2">

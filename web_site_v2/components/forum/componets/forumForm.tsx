@@ -1,16 +1,18 @@
 import { NextPage } from "next";
-import { DeepRequired, FieldErrorsImpl, FieldValues, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister } from "react-hook-form";
+import { DeepRequired, FieldErrorsImpl, FieldValues, UseFieldArrayAppend, UseFieldArrayRemove, UseFieldArraySwap, UseFormRegister } from "react-hook-form";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { FaPlusCircle } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { v4 as uuidv4 } from 'uuid';
 interface IForumForm {
     errors: FieldErrorsImpl<DeepRequired<FieldValues>>
-    register:UseFormRegister<FieldValues>
-    controlledFields:any[]
-    forumDataId:string
-    remove:UseFieldArrayRemove
-    webPageFieldArrayName:string
-    append:UseFieldArrayAppend<FieldValues>
+    register: UseFormRegister<FieldValues>
+    controlledFields: any[]
+    remove: UseFieldArrayRemove
+    swap: UseFieldArraySwap
+    append: UseFieldArrayAppend<FieldValues>
+    webPageFieldArrayName: string
+    forumDataId: string
 }
 export const ForumForm = (props: IForumForm) => {
     return <>
@@ -63,9 +65,24 @@ export const ForumForm = (props: IForumForm) => {
                                         <th className='w-16	'>
                                             <div className="flex flex-l">
                                                 <div className="tooltip" data-tip="刪除">
-                                                    <button className='pill-red-btn' onClick={() => {
+                                                    <button type='button' className='pill-red-btn' onClick={() => {
                                                         props.remove(index)
                                                     }}><FiTrash2></FiTrash2></button>
+                                                </div>
+                                                <div className="tooltip" data-tip="上移">
+                                                    <button type='button' className='pill-green-btn' onClick={() => {
+                                                        if (index !== 0) {
+                                                            props.swap(index, index - 1)
+                                                        }
+                                                    }}><AiOutlineArrowUp></AiOutlineArrowUp></button>
+                                                </div>
+                                                <div className="tooltip" data-tip="下移">
+                                                    <button type='button' className='pill-blue-btn' onClick={() => {
+                                                        if (index !== props.controlledFields.length - 1) {
+                                                            props.swap(index, index + 1)
+                                                        }
+
+                                                    }}><AiOutlineArrowDown></AiOutlineArrowDown></button>
                                                 </div>
                                             </div>
                                         </th>
