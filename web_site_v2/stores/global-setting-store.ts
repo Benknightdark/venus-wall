@@ -2,6 +2,7 @@
     showImage: true,
     showToast:false,
     toastMessage:'',
-    galleryList:[]
+    galleryList:[],
+    selectedBoard:null
  } as any;
  export const globalSettingStore = "globalSettingStore"

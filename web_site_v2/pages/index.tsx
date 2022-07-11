@@ -8,12 +8,17 @@ import { useGalleryHook } from '../utils/galleryHook'
 import Gallery from '../components/gallery'
 import { ToastMessageType, useToast } from '../utils/toastMessageHook'
 import { imageFetch } from '../utils/imageFetchHelper'
+import useSWR from 'swr'
+import { defaultAdminGlobalStoreData } from '../stores/admin-global-store'
+import { globalSettingStore, initialGlobalSettingStore } from '../stores/global-setting-store'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Home = () => {
+  const { data:globalGlobalStoreData, mutate:globalGlobalStoreMutate } = useSWR(globalSettingStore,
+    { fallbackData: initialGlobalSettingStore })
   const [showLoading, setShowLoading] = useState(false)
   const { data, size, setSize, error } = useSWRInfinite(index =>
-    `${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${index}&limit=${30}`,
+    `${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${index}&limit=${30}${globalGlobalStoreData.selectedBoard==null?'':"&id="+globalGlobalStoreData.selectedBoard}`,
     fetcher)
   const router = useRouter();
   const { openGallery, setGalleryImages, galleryList } = useGalleryHook();

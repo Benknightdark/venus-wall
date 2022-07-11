@@ -1,11 +1,19 @@
 import { useRouter } from "next/router";
-import { Fragment, PropsWithChildren, useState } from "react";
+import { Fragment, PropsWithChildren, useState, useEffect } from 'react';
 import { GiSpiderMask, GiHamburgerMenu } from 'react-icons/gi'
 import { MdOutlineManageAccounts } from "react-icons/md";
+import useSWR from 'swr';
+import Select from 'react-select';
+import { ISelectOption, IGroupedOption } from '../../models/selectModel';
+import { fetcher } from "../../utils/fetcherHelper";
+import { globalSettingStore, initialGlobalSettingStore } from "../../stores/global-setting-store";
 
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
-
+    const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
+        useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/webpage?for=index`, fetcher)
+    const { data: globalGlobalStoreData, mutate: globalGlobalStoreMutate } = useSWR(globalSettingStore,
+        { fallbackData: initialGlobalSettingStore })
     return (
         <Fragment>
             <div className="flex flex-col h-screen">
@@ -26,18 +34,27 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                 <p className="ml-3 mr-3 font-medium text-white truncate">
                                     <span className='dark:text-white text-black hover:font-bold'>女神牆</span>
                                 </p>
+                                {webPageSelectData && <Select<ISelectOption, false, IGroupedOption>
+                                    options={webPageSelectData}
+                                    isClearable={true}
+                                    placeholder="篩選看版"
+                                    onChange={(newValue) => {
+                                        console.log(newValue);
+                                        globalGlobalStoreMutate({ ...initialGlobalSettingStore, selectedBoard: newValue == null ? null : newValue.value }, false)
 
-                            </div>    
+                                    }}
+                                />}
+                            </div>
                             <MdOutlineManageAccounts className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
-                                        onClick={
-                                            () => {
-                                                router.push('/admin/')
-                                            }
-                                        }
-                                    ></MdOutlineManageAccounts>                 
+                                onClick={
+                                    () => {
+                                        router.push('/admin/')
+                                    }
+                                }
+                            ></MdOutlineManageAccounts>
                         </div>
                     </div>
-                </header>       
+                </header>
                 {/* 內容主頁 */}
                 <div className=" bg-slate-50 dark:bg-black flex-1 overflow-y-auto overflow-x-hidden" id="contentBody">
                     {children}

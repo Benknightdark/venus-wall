@@ -4,6 +4,6 @@ export interface ISelectOption {
 }
 
 export interface IGroupedOption {
-    readonly label: string;
-    readonly options: readonly ISelectOption[];
+    readonly name: string;
+    readonly options:  readonly ISelectOption[];
 }
