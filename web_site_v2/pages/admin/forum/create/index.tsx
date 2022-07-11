@@ -25,7 +25,7 @@ const Index = () => {
     });
     const [forumDataID,setForumDataID]=useState(uuidv4())
     const webPageFieldArrayName = 'webPageList'
-    const { fields, append, remove, replace } = useFieldArray({
+    const { fields, append, remove, replace,swap } = useFieldArray({
         control,
         name: webPageFieldArrayName
     });
@@ -77,6 +77,8 @@ const Index = () => {
                         controlledFields={controlledFields}
                         forumDataId={forumDataID}
                         remove={remove}
+                        swap={swap}
+                        replace={replace}
                         webPageFieldArrayName={webPageFieldArrayName}
                     />
                     <div className="flex flex-row items-center  justify-center space-x-2">

@@ -16,6 +16,7 @@ export const useToast = () => {
             showToast: false, toastMessage: ''
         }, false),
         showToast:globalStoreData.showToast,
-        toastMessage:globalStoreData.toastMessage
+        toastMessage:globalStoreData.toastMessage,
+        toastMessageType:globalStoreData.toastMessageType
     }
 }

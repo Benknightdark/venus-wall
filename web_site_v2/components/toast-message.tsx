@@ -1,6 +1,6 @@
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useEffect } from 'react';
-import { useToast } from "../utils/toastMessageHook";
+import { ToastMessageType, useToast } from "../utils/toastMessageHook";
 
 const ToastMessage = () => {
     const toast = useToast();
@@ -18,7 +18,8 @@ const ToastMessage = () => {
                     <div className="min-h-[16] w-80 px-4 py-2 bg-white rounded-md shadow-lg border border-gray-200 sm:right-0
                     z-50
                     ">
-                        <div className="flex space-x-2 text-green-500 justify-between">
+                        <div className={`flex space-x-2 ${toast.toastMessageType === ToastMessageType.Success ? "text-green-500" : "text-red-500"} 
+                        justify-between`}>
                             <div className="font-bold">{toast.toastMessage}</div>
                             <AiFillCloseCircle className="w-6 h-6 cursor-pointer"
                                 onClick={() => {
