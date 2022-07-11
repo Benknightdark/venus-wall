@@ -177,10 +177,8 @@ const Index = () => {
                                             height={50}
                                             className="cursor-pointer"
                                             onClick={() => {
-
                                                 setGalleryImages([f.Avator])
                                                 openGallery();
-                                                console.log(galleryList)
                                             }}
                                         />
                                     }</th>

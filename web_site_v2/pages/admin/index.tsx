@@ -6,6 +6,7 @@ import * as Highcharts from 'highcharts';
 import Loading from '../../components/loading';
 import uniqolor from 'uniqolor';
 import { fetcher } from '../../utils/fetcherHelper';
+import Gallery from '../../components/gallery';
 
 
 const Chart = (props: any) => <div id={props.id}></div>
@@ -115,6 +116,7 @@ Index.getLayout = function getLayout(page: ReactElement) {
   return (
     <AdminLayout>
       {page}
+
     </AdminLayout>
   )
 }
