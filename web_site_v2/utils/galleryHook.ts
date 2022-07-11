@@ -27,17 +27,3 @@ export const useGalleryHook = () => {
     }
 
 }
-
-// images.map(f => [
-//     {
-//         original: f,
-//         thumbnail: f,
-//     }
-// ])[0]
-
-// function (image) {
-//     return {
-//         original: image,
-//         thumbnail: image
-//     };
-// }
