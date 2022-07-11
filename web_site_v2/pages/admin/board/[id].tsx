@@ -11,10 +11,11 @@ import { fetcher } from "../../../utils/fetcherHelper";
 import AdminLayout from "../../utils/admin-layout";
 import Image from 'next/image'
 import { IoArrowBackSharp } from 'react-icons/io5'
-import {GrGallery} from 'react-icons/gr'
-import ImageGallery from 'react-image-gallery';
+import { GrGallery } from 'react-icons/gr'
 import { ColumnModel } from "../../../models/columnModel";
 import { ColumnSort } from "../../../models/columnSort";
+import { useGalleryHook } from '../../../utils/galleryHook';
+import Gallery from "../../../components/gallery";
 
 const Index = () => {
     const router = useRouter();
@@ -57,20 +58,7 @@ const Index = () => {
         setKeyWord(event.target.value);
         setTimeout(() => event.target.focus(), 500);
     };
-    const [images, setImages] = useState<any[]>([
-        // {
-        //   original: 'https://picsum.photos/id/1018/1000/600/',
-        //   thumbnail: 'https://picsum.photos/id/1018/250/150/',
-        // },
-        // {
-        //   original: 'https://picsum.photos/id/1015/1000/600/',
-        //   thumbnail: 'https://picsum.photos/id/1015/250/150/',
-        // },
-        // {
-        //   original: 'https://picsum.photos/id/1019/1000/600/',
-        //   thumbnail: 'https://picsum.photos/id/1019/250/150/',
-        // },
-    ]);
+    const { openGallery, setGalleryImages,galleryList } = useGalleryHook();
     useEffect(() => {
         adminGlobalStoreMutate({
             ...defaultAdminGlobalStoreData, pageTitle: '看版管理',
@@ -159,11 +147,11 @@ const Index = () => {
                                 itemData && itemData.data.map((f: any) => <tr key={f.key}>
                                     <th className='w-16	'>
                                         <div className="flex flex-l">
-                                         <div className="tooltip" data-tip="看更多圖片">
-                                            <button className='pill-blue-btn' onClick={() => {
-                                            }}>
-                                                <GrGallery className="bg-white"></GrGallery></button>
-                                        </div>
+                                            <div className="tooltip" data-tip="看更多圖片">
+                                                <button className='pill-blue-btn' onClick={() => {
+                                                }}>
+                                                    <GrGallery className="bg-white"></GrGallery></button>
+                                            </div>
                                             <div className="tooltip" data-tip="刪除">
                                                 <button className='pill-red-btn' onClick={() => {
                                                 }}><FiTrash2></FiTrash2></button>
@@ -178,14 +166,10 @@ const Index = () => {
                                             height={50}
                                             className="cursor-pointer"
                                             onClick={() => {
-                                                setImages([])
-                                                setImages([
-                                                    {
-                                                        original: f.Avator,
-                                                        thumbnail: f.Avator,
-                                                    }
-                                                ])
-                                                document.getElementById('openGalleryInput')!.click();
+
+                                                setGalleryImages([f.Avator])
+                                                openGallery();
+                                                console.log(galleryList)
                                             }}
                                         />
                                     }</th>
@@ -215,12 +199,6 @@ const Index = () => {
                     </div>
                 }
             </div>
-            <label htmlFor="show-gallery" className="btn modal-button hidden " id='openGalleryInput'>open modal</label>
-
-            <input type="checkbox" id="show-gallery" className="modal-toggle" />
-            <label htmlFor="show-gallery" className="modal cursor-pointer">
-                <ImageGallery items={images} />
-            </label>
         </div>
     );
 }
@@ -228,6 +206,7 @@ Index.getLayout = function getLayout(page: ReactElement) {
     return (
         <AdminLayout>
             {page}
+            <Gallery></Gallery>
         </AdminLayout>
     )
 }

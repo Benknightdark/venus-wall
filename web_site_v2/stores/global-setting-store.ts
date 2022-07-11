@@ -1,6 +1,7 @@
  export const initialGlobalSettingStore = {
     showImage: true,
-    shoToast:false,
-    toastMessage:''
+    showToast:false,
+    toastMessage:'',
+    galleryList:[]
  } as any;
  export const globalSettingStore = "globalSettingStore"
