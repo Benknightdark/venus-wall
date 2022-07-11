@@ -80,6 +80,21 @@ docker tag  data-processor localhost:5000/data-processor:300
 docker push localhost:5000/data-processor:300 
 helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=300
 
+# 更新 web-site-v2
+docker build --pull --rm  -f "./web_site_v2/Dockerfile" -t web-site-v2 "./web_site_v2"
+docker tag  web-site-v2 localhost:5000/web-site-v2:301
+docker push localhost:5000/web-site-v2:301
+helm upgrade  --install   web-site-v2 ./deploy/web-site-v2 --set=image.tag=301
+
+
+# 更新 api-gateway
+docker build --pull --rm --no-cache -f "./api-gateway/Dockerfile" -t api-gateway "./api-gateway"
+docker tag  api-gateway localhost:5000/api-gateway:302
+docker push localhost:5000/api-gateway:302
+helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=302
+
+
+
 
 # 更新 web-site
 docker build --pull --rm  -f "./web_site/Dockerfile" -t web-site "./web_site"
@@ -88,11 +103,6 @@ docker push localhost:5000/web-site:300
 helm upgrade  --install   web-site ./deploy/web-site --set=image.tag=300
 
 
-# 更新 api-gateway
-docker build --pull --rm --no-cache -f "./api-gateway/Dockerfile" -t api-gateway "./api-gateway"
-docker tag  api-gateway localhost:5000/api-gateway:301
-docker push localhost:5000/api-gateway:301
-helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=301
 ```
 # 三、開啟女神牆網站的對外連線
 - 開啟新的CommandLine視窗，並輸入``` minikube tunnel -c ```

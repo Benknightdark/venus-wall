@@ -50,7 +50,7 @@ static_resources:
                           route:
                             {
                               auto_host_rewrite: true,
-                              prefix_rewrite: "/v1.0/invoke/web-site/method/",
+                              prefix_rewrite: "/v1.0/invoke/web-site-v2/method/",
                               cluster: dapr,
                             }                      
 
