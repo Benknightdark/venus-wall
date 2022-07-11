@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
 /* simple button */
 .green-btn {
   @apply bg-green-700 hover:bg-green-800 focus:ring-4 

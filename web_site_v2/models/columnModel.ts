@@ -1,4 +1,4 @@
-import { ColumnSort } from "./ColumnSort";
+import { ColumnSort } from "./columnSort";
 
 export class ColumnModel {
     displayName: string = '';

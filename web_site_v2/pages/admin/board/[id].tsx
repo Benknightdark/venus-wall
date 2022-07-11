@@ -6,14 +6,15 @@ import { HiOutlineSortAscending, HiOutlineSortDescending } from "react-icons/hi"
 import { IoIosRefreshCircle } from "react-icons/io";
 import useSWR from "swr";
 import Loading from "../../../components/loading";
-import { ColumnModel } from "../../../models/ColumnModel";
-import { ColumnSort } from "../../../models/ColumnSort";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
 import { fetcher } from "../../../utils/fetcherHelper";
 import AdminLayout from "../../utils/admin-layout";
 import Image from 'next/image'
 import { IoArrowBackSharp } from 'react-icons/io5'
-
+import {GrGallery} from 'react-icons/gr'
+import ImageGallery from 'react-image-gallery';
+import { ColumnModel } from "../../../models/columnModel";
+import { ColumnSort } from "../../../models/columnSort";
 
 const Index = () => {
     const router = useRouter();
@@ -56,6 +57,20 @@ const Index = () => {
         setKeyWord(event.target.value);
         setTimeout(() => event.target.focus(), 500);
     };
+    const [images, setImages] = useState<any[]>([
+        // {
+        //   original: 'https://picsum.photos/id/1018/1000/600/',
+        //   thumbnail: 'https://picsum.photos/id/1018/250/150/',
+        // },
+        // {
+        //   original: 'https://picsum.photos/id/1015/1000/600/',
+        //   thumbnail: 'https://picsum.photos/id/1015/250/150/',
+        // },
+        // {
+        //   original: 'https://picsum.photos/id/1019/1000/600/',
+        //   thumbnail: 'https://picsum.photos/id/1019/250/150/',
+        // },
+    ]);
     useEffect(() => {
         adminGlobalStoreMutate({
             ...defaultAdminGlobalStoreData, pageTitle: '看版管理',
@@ -65,134 +80,154 @@ const Index = () => {
     if (!itemData) return <Loading></Loading>
     if (itemError) return <Loading></Loading>
     return (
-        <div className="flex flex-col">
-            <div className="flex p-4 text-sm text-gray-700 bg-orange-100 rounded-lg  
+        <div>
+            <div className="flex flex-col">
+
+                <div className="flex p-4 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                  justify-between"  role="alert">
-                <button className='monochrome-blue-btn  flex space-x-2'
-                    onClick={() => {
-                        router.back();
-                    }}
-                >
-                    <IoArrowBackSharp className='w-4 h-4'></IoArrowBackSharp>
-                    回上一頁
-                </button>
-                <div>
-                    <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
-                        id='keyWordInput'
-                        onChange={onChangeHandler}
-                        value={keyWord!}
-                    />
-                    <div className="tooltip tooltip-left" data-tip="重新取得資料">
-                        <IoIosRefreshCircle className="inline flex-shrink-0 mr-3 w-8 h-8 cursor-pointer hover:h-10 hover:w-10" onClick={() => {
-                            setPage(1);
-                            itemMutate();
-                        }}>
-                        </IoIosRefreshCircle>
+                    <button className='monochrome-blue-btn  flex space-x-2'
+                        onClick={() => {
+                            router.back();
+                        }}
+                    >
+                        <IoArrowBackSharp className='w-4 h-4'></IoArrowBackSharp>
+                        回上一頁
+                    </button>
+                    <div>
+                        <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
+                            id='keyWordInput'
+                            onChange={onChangeHandler}
+                            value={keyWord!}
+                        />
+                        <div className="tooltip tooltip-left" data-tip="重新取得資料">
+                            <IoIosRefreshCircle className="inline flex-shrink-0 mr-3 w-8 h-8 cursor-pointer hover:h-10 hover:w-10" onClick={() => {
+                                setPage(1);
+                                itemMutate();
+                            }}>
+                            </IoIosRefreshCircle>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="overflow-x-auto ">
-                <table className="table w-full ">
-                    <thead className=''>
-                        <tr>
-                            <th className='bg-green-200 w-16'></th>
-                            {
-                                columnList.map(c => <th key={c.columnName} className='bg-green-200 cursor-pointer select-none	'
-                                    onClick={() => {
-                                        if (c.enableSort) {
-                                            if (c.sort === null) {
-                                                console.log("desc")
-                                                c.sort = ColumnSort.DESC
-                                            } else if (c.sort === ColumnSort.DESC) {
-                                                console.log("ASC")
-                                                c.sort = ColumnSort.ASC
+                <div className="overflow-x-auto ">
+                    <table className="table w-full ">
+                        <thead className=''>
+                            <tr>
+                                <th className='bg-green-200 w-16'></th>
+                                {
+                                    columnList.map(c => <th key={c.columnName} className='bg-green-200 cursor-pointer select-none	'
+                                        onClick={() => {
+                                            if (c.enableSort) {
+                                                if (c.sort === null) {
+                                                    console.log("desc")
+                                                    c.sort = ColumnSort.DESC
+                                                } else if (c.sort === ColumnSort.DESC) {
+                                                    console.log("ASC")
+                                                    c.sort = ColumnSort.ASC
 
-                                            } else {
-                                                console.log("DESC")
-                                                c.sort = ColumnSort.DESC
+                                                } else {
+                                                    console.log("DESC")
+                                                    c.sort = ColumnSort.DESC
 
+                                                }
+                                                columnList.filter(f => f.columnName !== c.columnName).map(m => m.sort = null)!
+                                                setColumnList([...columnList]);
+                                                setSortColumn(c.displayName);
+                                                setSortMode(ColumnSort[c.sort])
                                             }
-                                            columnList.filter(f => f.columnName !== c.columnName).map(m => m.sort = null)!
-                                            setColumnList([...columnList]);
-                                            setSortColumn(c.displayName);
-                                            setSortMode(ColumnSort[c.sort])
-                                        }
-                                    }}
-                                >
-                                    <div className="flex  space-x-2">
-                                        <div>{c.displayName}</div>
-                                        {c.enableSort && c.sort !== null && <div>
-                                            {
-                                                c.sort == ColumnSort.DESC && <HiOutlineSortDescending className="w-5 h-5"></HiOutlineSortDescending>
-                                            }
+                                        }}
+                                    >
+                                        <div className="flex  space-x-2">
+                                            <div>{c.displayName}</div>
+                                            {c.enableSort && c.sort !== null && <div>
+                                                {
+                                                    c.sort == ColumnSort.DESC && <HiOutlineSortDescending className="w-5 h-5"></HiOutlineSortDescending>
+                                                }
 
-                                            {
-                                                c.sort == ColumnSort.ASC && <HiOutlineSortAscending className="w-5 h-5"></HiOutlineSortAscending>
-                                            }
+                                                {
+                                                    c.sort == ColumnSort.ASC && <HiOutlineSortAscending className="w-5 h-5"></HiOutlineSortAscending>
+                                                }
 
-                                        </div>}
-                                    </div>
-                                </th>)
-                            }
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            itemData && itemData.data.map((f: any) => <tr key={f.key}>
-                                <th className='w-16	'>
-                                    <div className="flex flex-l">
-                                        {/* <div className="tooltip" data-tip="編輯">
-                                            <button className='pill-blue-btn' onClick={() => {
-                                                router.push(`/admin/forum/edit/${f?.ID}`)
-                                            }}>
-                                                <FiEdit></FiEdit></button>
+                                            </div>}
                                         </div>
+                                    </th>)
+                                }
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                itemData && itemData.data.map((f: any) => <tr key={f.key}>
+                                    <th className='w-16	'>
+                                        <div className="flex flex-l">
+                                            {/*
                                         <div className="tooltip" data-tip="檢視">
                                             <button className='pill-green-btn' onClick={() => {
                                                 router.push(`/admin/forum/detail/${f?.ID}`)
                                             }}><FiSearch></FiSearch></button>
                                         </div> */}
-                                        <div className="tooltip" data-tip="刪除">
-                                            <button className='pill-red-btn' onClick={() => {
-
-                                            }}><FiTrash2></FiTrash2></button>
+                                         <div className="tooltip" data-tip="看更多圖片">
+                                            <button className='pill-blue-btn' onClick={() => {
+                                            }}>
+                                                <GrGallery></GrGallery></button>
                                         </div>
-                                    </div>
-                                </th>
-                                <th>{
-                                    f.Avator && <Image
-                                        src={f.Avator}
-                                        alt={f.Title}
-                                        width={50}
-                                        height={50}
-                                    />
-                                }</th>
-                                <th>{f.Title}</th>
-                                <th>{f.ModifiedDateTime}</th>
-                            </tr>)
-                        }
+                                            <div className="tooltip" data-tip="刪除">
+                                                <button className='pill-red-btn' onClick={() => {
 
-                    </tbody>
-                </table>
-            </div>
-            {
-                itemData && <div className="flex justify-center btn-group pt-3">
-                    <button className={`btn ${page === 1 ? 'btn-info' : ''}`} onClick={() =>
-                        changePage(1)
-                    }>1</button>
-                    {page >= 5 && <button className="btn btn-disabled">...</button>}
-                    {
-                        pageList.filter(a => a !== 1 && a < itemData['totalDataCount']).map(a => <button key={a} className={`btn ${page === a ? 'btn-info' : ''}`}
-                            onClick={() => changePage(a)
-                            }>{a}</button>)
-                    }
-                    {itemData['totalDataCount'] !== page && <button className="btn btn-disabled">...</button>}
-                    <button className={`btn ${page === itemData['totalDataCount'] ? 'btn-info' : ''}`} onClick={() =>
-                        changePage(itemData['totalDataCount'])
-                    }>{itemData['totalDataCount']}</button>
+                                                }}><FiTrash2></FiTrash2></button>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th>{
+                                        f.Avator && <Image
+                                            src={f.Avator}
+                                            alt={f.Title}
+                                            width={50}
+                                            height={50}
+                                            className="cursor-pointer"
+                                            onClick={() => {
+                                                setImages([])
+                                                setImages([
+                                                    {
+                                                        original: f.Avator,
+                                                        thumbnail: f.Avator,
+                                                    }
+                                                ])
+                                                document.getElementById('openGalleryInput')!.click();
+                                            }}
+                                        />
+                                    }</th>
+                                    <th>{f.Title}</th>
+                                    <th>{f.ModifiedDateTime}</th>
+                                </tr>)
+                            }
+
+                        </tbody>
+                    </table>
                 </div>
-            }
+                {
+                    itemData && <div className="flex justify-center btn-group pt-3">
+                        <button className={`btn ${page === 1 ? 'btn-info' : ''}`} onClick={() =>
+                            changePage(1)
+                        }>1</button>
+                        {page >= 5 && <button className="btn btn-disabled">...</button>}
+                        {
+                            pageList.filter(a => a !== 1 && a < itemData['totalDataCount']).map(a => <button key={a} className={`btn ${page === a ? 'btn-info' : ''}`}
+                                onClick={() => changePage(a)
+                                }>{a}</button>)
+                        }
+                        {itemData['totalDataCount'] !== page && <button className="btn btn-disabled">...</button>}
+                        <button className={`btn ${page === itemData['totalDataCount'] ? 'btn-info' : ''}`} onClick={() =>
+                            changePage(itemData['totalDataCount'])
+                        }>{itemData['totalDataCount']}</button>
+                    </div>
+                }
+            </div>
+            <label htmlFor="show-gallery" className="btn modal-button hidden " id='openGalleryInput'>open modal</label>
+
+            <input type="checkbox" id="show-gallery" className="modal-toggle" />
+            <label htmlFor="show-gallery" className="modal cursor-pointer">
+                <ImageGallery items={images} />
+            </label>
         </div>
     );
 }

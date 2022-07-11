@@ -9,8 +9,8 @@ import { FiEdit, FiSearch, FiTrash2 } from 'react-icons/fi'
 import { useRouter } from "next/router";
 import { fetcher } from "../../../utils/fetcherHelper";
 import { HiOutlineSortAscending, HiOutlineSortDescending } from 'react-icons/hi'
-import { ColumnModel } from "../../../models/ColumnModel";
-import { ColumnSort } from "../../../models/ColumnSort";
+import { ColumnModel } from "../../../models/columnModel";
+import { ColumnSort } from "../../../models/columnSort";
 
 
 
