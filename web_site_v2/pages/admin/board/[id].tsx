@@ -159,20 +159,13 @@ const Index = () => {
                                 itemData && itemData.data.map((f: any) => <tr key={f.key}>
                                     <th className='w-16	'>
                                         <div className="flex flex-l">
-                                            {/*
-                                        <div className="tooltip" data-tip="檢視">
-                                            <button className='pill-green-btn' onClick={() => {
-                                                router.push(`/admin/forum/detail/${f?.ID}`)
-                                            }}><FiSearch></FiSearch></button>
-                                        </div> */}
                                          <div className="tooltip" data-tip="看更多圖片">
                                             <button className='pill-blue-btn' onClick={() => {
                                             }}>
-                                                <GrGallery></GrGallery></button>
+                                                <GrGallery className="bg-white"></GrGallery></button>
                                         </div>
                                             <div className="tooltip" data-tip="刪除">
                                                 <button className='pill-red-btn' onClick={() => {
-
                                                 }}><FiTrash2></FiTrash2></button>
                                             </div>
                                         </div>

@@ -16,7 +16,6 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
     return (
         <Fragment>
-
             <div className="flex flex-col h-screen">
                 {/* 標題列 */}
                 <header className="bg-gradient-to-r from-blue-400 to-gray-200  w-full">
