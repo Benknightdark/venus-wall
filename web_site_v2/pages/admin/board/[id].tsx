@@ -12,7 +12,7 @@ import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/a
 import { fetcher } from "../../../utils/fetcherHelper";
 import AdminLayout from "../../utils/admin-layout";
 import Image from 'next/image'
-import {IoArrowBackSharp} from 'react-icons/io5'
+import { IoArrowBackSharp } from 'react-icons/io5'
 
 
 const Index = () => {
@@ -40,6 +40,9 @@ const Index = () => {
     const { data: itemData, mutate: itemMutate, error: itemError } = useSWR(
         `${process.env.NEXT_PUBLIC_APIURL}/api/item/table/${id}?offset=${page - 1}&limit=5&keyword=${keyWord}&mode=${sortMode}&sort=${sortColumn}`,
         fetcher)
+    const { data: pageTitleData, mutate: pageTitleMutate, error: pageTitleError } = useSWR(
+        `${process.env.NEXT_PUBLIC_APIURL}/api/item/page-title/${id}`,
+        fetcher)
     const changePage = async (curretnPage: number) => {
         await setPage(curretnPage)
         if (curretnPage >= 5) {
@@ -63,7 +66,7 @@ const Index = () => {
         <div className="flex flex-col">
             <div className="flex p-4 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                  justify-between"  role="alert">
- <button className='monochrome-blue-btn  flex space-x-2'
+                <button className='monochrome-blue-btn  flex space-x-2'
                     onClick={() => {
                         router.back();
                     }}
@@ -71,6 +74,9 @@ const Index = () => {
                     <IoArrowBackSharp className='w-4 h-4'></IoArrowBackSharp>
                     回上一頁
                 </button>
+            <div>
+                <span>{pageTitleData?.WebPageForumID_U?.Name}/{pageTitleData?.Name}</span>
+            </div>
                 <div>
                     <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
                         id='keyWordInput'
@@ -156,12 +162,12 @@ const Index = () => {
                                     </div>
                                 </th>
                                 <th>{
-                                    f.Avator&&<Image
-                                    src={f.Avator}
-                                    alt={f.Title}
-                                    width={50}
-                                    height={50}
-                                />
+                                    f.Avator && <Image
+                                        src={f.Avator}
+                                        alt={f.Title}
+                                        width={50}
+                                        height={50}
+                                    />
                                 }</th>
                                 <th>{f.Title}</th>
                                 <th>{f.ModifiedDateTime}</th>
