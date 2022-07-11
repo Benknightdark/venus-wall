@@ -57,9 +57,11 @@ const Index = () => {
         setTimeout(() => event.target.focus(), 500);
     };
     useEffect(() => {
-        adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '看版管理', pageDescription: '管理看版裡的圖片' }, false);
-        console.log(itemData)
-    })
+        adminGlobalStoreMutate({
+            ...defaultAdminGlobalStoreData, pageTitle: '看版管理',
+            pageDescription: `${pageTitleData?.WebPageForumID_U?.Name}/${pageTitleData?.Name}`
+        }, false);
+    }, [adminGlobalStoreMutate, pageTitleData])
     if (!itemData) return <Loading></Loading>
     if (itemError) return <Loading></Loading>
     return (
@@ -74,9 +76,6 @@ const Index = () => {
                     <IoArrowBackSharp className='w-4 h-4'></IoArrowBackSharp>
                     回上一頁
                 </button>
-            <div>
-                <span>{pageTitleData?.WebPageForumID_U?.Name}/{pageTitleData?.Name}</span>
-            </div>
                 <div>
                     <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
                         id='keyWordInput'
