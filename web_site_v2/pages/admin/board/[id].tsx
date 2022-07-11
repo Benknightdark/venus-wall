@@ -16,6 +16,8 @@ import { ColumnModel } from "../../../models/columnModel";
 import { ColumnSort } from "../../../models/columnSort";
 import { useGalleryHook } from '../../../utils/galleryHook';
 import Gallery from "../../../components/gallery";
+import { imageFetch } from "../../../utils/imageFetchHelper";
+import { ToastMessageType, useToast } from "../../../utils/toastMessageHook";
 
 const Index = () => {
     const router = useRouter();
@@ -28,6 +30,8 @@ const Index = () => {
     const [keyWord, setKeyWord] = useState('');
     const [sortMode, setSortMode] = useState('');
     const [sortColumn, setSortColumn] = useState('');
+    const toast = useToast();
+
     const [columnList, setColumnList] = useState<Array<ColumnModel>>([
         {
             displayName: 'Avator', columnName: 'Avator', sort: null, enableSort: false
@@ -58,7 +62,7 @@ const Index = () => {
         setKeyWord(event.target.value);
         setTimeout(() => event.target.focus(), 500);
     };
-    const { openGallery, setGalleryImages,galleryList } = useGalleryHook();
+    const { openGallery, setGalleryImages, galleryList } = useGalleryHook();
     useEffect(() => {
         adminGlobalStoreMutate({
             ...defaultAdminGlobalStoreData, pageTitle: '看版管理',
@@ -134,12 +138,10 @@ const Index = () => {
                                                 {
                                                     c.sort == ColumnSort.ASC && <HiOutlineSortAscending className="w-5 h-5"></HiOutlineSortAscending>
                                                 }
-
                                             </div>}
                                         </div>
                                     </th>)
                                 }
-
                             </tr>
                         </thead>
                         <tbody>
@@ -148,7 +150,16 @@ const Index = () => {
                                     <th className='w-16	'>
                                         <div className="flex flex-l">
                                             <div className="tooltip" data-tip="看更多圖片">
-                                                <button className='pill-blue-btn' onClick={() => {
+                                                <button className='pill-blue-btn' onClick={async () => {
+                                                    const fetchData = await imageFetch(f.ID);
+                                                    console.log(fetchData)
+                                                    if (fetchData.length > 0) {
+
+                                                        setGalleryImages(fetchData.map((a: any) => a.Url))
+                                                        openGallery();
+                                                    }else{
+                                                        toast.show(true,"沒有任何圖片",ToastMessageType.Error);
+                                                    }
                                                 }}>
                                                     <GrGallery className="bg-white"></GrGallery></button>
                                             </div>

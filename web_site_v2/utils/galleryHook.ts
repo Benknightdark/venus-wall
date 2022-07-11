@@ -10,16 +10,34 @@ export const useGalleryHook = () => {
             document.getElementById('openGalleryInput')!.click();
         },
         setGalleryImages: (images: any[]) => {
+            const imagesMapList = images.map(
+                (image) => {
+                    return {
+                        original: image,
+                        thumbnail: image
+                    };
+                }
+            );
             mutateGlobalStoreData({
                 ...globalStoreData,
-                galleryList: images.map(f => [
-                    {
-                        original: f,
-                        thumbnail: f,
-                    }
-                ])[0]
+                galleryList: imagesMapList
             }, false)
+            console.log(globalStoreData.galleryList)
         }
     }
 
 }
+
+// images.map(f => [
+//     {
+//         original: f,
+//         thumbnail: f,
+//     }
+// ])[0]
+
+// function (image) {
+//     return {
+//         original: image,
+//         thumbnail: image
+//     };
+// }
