@@ -13,10 +13,17 @@ export const ForumDescription = (props: any) => {
     const toast = useToast();
     const onSubmit = async (data: any) => {
         console.log(data)
-        const req = await fetch(`${process.env.NEXT_PUBLIC_APIURL}/api/item/${modalData.selectedId?.toString().toUpperCase()}?start=${data.start}&end=${data.end}`)
+        const req = await fetch(`${process.env.NEXT_PUBLIC_APIURL}/api/item/${modalData.selectedId?.toString().toUpperCase()}?start=${data.start}&end=${data.end}`
+            , {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json"
+                }
+            }
+        )
         if (req.status === 200) {
             const res = await req.json();
-            toast.show(true, (await req.json())['message'], ToastMessageType.Success);
+            toast.show(true,res['message'], ToastMessageType.Success);
         } else {
             toast.show(true, await req.text(), ToastMessageType.Error);
         }
