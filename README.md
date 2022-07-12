@@ -84,5 +84,9 @@ pip install -r ./task_workers/mdk_crawler/requirements.txt --upgrade
 dotnet ef dbcontext scaffold 'Server=.,9487;Database=beauty_wall;user id=sa;password=YourStrong!Passw0rd' 'Microsoft.EntityFrameworkCore.SqlServer'  -o Models/DBModels -f -c BeautyDBContext --use-database-names --no-build --json
 ```
 
+## Prepare to DO
+- 所有看版文章列表
+- 新增success/error toast function名稱
+- 新增modal hook and component
 
 
