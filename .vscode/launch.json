@@ -122,8 +122,8 @@
                 "mdk-worker",
                 "jkf-crawler",
                 "mdk-crawler",
-                "web-site",
                 "data-processor",
+                "Next.js: debug server-side"
             ]
         }
     ]
