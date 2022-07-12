@@ -37,19 +37,26 @@ export const ForumDescription = (props: any) => {
                                     key={w.ID}
                                     className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                                     <div className="w-0 flex-1 flex items-center cursor-pointer"
-                                    onClick={()=>{
-                                        window.open(w.Url, '_blank')!.focus();
-                                    }}
+                                        onClick={() => {
+                                            window.open(w.Url, '_blank')!.focus();
+                                        }}
                                     >
                                         <GoGlobe className="flex-shrink-0 h-5 w-5 text-gray-400"></GoGlobe>
                                         <span className="ml-2 flex-1 w-0 truncate "> {w.Name} </span>
                                     </div>
                                     <div className="ml-4 flex-shrink-0">
                                         <Link href={`/admin/board/${w.ID}`}
-                                            className="font-medium text-indigo-600 hover:text-indigo-500">
-                                            <a>看更多</a>
+                                        >
+                                            <a className="monochrome-lime-btn">看更多</a>
                                         </Link>
                                     </div>
+                                    {
+                                       props.enableCrawler&& <div className="flex-shrink-0">
+                                        <a className="monochrome-teal-btn cursor-pointer" onClick={() => {
+                                            document.getElementById('crawler-modal-btn')!.click();
+                                        }}>啟動爬蟲</a>
+                                    </div>
+                                    }
                                 </li>)
                             }
                         </ul>
@@ -57,5 +64,13 @@ export const ForumDescription = (props: any) => {
                 </div>
             </dl>
         </div>
+        <label htmlFor="crawler-modal" className="btn modal-button hidden" id='crawler-modal-btn'>open modal</label>
+
+        <input type="checkbox" id="crawler-modal" className="modal-toggle" />
+        <label htmlFor="crawler-modal" className="modal cursor-pointer">
+            <label className="modal-box relative" htmlFor="">
+                <h3 className="text-lg font-bold">Congratulations random Internet user!</h3>
+            </label>
+        </label>
     </div>
 }

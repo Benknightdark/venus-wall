@@ -16,7 +16,7 @@ const Delete = () => {
     })
     return (
         <div className="flex flex-col space-y-2 ">
-            <ForumDescription id={id}></ForumDescription>
+            <ForumDescription id={id} enableCrawler={false}></ForumDescription>
             <div className=' flex flex-row items-center  justify-center space-x-2'>
                 <button className="btn btn-active btn-error" onClick={async () => {
                     const req = await fetch(`${process.env.NEXT_PUBLIC_APIURL}/api/forum/${id}`, {
