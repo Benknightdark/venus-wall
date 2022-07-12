@@ -11,7 +11,11 @@ import { globalSettingStore, initialGlobalSettingStore } from "../../stores/glob
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
     const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
-        useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/webpage?for=index`, fetcher)
+        useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/webpage?for=index`, fetcher,{
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false
+          })
     const { data: globalGlobalStoreData, mutate: globalGlobalStoreMutate } = useSWR(globalSettingStore,
         { fallbackData: initialGlobalSettingStore })
     return (

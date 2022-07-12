@@ -23,7 +23,9 @@ export const ForumDescription = (props: any) => {
         )
         if (req.status === 200) {
             const res = await req.json();
-            toast.show(true,`成功執行【${modalData.modalTitle}】爬蟲，並從第${data.start}頁抓到第${data.end}頁`, ToastMessageType.Success);
+            toast.show(true, `成功執行【${modalData.modalTitle}】爬蟲，並從第${data.start}頁抓到第${data.end}頁`, ToastMessageType.Success);
+            document.getElementById('crawler-modal-btn')!.click();
+
         } else {
             toast.show(true, await req.text(), ToastMessageType.Error);
         }
