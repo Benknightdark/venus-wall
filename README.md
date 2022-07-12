@@ -88,7 +88,9 @@ dotnet ef dbcontext scaffold 'Server=.,9487;Database=beauty_wall;user id=sa;pass
 - 所有看版文章列表
 - 新增success/error toast function名稱
 - 新增modal hook and component
-- index頁面新增refresh page
+- index頁面
+  - 新增refresh button
+  - 回最上頁 button
 - 
 
 
