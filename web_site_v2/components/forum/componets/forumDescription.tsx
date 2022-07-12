@@ -2,9 +2,26 @@ import Link from "next/link"
 import { GoGlobe } from "react-icons/go"
 import Loading from "../../loading";
 import { useForum } from "../../../utils/admin/forumHook";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { ToastMessageType, useToast } from "../../../utils/toastMessageHook";
 
 export const ForumDescription = (props: any) => {
     const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(props.id?.toString()!);
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const [modalData, setModalData] = useState({ modalTitle: '', selectedId: '' })
+    const toast = useToast();
+    const onSubmit = async (data: any) => {
+        console.log(data)
+        const req = await fetch(`${process.env.NEXT_PUBLIC_APIURL}/api/item/${modalData.selectedId?.toString().toUpperCase()}?start=${data.start}&end=${data.end}`)
+        if (req.status === 200) {
+            const res = await req.json();
+            toast.show(true, (await req.json())['message'], ToastMessageType.Success);
+        } else {
+            toast.show(true, await req.text(), ToastMessageType.Error);
+        }
+    };
+
     if (!webPageData && !forumData) return <Loading></Loading>
     if (webPageError && forumError) return <Loading></Loading>
     return <div className="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -51,11 +68,12 @@ export const ForumDescription = (props: any) => {
                                         </Link>
                                     </div>
                                     {
-                                       props.enableCrawler&& <div className="flex-shrink-0">
-                                        <a className="monochrome-teal-btn cursor-pointer" onClick={() => {
-                                            document.getElementById('crawler-modal-btn')!.click();
-                                        }}>啟動爬蟲</a>
-                                    </div>
+                                        props.enableCrawler && <div className="flex-shrink-0">
+                                            <a className="monochrome-teal-btn cursor-pointer" onClick={() => {
+                                                setModalData({ modalTitle: `${forumData['Name']}/${w.Name}`, selectedId: w.ID })
+                                                document.getElementById('crawler-modal-btn')!.click();
+                                            }}>啟動爬蟲</a>
+                                        </div>
                                     }
                                 </li>)
                             }
@@ -68,9 +86,29 @@ export const ForumDescription = (props: any) => {
 
         <input type="checkbox" id="crawler-modal" className="modal-toggle" />
         <label htmlFor="crawler-modal" className="modal cursor-pointer">
-            <label className="modal-box relative" htmlFor="">
-                <h3 className="text-lg font-bold">Congratulations random Internet user!</h3>
-            </label>
+            <form className="modal-box relative" onSubmit={handleSubmit(onSubmit)}>
+                <div className='font-lg'>執行【{modalData?.modalTitle}】爬蟲</div>
+                <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">開始頁數</span>
+                    </label>
+                    <input type="number" defaultValue={0} placeholder="開始頁數" className="input input-bordered w-full max-w-xs"
+                        {...register("start", { min: 0, required: true })}
+                    />
+                    {errors.start && <div className="text-red-500">開始頁數不能是空值</div>}
+                </div>
+                <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">結束頁數</span>
+                    </label>
+                    <input type="number" defaultValue={0} placeholder="結束頁數" className="input input-bordered w-full max-w-xs"
+                        {...register("end", { min: 0, required: true })}
+                    />
+                    {errors.end && <div className="text-red-500">結束頁數不能是空值</div>}
+                </div>
+                <div className='pt-2'></div>
+                <button type="submit" className="btn btn-primary">執行</button>
+            </form>
         </label>
     </div>
 }
