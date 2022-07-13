@@ -56,8 +56,8 @@
 ### 三、啟動系統裡所有的專案
 ``` bash
 # 第一次啟動系統，需要下載每一個專案所需要的套件
-# 下載web_site專案所需要的套件
-cd web_site
+# 下載web_site_v2專案所需要的套件
+cd web_site_v2
 npm i 
 cd ..
 # 下載api專案所需要的套件
