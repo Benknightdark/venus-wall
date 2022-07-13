@@ -32,18 +32,19 @@ async def get_web_page(db: Session = Depends(get_db)):
         models.WebPage.Enable == True).order_by(models.WebPage.Seq).all()
     option_data_dict = [c._asdict() for c in option_data]
     root_data = db.query(
-        models.Forum.ID,
-        models.Forum.Name,
-        models.Forum.CreatedTime,
-        models.Forum.Enable,
-        models.Forum.WorkerName, models.Forum.Seq).filter(
+        models.Forum.ID.label("value"),
+        models.Forum.Name.label("label"),
+        ).filter(
         models.Forum.Enable == True).order_by(models.Forum.Seq).all()
     root_data_dict = [c._asdict() for c in root_data]
     for r in root_data_dict:
-        r['WebPageList'] = []
+        r['options'] = []
         for o in option_data_dict:
-            if r['ID'] == o['ForumID']:
-                r['WebPageList'].append(o)
+            if r['value'] == o['ForumID']:
+                r['options'].append({
+                    'value':o['ID'],
+                    'label':o['Name']
+                })
     return root_data_dict
 
 

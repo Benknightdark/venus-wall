@@ -5,6 +5,10 @@
 - 精美的女神流水牆
 - 使用``dapr`` + ``keda``擴充和開發爬蟲作業程式
 - 透過論壇文章標題相似度計算，找出更多相似的文章
+## 系統架構圖
+<center><img src="./drawio/SystemArchitecture.png" /></center>
+<br/>
+
 ## 🔥系統截圖🔥
 - > 女神流水牆
 <center><img src="./screenshots/1.png" /></center>
@@ -52,20 +56,20 @@
 ### 三、啟動系統裡所有的專案
 ``` bash
 # 第一次啟動系統，需要下載每一個專案所需要的套件
-# 下載web_site專案所需要的套件
-cd web_site
+# 下載web_site_v2專案所需要的套件
+cd web_site_v2
 npm i 
 cd ..
 # 下載api專案所需要的套件
-python3.9 -m pip install -r ./api/requirements.txt --upgrade
+pip install -r ./api/requirements.txt --upgrade
 # 下載jkf_crawler專案所需要的套件
-python3.9 -m pip install -r ./task_workers/jkf_crawler/requirements.txt --upgrade
+pip install -r ./task_workers/jkf_crawler/requirements.txt --upgrade
 # 下載jkf_worker專案所需要的套件
-python3.9 -m pip install -r ./task_workers/jkf_worker/requirements.txt --upgrade
+pip install -r ./task_workers/jkf_worker/requirements.txt --upgrade
 # 下載mdk_worker專案所需要的套件
-python3.9 -m pip install -r /task_workers/mdk_worker/requirements.txt --upgrade
+pip install -r ./task_workers/mdk_worker/requirements.txt --upgrade
 # 下載mdk_crawler專案所需要的套件
-python3.9 -m pip install -r ./task_workers/mdk_crawler/requirements.txt --upgrade
+pip install -r ./task_workers/mdk_crawler/requirements.txt --upgrade
 ```
 1. 使用```visual studio code```開啟專案
 2. 按下```F5鍵```後，即可以啟動所有程式 
@@ -80,5 +84,7 @@ python3.9 -m pip install -r ./task_workers/mdk_crawler/requirements.txt --upgrad
 dotnet ef dbcontext scaffold 'Server=.,9487;Database=beauty_wall;user id=sa;password=YourStrong!Passw0rd' 'Microsoft.EntityFrameworkCore.SqlServer'  -o Models/DBModels -f -c BeautyDBContext --use-database-names --no-build --json
 ```
 
-
-
+## Prepare to Do
+- table 元件設計
+- 所有看版文章列表
+- 爬蟲執行記錄查詢

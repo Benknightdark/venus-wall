@@ -11,7 +11,8 @@
           "command": "Get-Process -Name 'daprd' | Stop-Process"
         },
         "linux": {
-          "command": "kill -9 $(ps aux | grep daprd | awk '{print $2}')"        },
+          "command": "kill -9 $(ps aux | grep daprd | awk '{print $2}')"
+        },
         "osx": {
           "command": "ps aux | grep daprd|grep -v grep | awk '{print $2}'|xargs kill -9"
         }
@@ -28,7 +29,48 @@
           "/property:GenerateFullPaths=true",
           "/consoleloggerparameters:NoSummary"
         ],
-        "problemMatcher": "$msCompile",
+        "problemMatcher": "$msCompile"
       },
+      {
+        "type": "docker-build",
+        "label": "docker-build",
+        "platform": "node",
+        "dockerBuild": {
+          "dockerfile": "${workspaceFolder}/web_site_v2/Dockerfile",
+          "context": "${workspaceFolder}/web_site_v2",
+          "pull": true
+        },
+        "node": {
+          "package": "${workspaceFolder}/web_site_v2/package.json"
+        }
+      },
+      {
+        "type": "docker-run",
+        "label": "docker-run: release",
+        "dependsOn": [
+          "docker-build"
+        ],
+        "platform": "node",
+        "node": {
+          "package": "${workspaceFolder}/web_site_v2/package.json"
+        }
+      },
+      {
+        "type": "docker-run",
+        "label": "docker-run: debug",
+        "dependsOn": [
+          "docker-build"
+        ],
+        "dockerRun": {
+          "env": {
+            "DEBUG": "*",
+            "NODE_ENV": "development"
+          }
+        },
+        "node": {
+          "package": "${workspaceFolder}/web_site_v2/package.json",
+          "enableDebugging": true
+        }
+      }
     ]
   }
