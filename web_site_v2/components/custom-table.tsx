@@ -1,4 +1,4 @@
-const CustomTable = () => {
+const CustomTable = (props:any) => {
     return (
         <div>
             Enter
