@@ -15,6 +15,14 @@ export const useToast = () => {
             ...globalStoreData,
             showToast: false, toastMessage: ''
         }, false),
+        showSuccess:(toastMessage:string)=> mutateGlobalStoreData({
+            ...globalStoreData,
+            showToast: true, toastMessage: toastMessage, toastMessageType: ToastMessageType.Success
+        }, false),
+        showError:(toastMessage:string)=> mutateGlobalStoreData({
+            ...globalStoreData,
+            showToast: true, toastMessage: toastMessage, toastMessageType: ToastMessageType.Error
+        }, false),
         showToast:globalStoreData.showToast,
         toastMessage:globalStoreData.toastMessage,
         toastMessageType:globalStoreData.toastMessageType
