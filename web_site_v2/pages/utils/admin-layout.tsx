@@ -9,6 +9,7 @@ import useSWR from "swr";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../stores/admin-global-store";
 import { globalSettingStore, initialGlobalSettingStore } from "../../stores/global-setting-store";
 import ToastMessage from "../../components/toast-message";
+import ModalMessage from "../../components/modal-message";
 const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
     const { data: globalStoreData, mutate: mutateGlobalStoreData } = useSWR(globalSettingStore, { fallbackData: initialGlobalSettingStore })
@@ -20,7 +21,7 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                 {/* 標題列 */}
                 <header className="bg-gradient-to-r from-blue-400 to-gray-200  w-full">
                     {globalStoreData.showToast && <ToastMessage />}
-
+                    {globalStoreData.showModal && <ModalMessage />}
                     <div className="p-3">
                         <div className="flex items-center justify-between flex-wrap">
                             <div className="w-0 flex-1 flex items-center">

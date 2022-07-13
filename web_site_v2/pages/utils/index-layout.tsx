@@ -7,22 +7,26 @@ import Select from 'react-select';
 import { ISelectOption, IGroupedOption } from '../../models/selectModel';
 import { fetcher } from "../../utils/fetcherHelper";
 import { globalSettingStore, initialGlobalSettingStore } from "../../stores/global-setting-store";
+import ToastMessage from "../../components/toast-message";
+import ModalMessage from "../../components/modal-message";
 
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
     const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
-        useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/webpage?for=index`, fetcher,{
+        useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/webpage?for=index`, fetcher, {
             revalidateIfStale: false,
             revalidateOnFocus: false,
             revalidateOnReconnect: false
-          })
-    const { data: globalGlobalStoreData, mutate: globalGlobalStoreMutate } = useSWR(globalSettingStore,
+        })
+    const { data: globalStoreData, mutate: globalStoreDataMutate } = useSWR(globalSettingStore,
         { fallbackData: initialGlobalSettingStore })
     return (
         <Fragment>
             <div className="flex flex-col h-screen">
                 {/* 標題列 */}
                 <header className="bg-gradient-to-r from-yellow-400 to-orange-200  w-full">
+                    {globalStoreData.showToast && <ToastMessage />}
+                    {globalStoreData.showModal && <ModalMessage />}
                     <div className="p-3">
                         <div className="flex items-center justify-between flex-wrap">
                             <div className="w-0 flex-1 flex items-center">
@@ -43,8 +47,7 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                     isClearable={true}
                                     placeholder="篩選看版"
                                     onChange={(newValue) => {
-                                        console.log(newValue);
-                                        globalGlobalStoreMutate({ ...initialGlobalSettingStore, selectedBoard: newValue == null ? null : newValue.value }, false)
+                                        globalStoreDataMutate({ ...initialGlobalSettingStore, selectedBoard: newValue == null ? null : newValue.value }, false)
 
                                     }}
                                 />}

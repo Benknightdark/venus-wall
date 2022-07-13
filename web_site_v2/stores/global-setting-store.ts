@@ -2,6 +2,8 @@
     showImage: true,
     showToast:false,
     toastMessage:'',
+    showModal:false,
+    modalMessage:'',
     galleryList:[],
     selectedBoard:null
  } as any;
