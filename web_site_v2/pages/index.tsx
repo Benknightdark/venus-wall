@@ -56,7 +56,7 @@ const Home = () => {
                 cursor-pointer
                     hover:shadow-md  transform hover:-translate-y-1 transition-all duration-200 hover:border-red-500 hover:ring-indigo-300" key={itemData.image}>
                   {
-                    itemData.Avator && <Image
+                    itemData.Avator&&globalGlobalStoreData.showImage && <Image
                       layout='responsive'
                       width='100%'
                       height='100%'

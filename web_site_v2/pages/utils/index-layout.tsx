@@ -6,10 +6,11 @@ import useSWR from 'swr';
 import Select from 'react-select';
 import { ISelectOption, IGroupedOption } from '../../models/selectModel';
 import { fetcher } from "../../utils/fetcherHelper";
-import { globalSettingStore, initialGlobalSettingStore } from "../../stores/global-setting-store";
+import { globalSettingStore, initialGlobalSettingStore } from '../../stores/global-setting-store';
 import ToastMessage from "../../components/toast-message";
 import ModalMessage from "../../components/modal-message";
-import {FcRefresh} from 'react-icons/fc'
+import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
+import {FiRefreshCcw} from 'react-icons/fi'
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
     const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
@@ -52,13 +53,32 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                     }}
                                 />}
                             </div>
-                            <FcRefresh className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                            <div className="divider divider-horizontal"></div> 
+
+                            {
+                                !globalStoreData.showImage? <AiFillEye className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                                onClick={
+                                    () => {
+                                        globalStoreDataMutate({ ...initialGlobalSettingStore, showImage:!globalStoreData.showImage}, false)
+                                    }
+                                }
+                                ></AiFillEye>:
+                                <AiFillEyeInvisible className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                                    onClick={
+                                        () => {
+                                            globalStoreDataMutate({ ...initialGlobalSettingStore, showImage:!globalStoreData.showImage}, false)
+                                        }
+                                    }
+                                ></AiFillEyeInvisible>
+                            }
+                            <div className="divider divider-horizontal"></div> 
+                             <FiRefreshCcw className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                 onClick={
                                     () => {
                                         router.reload();
                                     }
                                 }
-                            ></FcRefresh>
+                            ></FiRefreshCcw>
                               <div className="divider divider-horizontal"></div> 
                             <MdOutlineManageAccounts className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                 onClick={
