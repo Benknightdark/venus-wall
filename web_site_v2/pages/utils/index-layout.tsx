@@ -47,11 +47,12 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                     options={webPageSelectData}
                                     isClearable={true}
                                     placeholder="篩選看版"
+                                    defaultValue={globalStoreData.selectedBoard}
                                     onChange={(newValue) => {
                                         globalStoreDataMutate({
                                             ...initialGlobalSettingStore,
                                             showImage: globalStoreData.showImage,
-                                            selectedBoard: newValue == null ? null : newValue.value
+                                            selectedBoard: newValue == null ? null : newValue
                                         }, false)
 
                                     }}
@@ -59,45 +60,50 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                             </div>
                             <div className="divider divider-horizontal"></div>
                             {
-                                !globalStoreData.showImage ? <AiFillEye className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
-                                    onClick={
-                                        () => {
-                                            globalStoreDataMutate({
-                                                ...initialGlobalSettingStore,
-                                                selectedBoard: globalStoreData.selectedBoard,
-                                                showImage: true
-                                            }, false)
-                                        }
-                                    }
-                                ></AiFillEye> :
-                                    <AiFillEyeInvisible className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                                !globalStoreData.showImage ? <div className="tooltip tooltip-bottom tooltip-success" data-tip="顯示圖片">
+                                    <AiFillEye className="toolbar-icon" aria-hidden="true"
                                         onClick={
                                             () => {
                                                 globalStoreDataMutate({
                                                     ...initialGlobalSettingStore,
                                                     selectedBoard: globalStoreData.selectedBoard,
-                                                    showImage: false
+                                                    showImage: true
                                                 }, false)
                                             }
                                         }
-                                    ></AiFillEyeInvisible>
+                                    ></AiFillEye></div>
+                                    : <div className="tooltip tooltip-bottom tooltip-success" data-tip="隱藏圖片">
+                                        <AiFillEyeInvisible className="toolbar-icon" aria-hidden="true"
+                                            onClick={
+                                                () => {
+                                                    globalStoreDataMutate({
+                                                        ...initialGlobalSettingStore,
+                                                        selectedBoard: globalStoreData.selectedBoard,
+                                                        showImage: false
+                                                    }, false)
+                                                }
+                                            }
+                                        ></AiFillEyeInvisible></div>
                             }
                             <div className="divider divider-horizontal"></div>
-                            <FiRefreshCcw className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
-                                onClick={
-                                    () => {
-                                        router.reload();
+                            <div className="tooltip tooltip-bottom tooltip-info" data-tip="重新整理">
+                                <FiRefreshCcw className="toolbar-icon" aria-hidden="true"
+                                    onClick={
+                                        () => {
+                                            router.reload();
+                                        }
                                     }
-                                }
-                            ></FiRefreshCcw>
+                                ></FiRefreshCcw></div>
                             <div className="divider divider-horizontal"></div>
-                            <MdOutlineManageAccounts className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
-                                onClick={
-                                    () => {
-                                        router.push('/admin/')
+                            <div className="tooltip tooltip-left tooltip-error" data-tip="前往管理頁面">
+                                <MdOutlineManageAccounts className="toolbar-icon" aria-hidden="true"
+                                    onClick={
+                                        () => {
+                                            router.push('/admin/')
+                                        }
                                     }
-                                }
-                            ></MdOutlineManageAccounts>
+                                ></MdOutlineManageAccounts>
+                            </div>
                         </div>
                     </div>
                 </header>
