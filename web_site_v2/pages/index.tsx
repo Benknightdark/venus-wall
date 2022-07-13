@@ -6,19 +6,18 @@ import { useRouter } from 'next/router'
 import IndexLayout from './utils/index-layout'
 import { useGalleryHook } from '../utils/galleryHook'
 import Gallery from '../components/gallery'
-import { ToastMessageType, useToast } from '../utils/toastMessageHook'
+import {  useToast } from '../utils/toastMessageHook'
 import { imageFetch } from '../utils/imageFetchHelper'
 import useSWR from 'swr'
-import { defaultAdminGlobalStoreData } from '../stores/admin-global-store'
 import { globalSettingStore, initialGlobalSettingStore } from '../stores/global-setting-store'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Home = () => {
-  const { data:globalGlobalStoreData, mutate:globalGlobalStoreMutate } = useSWR(globalSettingStore,
+  const { data:globalStoreData, mutate:globalStoreDataMutate } = useSWR(globalSettingStore,
     { fallbackData: initialGlobalSettingStore })
   const [showLoading, setShowLoading] = useState(false)
   const { data, size, setSize, error } = useSWRInfinite(index =>
-    `${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${index}&limit=${20}${globalGlobalStoreData.selectedBoard==null?'':"&id="+globalGlobalStoreData.selectedBoard}`,
+    `${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${index}&limit=${20}${globalStoreData.selectedBoard==null?'':"&id="+globalStoreData.selectedBoard}`,
     fetcher,    {
       revalidateIfStale: false,
       revalidateOnFocus: false,
@@ -56,7 +55,7 @@ const Home = () => {
                 cursor-pointer
                     hover:shadow-md  transform hover:-translate-y-1 transition-all duration-200 hover:border-red-500 hover:ring-indigo-300" key={itemData.image}>
                   {
-                    itemData.Avator&&globalGlobalStoreData.showImage && <Image
+                    itemData.Avator&&globalStoreData.showImage && <Image
                       layout='responsive'
                       width='100%'
                       height='100%'
@@ -89,11 +88,10 @@ const Home = () => {
                           const fetchData = await imageFetch(itemData.ID);
                           console.log(fetchData)
                           if (fetchData.length > 0) {
-
                             setGalleryImages(fetchData.map((a: any) => a.Url))
                             openGallery();
                           } else {
-                            toast.show(true, "沒有任何圖片", ToastMessageType.Error);
+                            toast.showError('沒有任何圖片')
                           }
                         }}
                       >

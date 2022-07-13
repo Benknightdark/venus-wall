@@ -9,8 +9,8 @@ import { fetcher } from "../../utils/fetcherHelper";
 import { globalSettingStore, initialGlobalSettingStore } from '../../stores/global-setting-store';
 import ToastMessage from "../../components/toast-message";
 import ModalMessage from "../../components/modal-message";
-import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
-import {FiRefreshCcw} from 'react-icons/fi'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { FiRefreshCcw } from 'react-icons/fi'
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
     const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
@@ -48,38 +48,49 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                     isClearable={true}
                                     placeholder="篩選看版"
                                     onChange={(newValue) => {
-                                        globalStoreDataMutate({ ...initialGlobalSettingStore, selectedBoard: newValue == null ? null : newValue.value }, false)
+                                        globalStoreDataMutate({
+                                            ...initialGlobalSettingStore,
+                                            showImage: globalStoreData.showImage,
+                                            selectedBoard: newValue == null ? null : newValue.value
+                                        }, false)
 
                                     }}
                                 />}
                             </div>
-                            <div className="divider divider-horizontal"></div> 
-
+                            <div className="divider divider-horizontal"></div>
                             {
-                                !globalStoreData.showImage? <AiFillEye className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
-                                onClick={
-                                    () => {
-                                        globalStoreDataMutate({ ...initialGlobalSettingStore, showImage:!globalStoreData.showImage}, false)
-                                    }
-                                }
-                                ></AiFillEye>:
-                                <AiFillEyeInvisible className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                                !globalStoreData.showImage ? <AiFillEye className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                     onClick={
                                         () => {
-                                            globalStoreDataMutate({ ...initialGlobalSettingStore, showImage:!globalStoreData.showImage}, false)
+                                            globalStoreDataMutate({
+                                                ...initialGlobalSettingStore,
+                                                selectedBoard: globalStoreData.selectedBoard,
+                                                showImage: true
+                                            }, false)
                                         }
                                     }
-                                ></AiFillEyeInvisible>
+                                ></AiFillEye> :
+                                    <AiFillEyeInvisible className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                                        onClick={
+                                            () => {
+                                                globalStoreDataMutate({
+                                                    ...initialGlobalSettingStore,
+                                                    selectedBoard: globalStoreData.selectedBoard,
+                                                    showImage: false
+                                                }, false)
+                                            }
+                                        }
+                                    ></AiFillEyeInvisible>
                             }
-                            <div className="divider divider-horizontal"></div> 
-                             <FiRefreshCcw className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                            <div className="divider divider-horizontal"></div>
+                            <FiRefreshCcw className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                 onClick={
                                     () => {
                                         router.reload();
                                     }
                                 }
                             ></FiRefreshCcw>
-                              <div className="divider divider-horizontal"></div> 
+                            <div className="divider divider-horizontal"></div>
                             <MdOutlineManageAccounts className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                 onClick={
                                     () => {
