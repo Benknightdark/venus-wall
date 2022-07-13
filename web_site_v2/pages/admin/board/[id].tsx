@@ -17,7 +17,7 @@ import { ColumnSort } from "../../../models/columnSort";
 import { useGalleryHook } from '../../../utils/galleryHook';
 import Gallery from "../../../components/gallery";
 import { imageFetch } from "../../../utils/imageFetchHelper";
-import { ToastMessageType, useToast } from "../../../utils/toastMessageHook";
+import {  useToast } from "../../../utils/toastMessageHook";
 
 const Index = () => {
     const router = useRouter();
@@ -158,7 +158,7 @@ const Index = () => {
                                                         setGalleryImages(fetchData.map((a: any) => a.Url))
                                                         openGallery();
                                                     }else{
-                                                        toast.show(true,"沒有任何圖片",ToastMessageType.Error);
+                                                        toast.showError("沒有任何圖片");
                                                     }
                                                 }}>
                                                     <GrGallery className="bg-white"></GrGallery></button>

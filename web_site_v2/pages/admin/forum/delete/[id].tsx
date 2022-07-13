@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../../stores/admin-global-store";
 import AdminLayout from "../../../utils/admin-layout";
 import { ForumDescription } from "../../../../components/forum/componets/forumDescription";
-import { ToastMessageType, useToast } from "../../../../utils/toastMessageHook";
+import {  useToast } from "../../../../utils/toastMessageHook";
 
 const Delete = () => {
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore, { fallbackData: defaultAdminGlobalStoreData })
@@ -23,10 +23,10 @@ const Delete = () => {
                         method: 'DELETE',
                     })
                     if (req.status === 200) {
-                        toast.show(true, (await req.json())['message'], ToastMessageType.Success);
+                        toast.showSuccess( (await req.json())['message']);
                         router.push('/admin/forum')
                     } else {
-                        toast.show(true, (await req.text()), ToastMessageType.Error);
+                        toast.showError( (await req.text()));
                     }
                 }}>刪除</button>
                 <button className="btn btn-active" onClick={router.back}>返回</button>

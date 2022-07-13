@@ -1,13 +1,11 @@
 import useSWR from "swr"
+import { MessageType } from "../models/MessageType"
 import { globalSettingStore, initialGlobalSettingStore } from "../stores/global-setting-store"
-export enum ToastMessageType {
-    Success,
-    Error
-}
+
 export const useToast = () => {
     const { data: globalStoreData, mutate: mutateGlobalStoreData } = useSWR(globalSettingStore, { fallbackData: initialGlobalSettingStore })
     return {
-        show: (showToast: boolean, toastMessage: string, toastMessageType: ToastMessageType) => mutateGlobalStoreData({
+        show: (showToast: boolean, toastMessage: string, toastMessageType: MessageType) => mutateGlobalStoreData({
             ...globalStoreData,
             showToast: showToast, toastMessage: toastMessage, toastMessageType: toastMessageType
         }, false),
@@ -17,11 +15,11 @@ export const useToast = () => {
         }, false),
         showSuccess:(toastMessage:string)=> mutateGlobalStoreData({
             ...globalStoreData,
-            showToast: true, toastMessage: toastMessage, toastMessageType: ToastMessageType.Success
+            showToast: true, toastMessage: toastMessage, toastMessageType: MessageType.Success
         }, false),
         showError:(toastMessage:string)=> mutateGlobalStoreData({
             ...globalStoreData,
-            showToast: true, toastMessage: toastMessage, toastMessageType: ToastMessageType.Error
+            showToast: true, toastMessage: toastMessage, toastMessageType: MessageType.Error
         }, false),
         showToast:globalStoreData.showToast,
         toastMessage:globalStoreData.toastMessage,

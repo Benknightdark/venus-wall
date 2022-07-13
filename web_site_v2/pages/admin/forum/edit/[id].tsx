@@ -8,7 +8,7 @@ import AdminLayout from "../../../utils/admin-layout";
 import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { ToastMessageType, useToast } from "../../../../utils/toastMessageHook";
+import {  useToast } from "../../../../utils/toastMessageHook";
 import { ForumForm } from "../../../../components/forum/componets/forumForm";
 
 const schema = yup.object({
@@ -58,10 +58,10 @@ const Edit = () => {
             }
         })
         if (req.status === 200) {
-            toast.show(true, (await req.json())['message'], ToastMessageType.Success);
+            toast.showSuccess( (await req.json())['message']);
             router.push('/admin/forum')
         } else {
-            toast.show(true, (await req.text()), ToastMessageType.Error);
+            toast.showError( (await req.text()));
         }
 
     };

@@ -4,13 +4,15 @@ import Loading from "../../loading";
 import { useForum } from "../../../utils/admin/forumHook";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { ToastMessageType, useToast } from "../../../utils/toastMessageHook";
+import {  useToast } from "../../../utils/toastMessageHook";
+import { useModal } from '../../../utils/modalMessageHook';
 
 export const ForumDescription = (props: any) => {
     const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(props.id?.toString()!);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [modalData, setModalData] = useState({ modalTitle: '', selectedId: '' })
     const toast = useToast();
+    const modal = useModal();
     const onSubmit = async (data: any) => {
         console.log(data)
         const req = await fetch(`${process.env.NEXT_PUBLIC_APIURL}/api/item/${modalData.selectedId?.toString().toUpperCase()}?start=${data.start}&end=${data.end}`
@@ -21,13 +23,14 @@ export const ForumDescription = (props: any) => {
                 }
             }
         )
+        document.getElementById('crawler-modal-btn')!.click();
         if (req.status === 200) {
             const res = await req.json();
-            toast.show(true, `成功執行【${modalData.modalTitle}】爬蟲，並從第${data.start}頁抓到第${data.end}頁`, ToastMessageType.Success);
-            document.getElementById('crawler-modal-btn')!.click();
-
+            // toast.showSuccess( `成功執行【${modalData.modalTitle}】爬蟲，並從第${data.start}頁抓到第${data.end}頁`);
+            modal.showSuccess(`成功執行【${modalData.modalTitle}】爬蟲，並從第${data.start}頁抓到第${data.end}頁`)
         } else {
-            toast.show(true, await req.text(), ToastMessageType.Error);
+            // toast.showError( await req.text());
+            modal.showSuccess(await req.text())
         }
     };
 

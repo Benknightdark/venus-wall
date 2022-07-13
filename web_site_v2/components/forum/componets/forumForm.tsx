@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import { DeepRequired, FieldErrorsImpl, FieldValues, UseFieldArrayAppend, UseFieldArrayRemove, UseFieldArrayReplace, UseFieldArraySwap, UseFieldArrayUpdate, UseFormRegister } from "react-hook-form";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { FaPlusCircle } from "react-icons/fa";
