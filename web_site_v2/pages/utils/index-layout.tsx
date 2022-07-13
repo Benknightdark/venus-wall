@@ -9,7 +9,7 @@ import { fetcher } from "../../utils/fetcherHelper";
 import { globalSettingStore, initialGlobalSettingStore } from "../../stores/global-setting-store";
 import ToastMessage from "../../components/toast-message";
 import ModalMessage from "../../components/modal-message";
-
+import {FcRefresh} from 'react-icons/fc'
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
     const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
@@ -52,6 +52,14 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                     }}
                                 />}
                             </div>
+                            <FcRefresh className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                                onClick={
+                                    () => {
+                                        router.reload();
+                                    }
+                                }
+                            ></FcRefresh>
+                              <div className="divider divider-horizontal"></div> 
                             <MdOutlineManageAccounts className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                 onClick={
                                     () => {
@@ -68,7 +76,7 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                 </div>
                 {/* 頁腳 */}
                 <footer className="py-5 bg-gray-700 text-center text-white">
-                    made by ben 😎
+                    @{new Date().getFullYear()} made by ben 😎
                 </footer>
             </div>
         </Fragment>

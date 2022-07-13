@@ -18,7 +18,7 @@ const Home = () => {
     { fallbackData: initialGlobalSettingStore })
   const [showLoading, setShowLoading] = useState(false)
   const { data, size, setSize, error } = useSWRInfinite(index =>
-    `${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${index}&limit=${30}${globalGlobalStoreData.selectedBoard==null?'':"&id="+globalGlobalStoreData.selectedBoard}`,
+    `${process.env.NEXT_PUBLIC_APIURL}/api/item?offset=${index}&limit=${20}${globalGlobalStoreData.selectedBoard==null?'':"&id="+globalGlobalStoreData.selectedBoard}`,
     fetcher,    {
       revalidateIfStale: false,
       revalidateOnFocus: false,
