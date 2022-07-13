@@ -17,7 +17,7 @@ import { ColumnSort } from "../../../models/columnSort";
 import { useGalleryHook } from '../../../utils/galleryHook';
 import Gallery from "../../../components/gallery";
 import { imageFetch } from "../../../utils/imageFetchHelper";
-import {  useToast } from "../../../utils/toastMessageHook";
+import { useToast } from "../../../utils/toastMessageHook";
 
 const Index = () => {
     const router = useRouter();
@@ -74,17 +74,19 @@ const Index = () => {
     return (
         <div>
             <div className="flex flex-col">
-
+                <div className='flex flex-row'>
+                <button className='monochrome-blue-btn  flex space-x-2'
+                                    onClick={() => {
+                                        router.back();
+                                    }}
+                                >
+                                    <IoArrowBackSharp className='w-4 h-4'></IoArrowBackSharp>
+                                    回上一頁
+                                </button>
+                </div>
                 <div className="flex p-4 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                  justify-between"  role="alert">
-                    <button className='monochrome-blue-btn  flex space-x-2'
-                        onClick={() => {
-                            router.back();
-                        }}
-                    >
-                        <IoArrowBackSharp className='w-4 h-4'></IoArrowBackSharp>
-                        回上一頁
-                    </button>
+                        <div></div>            
                     <div>
                         <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
                             id='keyWordInput'
@@ -157,7 +159,7 @@ const Index = () => {
 
                                                         setGalleryImages(fetchData.map((a: any) => a.Url))
                                                         openGallery();
-                                                    }else{
+                                                    } else {
                                                         toast.showError("沒有任何圖片");
                                                     }
                                                 }}>
