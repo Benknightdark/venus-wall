@@ -18,6 +18,10 @@ export const useModal = () => {
                 showModal: true, modalMessage: modalMessage, modalMessageType: MessageType.Error
             }, false);
         },
+        hide:()=>            mutateGlobalStoreData({
+            ...globalStoreData,
+            showModal: false, modalMessage: ''
+        }, false),
         showModal: globalStoreData.showModal,
         modalMessage: globalStoreData.modalMessage,
         modalMessageType:globalStoreData.modalMessageType
