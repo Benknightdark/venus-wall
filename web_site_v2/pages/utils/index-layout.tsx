@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { Fragment, PropsWithChildren, useState, useEffect } from 'react';
-import { GiSpiderMask, GiHamburgerMenu } from 'react-icons/gi'
+import { Fragment, PropsWithChildren} from 'react';
+import { GiSpiderMask } from 'react-icons/gi'
 import { MdOutlineManageAccounts } from "react-icons/md";
 import useSWR from 'swr';
 import Select from 'react-select';
@@ -11,8 +11,11 @@ import ToastMessage from "../../components/toast-message";
 import ModalMessage from "../../components/modal-message";
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { FiRefreshCcw } from 'react-icons/fi'
+import {BsArrowBarUp} from 'react-icons/bs'
+import { useToast } from "../../utils/toastMessageHook";
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
+    const toast=useToast();
     const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
         useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/webpage?for=index`, fetcher, {
             revalidateIfStale: false,
@@ -110,6 +113,15 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                 {/* 內容主頁 */}
                 <div className=" bg-slate-50 dark:bg-black flex-1 overflow-y-auto overflow-x-hidden" id="contentBody">
                     {children}
+                    <button title="回到最上頁"
+                    onClick={()=>{
+                        document.getElementById('contentBody')?.scrollTo({ top: 0, behavior: 'auto' });
+                        toast.showSuccess('已回到最上頁')
+                    }}
+                        className="fixed z-90 bottom-10 right-8 bg-blue-600 w-20 h-20 rounded-full drop-shadow-lg flex justify-center
+         items-center text-white text-4xl hover:bg-blue-700 hover:drop-shadow-2xl hover:animate-bounce duration-300">
+            <BsArrowBarUp></BsArrowBarUp>
+         </button>
                 </div>
                 {/* 頁腳 */}
                 <footer className="py-5 bg-gray-700 text-center text-white">

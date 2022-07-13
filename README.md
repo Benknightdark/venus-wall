@@ -84,12 +84,6 @@ pip install -r ./task_workers/mdk_crawler/requirements.txt --upgrade
 dotnet ef dbcontext scaffold 'Server=.,9487;Database=beauty_wall;user id=sa;password=YourStrong!Passw0rd' 'Microsoft.EntityFrameworkCore.SqlServer'  -o Models/DBModels -f -c BeautyDBContext --use-database-names --no-build --json
 ```
 
-## Prepare to DO
+## Prepare to Do
 - table 元件設計
 - 所有看版文章列表
-- index頁面
-  - 新增refresh button
-  - 回最上頁 button
-- 
-
-
