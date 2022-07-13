@@ -18,7 +18,7 @@ models.base.Base.metadata.create_all(bind=base.engine)
 app = FastAPI()
 app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:4200"],
+        allow_origins=["http://localhost:4200",'http://localhost:3000'],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -28,18 +28,45 @@ app.add_middleware(
 
 @app.exception_handler(StarletteHTTPException)
 async def custom_http_exception_handler(request, exc):
+    """http請求錯誤
+
+    Args:
+        request (_type_): _description_
+        exc (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     print(f"OMG! An HTTP error!: {repr(exc)}")
     return await http_exception_handler(request, exc)
 
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
+    """http request body資料格式錯誤
+
+    Args:
+        request (_type_): _description_
+        exc (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     print(f"OMG! The client sent invalid data!: {exc}")
     return await request_validation_exception_handler(request, exc)
 
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """ Unprocessable Entity錯誤
+
+    Args:
+        request (Request): _description_
+        exc (RequestValidationError): _description_
+
+    Returns:
+        _type_: _description_
+    """
     return JSONResponse(
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         content=jsonable_encoder({"detail": exc.errors(), "body": exc.body}),
@@ -48,6 +75,15 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
+    """DB Session MiddleWare
+
+    Args:
+        request (Request): _description_
+        call_next (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     response = Response("Internal server error", status_code=500)
     try:
         request.state.db = base.SessionLocal()

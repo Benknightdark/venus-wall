@@ -5,6 +5,20 @@ from . import base
 from sqlalchemy.dialects.mssql import BIGINT, BINARY, BIT, CHAR, DATE, DATETIME, DATETIME2,     DATETIMEOFFSET, DECIMAL, FLOAT, IMAGE, INTEGER, JSON, MONEY,     NCHAR, NTEXT, NUMERIC, NVARCHAR, REAL, SMALLDATETIME,     SMALLINT, SMALLMONEY, SQL_VARIANT, TEXT, TIME,     TIMESTAMP, TINYINT, UNIQUEIDENTIFIER, VARBINARY, VARCHAR
 
 
+class CrawlerLog(base.Base):
+    __tablename__ = "CrawlerLog"
+
+    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
+
+    CreateDateTime = Column(DATETIME)
+
+    RawData = Column(NVARCHAR(None))
+
+    # ForeignKey
+
+    # collections
+
+
 class Forum(base.Base):
     __tablename__ = "Forum"
 
@@ -73,20 +87,6 @@ class Item(base.Base):
         "WebPageSimilarity", back_populates="WebPageSimilarityTargetItemID_U")
 
 
-class Users(base.Base):
-    __tablename__ = "Users"
-
-    ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
-
-    UserName = Column(NVARCHAR(50))
-
-    ModifiedUserID = Column(UNIQUEIDENTIFIER)
-
-    # ForeignKey
-
-    # collections
-
-
 class WebPage(base.Base):
     __tablename__ = "WebPage"
 
@@ -152,12 +152,16 @@ class WebPageTask(base.Base):
     # collections
 
 
-class CrawlerLog(base.Base):
-    __tablename__ = "CrawlerLog"
+class Users(base.Base):
+    __tablename__ = "Users"
 
     ID = Column(UNIQUEIDENTIFIER, primary_key=True, index=True)
 
-    CreateDateTime = Column(DATETIME)
+    UserName = Column(NVARCHAR(50))
+
+    DisplayName = Column(NVARCHAR(50))
+
+    Password = Column(NVARCHAR(200))
 
     # ForeignKey
 

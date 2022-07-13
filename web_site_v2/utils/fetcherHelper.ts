@@ -1,0 +1,1 @@
+export const fetcher = (url: string, option: any = {}) => fetch(url, option).then((res) => res.json())

@@ -11,7 +11,7 @@
             "console": "integratedTerminal",
             "jinja": true,
             "program": "${workspaceFolder}/api/main.py",
-            "envFile": "${workspaceFolder}/.env",
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "name": "jkf-worker",
@@ -29,7 +29,7 @@
             "console": "integratedTerminal",
             "jinja": true,
             "program": "${workspaceFolder}/task_workers/mdk_worker/main.py",
-            "envFile": "${workspaceFolder}/.env",
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "name": "data-processor",
@@ -73,6 +73,44 @@
             "command": "npm start",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/web_site"
+        },
+        {
+            "name": "Next.js: debug server-side",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev",
+            "cwd": "${workspaceFolder}/web_site_v2"
+        },
+        {
+            "name": "Next.js: debug client-side",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "cwd": "${workspaceFolder}/web_site_v2"
+        },
+        {
+            "name": "Next.js: debug full stack",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/web_site_v2",
+            "serverReadyAction": {
+                "pattern": "started server on .+, url: (https?://.+)",
+                "uriFormat": "%s",
+                "action": "debugWithChrome"
+            }
+        },
+        {
+            "name": "Docker Node.js Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "platform": "node",
+            "node": {
+                "package": "${workspaceFolder}/web_site_v2/package.json",
+                "localRoot": "${workspaceFolder}/web_site_v2"
+            }
         }
     ],
     "compounds": [
@@ -84,8 +122,8 @@
                 "mdk-worker",
                 "jkf-crawler",
                 "mdk-crawler",
-                "web-site",
                 "data-processor",
+                "Next.js: debug server-side"
             ]
         }
     ]
