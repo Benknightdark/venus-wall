@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { createElement, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import Loading from "../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
@@ -11,19 +11,28 @@ import { fetcher } from "../../../utils/fetcherHelper";
 import { HiOutlineSortAscending, HiOutlineSortDescending } from 'react-icons/hi'
 import { ColumnModel } from "../../../models/columnModel";
 import { ColumnSort } from "../../../models/columnSort";
-
+import React from "react";
+import { defaultTableStore, tableStore } from "../../../stores/table-store";
+const TT = (props: any) => {
+    const d = props.tt as ReactNode
+    return <div>{d}</div>
+}
 
 
 const Index = () => {
     const router = useRouter();
+    // const { data: tableStoreData, mutate: tableStoreMutate } = useSWR(tableStore,
+    //     { fallbackData: defaultTableStore });
+    //     tableStoreMutate({ ...defaultTableStore,fetchUrl:`${process.env.NEXT_PUBLIC_APIURL}/api/forum-table`,  
+    //     }, false)
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
     const defaultPageList = [1, 2, 3, 4, 5]
     const [pageList, setPageList] = useState(defaultPageList)
     const [page, setPage] = useState(1)
     const [keyWord, setKeyWord] = useState('');
-    const [sortMode,setSortMode]=useState('');
-    const [sortColumn,setSortColumn]=useState('');
+    const [sortMode, setSortMode] = useState('');
+    const [sortColumn, setSortColumn] = useState('');
     const [columnList, setColumnList] = useState<Array<ColumnModel>>([
         {
             displayName: 'Name', columnName: 'Name', sort: null, enableSort: true
@@ -117,7 +126,7 @@ const Index = () => {
                                             columnList.filter(f => f.columnName !== c.columnName).map(m => m.sort = null)!
                                             setColumnList([...columnList]);
                                             setSortColumn(c.displayName);
-                                            setSortMode( ColumnSort[c.sort])
+                                            setSortMode(ColumnSort[c.sort])
                                         }
                                     }}
                                 >
@@ -190,6 +199,7 @@ const Index = () => {
                     }>{forumData['totalDataCount']}</button>
                 </div>
             }
+            <TT tt={<button className='btn btn-info'>hi</button>}>aa</TT>
         </div>
 
     );
