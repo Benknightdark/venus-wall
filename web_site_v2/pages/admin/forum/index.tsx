@@ -13,10 +13,7 @@ import { ColumnModel } from "../../../models/columnModel";
 import { ColumnSort } from "../../../models/columnSort";
 import React from "react";
 import { defaultTableStore, tableStore } from "../../../stores/table-store";
-const TT = (props: any) => {
-    const d = props.tt as ReactNode
-    return <div>{d}</div>
-}
+
 
 
 const Index = () => {
@@ -199,7 +196,6 @@ const Index = () => {
                     }>{forumData['totalDataCount']}</button>
                 </div>
             }
-            <TT tt={<button className='btn btn-info'>hi</button>}>aa</TT>
         </div>
 
     );
