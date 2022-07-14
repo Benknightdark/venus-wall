@@ -4,14 +4,12 @@ import Loading from "../../loading";
 import { useForum } from "../../../utils/admin/forumHook";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import {  useToast } from "../../../utils/toastMessageHook";
 import { useModal } from '../../../utils/modalMessageHook';
 
 export const ForumDescription = (props: any) => {
     const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(props.id?.toString()!);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [modalData, setModalData] = useState({ modalTitle: '', selectedId: '' })
-    const toast = useToast();
     const modal = useModal();
     const onSubmit = async (data: any) => {
         console.log(data)
@@ -26,10 +24,8 @@ export const ForumDescription = (props: any) => {
         document.getElementById('crawler-modal-btn')!.click();
         if (req.status === 200) {
             const res = await req.json();
-            // toast.showSuccess( `成功執行【${modalData.modalTitle}】爬蟲，並從第${data.start}頁抓到第${data.end}頁`);
             modal.showSuccess(`成功執行【${modalData.modalTitle}】爬蟲，並從第${data.start}頁抓到第${data.end}頁`)
         } else {
-            // toast.showError( await req.text());
             modal.showSuccess(await req.text())
         }
     };
@@ -38,23 +34,23 @@ export const ForumDescription = (props: any) => {
     if (webPageError && forumError) return <Loading></Loading>
     return <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <div className="px-4 py-5 sm:px-6">
-            {<h3 className="text-lg leading-6 font-medium text-gray-900">{forumData['Name']}</h3>}
-            {<p className="mt-1 max-w-2xl text-sm text-gray-500">建立時間：{forumData['CreatedTime']}</p>}
+            {<h3 className="text-lg leading-6 font-medium text-gray-900">{forumData?.Name}</h3>}
+            {<p className="mt-1 max-w-2xl text-sm text-gray-500">建立時間：{forumData?.CreatedTime}</p>}
         </div>
         <div className="border-t border-gray-200">
             <dl>
                 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">WorkerName</dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{forumData['WorkerName']}</dd>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{forumData?.WorkerName}</dd>
                 </div>
                 <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">Seq</dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{forumData['Seq']}</dd>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{forumData?.Seq}</dd>
                 </div>
                 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">Enable</dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <input type="checkbox" className="toggle" disabled checked={forumData['Enable']} />
+                        <input type="checkbox" className="toggle" disabled checked={forumData?.Enable} />
                     </dd>
                 </div>
                 <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
