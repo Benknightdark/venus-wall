@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useState, cloneElement } from "react";
+import { useEffect, useState, cloneElement } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import { HiOutlineSortAscending, HiOutlineSortDescending } from "react-icons/hi";
 import { IoIosRefreshCircle } from "react-icons/io";
@@ -137,19 +137,19 @@ const CustomTable = (props: any) => {
                     {page! >= 5 && <button className="btn btn-disabled">...</button>}
 
                     {
-                        pageList!.filter(a => a !== 1 && a < Math.floor(tableResData['totalDataCount'] / limit)).map(a => 
-                        <button key={a}
-                            className={`btn ${page === a ? 'btn-info' : ''}`}
-                            onClick={() => changePage(a)
-                            }>{a}</button>)
+                        pageList!.filter(a => a !== 1 && a < Math.floor(tableResData['totalDataCount'] / limit)).map(a =>
+                            <button key={a}
+                                className={`btn ${page === a ? 'btn-info' : ''}`}
+                                onClick={() => changePage(a)
+                                }>{a}</button>)
                     }
 
                     {Math.floor(tableResData['totalDataCount'] / limit) !== page && <button className="btn btn-disabled">...</button>}
 
-                    <button className={`btn ${page === Math.floor(tableResData['totalDataCount'] / limit) ? 'btn-info' : ''}`} 
-                    onClick={() =>
-                        changePage(Math.floor(tableResData['totalDataCount'] / limit))
-                    }>{Math.floor(tableResData['totalDataCount'] / limit)}</button>
+                    <button className={`btn ${page === Math.floor(tableResData['totalDataCount'] / limit) ? 'btn-info' : ''}`}
+                        onClick={() =>
+                            changePage(Math.floor(tableResData['totalDataCount'] / limit))
+                        }>{Math.floor(tableResData['totalDataCount'] / limit)}</button>
 
                 </div>
             }
