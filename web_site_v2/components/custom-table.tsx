@@ -48,14 +48,14 @@ const CustomTable = (props:any) => {
         <>
             <div className="flex p-4 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                  justify-between"  role="alert">
-                {tableStoreData?.createUrl !== '' && <button className='monochrome-purple-btn  flex space-x-2'
+                {tableStoreData?.createUrl !== '' ? <button className='monochrome-purple-btn  flex space-x-2'
                     onClick={() => {
                         router.push('/admin/forum/create')
                     }}
                 >
                     <FaPlusCircle className='w-4 h-4'></FaPlusCircle>
                     新增
-                </button>}
+                </button>:<div></div>}
 
                 <div>
                     <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
@@ -121,18 +121,7 @@ const CustomTable = (props:any) => {
                     </thead>
                     <tbody>
                         {
-                            tableResData && tableResData.data.map((f: any) => <tr key={f.key}>
-                                <th className='w-16	'>
-                                    <div className="flex flex-l">                                                                                              
-                                    {cloneElement(props.row, {ID: f.ID})}
-                                    </div>
-                                </th>
-                                {
-                                    tableStoreData?.columnList.map(c=>
-                                    <th key={c.columnName}>{f[c.columnName]}</th>
-                                    )
-                                }
-                            </tr>)
+                            tableResData && tableResData.data.map((f: any) =>cloneElement(props.row, {row: f}))
                         }
 
                     </tbody>
