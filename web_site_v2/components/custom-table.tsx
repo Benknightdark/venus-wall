@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useState,cloneElement } from "react";
+import { ReactNode, useEffect, useState, cloneElement } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import { HiOutlineSortAscending, HiOutlineSortDescending } from "react-icons/hi";
 import { IoIosRefreshCircle } from "react-icons/io";
@@ -10,7 +10,8 @@ import { defaultTableStore, tableStore } from "../stores/table-store";
 import { fetcher } from "../utils/fetcherHelper";
 import Loading from "./loading";
 
-const CustomTable = (props:any) => {
+const CustomTable = (props: any) => {
+    const limit=5
     const { data: tableStoreData, mutate: tableStoreMutate } = useSWR(tableStore,
         { fallbackData: defaultTableStore });
     const defaultPageList = [1, 2, 3, 4, 5]
@@ -21,7 +22,7 @@ const CustomTable = (props:any) => {
     const [sortColumn, setSortColumn] = useState(tableStoreData?.sortColumn);
     const [columnList, setColumnList] = useState<Array<ColumnModel>>(tableStoreData?.columnList!);
     const { data: tableResData, mutate: tableResMutate, error: tableResError } = useSWR(
-        `${tableStoreData?.fetchUrl}?offset=${page! - 1}&limit=10&keyword=${keyWord}&mode=${sortMode}&sort=${sortColumn}`,
+        `${tableStoreData?.fetchUrl}?offset=${page! - 1}&limit=${limit}&keyword=${keyWord}&mode=${sortMode}&sort=${sortColumn}`,
         fetcher)
     const router = useRouter();
     const changePage = async (curretnPage: number) => {
@@ -41,7 +42,7 @@ const CustomTable = (props:any) => {
     useEffect(() => {
         if (keyWord != '')
             document.getElementById('keyWordInput')?.focus();
-    },[keyWord])
+    }, [keyWord])
     if (!tableResData) return <Loading></Loading>
     if (tableResError) return <Loading></Loading>
     return (
@@ -55,7 +56,7 @@ const CustomTable = (props:any) => {
                 >
                     <FaPlusCircle className='w-4 h-4'></FaPlusCircle>
                     新增
-                </button>:<div></div>}
+                </button> : <div></div>}
 
                 <div>
                     <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
@@ -121,7 +122,7 @@ const CustomTable = (props:any) => {
                     </thead>
                     <tbody>
                         {
-                            tableResData && tableResData.data.map((f: any) =>cloneElement(props.row, {row: f}))
+                            tableResData && tableResData.data.map((f: any) => cloneElement(props.row, { row: f }))
                         }
 
                     </tbody>
@@ -129,20 +130,26 @@ const CustomTable = (props:any) => {
             </div>
             {
                 tableResData && <div className="flex justify-center btn-group pt-3">
+                    
                     <button className={`btn ${page === 1 ? 'btn-info' : ''}`} onClick={() =>
                         changePage(1)
                     }>1</button>
+
                     {page! >= 5 && <button className="btn btn-disabled">...</button>}
+
                     {
-                        pageList.filter(a => a !== 1 && a < tableResData['totalDataCount']).map(a => <button key={a}
+                        pageList.filter(a => a !== 1 && a < Math.floor(tableResData['totalDataCount']/limit)).map(a => <button key={a}
                             className={`btn ${page === a ? 'btn-info' : ''}`}
                             onClick={() => changePage(a)
                             }>{a}</button>)
                     }
-                    {tableResData['totalDataCount'] !== page && <button className="btn btn-disabled">...</button>}
-                    <button className={`btn ${page === tableResData['totalDataCount'] ? 'btn-info' : ''}`} onClick={() =>
-                        changePage(tableResData['totalDataCount'])
-                    }>{tableResData['totalDataCount']}</button>
+
+                    {Math.floor(tableResData['totalDataCount']/limit) !== page && <button className="btn btn-disabled">...</button>}
+
+                    <button className={`btn ${page === Math.floor(tableResData['totalDataCount']/limit) ? 'btn-info' : ''}`} onClick={() =>
+                        changePage(Math.floor(tableResData['totalDataCount']/limit))
+                    }>{Math.floor(tableResData['totalDataCount']/limit)}</button>
+
                 </div>
             }
         </>

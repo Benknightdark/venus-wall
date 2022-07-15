@@ -6,7 +6,7 @@ import * as Highcharts from 'highcharts';
 import Loading from '../../components/loading';
 import uniqolor from 'uniqolor';
 import { fetcher } from '../../utils/fetcherHelper';
-import Gallery from '../../components/gallery';
+import { useRouter } from 'next/router';
 
 
 const Chart = (props: any) => <div id={props.id}></div>
@@ -18,6 +18,7 @@ const Index = () => {
     fetcher)
   const { data: crawlTaskData, mutate: crawlTaskMutate, error: crawlTaskError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/admin/crawl-task-count`,
     fetcher)
+  const router = useRouter();
   const intCharts = () => {
     forumCountData?.map((f: any) => {
       Highcharts.chart(f.forumName, {
@@ -36,12 +37,16 @@ const Index = () => {
           }
         },
         plotOptions: {
-          line: {
-            dataLabels: {
-              enabled: true
-            },
-            enableMouseTracking: false
-          }
+          series: {
+            cursor: 'pointer',
+            point: {
+                events: {
+                    click:  (event)=> {
+                       router.push(`/admin/board/${f.data[event.point.index]?.ID}`)
+                    }
+                }
+            }
+        }
         },
         series: [{
           name: `${f.forumName}`,
@@ -50,7 +55,7 @@ const Index = () => {
             const color = uniqolor(d.TotalCount)
             return {
               y: d.TotalCount,
-              color: color.color
+              color: color.color           
             }
           }),
           dataLabels: {
@@ -63,6 +68,12 @@ const Index = () => {
               fontSize: '13px',
             }
           }
+          // events: {
+          //   click: (event) => {
+          //     router.push(`/admin/board/${f.id}`);
+          //   }
+          // }
+
         }],
         tooltip: {
           pointFormat: '【{point.series.name}】文章數量： <b>{point.y:.1f}</b>'
@@ -75,8 +86,7 @@ const Index = () => {
   }
   useEffect(() => {
     adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: 'DashBoard', pageDescription: '檢視系統資料圖表' }, false)
-
-    setTimeout(() => intCharts(), 1000)
+    setTimeout(() => intCharts(), 500)
   })
   if (!forumCountData || !crawlTaskData) return <Loading></Loading>
   if (forumCountError || crawlTaskError) return <Loading></Loading>
@@ -116,7 +126,6 @@ Index.getLayout = function getLayout(page: ReactElement) {
   return (
     <AdminLayout>
       {page}
-
     </AdminLayout>
   )
 }
