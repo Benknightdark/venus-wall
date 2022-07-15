@@ -28,7 +28,7 @@
     "@nguniversal/express-engine": "^14.0.3",
     "@types/uuid": "^8.3.3",
     "angular-highcharts": "^13.0.1",
-    "blurhash": "^1.1.4",
+    "blurhash": "1.1.5",
     "express": "^4.17.1",
     "highcharts": "^9.3.2",
     "ng-zorro-antd": "^13.3.2",
