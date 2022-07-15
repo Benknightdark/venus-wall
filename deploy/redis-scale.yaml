@@ -102,7 +102,7 @@ spec:
     name: mdk-crawler
   pollingInterval: 15
   cooldownPeriod: 200
-  maxReplicaCount: 9
+  maxReplicaCount: 6
   minReplicaCount: 3
   triggers:
     - type: redis-streams
@@ -128,7 +128,7 @@ spec:
     name: data-processor
   pollingInterval: 15
   cooldownPeriod: 200
-  maxReplicaCount: 10
+  maxReplicaCount: 6
   minReplicaCount: 3
   triggers:
     - type: redis-streams
@@ -137,6 +137,32 @@ spec:
         hosts: redis-master.default.svc.cluster.local
         ports: "6379"
         stream: process-jkf
+        consumerGroup: daprConsumerGroup
+        pendingEntriesCount: "10000"
+        enableTLS: "false"
+      authenticationRef:
+        name: keda-redis-stream-triggerauth
+
+--- ## process-mdk
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: data-processo-redis-streams-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: data-processor
+  pollingInterval: 15
+  cooldownPeriod: 200
+  maxReplicaCount: 6
+  minReplicaCount: 3
+  triggers:
+    - type: redis-streams
+      metadata:
+        address: redis-master.default.svc.cluster.local:6379
+        hosts: redis-master.default.svc.cluster.local
+        ports: "6379"
+        stream: process-mdk
         consumerGroup: daprConsumerGroup
         pendingEntriesCount: "10000"
         enableTLS: "false"
