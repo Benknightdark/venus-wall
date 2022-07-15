@@ -41,7 +41,7 @@ const CustomTable = (props:any) => {
     useEffect(() => {
         if (keyWord != '')
             document.getElementById('keyWordInput')?.focus();
-    })
+    },[keyWord])
     if (!tableResData) return <Loading></Loading>
     if (tableResError) return <Loading></Loading>
     return (
@@ -50,7 +50,7 @@ const CustomTable = (props:any) => {
                                  justify-between"  role="alert">
                 {tableStoreData?.createUrl !== '' ? <button className='monochrome-purple-btn  flex space-x-2'
                     onClick={() => {
-                        router.push('/admin/forum/create')
+                        router.push(tableStoreData?.createUrl!)
                     }}
                 >
                     <FaPlusCircle className='w-4 h-4'></FaPlusCircle>

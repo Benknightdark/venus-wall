@@ -1,9 +1,6 @@
 import { useRouter } from "next/router";
-import { ReactElement, useEffect, useState } from 'react';
-import { FaPlusCircle } from "react-icons/fa";
+import { ReactElement, useEffect } from 'react';
 import { FiTrash2 } from "react-icons/fi";
-import { HiOutlineSortAscending, HiOutlineSortDescending } from "react-icons/hi";
-import { IoIosRefreshCircle } from "react-icons/io";
 import useSWR from "swr";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
 import { fetcher } from "../../../utils/fetcherHelper";
@@ -17,10 +14,12 @@ import { imageFetch } from "../../../utils/imageFetchHelper";
 import { useToast } from "../../../utils/toastMessageHook";
 import CustomTable from "../../../components/custom-table";
 import { defaultTableStore, tableStore } from "../../../stores/table-store";
+import { BiLinkExternal } from 'react-icons/bi'
 const IndexRow = (props: any) => {
     const toast = useToast();
+    const router = useRouter();
     const { openGallery, setGalleryImages } = useGalleryHook();
-    return <tr>
+    return <tr id={props.row.ID}>
         <th className='w-16	'>
             <div className="flex flex-l">
                 <div className="tooltip" data-tip="看更多圖片">
@@ -34,9 +33,28 @@ const IndexRow = (props: any) => {
                         }
                     }}>
                         <GrGallery className="bg-white"></GrGallery></button>
+
                 </div>
+                <div className="tooltip" data-tip="開啟外部網站">
+
+                    <button className='pill-green-btn' onClick={() => {
+                        window.open(props.row.Url, '_blank')!.focus();
+                    }}>
+                        <BiLinkExternal></BiLinkExternal>
+                    </button>
+                </div>
+
                 <div className="tooltip" data-tip="刪除">
-                    <button className='pill-red-btn' onClick={() => {
+                    <button className='pill-red-btn' onClick={async () => {
+                        const req = await fetch(`${process.env.NEXT_PUBLIC_APIURL}/api/item/${props.row.ID}`, {
+                            method: 'DELETE'
+                        })
+                        if (req.status === 200) {
+                            toast.showSuccess((await req.json())['message']);
+                            document.getElementById(props.row.ID)?.remove();
+                        } else {
+                            toast.showError((await req.text()));
+                        }
                     }}><FiTrash2></FiTrash2></button>
                 </div>
             </div>
@@ -109,7 +127,7 @@ const Index = () => {
                     回上一頁
                 </button>
             </div>
-            <CustomTable row={<IndexRow />}></CustomTable>            
+            <CustomTable row={<IndexRow />}></CustomTable>
         </div>
     );
 }
