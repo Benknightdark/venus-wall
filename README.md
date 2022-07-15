@@ -85,6 +85,5 @@ dotnet ef dbcontext scaffold 'Server=.,9487;Database=beauty_wall;user id=sa;pass
 ```
 
 ## Prepare to Do
-- table 元件設計
 - 所有看版文章列表
 - 爬蟲執行記錄查詢
