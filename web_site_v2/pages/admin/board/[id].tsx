@@ -5,15 +5,12 @@ import { FiTrash2 } from "react-icons/fi";
 import { HiOutlineSortAscending, HiOutlineSortDescending } from "react-icons/hi";
 import { IoIosRefreshCircle } from "react-icons/io";
 import useSWR from "swr";
-import Loading from "../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
 import { fetcher } from "../../../utils/fetcherHelper";
 import AdminLayout from "../../utils/admin-layout";
 import Image from 'next/image'
 import { IoArrowBackSharp } from 'react-icons/io5'
 import { GrGallery } from 'react-icons/gr'
-import { ColumnModel } from "../../../models/columnModel";
-import { ColumnSort } from "../../../models/columnSort";
 import { useGalleryHook } from '../../../utils/galleryHook';
 import Gallery from "../../../components/gallery";
 import { imageFetch } from "../../../utils/imageFetchHelper";
@@ -22,7 +19,7 @@ import CustomTable from "../../../components/custom-table";
 import { defaultTableStore, tableStore } from "../../../stores/table-store";
 const IndexRow = (props: any) => {
     const toast = useToast();
-    const { openGallery, setGalleryImages, galleryList } = useGalleryHook();
+    const { openGallery, setGalleryImages } = useGalleryHook();
     return <tr>
         <th className='w-16	'>
             <div className="flex flex-l">
