@@ -29,7 +29,7 @@ const CustomTable = (props: any) => {
         if (curretnPage >= 5) {
             setPageList([curretnPage - 2, curretnPage - 1, curretnPage, curretnPage + 1, curretnPage + 2])
         } else {
-            setPageList(pageList)
+            setPageList([1, 2, 3, 4, 5])
         }
         await tableResMutate()
     }
