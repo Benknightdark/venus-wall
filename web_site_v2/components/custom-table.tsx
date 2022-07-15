@@ -11,11 +11,10 @@ import { fetcher } from "../utils/fetcherHelper";
 import Loading from "./loading";
 
 const CustomTable = (props: any) => {
-    const limit=5
     const { data: tableStoreData, mutate: tableStoreMutate } = useSWR(tableStore,
         { fallbackData: defaultTableStore });
-    const defaultPageList = [1, 2, 3, 4, 5]
-    const [pageList, setPageList] = useState(defaultPageList)
+    const [limit, setLimit] = useState<number>(tableStoreData?.limit!)
+    const [pageList, setPageList] = useState(tableStoreData?.pageList)
     const [page, setPage] = useState(tableStoreData?.page)
     const [keyWord, setKeyWord] = useState(tableStoreData?.keyWord);
     const [sortMode, setSortMode] = useState(tableStoreData?.sortMode);
@@ -30,7 +29,7 @@ const CustomTable = (props: any) => {
         if (curretnPage >= 5) {
             setPageList([curretnPage - 2, curretnPage - 1, curretnPage, curretnPage + 1, curretnPage + 2])
         } else {
-            setPageList(defaultPageList)
+            setPageList(pageList)
         }
         await tableResMutate()
     }
@@ -130,7 +129,7 @@ const CustomTable = (props: any) => {
             </div>
             {
                 tableResData && <div className="flex justify-center btn-group pt-3">
-                    
+
                     <button className={`btn ${page === 1 ? 'btn-info' : ''}`} onClick={() =>
                         changePage(1)
                     }>1</button>
@@ -138,17 +137,19 @@ const CustomTable = (props: any) => {
                     {page! >= 5 && <button className="btn btn-disabled">...</button>}
 
                     {
-                        pageList.filter(a => a !== 1 && a < Math.floor(tableResData['totalDataCount']/limit)).map(a => <button key={a}
+                        pageList!.filter(a => a !== 1 && a < Math.floor(tableResData['totalDataCount'] / limit)).map(a => 
+                        <button key={a}
                             className={`btn ${page === a ? 'btn-info' : ''}`}
                             onClick={() => changePage(a)
                             }>{a}</button>)
                     }
 
-                    {Math.floor(tableResData['totalDataCount']/limit) !== page && <button className="btn btn-disabled">...</button>}
+                    {Math.floor(tableResData['totalDataCount'] / limit) !== page && <button className="btn btn-disabled">...</button>}
 
-                    <button className={`btn ${page === Math.floor(tableResData['totalDataCount']/limit) ? 'btn-info' : ''}`} onClick={() =>
-                        changePage(Math.floor(tableResData['totalDataCount']/limit))
-                    }>{Math.floor(tableResData['totalDataCount']/limit)}</button>
+                    <button className={`btn ${page === Math.floor(tableResData['totalDataCount'] / limit) ? 'btn-info' : ''}`} 
+                    onClick={() =>
+                        changePage(Math.floor(tableResData['totalDataCount'] / limit))
+                    }>{Math.floor(tableResData['totalDataCount'] / limit)}</button>
 
                 </div>
             }

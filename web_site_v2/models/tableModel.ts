@@ -11,4 +11,6 @@ export class TableModel{
     editUrl:string='';
     detailurl:string='';
     deleteUrl:string='';
+    limit:number=5;
+    pageList:number[]=[1, 2, 3, 4, 5];
  }
