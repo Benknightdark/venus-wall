@@ -63,7 +63,7 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                             </div>
                             <div className="divider divider-horizontal"></div>
                             {
-                                !globalStoreData.showImage ? <div className="tooltip tooltip-bottom tooltip-success" data-tip="顯示圖片">
+                                !globalStoreData.showImage ? <div className="tooltip tooltip-bottom tooltip-success z-50" data-tip="顯示圖片">
                                     <AiFillEye className="toolbar-icon" aria-hidden="true"
                                         onClick={
                                             () => {
@@ -75,7 +75,7 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                             }
                                         }
                                     ></AiFillEye></div>
-                                    : <div className="tooltip tooltip-bottom tooltip-success" data-tip="隱藏圖片">
+                                    : <div className="tooltip tooltip-bottom tooltip-success z-50" data-tip="隱藏圖片">
                                         <AiFillEyeInvisible className="toolbar-icon" aria-hidden="true"
                                             onClick={
                                                 () => {
@@ -89,7 +89,7 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                         ></AiFillEyeInvisible></div>
                             }
                             <div className="divider divider-horizontal"></div>
-                            <div className="tooltip tooltip-bottom tooltip-info" data-tip="重新整理">
+                            <div className="tooltip tooltip-bottom tooltip-info z-50" data-tip="重新整理">
                                 <FiRefreshCcw className="toolbar-icon" aria-hidden="true"
                                     onClick={
                                         () => {
@@ -98,7 +98,7 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                                     }
                                 ></FiRefreshCcw></div>
                             <div className="divider divider-horizontal"></div>
-                            <div className="tooltip tooltip-left tooltip-error" data-tip="前往管理頁面">
+                            <div className="tooltip tooltip-left tooltip-error z-50" data-tip="前往管理頁面">
                                 <MdOutlineManageAccounts className="toolbar-icon" aria-hidden="true"
                                     onClick={
                                         () => {
