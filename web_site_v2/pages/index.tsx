@@ -68,7 +68,6 @@ const Home = () => {
                         src='/images/error.gif'
                         alt={itemData.Title}
                         className="rounded-t-lg h-120 w-full object-cover z-0 "
-
                       />}
                       onClick={() => {
                         setGalleryImages([itemData.Avator])
