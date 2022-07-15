@@ -127,10 +127,11 @@ const CustomTable = (props:any) => {
                                     {cloneElement(props.row, {ID: f.ID})}
                                     </div>
                                 </th>
-                                <th>{f.Name}</th>
-                                <th>{f.CreatedTime}</th>
-                                <th>{f.WorkerName}</th>
-                                <th>{f.Enable.toString()}</th>
+                                {
+                                    tableStoreData?.columnList.map(c=>
+                                    <th key={c.columnName}>{f[c.columnName]}</th>
+                                    )
+                                }
                             </tr>)
                         }
 

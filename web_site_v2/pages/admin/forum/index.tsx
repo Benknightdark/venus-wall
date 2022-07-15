@@ -1,4 +1,4 @@
-import {  ReactElement, useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 import useSWR from "swr";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
 import AdminLayout from "../../utils/admin-layout";
@@ -32,6 +32,10 @@ const Index = () => {
             },
 
         ],
+        page: 1,
+        keyWord: '',
+        sortMode: '',
+        sortColumn: '',
         createUrl: '/admin/forum/create',
         editUrl: '/admin/forum/edit',
         deleteUrl: '/admin/forum/delete',

@@ -18,75 +18,125 @@ import { useGalleryHook } from '../../../utils/galleryHook';
 import Gallery from "../../../components/gallery";
 import { imageFetch } from "../../../utils/imageFetchHelper";
 import { useToast } from "../../../utils/toastMessageHook";
+import CustomTable from "../../../components/custom-table";
+import { defaultTableStore, tableStore } from "../../../stores/table-store";
+const CustomRow = (props: any) => {
+    const toast = useToast();
+    const { openGallery, setGalleryImages, galleryList } = useGalleryHook();
+    return <>
+        <div className="tooltip" data-tip="看更多圖片">
+            <button className='pill-blue-btn' onClick={async () => {
+                const fetchData = await imageFetch(props.ID);
+                console.log(fetchData)
+                if (fetchData.length > 0) {
 
+                    setGalleryImages(fetchData.map((a: any) => a.Url))
+                    openGallery();
+                } else {
+                    toast.showError("沒有任何圖片");
+                }
+            }}>
+                <GrGallery className="bg-white"></GrGallery></button>
+        </div>
+        <div className="tooltip" data-tip="刪除">
+            <button className='pill-red-btn' onClick={() => {
+            }}><FiTrash2></FiTrash2></button>
+        </div>
+    </>
+}
 const Index = () => {
     const router = useRouter();
     const { id } = router.query;
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
-    const defaultPageList = [1, 2, 3, 4, 5]
-    const [pageList, setPageList] = useState(defaultPageList)
-    const [page, setPage] = useState(1)
-    const [keyWord, setKeyWord] = useState('');
-    const [sortMode, setSortMode] = useState('');
-    const [sortColumn, setSortColumn] = useState('');
-    const toast = useToast();
+    const { data: tableStoreData, mutate: tableStoreMutate } = useSWR(tableStore,
+        { fallbackData: defaultTableStore });
+    tableStoreMutate({
+        ...tableStoreData!,
+        fetchUrl: `${process.env.NEXT_PUBLIC_APIURL}/api/item/table/${id}`,
+        columnList: [
+            {
+                displayName: 'Avator', columnName: 'Avator', sort: null, enableSort: false
+            },
+            {
+                displayName: 'Title', columnName: 'Title', sort: null, enableSort: true
+            },
+            {
+                displayName: 'ModifiedDateTime', columnName: 'ModifiedDateTime', sort: null, enableSort: true
+            }
+        ],
+        page: 1,
+        keyWord: '',
+        sortMode: '',
+        sortColumn: ''
+    }, false)
 
-    const [columnList, setColumnList] = useState<Array<ColumnModel>>([
-        {
-            displayName: 'Avator', columnName: 'Avator', sort: null, enableSort: false
-        },
-        {
-            displayName: 'Title', columnName: 'Title', sort: null, enableSort: true
-        },
-        {
-            displayName: 'ModifiedDateTime', columnName: 'ModifiedDateTime', sort: null, enableSort: true
-        }
-    ]);
-    const { data: itemData, mutate: itemMutate, error: itemError } = useSWR(
-        `${process.env.NEXT_PUBLIC_APIURL}/api/item/table/${id}?offset=${page - 1}&limit=5&keyword=${keyWord}&mode=${sortMode}&sort=${sortColumn}`,
-        fetcher)
+
+
+    // const defaultPageList = [1, 2, 3, 4, 5]
+    // const [pageList, setPageList] = useState(defaultPageList)
+    // const [page, setPage] = useState(1)
+    // const [keyWord, setKeyWord] = useState('');
+    // const [sortMode, setSortMode] = useState('');
+    // const [sortColumn, setSortColumn] = useState('');
+    // const toast = useToast();
+
+    // const [columnList, setColumnList] = useState<Array<ColumnModel>>([
+    //     {
+    //         displayName: 'Avator', columnName: 'Avator', sort: null, enableSort: false
+    //     },
+    //     {
+    //         displayName: 'Title', columnName: 'Title', sort: null, enableSort: true
+    //     },
+    //     {
+    //         displayName: 'ModifiedDateTime', columnName: 'ModifiedDateTime', sort: null, enableSort: true
+    //     }
+    // ]);
+    // const { data: itemData, mutate: itemMutate, error: itemError } = useSWR(
+    //     `${process.env.NEXT_PUBLIC_APIURL}/api/item/table/${id}?offset=${page - 1}&limit=5&keyword=${keyWord}&mode=${sortMode}&sort=${sortColumn}`,
+    //     fetcher)
     const { data: pageTitleData, mutate: pageTitleMutate, error: pageTitleError } = useSWR(
         `${process.env.NEXT_PUBLIC_APIURL}/api/item/page-title/${id}`,
         fetcher)
-    const changePage = async (curretnPage: number) => {
-        await setPage(curretnPage)
-        if (curretnPage >= 5) {
-            setPageList([curretnPage - 2, curretnPage - 1, curretnPage, curretnPage + 1, curretnPage + 2])
-        } else {
-            setPageList(defaultPageList)
-        }
-        await itemMutate()
-    }
-    const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setKeyWord(event.target.value);
-        setTimeout(() => event.target.focus(), 500);
-    };
-    const { openGallery, setGalleryImages, galleryList } = useGalleryHook();
+    // const changePage = async (curretnPage: number) => {
+    //     await setPage(curretnPage)
+    //     if (curretnPage >= 5) {
+    //         setPageList([curretnPage - 2, curretnPage - 1, curretnPage, curretnPage + 1, curretnPage + 2])
+    //     } else {
+    //         setPageList(defaultPageList)
+    //     }
+    //     await itemMutate()
+    // }
+    // const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setKeyWord(event.target.value);
+    //     setTimeout(() => event.target.focus(), 500);
+    // };
+    // const { openGallery, setGalleryImages, galleryList } = useGalleryHook();
     useEffect(() => {
         adminGlobalStoreMutate({
             ...defaultAdminGlobalStoreData, pageTitle: '看版管理',
             pageDescription: `${pageTitleData?.WebPageForumID_U?.Name}/${pageTitleData?.Name}`
         }, false);
     }, [adminGlobalStoreMutate, pageTitleData])
-    if (!itemData) return <Loading></Loading>
-    if (itemError) return <Loading></Loading>
+    // if (!itemData) return <Loading></Loading>
+    // if (itemError) return <Loading></Loading>
     return (
-        <div>
-            <div className="flex flex-col">
-                <div className='flex flex-row'>
+        <div className="flex flex-col">
+            <div className='flex flex-row'>
                 <button className='monochrome-blue-btn  flex space-x-2'
-                                    onClick={() => {
-                                        router.back();
-                                    }}
-                                >
-                                    <IoArrowBackSharp className='w-4 h-4'></IoArrowBackSharp>
-                                    回上一頁
-                                </button>
-                </div>
+                    onClick={() => {
+                        router.back();
+                    }}
+                >
+                    <IoArrowBackSharp className='w-4 h-4'></IoArrowBackSharp>
+                    回上一頁
+                </button>
+            </div>
+            <CustomTable row={<CustomRow />}></CustomTable>
+            {/* 
                 <div className="flex p-4 text-sm text-gray-700 bg-orange-100 rounded-lg  
                                  justify-between"  role="alert">
-                        <div></div>            
+                    <div></div>
                     <div>
                         <input type="text" placeholder="關鍵字搜尋" className="input input-bordered input-primary"
                             id='keyWordInput'
@@ -208,8 +258,7 @@ const Index = () => {
                             changePage(itemData['totalDataCount'])
                         }>{itemData['totalDataCount']}</button>
                     </div>
-                }
-            </div>
+                } */}
         </div>
     );
 }
