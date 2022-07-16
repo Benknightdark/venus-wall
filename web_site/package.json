@@ -30,7 +30,7 @@
     "angular-highcharts": "^13.0.1",
     "blurhash": "^1.1.4",
     "express": "^4.17.1",
-    "highcharts": "^9.3.2",
+    "highcharts": "9.3.3",
     "ng-zorro-antd": "^13.3.2",
     "rxjs": "~6.6.7",
     "tslib": "^2.3.1",
