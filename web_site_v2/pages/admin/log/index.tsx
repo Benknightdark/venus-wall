@@ -22,30 +22,41 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:flex-wrap  space-x-3 justify-center">
             <div className="card  bg-base-100 shadow-xl">
                 <div className="card-body">
-                    <h2 className="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <h2 className="card-title">Worker Log</h2>
+                    <div className='flex flex-col'>
+                    {
+                        workerData&&workerData.map((w:any)=><div key={w.ID}>{w.WebPageName}</div>)
+                    }
+                    </div>
                     <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Buy Now</button>
+                        <button className="btn btn-primary">看更多</button>
                     </div>
                 </div>
             </div>
 
             <div className="card bg-base-100 shadow-xl">
                 <div className="card-body">
-                    <h2 className="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <h2 className="card-title">Crawler Log</h2>
+                    <div className='flex flex-col'>
+                    {
+                        crawlerData&&crawlerData.map((w:any)=><div key={w.ID}>{w.Page} - {w.WebPageName} - {w.RootPageUrl}</div>)
+                    }
+                    </div>
                     <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Buy Now</button>
+                        <button className="btn btn-primary">看更多</button>
                     </div>
                 </div>
             </div>
 
             <div className="card  bg-base-100 shadow-xl">
                 <div className="card-body">
-                    <h2 className="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Buy Now</button>
+                    <h2 className="card-title">Processor Log</h2>
+                    <div className='flex flex-col'>
+                    {
+                        processorData&&processorData.map((w:any)=><div key={w.ID}> {w.WebPageName} - {w.Title}</div>)
+                    }
+                    </div>                    <div className="card-actions justify-end">
+                        <button className="btn btn-primary">看更多</button>
                     </div>
                 </div>
             </div>
