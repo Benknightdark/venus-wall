@@ -87,7 +87,7 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                             <ul className="menu overflow-y-auto w-60 bg-base-100 text-base-content">
                                 <li><Link href="/"><a><AiFillHome></AiFillHome>首頁</a></Link></li>
                                 <li><Link href="/admin/forum"><a><MdManageSearch></MdManageSearch>論壇管理</a></Link></li>
-                                <li><Link href="/admin/log"><a><GiSpiderBot></GiSpiderBot>爬蟲執行記錄管理</a></Link></li>
+                                <li><Link href="/admin/log"><a><GiSpiderBot></GiSpiderBot>爬蟲執行記錄查詢</a></Link></li>
                             </ul>
                         </div>
                     </div>

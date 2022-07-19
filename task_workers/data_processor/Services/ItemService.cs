@@ -83,11 +83,10 @@ public class ItemService
             _logger.LogInformation("=====Exception========");
             _logger.LogError(e.Message);
             _logger.LogInformation("=====Exception========");
-            throw e;
         }
         finally
         {
-            //await _db.DisposeAsync();
+            await context.DisposeAsync();
         }
 
  }

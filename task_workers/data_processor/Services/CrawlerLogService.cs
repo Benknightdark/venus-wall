@@ -44,7 +44,6 @@ public class CrawlerLogService
                 _logger.LogInformation("=====Exception========");
                 _logger.LogError(e.Message);
                 _logger.LogInformation("=====Exception========");
-                throw e;
             }
             finally
             {

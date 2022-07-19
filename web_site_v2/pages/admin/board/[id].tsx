@@ -17,7 +17,6 @@ import { defaultTableStore, tableStore } from "../../../stores/table-store";
 import { BiLinkExternal } from 'react-icons/bi'
 const IndexRow = (props: any) => {
     const toast = useToast();
-    const router = useRouter();
     const { openGallery, setGalleryImages } = useGalleryHook();
     return <tr id={props.row.ID}>
         <th className='w-16	'>
@@ -74,6 +73,7 @@ const IndexRow = (props: any) => {
         }</th>
         <th>{props.row.Title}</th>
         <th>{props.row.ModifiedDateTime}</th>
+        <th>{props.row.Seq}</th>
     </tr>
 }
 const Index = () => {
@@ -95,7 +95,10 @@ const Index = () => {
             },
             {
                 displayName: 'ModifiedDateTime', columnName: 'ModifiedDateTime', sort: null, enableSort: true
-            }
+            },
+            {
+                displayName: 'Seq', columnName: 'Seq', sort: null, enableSort: true
+            },
         ],
         page: 1,
         keyWord: '',
