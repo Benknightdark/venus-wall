@@ -1,21 +1,24 @@
+import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
 import useSWR from "swr";
 import Loading from "../../../components/loading";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
+import { crawlerApiUrl, processorApiUrl, workerApiUrl } from "../../../utils/admin/logUtils";
 import { fetcher } from "../../../utils/fetcherHelper";
 import AdminLayout from "../../utils/admin-layout";
 
 const Index = () => {
+    const router=useRouter();
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
-    const { data: workerData, mutate: workerMutate, error: workerError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/log/worker?limit=10&offset=0`, fetcher
+    const { data: workerData, mutate: workerMutate, error: workerError } = useSWR(`${workerApiUrl}?limit=10&offset=0`, fetcher
         , {
             refreshInterval: 5
         });
-    const { data: crawlerData, mutate: crawlerMutate, error: crawlerError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/log/crawler?limit=10&offset=0`, fetcher, {
+    const { data: crawlerData, mutate: crawlerMutate, error: crawlerError } = useSWR(`${crawlerApiUrl}?limit=10&offset=0`, fetcher, {
         refreshInterval: 5
     });
-    const { data: processorData, mutate: processorMutate, error: processorError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/log/processor?limit=10&offset=0`, fetcher, {
+    const { data: processorData, mutate: processorMutate, error: processorError } = useSWR(`${processorApiUrl}?limit=10&offset=0`, fetcher, {
         refreshInterval: 5
     });
 
@@ -42,7 +45,9 @@ const Index = () => {
 
                         </div>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">看更多</button>
+                            <button className="btn btn-primary" onClick={()=>{
+                                router.push(`/admin/log/detail/worker`)
+                            }}>看更多</button>
                         </div>
                     </div>
                 </div>
@@ -62,7 +67,7 @@ const Index = () => {
 
                         </div>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">看更多</button>
+                            <button className="btn btn-primary" >看更多</button>
                         </div>
                     </div>
                 </div>
