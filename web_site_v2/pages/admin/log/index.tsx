@@ -1,21 +1,27 @@
+import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
 import useSWR from "swr";
 import Loading from "../../../components/loading";
+import { CrawlerList } from "../../../components/log/components/crawlerList";
+import { ProcessorList } from "../../../components/log/components/processorList";
+import { WorkerList } from "../../../components/log/components/workerList";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
+import { crawlerApiUrl, processorApiUrl, workerApiUrl } from "../../../utils/admin/logUtils";
 import { fetcher } from "../../../utils/fetcherHelper";
 import AdminLayout from "../../utils/admin-layout";
 
 const Index = () => {
+    const router = useRouter();
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
-    const { data: workerData, mutate: workerMutate, error: workerError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/log/worker?limit=10&offset=0`, fetcher
+    const { data: workerData, mutate: workerMutate, error: workerError } = useSWR(`${workerApiUrl}?limit=10&offset=0`, fetcher
         , {
             refreshInterval: 5
         });
-    const { data: crawlerData, mutate: crawlerMutate, error: crawlerError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/log/crawler?limit=10&offset=0`, fetcher, {
+    const { data: crawlerData, mutate: crawlerMutate, error: crawlerError } = useSWR(`${crawlerApiUrl}?limit=10&offset=0`, fetcher, {
         refreshInterval: 5
     });
-    const { data: processorData, mutate: processorMutate, error: processorError } = useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/log/processor?limit=10&offset=0`, fetcher, {
+    const { data: processorData, mutate: processorMutate, error: processorError } = useSWR(`${processorApiUrl}?limit=10&offset=0`, fetcher, {
         refreshInterval: 5
     });
 
@@ -27,38 +33,41 @@ const Index = () => {
 
     return (
         <div>
-            <div className="flex flex-col md:flex-row md:flex-wrap  space-x-3 justify-center">
-                <div className="card  bg-base-100 shadow-xl w-96 h-fit">
+            <div className="flex flex-col  md:flex-row md:flex-wrap  md:space-x-3  justify-center items-center">
+                <div className="card  bg-base-100 shadow-xl w-96 h-fit mt-3">
                     <div className="card-body bg-orange-100 ">
                         <h2 className="card-title underline decoration-1">Worker Log</h2>
                         <div className='flex flex-col  h-48 overflow-y-scroll'>
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
-                                    workerData && workerData.map((w: any) => <li 
-                                    className='' key={w.ID}><a>{w.WebPageName}</a></li>)
+                                    workerData && workerData.map((w: any) => <WorkerList key={w.ID} w={w}></WorkerList>)
                                 }
                             </ul>
 
                         </div>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">看更多</button>
+                            <button className="btn btn-primary" onClick={() => {
+                                router.push(`/admin/log/more/worker`)
+                            }}>看更多</button>
                         </div>
                     </div>
                 </div>
 
-                <div className="card bg-base-100 shadow-xl h-fit">
+                <div className="card  bg-base-100 shadow-xl w-96 h-fit mt-3">
                     <div className="card-body bg-blue-100 w-96">
                         <h2 className="card-title underline decoration-1">Crawler Log</h2>
                         <div className='flex flex-col  h-48 overflow-y-scroll'>
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
-                                    crawlerData && crawlerData.map((w: any) => <li className='' key={w.ID}><a><span className="text-red-600">{w.ForumName}/{w.WebPageName} -Page{w.Page}</span> 開始爬取</a></li>)
+                                    crawlerData && crawlerData.map((w: any) => <CrawlerList key={w.ID} w={w}></CrawlerList>)
                                 }
                             </ul>
 
                         </div>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">看更多</button>
+                            <button className="btn btn-primary" onClick={() => {
+                                router.push(`/admin/log/more/crawler`)
+                            }} >看更多</button>
                         </div>
                     </div>
                 </div>
@@ -71,19 +80,14 @@ const Index = () => {
 
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
-                                    processorData && processorData.map((w: any) => <li
-                                    onClick={()=>{
-                                        window.open(w.Url, '_blank')!.focus();
-                                    }}
-                                        className='animate__animated animate__flipInX animate__delay-1s
-                                        ' key={w.ID}>
-                                        <a><span className="text-red-600">【{w.ForumName}/{w.WebPageName} - {w.Title}】</span> 已寫入資料庫</a>
-                                    </li>)
+                                    processorData && processorData.map((w: any) =><ProcessorList key={w.ID} w={w}></ProcessorList>)
                                 }
                             </ul>
-                        </div>  
+                        </div>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">看更多</button>
+                            <button className="btn btn-primary" onClick={() => {
+                                router.push(`/admin/log/more/processor`)
+                            }}>看更多</button>
                         </div>
                     </div>
                 </div>
