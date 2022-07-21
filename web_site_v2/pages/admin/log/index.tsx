@@ -2,13 +2,16 @@ import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
 import useSWR from "swr";
 import Loading from "../../../components/loading";
+import { CrawlerList } from "../../../components/log/components/crawlerList";
+import { ProcessorList } from "../../../components/log/components/processorList";
+import { WorkerList } from "../../../components/log/components/workerList";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
 import { crawlerApiUrl, processorApiUrl, workerApiUrl } from "../../../utils/admin/logUtils";
 import { fetcher } from "../../../utils/fetcherHelper";
 import AdminLayout from "../../utils/admin-layout";
 
 const Index = () => {
-    const router=useRouter();
+    const router = useRouter();
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
     const { data: workerData, mutate: workerMutate, error: workerError } = useSWR(`${workerApiUrl}?limit=10&offset=0`, fetcher
@@ -37,16 +40,14 @@ const Index = () => {
                         <div className='flex flex-col  h-48 overflow-y-scroll'>
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
-                                    workerData && workerData.map((w: any) => <li 
-                                    className="border-b-4 border-blue-500" key={w.ID}><a>{w.WebPageName}</a>
-                                    </li>)
+                                    workerData && workerData.map((w: any) => <WorkerList key={w.ID} w={w}></WorkerList>)
                                 }
                             </ul>
 
                         </div>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary" onClick={()=>{
-                                router.push(`/admin/log/detail/worker`)
+                            <button className="btn btn-primary" onClick={() => {
+                                router.push(`/admin/log/more/worker`)
                             }}>看更多</button>
                         </div>
                     </div>
@@ -58,16 +59,15 @@ const Index = () => {
                         <div className='flex flex-col  h-48 overflow-y-scroll'>
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
-                                    crawlerData && crawlerData.map((w: any) => <li className="border-b-4 border-green-500"
-                                    
-                                    
-                                    key={w.ID}><a><span className="text-red-600">{w.ForumName}/{w.WebPageName} -Page{w.Page}</span> 開始爬取</a></li>)
+                                    crawlerData && crawlerData.map((w: any) => <CrawlerList key={w.ID} w={w}></CrawlerList>)
                                 }
                             </ul>
 
                         </div>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary" >看更多</button>
+                            <button className="btn btn-primary" onClick={() => {
+                                router.push(`/admin/log/more/crawler`)
+                            }} >看更多</button>
                         </div>
                     </div>
                 </div>
@@ -80,21 +80,14 @@ const Index = () => {
 
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
-                                    processorData && processorData.map((w: any) => <li
-                                    
-                                    onClick={()=>{
-                                        window.open(w.Url, '_blank')!.focus();
-                                    }}
-                                        className='animate__animated animate__flipInX animate__delay-1s
-                                        border-b-4 border-gray-500
-                                        ' key={w.ID}>
-                                        <a><span className="text-red-600">【{w.ForumName}/{w.WebPageName} - {w.Title}】</span> 已寫入資料庫</a>
-                                    </li>)
+                                    processorData && processorData.map((w: any) =><ProcessorList key={w.ID} w={w}></ProcessorList>)
                                 }
                             </ul>
-                        </div>  
+                        </div>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">看更多</button>
+                            <button className="btn btn-primary" onClick={() => {
+                                router.push(`/admin/log/more/processor`)
+                            }}>看更多</button>
                         </div>
                     </div>
                 </div>
