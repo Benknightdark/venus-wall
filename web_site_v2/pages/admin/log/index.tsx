@@ -27,15 +27,16 @@ const Index = () => {
 
     return (
         <div>
-            <div className="flex flex-col md:flex-row md:flex-wrap  space-x-3 justify-center">
-                <div className="card  bg-base-100 shadow-xl w-96 h-fit">
+            <div className="flex flex-col  md:flex-row md:flex-wrap  md:space-x-3  justify-center items-center">
+                <div className="card  bg-base-100 shadow-xl w-96 h-fit mt-3">
                     <div className="card-body bg-orange-100 ">
                         <h2 className="card-title underline decoration-1">Worker Log</h2>
                         <div className='flex flex-col  h-48 overflow-y-scroll'>
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
                                     workerData && workerData.map((w: any) => <li 
-                                    className='' key={w.ID}><a>{w.WebPageName}</a></li>)
+                                    className="border-b-4 border-blue-500" key={w.ID}><a>{w.WebPageName}</a>
+                                    </li>)
                                 }
                             </ul>
 
@@ -46,13 +47,16 @@ const Index = () => {
                     </div>
                 </div>
 
-                <div className="card bg-base-100 shadow-xl h-fit">
+                <div className="card  bg-base-100 shadow-xl w-96 h-fit mt-3">
                     <div className="card-body bg-blue-100 w-96">
                         <h2 className="card-title underline decoration-1">Crawler Log</h2>
                         <div className='flex flex-col  h-48 overflow-y-scroll'>
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
-                                    crawlerData && crawlerData.map((w: any) => <li className='' key={w.ID}><a><span className="text-red-600">{w.ForumName}/{w.WebPageName} -Page{w.Page}</span> 開始爬取</a></li>)
+                                    crawlerData && crawlerData.map((w: any) => <li className="border-b-4 border-green-500"
+                                    
+                                    
+                                    key={w.ID}><a><span className="text-red-600">{w.ForumName}/{w.WebPageName} -Page{w.Page}</span> 開始爬取</a></li>)
                                 }
                             </ul>
 
@@ -72,10 +76,12 @@ const Index = () => {
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
                                     processorData && processorData.map((w: any) => <li
+                                    
                                     onClick={()=>{
                                         window.open(w.Url, '_blank')!.focus();
                                     }}
                                         className='animate__animated animate__flipInX animate__delay-1s
+                                        border-b-4 border-gray-500
                                         ' key={w.ID}>
                                         <a><span className="text-red-600">【{w.ForumName}/{w.WebPageName} - {w.Title}】</span> 已寫入資料庫</a>
                                     </li>)
