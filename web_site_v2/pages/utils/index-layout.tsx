@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Fragment, PropsWithChildren} from 'react';
+import { Fragment, PropsWithChildren } from 'react';
 import { GiSpiderMask } from 'react-icons/gi'
 import { MdOutlineManageAccounts } from "react-icons/md";
 import useSWR from 'swr';
@@ -11,11 +11,15 @@ import ToastMessage from "../../components/toast-message";
 import ModalMessage from "../../components/modal-message";
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { FiRefreshCcw } from 'react-icons/fi'
-import {BsArrowBarUp} from 'react-icons/bs'
+import { BsArrowBarUp } from 'react-icons/bs'
 import { useToast } from "../../utils/toastMessageHook";
+import Image from 'next/image'
+
+
+
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
     const router = useRouter();
-    const toast=useToast();
+    const toast = useToast();
     const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
         useSWR(`${process.env.NEXT_PUBLIC_APIURL}/api/webpage?for=index`, fetcher, {
             revalidateIfStale: false,
@@ -28,23 +32,27 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
         <Fragment>
             <div className="flex flex-col h-screen">
                 {/* 標題列 */}
-                <header className="bg-gradient-to-r from-yellow-400 to-orange-200  w-full">
+                <header className="bg-gradient-to-r from-rose-100 to-teal-100  w-full">
                     {globalStoreData.showToast && <ToastMessage />}
                     {globalStoreData.showModal && <ModalMessage />}
                     <div className="p-3">
                         <div className="flex items-center justify-between flex-wrap">
                             <div className="w-0 flex-1 flex items-center">
-                                <span className="flex p-2 rounded-lg dark:bg-indigo-800 bg-yellow-600">
-                                    <GiSpiderMask className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
+                                <span className="flex p-2 rounded-lg dark:bg-indigo-800 bg-orange-600">
+                                    <Image
+                                        className='cursor-pointer'
+                                        src="/images/logo.png"
+                                        alt="Picture of the author"
+                                        width={80}
+                                        height={30}
                                         onClick={
                                             () => {
                                                 router.push('/')
                                             }
                                         }
-                                    ></GiSpiderMask>
+                                    />
                                 </span>
                                 <p className="ml-3 mr-3 font-medium text-white truncate">
-                                    <span className='dark:text-white text-black hover:font-bold'>女神牆</span>
                                 </p>
                                 {webPageSelectData && <Select<ISelectOption, false, IGroupedOption>
                                     options={webPageSelectData}
@@ -114,14 +122,14 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                 <div className=" bg-slate-50 dark:bg-black flex-1 overflow-y-auto overflow-x-hidden" id="contentBody">
                     {children}
                     <button title="回到最上頁"
-                    onClick={()=>{
-                        document.getElementById('contentBody')?.scrollTo({ top: 0, behavior: 'auto' });
-                        toast.showSuccess('已回到最上頁')
-                    }}
+                        onClick={() => {
+                            document.getElementById('contentBody')?.scrollTo({ top: 0, behavior: 'auto' });
+                            toast.showSuccess('已回到最上頁')
+                        }}
                         className="fixed z-90 bottom-10 right-8 bg-blue-600 w-20 h-20 rounded-full drop-shadow-lg flex justify-center
          items-center text-white text-4xl hover:bg-blue-700 hover:drop-shadow-2xl hover:animate-bounce duration-300">
-            <BsArrowBarUp></BsArrowBarUp>
-         </button>
+                        <BsArrowBarUp></BsArrowBarUp>
+                    </button>
                 </div>
                 {/* 頁腳 */}
                 <footer className="py-5 bg-gray-700 text-center text-white">
