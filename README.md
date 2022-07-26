@@ -22,7 +22,7 @@
 <center><img src="./screenshots/2.png" /></center>
 <br/>
 
-- > 文章管理
+- > 看版管理
 <center><img src="./screenshots/3.png" /></center>
 <br/>
 
