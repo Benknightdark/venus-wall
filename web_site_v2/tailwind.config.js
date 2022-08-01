@@ -9,5 +9,10 @@ module.exports = {
   plugins: [require("daisyui")],
   daisyui: {
     themes: ["light","dark"]
+  },
+  variants: {
+    extend: {
+      inset: ["group-hover"],
+    }
   }
 }

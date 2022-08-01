@@ -141,8 +141,8 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
                 </div>
                 {/* 頁腳 */}
                 <footer className="py-5 
-bg-gradient-to-bl from-indigo-900 via-indigo-400 to-indigo-900
-                text-center text-white">
+bg-gradient-to-r from-yellow-200 via-pink-200 to-pink-400
+                text-center text-black">
                     @{new Date().getFullYear()} made by ben 😎
                 </footer>
             </div>
