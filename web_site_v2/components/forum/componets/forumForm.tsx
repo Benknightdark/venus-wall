@@ -9,8 +9,8 @@ interface IForumForm {
     controlledFields: any[]
     remove: UseFieldArrayRemove
     swap: UseFieldArraySwap
-    append: UseFieldArrayAppend<FieldValues>
-    replace:UseFieldArrayReplace<FieldValues>
+    append: any//UseFieldArrayAppend<FieldValues>
+    replace:any//UseFieldArrayReplace<FieldValues>
     webPageFieldArrayName: string
     forumDataId: string
 }

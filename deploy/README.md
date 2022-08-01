@@ -82,9 +82,9 @@ helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag
 
 # 更新 web-site-v2
 docker build --pull --rm  -f "./web_site_v2/Dockerfile" -t web-site-v2 "./web_site_v2"
-docker tag  web-site-v2 localhost:5000/web-site-v2:302
-docker push localhost:5000/web-site-v2:302
-helm upgrade  --install   web-site-v2 ./deploy/web-site-v2 --set=image.tag=302
+docker tag  web-site-v2 localhost:5000/web-site-v2:401
+docker push localhost:5000/web-site-v2:401
+helm upgrade  --install   web-site-v2 ./deploy/web-site-v2 --set=image.tag=401
 
 
 # 更新 api-gateway
