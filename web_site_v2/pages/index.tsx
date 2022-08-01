@@ -50,62 +50,11 @@ const Home = () => {
           {data && data.map((item: any) => (
             item.map((itemData: any) => {
               return (
-                // <div className="rounded-lg shadow-xl bg-white py-3 px-6  border-2 border-purple-500 
-                // cursor-pointer
-                //     hover:shadow-md  transform hover:-translate-y-1 transition-all duration-200 hover:border-red-500 hover:ring-indigo-300" key={itemData.image}>
-                //   {
-                //     itemData.Avator && globalStoreData.showImage && <Image
-                //       layout='responsive'
-                //       width='100%'
-                //       height='100%'
-                //       src={itemData.Avator}
-                //       alt={itemData.Title}
-                //       className="rounded-t-lg h-120 w-full object-cover z-0 "
-                //       onError={() => <Image
-                //         layout='responsive'
-                //         width='100%'
-                //         height='100%'
-                //         src='/images/error.gif'
-                //         alt={itemData.Title}
-                //         className="rounded-t-lg h-120 w-full object-cover z-0 "
-                //       />}
-                //       onClick={() => {
-                //         setGalleryImages([itemData.Avator])
-                //         openGallery();
-                //       }}
-
-                //     />
-                //   }
-                //   <header className=" text-xl font-extrabold p-4">{itemData.Title}</header>
-
-                //   <footer className="text-center py-3 px-5 text-gray-500">
-                //     <div className="flex flex-row space-x-4">
-                //       <button
-                //         className="  py-2 px-4 mt-5 bg-green-500 rounded-lg text-white font-semibold hover:bg-green-600"
-                //         onClick={async () => {
-                //           const fetchData = await imageFetch(itemData.ID);
-                //           console.log(fetchData)
-                //           if (fetchData.length > 0) {
-                //             setGalleryImages(fetchData.map((a: any) => a.Url))
-                //             openGallery();
-                //           } else {
-                //             toast.showError('沒有任何圖片')
-                //           }
-                //         }}
-                //       >
-                //         看更多
-                //       </button>
-                //     </div>
-
-
-                //   </footer>
-                // </div>
                 <div key={itemData.image} className="relative group overflow-hidden
                  bg-black  border-2 border-purple-500
                  cursor-pointer
                 hover:shadow-md  transform hover:-translate-y-1 transition-all
-                 duration-200 hover:border-red-500 hover:ring-indigo-300
-                 
+                 duration-200 hover:border-red-500 hover:ring-indigo-300                
                  ">
                   {
                     itemData.Avator && globalStoreData.showImage ? <Image
