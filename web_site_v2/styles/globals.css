@@ -75,3 +75,7 @@
 .toolbar-icon{
   @apply h-6 w-6 text-white cursor-pointer hover:w-8 hover:h-8 hover:text-black
 }
+
+.dashboard-image{
+  @apply object-cover w-full h-full transform duration-100 backdrop-opacity-10
+}

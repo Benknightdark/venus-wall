@@ -73,12 +73,13 @@ const Index = () => {
                     <ForumForm
                         errors={errors}
                         register={register}
-                        append={append}
                         controlledFields={controlledFields}
                         forumDataId={forumDataID}
                         remove={remove}
                         swap={swap}
                         replace={replace}
+                        append={append}
+
                         webPageFieldArrayName={webPageFieldArrayName}
                     />
                     <div className="flex flex-row items-center  justify-center space-x-2">

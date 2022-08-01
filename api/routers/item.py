@@ -64,7 +64,7 @@ async def get_item_by_web_page_id( offset: int, limit: int, filterId: Optional[s
             *list(map(lambda x: models.Item.ID == x, filterId.split(','))))
         clause = filterId_array
 
-    data = db.query(models.Item).options(joinedload(models.Item.WebPageSimilarity)).filter(clause).order_by(
+    data = db.query(models.Item).options(joinedload(models.Item.WebPageSimilarity)).options(joinedload(models.Item.ItemWebPageID_U)).filter(clause).order_by(
         desc(sort_mode)).offset(offset_count).limit(limit).all()
     return data
 

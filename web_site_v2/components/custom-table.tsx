@@ -144,12 +144,12 @@ const CustomTable = (props: any) => {
                                 }>{a}</button>)
                     }
 
-                    {Math.floor(tableResData['totalDataCount'] / limit) !== page && <button className="btn btn-disabled">...</button>}
+                    {Math.floor(tableResData['totalDataCount'] / limit)!==0&&Math.floor(tableResData['totalDataCount'] / limit) !== page && <button className="btn btn-disabled">...</button>}
 
-                    <button className={`btn ${page === Math.floor(tableResData['totalDataCount'] / limit) ? 'btn-info' : ''}`}
+                    {Math.floor(tableResData['totalDataCount'] / limit)!==0&&<button className={`btn ${page === Math.floor(tableResData['totalDataCount'] / limit) ? 'btn-info' : ''}`}
                         onClick={() =>
                             changePage(Math.floor(tableResData['totalDataCount'] / limit))
-                        }>{Math.floor(tableResData['totalDataCount'] / limit)}</button>
+                        }>{Math.floor(tableResData['totalDataCount'] / limit)}</button>}
 
                 </div>
             }
