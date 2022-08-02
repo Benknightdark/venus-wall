@@ -54,7 +54,9 @@ const Home = () => {
                  bg-black  border-2 border-purple-500
                  cursor-pointer
                 hover:shadow-md  transform hover:-translate-y-1 transition-all
-                 duration-200 hover:border-red-500 hover:ring-indigo-300                
+                 duration-200 hover:border-red-500 hover:ring-indigo-300   hover:border-4     rounded-lg
+
+          
                  ">
                   {
                     itemData.Avator && globalStoreData.showImage ? <Image
@@ -76,14 +78,14 @@ const Home = () => {
                         setGalleryImages([itemData.Avator])
                         openGallery();
                       }}
-                    />:<Image
-                    layout='responsive'
-                    width='100%'
-                    height='100%'
-                    src='/images/error.gif'
-                    alt={itemData.Title}
-                    className="dashboard-image"
-                  />
+                    /> : <Image
+                      layout='responsive'
+                      width='100%'
+                      height='100%'
+                      src='/images/error.gif'
+                      alt={itemData.Title}
+                      className="dashboard-image"
+                    />
                   }
                   <div className="absolute w-full h-full shadow-2xl opacity-20 transform duration-500 inset-y-full
                    group-hover:-inset-y-0">
@@ -95,22 +97,42 @@ const Home = () => {
                         {itemData.ItemWebPageID_U.Name} - {itemData.ItemWebPageID_U.Seq}</p>
                     </div>
                     <div className="absolute w-full flex place-content-center mt-20" >
-                      <p className="font-sans text-center w-4/5 text-white mt-5">
+                      <p className="font-sans text-center w-4/5 text-white mt-5 font-bold">
                         {itemData.Title}</p>
                     </div>
-                    <button className="absolute left-1/4 bottom-4
-                     bg-white text-black font-bold rounded-lg h-10 w-48"
-                      onClick={async () => {
-                        const fetchData = await imageFetch(itemData.ID);
-                        console.log(fetchData)
-                        if (fetchData.length > 0) {
-                          setGalleryImages(fetchData.map((a: any) => a.Url))
-                          openGallery();
-                        } else {
-                          toast.showError('沒有任何圖片')
-                        }
-                      }}
-                    >看更多</button>
+
+                    <div className="absolute inset-x-0  bottom-4 flex flex-row space-x-1 justify-center">
+                      <button className="
+                      font-bold rounded-lg  btn btn-outline btn-secondary"
+                        onClick={async () => {
+                   
+                            setGalleryImages([itemData.Avator])
+                            openGallery();
+                         
+                        }}
+                      >看大頭照</button>
+                      <button className="
+                      font-bold rounded-lg  btn btn-outline btn-warning"
+                        onClick={async () => {
+                          const fetchData = await imageFetch(itemData.ID);
+                          console.log(fetchData)
+                          if (fetchData.length > 0) {
+                            setGalleryImages(fetchData.map((a: any) => a.Url))
+                            openGallery();
+                          } else {
+                            toast.showError('沒有任何圖片')
+                          }
+                        }}
+                      >看更多</button>
+
+                      <button className="
+                      font-bold rounded-lg  btn btn-outline btn-info"
+                        onClick={async () => {
+                          window.open(itemData.Url)?.focus();
+                        }}
+                      >開啟外部連結</button>
+                    </div>
+
                   </div>
                 </div>
               )
