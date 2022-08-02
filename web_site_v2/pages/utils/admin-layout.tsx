@@ -1,7 +1,7 @@
 import { Fragment, PropsWithChildren } from "react";
 import { GiHamburgerMenu, GiSpiderBot, GiSpiderMask } from "react-icons/gi";
 import { AiFillHome, AiOutlineRead } from 'react-icons/ai'
-import { MdManageSearch } from 'react-icons/md'
+import { MdDashboard, MdManageSearch } from 'react-icons/md'
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FcRefresh } from "react-icons/fc";
@@ -29,7 +29,7 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                                     <GiSpiderMask className="h-6 w-6 text-white cursor-pointer" aria-hidden="true"
                                         onClick={
                                             () => {
-                                                router.push('/admin/')
+                                                router.push('/admin')
                                             }
                                         }
                                     ></GiSpiderMask>
@@ -85,7 +85,8 @@ const AdminLayout = ({ children }: PropsWithChildren<{}>) => {
                         <div className="drawer-side">
                             <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
                             <ul className="menu overflow-y-auto w-60 bg-base-100 text-base-content">
-                                <li><Link href="/"><a><AiFillHome></AiFillHome>首頁</a></Link></li>
+                                <li><Link href="/"><a><AiFillHome></AiFillHome>使用者首頁</a></Link></li>
+                                <li><Link href="/admin"><a><MdDashboard></MdDashboard>DashBoard</a></Link></li>
                                 <li><Link href="/admin/forum"><a><MdManageSearch></MdManageSearch>論壇管理</a></Link></li>
                                 <li><Link href="/admin/log"><a><GiSpiderBot></GiSpiderBot>爬蟲執行記錄查詢</a></Link></li>
                             </ul>

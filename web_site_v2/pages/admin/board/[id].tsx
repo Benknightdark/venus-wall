@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { FiTrash2 } from "react-icons/fi";
 import useSWR from "swr";
 import { adminGlobalStore, defaultAdminGlobalStoreData } from "../../../stores/admin-global-store";
@@ -15,6 +15,8 @@ import { useToast } from "../../../utils/toastMessageHook";
 import CustomTable from "../../../components/custom-table";
 import { defaultTableStore, tableStore } from "../../../stores/table-store";
 import { BiLinkExternal } from 'react-icons/bi'
+import CrawlerModal from "../../../components/crawler-modal";
+import { GiSpiderBot } from "react-icons/gi";
 const IndexRow = (props: any) => {
     const toast = useToast();
     const { openGallery, setGalleryImages } = useGalleryHook();
@@ -78,6 +80,8 @@ const IndexRow = (props: any) => {
 }
 const Index = () => {
     const router = useRouter();
+    const [modalData, setModalData] = useState({ modalTitle: '', selectedId: '' })
+
     const { id } = router.query;
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
@@ -129,8 +133,21 @@ const Index = () => {
                     <IoArrowBackSharp className='w-4 h-4'></IoArrowBackSharp>
                     回上一頁
                 </button>
+                <button className='monochrome-red-btn  flex space-x-2'
+                    onClick={() => {
+                        setModalData({ modalTitle: `${pageTitleData?.WebPageForumID_U?.Name}/${pageTitleData?.Name}`, selectedId: id?.toString()! })
+                        document.getElementById('crawler-modal-btn')!.click();
+                    }}
+                >
+                    <GiSpiderBot className='w-4 h-4'></GiSpiderBot>
+                    執行爬蟲作業
+                </button>
             </div>
             <CustomTable row={<IndexRow />}></CustomTable>
+            <CrawlerModal 
+            modalTitle={modalData.modalTitle}
+            selectedId={modalData.selectedId}></CrawlerModal>
+
         </div>
     );
 }
@@ -139,6 +156,7 @@ Index.getLayout = function getLayout(page: ReactElement) {
         <AdminLayout>
             {page}
             <Gallery></Gallery>
+            
         </AdminLayout>
     )
 }
