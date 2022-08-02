@@ -144,7 +144,9 @@ const Index = () => {
                 </button>
             </div>
             <CustomTable row={<IndexRow />}></CustomTable>
-            <CrawlerModal modalTitle={modalData.modalTitle} selectedId={modalData.selectedId}></CrawlerModal>
+            <CrawlerModal 
+            modalTitle={modalData.modalTitle}
+            selectedId={modalData.selectedId}></CrawlerModal>
 
         </div>
     );
