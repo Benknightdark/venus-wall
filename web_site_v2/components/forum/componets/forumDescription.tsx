@@ -5,30 +5,30 @@ import { useForum } from "../../../utils/admin/forumHook";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useModal } from '../../../utils/modalMessageHook';
+import CrawlerModal from "../../crawler-modal";
 
 export const ForumDescription = (props: any) => {
     const { webPageData, webPageMutate, webPageError, forumData, forumMutate, forumError } = useForum(props.id?.toString()!);
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    // const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [modalData, setModalData] = useState({ modalTitle: '', selectedId: '' })
-    const modal = useModal();
-    const onSubmit = async (data: any) => {
-        console.log(data)
-        const req = await fetch(`${process.env.NEXT_PUBLIC_APIURL}/api/item/${modalData.selectedId?.toString().toUpperCase()}?start=${data.start}&end=${data.end}`
-            , {
-                method: 'POST',
-                headers: {
-                    "content-type": "application/json"
-                }
-            }
-        )
-        document.getElementById('crawler-modal-btn')!.click();
-        if (req.status === 200) {
-            const res = await req.json();
-            modal.showSuccess(`成功執行【${modalData.modalTitle}】爬蟲，並從第${data.start}頁抓到第${data.end}頁`)
-        } else {
-            modal.showSuccess(await req.text())
-        }
-    };
+    // const modal = useModal();
+    // const onSubmit = async (data: any) => {
+    //     const req = await fetch(`${process.env.NEXT_PUBLIC_APIURL}/api/item/${modalData.selectedId?.toString().toUpperCase()}?start=${data.start}&end=${data.end}`
+    //         , {
+    //             method: 'POST',
+    //             headers: {
+    //                 "content-type": "application/json"
+    //             }
+    //         }
+    //     )
+    //     document.getElementById('crawler-modal-btn')!.click();
+    //     if (req.status === 200) {
+    //         const res = await req.json();
+    //         modal.showSuccess(`成功執行【${modalData.modalTitle}】爬蟲，並從第${data.start}頁抓到第${data.end}頁`)
+    //     } else {
+    //         modal.showSuccess(await req.text())
+    //     }
+    // };
 
     if (!webPageData && !forumData) return <Loading></Loading>
     if (webPageError && forumError) return <Loading></Loading>
@@ -89,7 +89,8 @@ export const ForumDescription = (props: any) => {
                 </div>
             </dl>
         </div>
-        <label htmlFor="crawler-modal" className="btn modal-button hidden" id='crawler-modal-btn'>open modal</label>
+        <CrawlerModal modalTitle={modalData.modalTitle} selectedId={modalData.selectedId}></CrawlerModal>
+        {/* <label htmlFor="crawler-modal" className="btn modal-button hidden" id='crawler-modal-btn'>open modal</label>
 
         <input type="checkbox" id="crawler-modal" className="modal-toggle" />
         <label htmlFor="crawler-modal" className="modal cursor-pointer">
@@ -116,6 +117,6 @@ export const ForumDescription = (props: any) => {
                 <div className='pt-2'></div>
                 <button type="submit" className="btn btn-primary">執行</button>
             </form>
-        </label>
+        </label> */}
     </div>
 }
