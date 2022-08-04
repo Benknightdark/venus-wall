@@ -1,4 +1,4 @@
-import { TaskService } from './../../services/task.service';
+import { TaskService } from '../../services/task.service';
 import { Component, OnInit } from '@angular/core';
 import { ForumService } from '../../services/forum.service';
 import { Observable, of } from 'rxjs';

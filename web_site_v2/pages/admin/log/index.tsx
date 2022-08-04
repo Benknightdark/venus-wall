@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
+import { GoLinkExternal } from "react-icons/go";
 import useSWR from "swr";
 import Loading from "../../../components/loading";
 import { CrawlerList } from "../../../components/log/components/crawlerList";
@@ -36,26 +37,32 @@ const Index = () => {
             <div className="flex flex-col  md:flex-row md:flex-wrap  md:space-x-3  justify-center items-center">
                 <div className="card  bg-base-100 shadow-xl w-96 h-fit mt-3">
                     <div className="card-body bg-orange-100 ">
-                        <h2 className="card-title underline decoration-1">Worker Log</h2>
+                        <div className='flex flex-row justify-between'>
+                            <h2 className="card-title underline decoration-1">Worker Log</h2>
+                            <div className="tooltip" data-tip="看更多">
+                                <GoLinkExternal className='h-5 w-5 cursor-pointer hover:text-red-400' onClick={() => {
+                                    router.push(`/admin/log/more/worker`)
+                                }}></GoLinkExternal></div>
+                        </div>
                         <div className='flex flex-col  h-48 overflow-y-scroll'>
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
                                     workerData && workerData.map((w: any) => <WorkerList key={w.ID} w={w}></WorkerList>)
                                 }
                             </ul>
-
-                        </div>
-                        <div className="card-actions justify-end">
-                            <button className="btn btn-primary" onClick={() => {
-                                router.push(`/admin/log/more/worker`)
-                            }}>看更多</button>
                         </div>
                     </div>
                 </div>
 
                 <div className="card  bg-base-100 shadow-xl w-96 h-fit mt-3">
                     <div className="card-body bg-blue-100 w-96">
+                        <div className='flex flex-row justify-between'>
                         <h2 className="card-title underline decoration-1">Crawler Log</h2>
+                            <div className="tooltip" data-tip="看更多">
+                                <GoLinkExternal className='h-5 w-5 cursor-pointer hover:text-red-400' onClick={() => {
+                                router.push(`/admin/log/more/crawler`)
+                            }}></GoLinkExternal></div>
+                        </div>
                         <div className='flex flex-col  h-48 overflow-y-scroll'>
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
@@ -63,11 +70,6 @@ const Index = () => {
                                 }
                             </ul>
 
-                        </div>
-                        <div className="card-actions justify-end">
-                            <button className="btn btn-primary" onClick={() => {
-                                router.push(`/admin/log/more/crawler`)
-                            }} >看更多</button>
                         </div>
                     </div>
                 </div>
@@ -80,7 +82,7 @@ const Index = () => {
 
                             <ul className="menu menu-compact bg-base-100 rounded-box">
                                 {
-                                    processorData && processorData.map((w: any) =><ProcessorList key={w.ID} w={w}></ProcessorList>)
+                                    processorData && processorData.map((w: any) => <ProcessorList key={w.ID} w={w}></ProcessorList>)
                                 }
                             </ul>
                         </div>

@@ -1,6 +1,6 @@
-import { DynamicComponentDirective } from './../../directives/dynamic-component.directive';
-import { LogDataViewComponent } from './../log-data-view/log-data-view.component';
-import { DynamicComponents } from './../../models/dynamic-components';
+import { DynamicComponentDirective } from '../../directives/dynamic-component.directive';
+import { LogDataViewComponent } from '../log-data-view/log-data-view.component';
+import { DynamicComponents } from '../../models/dynamic-components';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
