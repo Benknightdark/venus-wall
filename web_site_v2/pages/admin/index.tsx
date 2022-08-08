@@ -27,14 +27,14 @@ const Index = () => {
           type: 'bar'
         },
         title: {
-          text: `${f.forumName} 文章數量`
+          text: `${f.forumName} 文章/圖片數量`
         },
         xAxis: {
           categories: f.data.map((d: any) => d.Name)
         },
         yAxis: {
           title: {
-            text: '文章數量'
+            text: '文章/圖片數量'
           }
         },
         plotOptions: {
@@ -50,7 +50,7 @@ const Index = () => {
           }
         },
         series: [{
-          name: `${f.forumName}`,
+          name: `文章數量`,
           type: 'bar',
           data: f.data.map((d: any) => {
             const color = uniqolor(d.TotalCount)
@@ -63,21 +63,37 @@ const Index = () => {
             enabled: true,
             color: '#FFFFFF',
             align: 'right',
-            format: '{point.y:.0f} 筆', // one decimal
-            y: 10, // 10 pixels down from the top
+            format: '{point.y:.0f} 筆',
+            y: 1, 
             style: {
               fontSize: '13px',
             }
           }
-          // events: {
-          //   click: (event) => {
-          //     router.push(`/admin/board/${f.id}`);
-          //   }
-          // }
-
-        }],
+        },
+        {
+          name: `圖片數量`,
+          type: 'bar',
+          data: f.data.map((d: any) => {
+            const color = uniqolor(d.ImageCount)
+            return {
+              y: d.ImageCount,
+              color: color.color
+            }
+          }),
+          dataLabels: {
+            enabled: true,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.0f} 筆',
+            y: 1, 
+            style: {
+              fontSize: '13px',
+            }
+          }
+        }
+      ],
         tooltip: {
-          pointFormat: '【{point.series.name}】文章數量： <b>{point.y:.1f}</b>'
+          pointFormat: '【{point.series.name}】： <b>{point.y:.1f}</b>'
         },
         credits: {
           enabled: false
