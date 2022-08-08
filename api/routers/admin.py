@@ -29,7 +29,7 @@ async def get_image_by_item_id(db: Session = Depends(get_db)):
 	JOIN WebPage C2 ON B2.WebPageID = C2.ID
 	WHERE C2.ID=A.ID
 	)E(ImageCount)
-    
+
     WHERE A.Enable=1 AND F.Enable=1
     ORDER BY F.Seq, TotalCount DESC
     ''')).all()
@@ -38,6 +38,8 @@ async def get_image_by_item_id(db: Session = Depends(get_db)):
     for group in group_data:
         group['totalCount'] = sum(
             list(map(lambda x: int(x['TotalCount']), group['data'])))
+        group['imageCount'] = sum(
+            list(map(lambda x: int(x['ImageCount']), group['data'])))            
     return group_data
 
 

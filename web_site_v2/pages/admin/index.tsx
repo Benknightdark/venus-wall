@@ -7,6 +7,7 @@ import Loading from '../../components/loading';
 import uniqolor from 'uniqolor';
 import { fetcher } from '../../utils/fetcherHelper';
 import { useRouter } from 'next/router';
+import numeral from 'numeral';
 
 
 const Chart = (props: any) => <div id={props.id}></div>
@@ -40,13 +41,13 @@ const Index = () => {
           series: {
             cursor: 'pointer',
             point: {
-                events: {
-                    click:  (event)=> {
-                       router.push(`/admin/board/${f.data[event.point.index]?.ID}`)
-                    }
+              events: {
+                click: (event) => {
+                  router.push(`/admin/board/${f.data[event.point.index]?.ID}`)
                 }
+              }
             }
-        }
+          }
         },
         series: [{
           name: `${f.forumName}`,
@@ -55,7 +56,7 @@ const Index = () => {
             const color = uniqolor(d.TotalCount)
             return {
               y: d.TotalCount,
-              color: color.color           
+              color: color.color
             }
           }),
           dataLabels: {
@@ -98,8 +99,17 @@ const Index = () => {
           {
             forumCountData && forumCountData.map((c: any) => <div key={`${c.ForumName}-count`} className="stat">
               <div className="stat-title">{c.forumName}</div>
-              <div className="stat-value">{c.totalCount}</div>
+              <div className="stat-value">{numeral(c.totalCount).format('0 a')}</div>
               <div className="stat-desc">文章總數</div>
+            </div>)
+          }
+        </div>
+        <div className="stats stats-vertical lg:stats-horizontal shadow bg-yellow-200 text-black-content">
+          {
+            forumCountData && forumCountData.map((c: any) => <div key={`${c.ForumName}-count`} className="stat">
+              <div className="stat-title">{c.forumName}</div>
+              <div className="stat-value">{ numeral(c.imageCount).format('0 a')}</div>
+              <div className="stat-desc">圖片總數</div>
             </div>)
           }
         </div>
@@ -107,7 +117,7 @@ const Index = () => {
           {
             crawlTaskData && crawlTaskData.map((c: any) => <div key={`${c.ForumName}-crawler`} className="stat">
               <div className="stat-title">{c.ForumName}</div>
-              <div className="stat-value">{c.TotalCount}</div>
+              <div className="stat-value">{numeral(c.TotalCount).format('0 a')}</div>
               <div className="stat-desc">爬蟲執行次數</div>
             </div>)
           }
