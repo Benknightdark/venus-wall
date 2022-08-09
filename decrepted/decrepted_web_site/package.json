@@ -26,7 +26,7 @@
     "@angular/router": "^14.0.5",
     "@ant-design/icons-angular": "^13.0.0-beta.0",
     "@nguniversal/express-engine": "^14.0.3",
-    "@types/uuid": "^8.3.3",
+    "@types/uuid": "8.3.4",
     "angular-highcharts": "^13.0.1",
     "blurhash": "^1.1.4",
     "express": "^4.17.1",
