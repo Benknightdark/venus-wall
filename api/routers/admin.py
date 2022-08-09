@@ -13,13 +13,23 @@ router = APIRouter()
 async def get_image_by_item_id(db: Session = Depends(get_db)):
     data = db.execute(text(''' 
     SELECT  A.*, F.Name AS ForumName,
-    ISNULL(C.TotalCount,0) AS  TotalCount 
+    ISNULL(C.TotalCount,0) AS  TotalCount ,
+	ISNULL(E.ImageCount,0) AS  ImageCount 
     FROM DBO.WebPage A
     JOIN DBO.Forum F ON A.ForumID=F.ID
+
     OUTER  APPLY ( 
     SELECT COUNT(B.ID) AS TotalCount FROM DBO.Item B
     WHERE B.WebPageID=A.ID
     )C(TotalCount)
+
+	OUTER APPLY(
+	SELECT COUNT(A2.ID) as ImageCount FROM Image A2
+	JOIN Item B2 ON A2.ItemID = B2.ID
+	JOIN WebPage C2 ON B2.WebPageID = C2.ID
+	WHERE C2.ID=A.ID
+	)E(ImageCount)
+
     WHERE A.Enable=1 AND F.Enable=1
     ORDER BY F.Seq, TotalCount DESC
     ''')).all()
@@ -28,6 +38,8 @@ async def get_image_by_item_id(db: Session = Depends(get_db)):
     for group in group_data:
         group['totalCount'] = sum(
             list(map(lambda x: int(x['TotalCount']), group['data'])))
+        group['imageCount'] = sum(
+            list(map(lambda x: int(x['ImageCount']), group['data'])))            
     return group_data
 
 

@@ -1,9 +1,10 @@
 from dapr_httpx.pubsub_api import PubSubApi
+from dapr_httpx.state_api import StateApi
 from fastapi import BackgroundTasks, FastAPI, Request
 import logging
 from fastapi.params import Depends
 from helpers import item_helpers
-from dependencies import pubsub_service
+from dependencies import pubsub_service,state_service
 
 app = FastAPI()
 
@@ -18,7 +19,9 @@ def subscribe():
 
 
 @app.post("/jkf_worker")
-async def jkf_worker(request: Request, background_tasks: BackgroundTasks, pub_sub: PubSubApi = Depends(pubsub_service)):
+async def jkf_worker(request: Request, background_tasks: BackgroundTasks, pub_sub: PubSubApi = Depends(pubsub_service)
+, state: StateApi = Depends(state_service)
+):
     request_data = await request.json()
     logging.info(request_data)
     background_tasks.add_task(

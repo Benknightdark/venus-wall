@@ -1,4 +1,4 @@
-import { LogService } from './../../services/log.service';
+import { LogService } from '../../services/log.service';
 import { AfterViewInit, Component, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NzTableComponent } from 'ng-zorro-antd/table';

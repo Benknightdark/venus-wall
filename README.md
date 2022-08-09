@@ -85,5 +85,4 @@ dotnet ef dbcontext scaffold 'Server=.,9487;Database=beauty_wall;user id=sa;pass
 ```
 
 ## Prepare to Do
-- 所有看版文章列表
-- 爬蟲執行記錄查詢
+- 取出目前message queue的所有數量 (搭配state component作快取)
