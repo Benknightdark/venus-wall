@@ -1,5 +1,6 @@
 const Loading = () => {
     return (
+        <div className='flex flex-col'>
         <div
             className="fixed  inset-0 bg-transparent bg-opacity-20 overflow-y-auto h-full w-full z-50"
         >
@@ -7,6 +8,7 @@ const Loading = () => {
             <progress className="progress w-screen bg-green-200"></progress>
             </div>
         </div>
+         </div>
     );
 }
 
