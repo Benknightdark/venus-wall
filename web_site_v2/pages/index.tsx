@@ -9,9 +9,15 @@ import { useToast } from '../utils/toastMessageHook'
 import { imageFetch } from '../utils/imageFetchHelper'
 import useSWR from 'swr'
 import { globalSettingStore, initialGlobalSettingStore } from '../stores/global-setting-store'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+import Head from 'next/head'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Home = () => {
+  const { t, ready } = useTranslation('common')
+  console.log(ready)
+  console.log(t)
   const { data: globalStoreData, mutate: globalStoreDataMutate } = useSWR(globalSettingStore,
     { fallbackData: initialGlobalSettingStore })
   const [showLoading, setShowLoading] = useState(false)
@@ -42,6 +48,9 @@ const Home = () => {
   if (!data) return <Loading></Loading>
   return (
     <div className="flex flex-col">
+      <Head>
+        <title>{t('title')} </title>
+      </Head>
       <div className="fixed  top-20 animated z-50 w-full">
       </div>
       <div className='grid  grid-rows-1 pt-5 pl-3 pr-3' >
@@ -104,10 +113,10 @@ const Home = () => {
                       <button className="
                       font-bold rounded-lg  btn btn-outline btn-secondary"
                         onClick={async () => {
-                   
-                            setGalleryImages([itemData.Avator])
-                            openGallery();
-                         
+
+                          setGalleryImages([itemData.Avator])
+                          openGallery();
+
                         }}
                       >看大頭照</button>
                       <button className="
@@ -150,5 +159,14 @@ Home.getLayout = function getLayout(page: ReactElement) {
       <Gallery></Gallery>
     </IndexLayout>
   )
+}
+export async function getStaticProps({ locale }: { locale: string }) {
+  const dd = (await serverSideTranslations(locale, ['common']))
+  console.log(dd)
+  return {
+    props: {
+      ...dd,
+    },
+  };
 }
 export default Home

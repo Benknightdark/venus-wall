@@ -17,7 +17,7 @@ type AppPropsWithLayout = AppProps & {
 // }
 //appWithTranslation
  function MyApp({ Component, pageProps }:any) { // AppPropsWithLayout
-  const getLayout = (Component.getLayout ?? ((page) => page));
+  const getLayout = (Component.getLayout ?? ((page:any) => page));
   return getLayout(
   
       <SWRConfig
