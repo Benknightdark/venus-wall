@@ -92,16 +92,16 @@ const Index = () => {
         fetchUrl: `${process.env.NEXT_PUBLIC_APIURL}/api/item/table/${id}`,
         columnList: [
             {
-                displayName: 'Avator', columnName: 'Avator', sort: null, enableSort: false
+                displayName: '封面照片', columnName: 'Avator', sort: null, enableSort: false
             },
             {
-                displayName: 'Title', columnName: 'Title', sort: null, enableSort: true
+                displayName: '看版標題', columnName: 'Title', sort: null, enableSort: true
             },
             {
-                displayName: 'ModifiedDateTime', columnName: 'ModifiedDateTime', sort: null, enableSort: true
+                displayName: '更新時間', columnName: 'ModifiedDateTime', sort: null, enableSort: true
             },
             {
-                displayName: 'Seq', columnName: 'Seq', sort: null, enableSort: true
+                displayName: '流水號', columnName: 'Seq', sort: null, enableSort: true
             },
         ],
         page: 1,

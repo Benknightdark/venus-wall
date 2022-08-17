@@ -50,16 +50,16 @@ const Index = () => {
         fetchUrl: `${process.env.NEXT_PUBLIC_APIURL}/api/forum-table`,
         columnList: [
             {
-                displayName: 'Name', columnName: 'Name', sort: null, enableSort: true
+                displayName: '論壇名稱', columnName: 'Name', sort: null, enableSort: true
             },
             {
-                displayName: 'CreatedTime', columnName: 'CreatedTime', sort: null, enableSort: true
+                displayName: '建立時間', columnName: 'CreatedTime', sort: null, enableSort: true
             },
             {
-                displayName: 'WorkerName', columnName: 'WorkerName', sort: null, enableSort: true
+                displayName: '爬蟲作業名稱', columnName: 'WorkerName', sort: null, enableSort: true
             },
             {
-                displayName: 'Enable', columnName: 'Enable', sort: null, enableSort: false
+                displayName: '是否啟用', columnName: 'Enable', sort: null, enableSort: false
             },
 
         ],
