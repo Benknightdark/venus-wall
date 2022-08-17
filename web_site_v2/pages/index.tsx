@@ -161,11 +161,9 @@ Home.getLayout = function getLayout(page: ReactElement) {
   )
 }
 export async function getStaticProps({ locale }: { locale: string }) {
-  const dd = (await serverSideTranslations(locale, ['common']))
-  console.log(dd)
   return {
     props: {
-      ...dd,
+      ...(await serverSideTranslations(locale, ['common'])),
     },
   };
 }
