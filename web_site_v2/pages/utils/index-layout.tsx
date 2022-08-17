@@ -13,10 +13,14 @@ import { FiRefreshCcw } from 'react-icons/fi'
 import { BsArrowBarUp } from 'react-icons/bs'
 import { useToast } from "../../utils/toastMessageHook";
 import Image from 'next/image'
-
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+import Head from "next/head";
 
 
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
+    const { t } = useTranslation('common')
+    console.log(t)
     const router = useRouter();
     const toast = useToast();
     const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
@@ -29,7 +33,11 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
         { fallbackData: initialGlobalSettingStore })
     return (
         <Fragment>
+            <Head>
+                <title> {t('title').toString()}</title>
+            </Head>
             <div className="flex flex-col h-screen">
+           
                 {/* 標題列 */}
                 <header className="bg-gradient-to-r from-rose-100 to-teal-100  w-full">
                     {globalStoreData.showToast && <ToastMessage />}
@@ -150,5 +158,13 @@ bg-gradient-to-r from-yellow-200 via-pink-200 to-pink-400
 
     );
 }
-
+export async function getStaticProps({ locale }:{locale:string}) {
+    const dd=(await serverSideTranslations(locale, ['common']))
+    console.log(dd)
+    return {
+      props: {
+        ...dd,
+      },
+    };
+  }
 export default IndexLayout;
