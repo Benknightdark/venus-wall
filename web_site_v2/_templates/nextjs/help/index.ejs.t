@@ -1,5 +1,6 @@
 ---
 message: |
-  hygen {bold generator new} --name [NAME] --action [ACTION]
-  hygen {bold generator with-prompt} --name [NAME] --action [ACTION]
+  hygen app
+  hygen api --name [NAME] --path [PATH]
+  hygen page --name [NAME] --path [PATH]
 ---
