@@ -1675,7 +1675,7 @@ http-errors@2.0.0:
 
 "hygen-nextjs-cli@https://github.com/Benknightdark/hygen-nextjs-cli":
   version "1.0.0"
-  resolved "https://github.com/Benknightdark/hygen-nextjs-cli#fd859ff53f0cb4964bbe91e954bd6ba1361bfe45"
+  resolved "https://github.com/Benknightdark/hygen-nextjs-cli#ac3d448f3d60c2aed40f68b66143040030b2743c"
 
 i18next-chained-backend@^3.0.2:
   version "3.0.2"

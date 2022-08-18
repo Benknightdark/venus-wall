@@ -1,5 +1,5 @@
 ---
-to: <%= path %>/<%= name %>.tsx
+to: ./pages/<%= path %>/<%= name %>.tsx
 force: true
 ---
 import React, { ReactElement } from 'react'

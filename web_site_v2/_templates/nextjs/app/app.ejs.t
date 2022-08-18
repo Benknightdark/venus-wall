@@ -1,5 +1,5 @@
 ---
-to: <%= path %>/_app.tsx
+to: ./pages/_app.tsx
 force: true
 ---
 import '../styles/globals.css'

@@ -1,5 +1,5 @@
 ---
-to: <%= path %>/<%= name %>.tsx
+to: ./pages/api/<%= path %>/<%= name %>.tsx
 force: true
 ---
 import type { NextApiRequest, NextApiResponse } from 'next'
