@@ -16,8 +16,6 @@ const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Home = () => {
   const { t, ready } = useTranslation('common')
-  console.log(ready)
-  console.log(t)
   const { data: globalStoreData, mutate: globalStoreDataMutate } = useSWR(globalSettingStore,
     { fallbackData: initialGlobalSettingStore })
   const [showLoading, setShowLoading] = useState(false)

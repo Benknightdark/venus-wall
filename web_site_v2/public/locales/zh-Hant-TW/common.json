@@ -1,3 +1,13 @@
 {
-    "title": "女神牆"
+    "title": "女神牆",
+    "forum": {
+        "pageTitle":"論壇管理",
+        "description":"管理要爬的論壇網站",
+        "columnName": {
+            "name": "論壇名稱",
+            "createdTime": "建立時間",
+            "workerName": "爬蟲作業名稱",
+            "enable": "是否啟用"
+        }
+    }
 }
