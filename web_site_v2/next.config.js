@@ -10,6 +10,7 @@ const nextConfig = {
   images: {
     domains: ['www.mdkforum.com', 'www.mymypic.net'],
   },
+  output: 'standalone'
 
 }
 
