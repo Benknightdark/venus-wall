@@ -76,9 +76,9 @@ helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=301
 
 # 更新 data-processor
 docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"
-docker tag  data-processor localhost:5000/data-processor:301
-docker push localhost:5000/data-processor:301 
-helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=301
+docker tag  data-processor localhost:5000/data-processor:307
+docker push localhost:5000/data-processor:307 
+helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=307
 
 # 更新 web-site-v2
 docker build --pull --rm  -f "./web_site_v2/Dockerfile" -t web-site-v2 "./web_site_v2"
