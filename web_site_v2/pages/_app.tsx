@@ -3,6 +3,7 @@ import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import useSWR, { SWRConfig } from 'swr'
+import { appWithTranslation } from 'next-i18next'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -14,19 +15,22 @@ type AppPropsWithLayout = AppProps & {
 // export function reportWebVitals(metric: NextWebVitalsMetric) {
 //   console.log(metric)
 // }
-export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page)
-
+//appWithTranslation
+ function MyApp({ Component, pageProps }:any) { // AppPropsWithLayout
+  const getLayout = (Component.getLayout ?? ((page:any) => page));
   return getLayout(
-    <SWRConfig
-      value={{
-        revalidateIfStale: false,
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false
-      }}
-    >
-      <Component {...pageProps} />
-    </SWRConfig>
+  
+      <SWRConfig
+        value={{
+          revalidateIfStale: false,
+          revalidateOnFocus: false,
+          revalidateOnReconnect: false
+        }}
+      >
+         <Component {...pageProps} />
+      </SWRConfig>
+    
 
   )
 }
+export default  appWithTranslation(MyApp);

@@ -76,9 +76,53 @@ helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=301
 
 # 更新 data-processor
 docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"
-docker tag  data-processor localhost:5000/data-processor:301
-docker push localhost:5000/data-processor:301 
-helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=301
+docker tag  data-processor localhost:5000/data-processor:307
+docker push localhost:5000/data-processor:307 
+helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=307
+
+# 更新 web-site-v2
+docker build --pull --rm  -f "./web_site_v2/Dockerfile" -t web-site-v2 "./web_site_v2"
+docker tag  web-site-v2 localhost:5000/web-site-v2:401
+docker push localhost:5000/web-site-v2:401
+helm upgrade  --install   web-site-v2 ./deploy/web-site-v2 --set=image.tag=401
+
+
+# 更新 api-gateway
+docker build --pull --rm --no-cache -f "./api-gateway/Dockerfile" -t api-gateway "./api-gateway"# 更新 api-service
+docker build --pull --rm --no-cache -f "./api/Dockerfile" -t api-service "./api"
+docker tag api-service localhost:5000/api-service:301
+docker push localhost:5000/api-service:301 
+helm upgrade  --install  api-service ./deploy/api-service --set=image.tag=301
+
+# 更新 jkf-worker
+docker build --pull --rm --no-cache -f "./task_workers/jkf_worker/Dockerfile" -t jkf-worker "./task_workers/jkf_worker"
+docker tag  jkf-worker localhost:5000/jkf-worker:302
+docker push localhost:5000/jkf-worker:302 
+helm upgrade  --install   jkf-worker ./deploy/jkf-worker --set=image.tag=302
+
+# 更新 jkf-crawler
+docker build --pull --rm --no-cache -f "./task_workers/jkf_crawler/Dockerfile" -t jkf-crawler "./task_workers/jkf_crawler"
+docker tag  jkf-crawler localhost:5000/jkf-crawler:302
+docker push localhost:5000/jkf-crawler:302
+helm upgrade  --install   jkf-crawler ./deploy/jkf-crawler --set=image.tag=302
+
+# 更新 mdk-worker
+docker build --pull --rm --no-cache -f "./task_workers/mdk_worker/Dockerfile" -t mdk-worker "./task_workers/mdk_worker"
+docker tag  mdk-worker localhost:5000/mdk-worker:302
+docker push localhost:5000/mdk-worker:302 
+helm upgrade  --install   mdk-worker ./deploy/mdk-worker --set=image.tag=302
+
+# 更新 mdk-crawler
+docker build --pull --rm --no-cache -f "./task_workers/mdk_crawler/Dockerfile" -t mdk-crawler "./task_workers/mdk_crawler"
+docker tag  mdk-crawler localhost:5000/mdk-crawler:301
+docker push localhost:5000/mdk-crawler:301 
+helm upgrade  --install   mdk-crawler ./deploy/mdk-crawler --set=image.tag=301
+
+# 更新 data-processor
+docker build --pull --rm --no-cache -f "./task_workers/data_processor/Dockerfile" -t data-processor "./task_workers/data_processor"
+docker tag  data-processor localhost:5000/data-processor:307
+docker push localhost:5000/data-processor:307 
+helm upgrade  --install   data-processor ./deploy/data-processor --set=image.tag=307
 
 # 更新 web-site-v2
 docker build --pull --rm  -f "./web_site_v2/Dockerfile" -t web-site-v2 "./web_site_v2"
@@ -89,6 +133,10 @@ helm upgrade  --install   web-site-v2 ./deploy/web-site-v2 --set=image.tag=401
 
 # 更新 api-gateway
 docker build --pull --rm --no-cache -f "./api-gateway/Dockerfile" -t api-gateway "./api-gateway"
+docker tag  api-gateway localhost:5000/api-gateway:303
+docker push localhost:5000/api-gateway:303
+helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=303
+
 docker tag  api-gateway localhost:5000/api-gateway:303
 docker push localhost:5000/api-gateway:303
 helm upgrade  --install   api-gateway ./deploy/api-gateway --set=image.tag=303

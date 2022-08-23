@@ -59,6 +59,10 @@
 # 下載web_site_v2專案所需要的套件
 cd web_site_v2
 npm i 
+# 下載和更新網頁範本項目
+npm i -g hygen
+npm i -g hygen-add 
+hygen-add https://github.com/Benknightdark/hygen-nextjs-cli
 cd ..
 # 下載api專案所需要的套件
 pip install -r ./api/requirements.txt --upgrade
@@ -70,6 +74,7 @@ pip install -r ./task_workers/jkf_worker/requirements.txt --upgrade
 pip install -r ./task_workers/mdk_worker/requirements.txt --upgrade
 # 下載mdk_crawler專案所需要的套件
 pip install -r ./task_workers/mdk_crawler/requirements.txt --upgrade
+
 ```
 1. 使用```visual studio code```開啟專案
 2. 按下```F5鍵```後，即可以啟動所有程式 

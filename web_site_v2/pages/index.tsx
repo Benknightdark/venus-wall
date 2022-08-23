@@ -2,7 +2,6 @@ import { ReactElement, useEffect, useState } from 'react'
 import useSWRInfinite from 'swr/infinite'
 import Loading from '../components/loading'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import IndexLayout from './utils/index-layout'
 import { useGalleryHook } from '../utils/galleryHook'
 import Gallery from '../components/gallery'
@@ -10,9 +9,13 @@ import { useToast } from '../utils/toastMessageHook'
 import { imageFetch } from '../utils/imageFetchHelper'
 import useSWR from 'swr'
 import { globalSettingStore, initialGlobalSettingStore } from '../stores/global-setting-store'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+import Head from 'next/head'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 const Home = () => {
+  const { t, ready } = useTranslation('common')
   const { data: globalStoreData, mutate: globalStoreDataMutate } = useSWR(globalSettingStore,
     { fallbackData: initialGlobalSettingStore })
   const [showLoading, setShowLoading] = useState(false)
@@ -43,6 +46,9 @@ const Home = () => {
   if (!data) return <Loading></Loading>
   return (
     <div className="flex flex-col">
+      <Head>
+        <title>{t('title')} </title>
+      </Head>
       <div className="fixed  top-20 animated z-50 w-full">
       </div>
       <div className='grid  grid-rows-1 pt-5 pl-3 pr-3' >
@@ -105,10 +111,10 @@ const Home = () => {
                       <button className="
                       font-bold rounded-lg  btn btn-outline btn-secondary"
                         onClick={async () => {
-                   
-                            setGalleryImages([itemData.Avator])
-                            openGallery();
-                         
+
+                          setGalleryImages([itemData.Avator])
+                          openGallery();
+
                         }}
                       >看大頭照</button>
                       <button className="
@@ -151,5 +157,12 @@ Home.getLayout = function getLayout(page: ReactElement) {
       <Gallery></Gallery>
     </IndexLayout>
   )
+}
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
 }
 export default Home

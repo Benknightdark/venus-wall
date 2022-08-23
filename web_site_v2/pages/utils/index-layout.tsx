@@ -17,6 +17,7 @@ import Image from 'next/image'
 
 
 const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
+
     const router = useRouter();
     const toast = useToast();
     const { data: webPageSelectData, mutate: mutateWebPageSelectData, error: webPageSelectDataError } =
@@ -29,7 +30,9 @@ const IndexLayout = ({ children }: PropsWithChildren<{}>) => {
         { fallbackData: initialGlobalSettingStore })
     return (
         <Fragment>
+
             <div className="flex flex-col h-screen">
+           
                 {/* 標題列 */}
                 <header className="bg-gradient-to-r from-rose-100 to-teal-100  w-full">
                     {globalStoreData.showToast && <ToastMessage />}

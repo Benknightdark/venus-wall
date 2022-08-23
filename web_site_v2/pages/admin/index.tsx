@@ -107,7 +107,6 @@ const Index = () => {
   })
   if (!forumCountData || !crawlTaskData) return <Loading></Loading>
   if (forumCountError || crawlTaskError) return <Loading></Loading>
-
   return (
     <div>
       <div className='flex flex-wrap pb-5 items-center justify-center  space-x-3'>

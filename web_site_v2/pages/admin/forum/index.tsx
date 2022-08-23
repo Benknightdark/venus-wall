@@ -7,7 +7,8 @@ import { defaultTableStore, tableStore } from "../../../stores/table-store";
 import CustomTable from "../../../components/custom-table";
 import { useRouter } from "next/router";
 import { FiEdit, FiSearch, FiTrash2 } from "react-icons/fi";
-
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 const IndexRow = (props: any) => {
     const router = useRouter();
     const { data: tableStoreData, mutate: tableStoreMutate } = useSWR(tableStore,
@@ -41,25 +42,28 @@ const IndexRow = (props: any) => {
 }
 
 const Index = () => {
+    const { t, ready } = useTranslation('common')
+
     const { data: adminGlobalStoreData, mutate: adminGlobalStoreMutate } = useSWR(adminGlobalStore,
         { fallbackData: defaultAdminGlobalStoreData })
     const { data: tableStoreData, mutate: tableStoreMutate } = useSWR(tableStore,
         { fallbackData: defaultTableStore });
+    const columnNameObject = (t('forum', { returnObjects: true }) as any)['columnName'];
     tableStoreMutate({
         ...tableStoreData!,
         fetchUrl: `${process.env.NEXT_PUBLIC_APIURL}/api/forum-table`,
         columnList: [
             {
-                displayName: 'Name', columnName: 'Name', sort: null, enableSort: true
+                displayName: columnNameObject['name'], columnName: 'Name', sort: null, enableSort: true
             },
             {
-                displayName: 'CreatedTime', columnName: 'CreatedTime', sort: null, enableSort: true
+                displayName: columnNameObject['createdTime'], columnName: 'CreatedTime', sort: null, enableSort: true
             },
             {
-                displayName: 'WorkerName', columnName: 'WorkerName', sort: null, enableSort: true
+                displayName: columnNameObject['workerName'], columnName: 'WorkerName', sort: null, enableSort: true
             },
             {
-                displayName: 'Enable', columnName: 'Enable', sort: null, enableSort: false
+                displayName: columnNameObject['enable'], columnName: 'Enable', sort: null, enableSort: false
             },
 
         ],
@@ -75,7 +79,10 @@ const Index = () => {
 
 
     useEffect(() => {
-        adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData, pageTitle: '論壇管理', pageDescription: '管理要爬的論壇網站' }, false)
+        adminGlobalStoreMutate({ ...defaultAdminGlobalStoreData,
+         pageTitle:(t('forum', { returnObjects: true }) as any)['pageTitle'],
+         pageDescription: (t('forum', { returnObjects: true }) as any)['description'] },
+          false)
     })
     return (
         <div className="flex flex-col">
@@ -84,11 +91,19 @@ const Index = () => {
 
     );
 }
+
 Index.getLayout = function getLayout(page: ReactElement) {
     return (
         <AdminLayout>
             {page}
         </AdminLayout>
     )
+}
+export async function getStaticProps({ locale }: { locale: string }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, ['common'])),
+        },
+    };
 }
 export default Index;
