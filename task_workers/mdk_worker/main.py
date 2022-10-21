@@ -33,4 +33,4 @@ async def send_notification(request: Request, background_tasks: BackgroundTasks,
 if __name__ == '__main__':
     import uvicorn
     logging.info("🔧😎😎🤖🤖🤖==== mdk Worker start ===🤖🤖🤖😎😎🔧")
-    uvicorn.run("main:app", port=8790, debug=True, reload=True)
+    uvicorn.run("main:app", port=8790,  reload=True)

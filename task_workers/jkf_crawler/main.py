@@ -32,4 +32,4 @@ async def jkf_crawl(request: Request, background_tasks: BackgroundTasks, pub_sub
 if __name__ == '__main__':
     import uvicorn
     logging.info("🔧😎😎🤖🤖🤖==== jkf Crawler ===🤖🤖🤖😎😎🔧")
-    uvicorn.run("main:app", port=8800, debug=True, reload=True)
+    uvicorn.run("main:app", port=8800, reload=True)

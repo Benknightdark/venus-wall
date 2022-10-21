@@ -35,4 +35,4 @@ async def jkf_worker(request: Request, background_tasks: BackgroundTasks, pub_su
 if __name__ == '__main__':
     import uvicorn
     logging.info("🔧😎😎🤖🤖🤖==== jkf Worker startv ===🤖🤖🤖😎😎🔧")
-    uvicorn.run("main:app", port=8789, debug=True, reload=True)
+    uvicorn.run("main:app", port=8789,  reload=True)

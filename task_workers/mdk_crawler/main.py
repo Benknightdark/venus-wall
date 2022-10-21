@@ -30,4 +30,4 @@ async def mdk_crawl(request: Request, background_tasks: BackgroundTasks, pub_sub
 if __name__ == '__main__':
     import uvicorn
     logging.info("🔧😎😎🤖🤖🤖==== mdk Crawler start ===🤖🤖🤖😎😎🔧")
-    uvicorn.run("main:app", port=8791, debug=True, reload=True)
+    uvicorn.run("main:app", port=8791,  reload=True)
