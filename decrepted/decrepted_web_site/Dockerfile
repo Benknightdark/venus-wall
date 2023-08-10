@@ -1,4 +1,4 @@
-FROM node:16.13.2-slim AS Build
+FROM node:16.20.2-slim AS Build
 WORKDIR /usr/src/app
 COPY . .
 RUN npm i
